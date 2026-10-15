@@ -6,14 +6,37 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const RAW = path.join(root, 'data', 'raw');
-const OUT = path.join(root, 'data');
+const OUT = path.join(root, 'public', 'data');
+const OVERRIDES = JSON.parse(fs.readFileSync(path.join(root, 'data', 'overrides.json'), 'utf8'));
 
 const read = (name) => JSON.parse(fs.readFileSync(path.join(RAW, `${name}.geojson`), 'utf8')).features;
 const write = (name, features) => {
+  const out = applyOverrides(name, features);
+  fs.mkdirSync(OUT, { recursive: true });
   const file = path.join(OUT, `${name}.geojson`);
-  fs.writeFileSync(file, JSON.stringify({ type: 'FeatureCollection', features }));
-  console.log(`${name}.geojson  ${features.length} features  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
+  fs.writeFileSync(file, JSON.stringify({ type: 'FeatureCollection', features: out }));
+  console.log(`${name}.geojson  ${out.length} features  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
 };
+
+// ---------- 보정 데이터 (data/overrides.json) ----------
+function fixName(ko) {
+  if (OVERRIDES.names[ko]) return OVERRIDES.names[ko];
+  for (const [from, to] of OVERRIDES.suffixRules) {
+    if (ko.endsWith(from)) return ko.slice(0, -from.length) + to;
+  }
+  return ko;
+}
+
+function applyOverrides(name, features) {
+  const minz = OVERRIDES.minz[name] ?? {};
+  for (const f of features) {
+    const p = f.properties;
+    if (typeof p.ko === 'string' && p.ko) p.ko = fixName(p.ko);
+    if (Object.hasOwn(minz, p.ko)) p.minz = minz[p.ko];
+  }
+  const added = (OVERRIDES.add[name] ?? []).map((a) => point(a.lng, a.lat, a.properties));
+  return [...features, ...added];
+}
 
 // ---------- 좌표 처리 ----------
 const round = (n, d) => Math.round(n * 10 ** d) / 10 ** d;
@@ -162,7 +185,7 @@ write('country-labels', countries.map((f) => point(f.properties.LABEL_X, f.prope
 })));
 
 // ---------- 2. 도시 (수도 / 주도 / 일반 도시) ----------
-write('places', read('ne_10m_populated_places').map((f) => {
+const places = read('ne_10m_populated_places').map((f) => {
   const p = f.properties;
   const cls = p.ADM0CAP === 1 ? 'capital' : p.FEATURECLA === 'Admin-1 capital' ? 'admin1' : 'city';
   return point(p.LONGITUDE, p.LATITUDE, {
@@ -174,7 +197,13 @@ write('places', read('ne_10m_populated_places').map((f) => {
     pop: p.POP_MAX,
     country: p.ADM0_A3,
   });
-}));
+});
+// 같은 나라에 같은 이름의 수도가 있으면 일반 도시 점은 뺀다 (예: 평양이 두 번 찍히는 문제)
+const capitals = new Set(places
+  .filter((f) => f.properties.cls === 'capital')
+  .map((f) => `${f.properties.country}|${f.properties.ko}`));
+write('places', places.filter((f) => f.properties.cls === 'capital'
+  || !capitals.has(`${f.properties.country}|${f.properties.ko}`)));
 
 // ---------- 3. 시·도/주 (라벨점 + 경계선) ----------
 write('admin1-labels', read('ne_10m_admin_1_states_provinces').map((f) => {
