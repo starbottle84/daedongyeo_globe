@@ -19,6 +19,8 @@ const write = (name, features) => {
 };
 
 // ---------- 보정 데이터 (data/overrides.json) ----------
+// 적용 순서: names(통째로 바꿀 이름, 끝말 규칙보다 우선) → suffixRules(끝말 규칙, 앞 띄어쓰기 포함)
+// → minz(키는 바뀐 뒤의 이름) → add(이미 올바른 이름이라 보정을 거치지 않고 덧붙임)
 function fixName(ko) {
   if (OVERRIDES.names[ko]) return OVERRIDES.names[ko];
   for (const [from, to] of OVERRIDES.suffixRules) {
@@ -199,6 +201,7 @@ const places = read('ne_10m_populated_places').map((f) => {
   });
 });
 // 같은 나라에 같은 이름의 수도가 있으면 일반 도시 점은 뺀다 (예: 평양이 두 번 찍히는 문제)
+// 이름 보정(write 안에서 적용) 전의 원래 이름으로 비교한다.
 const capitals = new Set(places
   .filter((f) => f.properties.cls === 'capital')
   .map((f) => `${f.properties.country}|${f.properties.ko}`));
