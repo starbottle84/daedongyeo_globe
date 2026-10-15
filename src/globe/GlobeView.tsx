@@ -44,8 +44,10 @@ export function GlobeView({ view, onZoomChange, onSatelliteError }: GlobeViewPro
       const make = ICONS[e.id];
       if (make && !map.hasImage(e.id)) map.addImage(e.id, make(), { pixelRatio: 2 });
     });
+    // 'error' 듣는 쪽이 생기면 MapLibre가 콘솔에 오류를 남기지 않으므로 위성 외 오류는 직접 남긴다
     map.on('error', (e) => {
       if ('sourceId' in e && e.sourceId === 'satellite') callbacks.current.onSatelliteError();
+      else console.error(e.error);
     });
     const reportZoom = () => callbacks.current.onZoomChange(Math.round(map.getZoom() * 10) / 10);
     map.on('zoom', reportZoom);

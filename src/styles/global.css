@@ -10,7 +10,8 @@ body {
   font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
 }
 .app { position: relative; height: 100%; overflow: hidden; }
-.globe {
+/* MapLibre CSS의 .maplibregl-map { position: relative }가 나중에 불려 덮어쓰므로 선택자를 한 단계 구체적으로 쓴다 */
+.app .globe {
   position: absolute; inset: 0;
   background: radial-gradient(circle at 50% 50%, #17284d 0%, var(--space) 70%);
 }
