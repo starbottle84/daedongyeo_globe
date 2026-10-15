@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // GitHub Pages(프로젝트 사이트)는 /저장소이름/ 아래에서 열리므로 배포할 때 BASE_PATH로 넘긴다.
-const base = process.env.BASE_PATH || '/';
+// 지도 데이터 주소(import.meta.env.BASE_URL + 'data/...')가 깨지지 않도록 항상 '/'로 끝나게 맞춘다.
+const rawBase = process.env.BASE_PATH || '/';
+const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 
 export default defineConfig({
   base,
