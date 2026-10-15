@@ -2,6 +2,7 @@
 
 유아부터 초등학생까지 부모와 함께 3D 지구본을 여행하며 지리를 익히는 교육용 콘텐츠입니다.
 지도는 [Natural Earth](https://www.naturalearthdata.com/)(퍼블릭 도메인) 데이터를 쓰고, 지명은 한국어로 표시합니다.
+"위성 지도" 보기는 NASA Blue Marble 영상을 [NASA GIBS](https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/gibs-api) 타일로 불러옵니다(인터넷 연결 필요).
 
 ## 실행
 
