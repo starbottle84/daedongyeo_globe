@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="지구본">
+  <rect width="512" height="512" fill="#0b1630"/>
+  <circle cx="256" cy="256" r="176" fill="#9fd3f0"/>
+  <path d="M170 150c40-30 100-28 120 6 14 24-6 44 10 66 18 26 54 18 60 50 6 30-30 52-62 44-30-8-36-40-66-44-34-4-58 22-86 4-26-16-20-58-6-84 8-16 14-30 30-42z" fill="#b8e0a0"/>
+  <path d="M300 330c26-6 52 6 56 28 4 22-18 44-42 42-22-2-40-20-36-40 2-14 10-26 22-30z" fill="#f6d58e"/>
+  <ellipse cx="256" cy="256" rx="80" ry="176" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="6"/>
+  <path d="M256 80v352M80 256h352" stroke="#ffffff" stroke-opacity="0.5" stroke-width="6"/>
+  <circle cx="256" cy="256" r="176" fill="none" stroke="#ffffff" stroke-width="10"/>
+</svg>
