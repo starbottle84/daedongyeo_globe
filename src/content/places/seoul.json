@@ -17,10 +17,10 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "빨간 별이 있는 큰 도시, 서울을 눌러 봐!", "target": [126.978, 37.566], "radiusKm": 40, "explain": "빨간 별은 나라의 수도를 알려 줘요." },
-      { "type": "choice", "prompt": "서울 한가운데로 흐르는 건 무엇일까?", "options": [{ "label": "강", "icon": "🌊" }, { "label": "사막", "icon": "🏜️" }], "answer": 0, "explain": "서울 한가운데로 한강이 흘러요." }
+      { "type": "choice", "prompt": "서울 한가운데로 흐르는 건 무엇일까?", "options": [{ "label": "강", "icon": "🏞️" }, { "label": "사막", "icon": "🏜️" }], "answer": 0, "explain": "서울 한가운데로 한강이 흘러요." }
     ],
     "lower": [
-      { "type": "choice", "prompt": "우리나라의 수도는 어디일까?", "options": [{ "label": "부산" }, { "label": "서울" }, { "label": "제주" }], "answer": 1, "explain": "우리나라의 수도는 서울이에요." },
+      { "type": "choice", "prompt": "우리나라의 수도는 어디일까?", "options": [{ "label": "서울" }, { "label": "부산" }, { "label": "제주" }], "answer": 0, "explain": "우리나라의 수도는 서울이에요." },
       { "type": "tap", "prompt": "지구본에서 서울을 찾아 눌러 봐!", "target": [126.978, 37.566], "radiusKm": 25, "explain": "빨간 별은 나라의 수도를 알려 줘요." },
       { "type": "direction", "prompt": "서울에서 보면 제주도는 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 서울에서 남쪽 바다에 있어요." }
     ],

@@ -17,10 +17,10 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "제일 큰 바다, 태평양을 눌러 봐!", "target": [-160, 0], "area": "태평양", "explain": "태평양은 지구에서 가장 넓은 바다예요." },
-      { "type": "choice", "prompt": "태평양에 사는 동물은 누구일까?", "options": [{ "label": "고래", "icon": "🐋" }, { "label": "낙타", "icon": "🐫" }], "answer": 0, "explain": "넓은 바다 태평양에는 고래가 살아요." }
+      { "type": "choice", "prompt": "태평양에 사는 동물은 누구일까?", "options": [{ "label": "낙타", "icon": "🐫" }, { "label": "고래", "icon": "🐋" }], "answer": 1, "explain": "넓은 바다 태평양에는 고래가 살아요." }
     ],
     "lower": [
-      { "type": "choice", "prompt": "지구에서 가장 넓은 바다는 어디일까?", "options": [{ "label": "태평양" }, { "label": "대서양" }, { "label": "인도양" }], "answer": 0, "explain": "태평양이 다섯 대양 중 가장 넓어요." },
+      { "type": "choice", "prompt": "지구에서 가장 넓은 바다는 어디일까?", "options": [{ "label": "대서양" }, { "label": "인도양" }, { "label": "태평양" }], "answer": 2, "explain": "태평양이 다섯 대양 중 가장 넓어요." },
       { "type": "tap", "prompt": "지구본에서 태평양을 찾아 눌러 봐!", "target": [-160, 0], "area": "태평양" },
       { "type": "direction", "prompt": "우리나라에서 보면 태평양은 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [150, 30], "toName": "태평양", "options": 4, "answer": "동", "explain": "태평양은 우리나라의 동쪽에 넓게 펼쳐져 있어요." }
     ],
