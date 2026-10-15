@@ -14,3 +14,6 @@ dev-dist/
 *.local
 *.tsbuildinfo
 .vite/
+
+# 코드 색인 도구(graft) 결과물
+graft/
