@@ -7,3 +7,8 @@ data/raw/
 node_modules/
 .DS_Store
 Thumbs.db
+
+# 빌드 결과물
+dist/
+dev-dist/
+*.local
