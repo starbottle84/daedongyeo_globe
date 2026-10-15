@@ -346,3 +346,22 @@ write('geo-lines', read('ne_50m_geographic_lines').map((f) => ({
   },
   geometry: { type: f.geometry.type, coordinates: roundCoords(f.geometry.coordinates, 3) },
 })));
+
+// ---------- 9. 대륙·대양 영역 (지도에 그리지 않고 '찾아 누르기' 미션 판정에만 쓴다) ----------
+// 태평양·대서양은 남북 두 조각이지만 이름(ko)이 같아서 한 영역처럼 판정된다.
+const continents = read('ne_10m_geography_regions_polys')
+  .filter((f) => f.geometry && f.properties.FEATURECLA === 'Continent');
+const oceans = read('ne_10m_geography_marine_polys')
+  .filter((f) => f.geometry && f.properties.featurecla === 'ocean');
+write('areas', [
+  ...continents.map((f) => ({
+    type: 'Feature',
+    properties: { ko: pick(f.properties.NAME_KO, f.properties.NAME), kind: 'continent' },
+    geometry: simplifyGeometry(f.geometry, 0.05, 2),
+  })),
+  ...oceans.map((f) => ({
+    type: 'Feature',
+    properties: { ko: pick(f.properties.name_ko, f.properties.name), kind: 'ocean' },
+    geometry: simplifyGeometry(f.geometry, 0.05, 2),
+  })),
+]);
