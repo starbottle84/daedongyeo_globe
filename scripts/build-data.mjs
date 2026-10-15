@@ -1,5 +1,5 @@
-// Natural Earth 원본(data/raw) → 지구본용 경량 GeoJSON(data/*.geojson)
-// 실행: node scripts/build-data.mjs
+// Natural Earth 원본(data/raw) → 지구본용 경량 GeoJSON(public/data/*.geojson), data/overrides.json 보정 적용
+// 실행: npm run data:build
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

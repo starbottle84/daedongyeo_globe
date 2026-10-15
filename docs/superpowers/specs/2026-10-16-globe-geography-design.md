@@ -99,7 +99,7 @@
 
 ### 8.2 데이터와 지명 표시
 
-- 출처: Natural Earth (퍼블릭 도메인). `scripts/download-raw.mjs` → `data/raw` → `scripts/build-data.mjs` → `data/*.geojson` (약 10MB).
+- 출처: Natural Earth (퍼블릭 도메인). `scripts/download-raw.mjs` → `data/raw` → `scripts/build-data.mjs` (`data/overrides.json` 보정 적용) → `public/data/*.geojson` (약 10MB).
 - 지명은 한국어(`name_ko`), 없으면 영어. 확대할수록 대륙 → 나라 → 수도 → 바다·산맥 → 도시 → 시·도 → 산봉우리(높이) 순으로 늘어난다. Natural Earth 권장 확대 단계보다 1단계 일찍 보여준다.
 - 강은 Natural Earth에 한국어 이름이 없어 주요 강 50여 개를 사전으로 붙였다.
 - **지명 디테일 기준**: `D:\결과물\대동여퀴즈`에 띄운 지구본과 같은 수준을 유지한다. 앱으로 옮기거나 기능을 더해도 지명 층·표시 단계를 줄이지 않으며, 같은 위치·확대 단계에서 화면에 뜬 지명 수가 기준보다 적으면 안 된다.
