@@ -61,8 +61,8 @@ export function StampCard({ place, stars, nextPlace, onNext }: StampCardProps) {
             <g transform="translate(88 46) scale(1)" fill="none" stroke="#C23A2E" strokeWidth="2.2" color="#C23A2E">
               <use href="#i-globe" width="24" height="24" />
             </g>
-            {/* 이름이 4글자를 넘으면 도장 안쪽 원에 들어가게 글자를 줄인다 */}
-            <text x="100" y="105" textAnchor="middle" fontFamily="Jua" fontSize={place.name.length > 4 ? 26 : 34}>{place.name}</text>
+            {/* 이름이 길면 도장 안쪽 원(지름 122)에 들어가게 글자를 줄인다 — Jua 한 글자 폭 ≈ 0.86em, 이름 폭 104 이하 */}
+            <text x="100" y="105" textAnchor="middle" fontFamily="Jua" fontSize={Math.min(34, Math.floor(104 / (place.name.length * 0.86)))}>{place.name}</text>
             <text x="100" y="135" textAnchor="middle" fontFamily="Jua" fontSize="18.5" letterSpacing=".5">{today}</text>
           </g>
         </svg>
@@ -84,13 +84,25 @@ export function StampCard({ place, stars, nextPlace, onNext }: StampCardProps) {
           <rect x="16" y="158" width="168" height="16" rx="4" fill="#B3342A" />
           <rect x="16" y="158" width="168" height="4" rx="2" fill="#7E2018" opacity=".6" />
         </svg>
+        {/* 금색 '쾅!' 폭발 (스티커북 시안 924–927줄) — 도장이 닿을 때 튀어나왔다가 사라진다 */}
+        <svg className="kwang" viewBox="0 0 80 64" aria-hidden="true">
+          <polygon
+            points="40,4 47,12.2 58,7.8 59.1,17.5 71.2,18 66.1,26.7 76,32 66.1,37.3 71.2,46 59.1,46.5 58,56.2 47,51.8 40,60 33,51.8 22,56.2 20.9,46.5 8.8,46 13.9,37.3 4,32 13.9,26.7 8.8,18 20.9,17.5 22,7.8 33,12.2"
+            fill="#F4CB55" stroke="#fff" strokeWidth="4" strokeLinejoin="round"
+          />
+          <text x="40" y="41" textAnchor="middle" fontFamily="Jua" fontSize="22" fill="#23395B">쾅!</text>
+        </svg>
       </div>
       <p className="visa__title ko">{place.name} 도장을 받았어요!</p>
-      {stars !== undefined && stars > 0 && <p className="stamp__stars">모은 별 ★ {stars}개</p>}
+      {/* 쪽 왼쪽 위 모서리에 겹쳐 둔다 — 줄을 따로 쓰면 390×844에서 도장 카드가 52%를 넘는다 */}
+      {stars !== undefined && stars > 0 && (
+        <p className="stamp__stars"><span className="visually-hidden">모은 별 </span><span aria-hidden="true">★</span> {stars}개</p>
+      )}
       {nextPlace && (
         <div className="visa__next">
           <Dongle mood="happy" size="sm" decorative />
-          <p className="bubble visa__bubble ko">다음엔 {nextPlace.name}에 가 볼까요?</p>
+          {/* 줄을 나눠 둬야 말풍선이 글자 폭에 맞게 줄어든다(저절로 접히면 상자는 남은 폭을 다 차지한다). 넓은 화면에서는 CSS로 줄바꿈을 뺀다 */}
+          <p className="bubble visa__bubble ko">다음엔 {nextPlace.name}에 <br className="visa__br" />가 볼까요?</p>
           <span className="next-slot" aria-hidden="true"><PlaceArt placeId={nextPlace.id} /></span>
         </div>
       )}
