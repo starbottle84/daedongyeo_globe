@@ -26,8 +26,10 @@ export interface GlobeHandle {
 
 /** 아래쪽 여행 카드가 차지하는 화면 높이 비율 (대략) */
 const PANEL_SHARE = 0.45;
-/** 화면 맞추기 때 지점과 화면 가장자리 사이에 남길 여백(px) */
-const FIT_MARGIN_PX = 48;
+/** 화면 맞추기 때 지점과 화면 가장자리 사이에 남길 여백(px). 핀 이름표(핀 위 약 62px)가 잘리지 않게 잡는다 */
+const FIT_MARGIN_PX = 68;
+/** MapLibre가 카메라 가운데로 허용하는 최대 위도 */
+const MAX_CENTER_LAT = 85.051129;
 const MAX_FIT_ZOOM = 7;
 const NO_PADDING = { top: 0, right: 0, bottom: 0, left: 0 };
 
@@ -43,13 +45,17 @@ const angleBetween = (a: Vec3, b: Vec3) => Math.acos(Math.min(1, Math.max(-1, a[
 
 // 지구 표면 위에서 여러 지점의 가운데와, 가운데에서 가장 먼 지점까지의 각도(라디안).
 // 경도 최솟값·최댓값이 아니라 3차원 방향으로 계산해서 날짜변경선을 넘어도 맞다.
+// 가운데는 MapLibre가 허용하는 위도(±85.05°) 안으로 당기고, 각도도 당긴 가운데 기준으로 다시 잰다.
+// (지점은 2개를 넘겨 쓰는 곳이 없다. 3개 이상이면 평균 방향이 가운데라서 멀리 떨어진 한 점이 있으면 덜 정확하다.)
 function sphericalSpread(points: LngLat[]): { center: LngLat; spread: number } {
   const vecs = points.map(toVec);
   const sum = vecs.reduce<Vec3>((s, v) => [s[0] + v[0], s[1] + v[1], s[2] + v[2]], [0, 0, 0]);
   const len = Math.hypot(sum[0], sum[1], sum[2]);
   const c: Vec3 = len < 1e-9 ? vecs[0] : [sum[0] / len, sum[1] / len, sum[2] / len];
-  const center: LngLat = [deg(Math.atan2(c[1], c[0])), deg(Math.asin(c[2]))];
-  const spread = Math.max(...vecs.map((v) => angleBetween(c, v)));
+  const lat = Math.max(-MAX_CENTER_LAT, Math.min(MAX_CENTER_LAT, deg(Math.asin(c[2]))));
+  const center: LngLat = [deg(Math.atan2(c[1], c[0])), lat];
+  const clamped = toVec(center);
+  const spread = Math.max(...vecs.map((v) => angleBetween(clamped, v)));
   return { center, spread };
 }
 
@@ -79,6 +85,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       map.touchZoomRotate.enable();
       map.doubleClickZoom.enable();
       map.keyboard.enable();
+      map.touchPitch.enable();
     } else {
       map.dragPan.disable();
       map.dragRotate.disable();
@@ -86,6 +93,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       map.touchZoomRotate.disable();
       map.doubleClickZoom.disable();
       map.keyboard.disable();
+      map.touchPitch.disable();
     }
   };
 
