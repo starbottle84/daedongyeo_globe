@@ -78,6 +78,7 @@ export function App() {
   }, [globe, trip]);
 
   const nextPlace = trip ? (PLACES[PLACES.indexOf(trip.place) + 1] ?? null) : null;
+  const showSatelliteNotice = view === 'satellite' && satelliteFailed;
 
   return (
     <div className={!trip ? 'app' : trip.tier === 'preschool' ? 'app app--trip app--locked' : 'app app--trip'}>
@@ -87,9 +88,9 @@ export function App() {
       <LogoBadge />
       {globe && !trip && <MapButtons globe={globe} view={view} onViewChange={changeView} />}
       <div className="bottom-stack" ref={stackRef}>
-        {view === 'satellite' && satelliteFailed && <SatelliteNotice onUseMap={() => changeView('map')} />}
+        {showSatelliteNotice && <SatelliteNotice onUseMap={() => changeView('map')} />}
         {/* 위성 안내가 떠 있는 동안 새 버전 안내는 미룬다 — 두 장이 같이 뜨면 가로 휴대폰에서 시작 카드 종이가 50px 남짓으로 눌려 쓸 수 없다 */}
-        {applyUpdate && !trip && !(view === 'satellite' && satelliteFailed) && <UpdateBanner onReload={applyUpdate} />}
+        {applyUpdate && !trip && !showSatelliteNotice && <UpdateBanner onReload={applyUpdate} />}
         {globe &&
           (trip ? (
             <TripPanel

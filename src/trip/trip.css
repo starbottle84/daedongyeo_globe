@@ -162,6 +162,8 @@
 .result__stars { margin: 6px 0 0; font-size: 26px; letter-spacing: 2px; color: var(--gold-700); }
 .result__detail { margin: 10px 2px 0; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
 .feedback .btn { margin-top: 14px; }
+/* 오답 결과는 제목이 두 줄이라 390×844 고르기에서 카드가 화면의 50%를 1px 넘는다 — 바로 붙은 설명 위 간격만 2px 줄인다 */
+.result--soft + .explain { margin-top: 10px; }
 /* 결과 카드 반짝이: 몇 번 깜빡이고 밝은 끝모습에서 멈춘다 (alternate라 홀수 번) */
 .result .spark { animation-iteration-count: 3; }
 /* 압축 카드의 결과: 동글이·제목을 줄여 지도(목표·정답 핀)를 덜 가린다 */
