@@ -18,7 +18,7 @@
   animation: trip-pulse 1.2s ease-out infinite;
 }
 .trip-marker__label {
-  position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: 38px; transform: translateX(-50%);
   white-space: nowrap; padding: 2px 8px; border-radius: 8px;
   background: #ffffff; color: #1d2433; font-size: 17px; font-weight: 700;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
