@@ -13,7 +13,8 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // 새 버전을 바로 적용하지 않고 안내만 한다 (여행 도중 자동 새로고침으로 진행이 날아가지 않게)
+      registerType: 'prompt',
       // 서비스 워커는 src/lib/registerPwa.ts에서 직접 등록한다.
       injectRegister: null,
       includeAssets: ['icons/icon.svg', 'icons/apple-touch-icon.png'],
