@@ -34,8 +34,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // 지도 데이터·글꼴까지 미리 저장해서 그림 지도는 인터넷 없이도 열리게 한다.
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,geojson,pbf}'],
+        // 지도 데이터·글꼴(지도용 pbf, 화면용 woff2)까지 미리 저장해서 그림 지도는 인터넷 없이도 열리게 한다.
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,geojson,pbf,woff2}'],
         // 가장 큰 지도 파일(admin1-lines, 약 3.4MB)도 들어가도록 한도를 올린다.
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: 'index.html',

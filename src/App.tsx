@@ -8,13 +8,26 @@ import { SatelliteNotice } from './components/SatelliteNotice';
 import { UpdateBanner } from './components/UpdateBanner';
 import { PLACES } from './content';
 import type { Place, Tier } from './content/types';
+import { readShotParams } from './dev/shotParams';
 import { onUpdateReady } from './lib/registerPwa';
 import { TripLauncher } from './trip/TripLauncher';
 import { TripPanel } from './trip/TripPanel';
+import type { TripStep } from './trip/tripReducer';
+import { Sprite } from './ui/Sprite';
 
 interface Trip {
   place: Place;
   tier: Tier;
+  /** 개발용 화면 확인 주소(?shot=)로 바로 연 단계 */
+  initialStep?: { step: TripStep; missionIndex: number };
+}
+
+// 개발 중 화면 확인용 주소(?shot=장소:단계:화면)가 있으면 그 여행 화면으로 바로 연다 (배포 빌드에서는 늘 null)
+function initialTrip(): Trip | null {
+  const shot = readShotParams();
+  const place = shot && PLACES.find((p) => p.id === shot.placeId);
+  if (!shot || !place) return null;
+  return { place, tier: shot.tier, initialStep: { step: shot.step, missionIndex: shot.missionIndex } };
 }
 
 export function App() {
@@ -22,7 +35,7 @@ export function App() {
   const [zoom, setZoom] = useState<number | null>(null);
   const [satelliteFailed, setSatelliteFailed] = useState(false);
   const [globe, setGlobe] = useState<GlobeHandle | null>(null);
-  const [trip, setTrip] = useState<Trip | null>(null);
+  const [trip, setTrip] = useState<Trip | null>(initialTrip);
   const [tier, setTier] = useState<Tier>('preschool');
   const [applyUpdate, setApplyUpdate] = useState<(() => void) | null>(null);
 
@@ -39,6 +52,7 @@ export function App() {
 
   return (
     <div className={!trip ? 'app' : trip.tier === 'preschool' ? 'app app--trip app--locked' : 'app app--trip'}>
+      <Sprite />
       <GlobeView view={view} onZoomChange={setZoom} onSatelliteError={handleSatelliteError} onReady={setGlobe} />
       <InfoCard zoom={zoom} view={view} onViewChange={changeView} />
       <div className="bottom-stack">
@@ -52,6 +66,7 @@ export function App() {
               tier={trip.tier}
               globe={globe}
               nextPlace={nextPlace}
+              initialStep={trip.initialStep}
               onExit={() => setTrip(null)}
             />
           ) : (

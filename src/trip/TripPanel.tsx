@@ -4,7 +4,7 @@ import type { GlobeHandle } from '../globe/globeHandle';
 import { CharacterBubble } from './CharacterBubble';
 import { MissionView } from './missions/MissionView';
 import { StampCard } from './StampCard';
-import { createTripState, tripReducer } from './tripReducer';
+import { createTripState, tripReducer, type TripStep } from './tripReducer';
 import './trip.css';
 
 interface TripPanelProps {
@@ -12,13 +12,19 @@ interface TripPanelProps {
   tier: Tier;
   globe: GlobeHandle;
   nextPlace: Place | null;
+  /** 개발용 화면 확인 주소(?shot=)로 열 때 시작할 단계 */
+  initialStep?: { step: TripStep; missionIndex: number };
   onExit: () => void;
 }
 
 // 여행 한 번: 출발 → 둘러보기 → 미션 → 도장 → 함께 이야기
-export function TripPanel({ place, tier, globe, nextPlace, onExit }: TripPanelProps) {
+export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }: TripPanelProps) {
   const missions = place.missions[tier];
-  const [state, dispatch] = useReducer(tripReducer, missions.length, createTripState);
+  const [state, dispatch] = useReducer(tripReducer, missions.length, (count) =>
+    initialStep
+      ? { ...createTripState(count), step: initialStep.step, missionIndex: Math.min(initialStep.missionIndex, count - 1) }
+      : createTripState(count),
+  );
   const [showNote, setShowNote] = useState(false);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
   const panelRef = useRef<HTMLElement>(null);

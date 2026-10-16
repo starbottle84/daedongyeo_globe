@@ -1,0 +1,70 @@
+/* 공통 부품 모양 (기준 시안 docs/design/2026-10-16-passport/mockup.html 87–148줄, 선택자 이름 그대로) */
+
+/* ───────── 아래 카드: 가죽 표지 + 크림 종이 ───────── */
+.passport{position:relative;padding:7px;border-radius:28px;background:var(--leather);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16), inset 0 -2px 0 rgba(0,0,0,.35), 0 0 0 1px rgba(6,12,26,.5), 0 18px 40px rgba(3,8,20,.6), 0 4px 10px rgba(3,8,20,.4)}
+.passport::before{content:"";position:absolute;inset:3px;border-radius:25px;border:1.4px dashed rgba(233,196,106,.62);pointer-events:none}
+.page{position:relative;border-radius:21px;padding:16px;overflow:hidden;
+  background-color:var(--cream-100);
+  background-image:var(--guilloche), var(--fiber), radial-gradient(130% 90% at 50% 0%, #FFFDF7 0%, #FBF4E2 62%, #F3E8CF 100%);
+  box-shadow:inset 0 0 0 1px rgba(150,110,40,.2), inset 0 -12px 26px rgba(190,150,80,.12), inset 0 2px 0 rgba(255,255,255,.85)}
+.page > *{position:relative}
+.rosette{position:absolute !important;right:-46px;top:-52px;width:190px;height:190px;color:#B8924A;opacity:.2;pointer-events:none}
+
+/* 표 자르는 선(보딩 패스): 종이 양쪽을 반원으로 뚫는다 */
+.page--ticket{--tear:77.5px;
+  -webkit-mask:radial-gradient(circle at 0 var(--tear), transparent 9px, #000 9.5px) left/51% 100% no-repeat,
+               radial-gradient(circle at 100% var(--tear), transparent 9px, #000 9.5px) right/51% 100% no-repeat;
+          mask:radial-gradient(circle at 0 var(--tear), transparent 9px, #000 9.5px) left/51% 100% no-repeat,
+               radial-gradient(circle at 100% var(--tear), transparent 9px, #000 9.5px) right/51% 100% no-repeat}
+.pass-head{display:flex;align-items:center;gap:10px;min-height:48px}
+.pass-head__tag{flex:none;width:40px;height:40px;border-radius:12px;background:var(--leather);display:grid;place-items:center;color:var(--gold-300);
+  box-shadow:inset 0 0 0 1.5px rgba(233,196,106,.6), 0 2px 0 rgba(8,16,32,.35)}
+.pass-head__tag svg{width:22px;height:22px;transform:rotate(45deg)}
+.pass-head__title{flex:1;min-width:0;margin:0;font-family:var(--title);font-weight:400;font-size:20px;color:var(--ink)}
+.close{flex:none;width:48px;height:48px;border:0;border-radius:50%;display:grid;place-items:center;color:var(--ink);
+  background:linear-gradient(180deg,#FFFEF8,#F2E7CD);
+  box-shadow:inset 0 0 0 1.5px #D9C496, 0 3px 0 #CBB483, 0 5px 8px rgba(80,60,20,.16)}
+.close svg{width:20px;height:20px}
+.close:active{transform:translateY(2px);box-shadow:inset 0 0 0 1.5px #D9C496, 0 1px 0 #CBB483}
+.tear{height:0;margin:12px -16px 12px;border-top:3px dotted #D2BC8B}
+
+/* ───────── 동글이 ───────── */
+.dg{display:block;flex:none;overflow:visible}
+.dg--xl{width:96px;height:96px}
+.dg--lg{width:72px;height:72px}
+.dg--md{width:64px;height:64px}
+.dg--sm{width:54px;height:54px}
+
+/* 말풍선 */
+.bubble{position:relative;margin:0;padding:11px 16px;border-radius:20px;background:#FFFFFF;color:var(--ink);
+  box-shadow:inset 0 0 0 2px #EAD9AC, 0 3px 0 #E4D09F, 0 6px 12px rgba(90,65,20,.10)}
+.bubble::before{content:"";position:absolute;left:-7px;top:50%;width:14px;height:14px;margin-top:-7px;background:#FFFFFF;
+  border-left:2px solid #EAD9AC;border-bottom:2px solid #EAD9AC;border-bottom-left-radius:3px;transform:rotate(45deg)}
+.bubble--title{font-family:var(--title);font-size:22px;line-height:1.25}
+.bubble--say{font-size:21px;line-height:1.5;text-wrap:pretty}
+.bubble--say::before{top:30px}
+.say{display:flex;align-items:flex-start;gap:12px}
+.say .dg{margin-top:2px}
+
+.note{display:flex;align-items:center;gap:6px;margin:12px 0 0;font-size:16px;color:var(--note)}
+.note svg{width:20px;height:20px;flex:none;color:var(--gold-700)}
+
+/* ───────── 금박 큰 버튼 ───────── */
+.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:62px;margin-top:16px;
+  border:0;border-radius:20px;font-family:var(--title);font-size:25px;color:var(--navy-700);text-shadow:0 1px 0 rgba(255,255,255,.55);
+  /* 시안의 가운데 대각선 광택은 얼룩처럼 보여서 위쪽 하이라이트 띠로 바꿨다 */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.55) 0, rgba(255,255,255,.18) 38%, transparent 40%),
+    linear-gradient(180deg,#FAE6A6 0%,#EFCD71 46%,#E1B14D 100%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.7), inset 0 -3px 0 rgba(150,100,25,.22), 0 6px 0 #A97E2E, 0 10px 18px rgba(80,55,10,.26);
+  transition:transform .08s ease, box-shadow .08s ease}
+.btn::before{content:"";position:absolute;inset:5px;border-radius:15px;border:1.5px dashed rgba(122,91,34,.38);pointer-events:none}
+.btn:active{transform:translateY(5px);box-shadow:inset 0 2px 0 rgba(255,255,255,.7), inset 0 -3px 0 rgba(150,100,25,.22), 0 1px 0 #A97E2E, 0 3px 6px rgba(80,55,10,.2)}
+.btn svg{width:28px;height:28px;flex:none}
+
+/* 앱에서 쓰는 동글이 크기 더하기 */
+.dg--xs { width: 40px; height: 40px; }
+.dg--hero { width: 84px; height: 84px; }
+button { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold-500); outline-offset: 3px; }

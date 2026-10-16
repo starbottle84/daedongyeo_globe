@@ -1,0 +1,24 @@
+/* 디자인 바탕: 색·질감·글꼴 (기준 시안 docs/design/2026-10-16-passport/mockup.html 의 :root 그대로) */
+:root{
+  --navy-900:#122039; --navy-800:#1A2C49; --navy-700:#23395B; --navy-600:#2D4870; --navy-500:#3A5A88;
+  --gold-200:#FBEBB8; --gold-300:#F6E0A0; --gold-400:#EFD283; --gold-500:#E9C46A; --gold-600:#CFA54A; --gold-700:#A97E2E; --gold-ink:#7A5B22;
+  --cream-50:#FFFDF7; --cream-100:#FCF7EA; --cream-200:#F6EEDC; --cream-300:#EADCBC; --cream-400:#D8C49A;
+  --ink:#23395B; --ink-soft:#4A5A75; --note:#6B5A3E;
+  --red:#C23A2E; --green:#2E9E5B; --green-ink:#1E7543; --green-50:#EAF6EC;
+  --title: 'Jua', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+  --body: 'Gowun Dodum', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+
+  /* 질감: 작은 SVG 타일 (한 번 그려 반복) */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fiber:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .12 0 0 0 .075 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --guilloche:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'%3E%3Cg fill='none' stroke='%23A9843F' stroke-width='.7'%3E%3Cpath stroke-opacity='.15' d='M0 10C15 0 45 0 60 10S105 20 120 10M0 10C15 20 45 20 60 10S105 0 120 10M0 30C15 20 45 20 60 30S105 40 120 30M0 30C15 40 45 40 60 30S105 20 120 30'/%3E%3Cpath stroke-opacity='.08' d='M-30 20C-15 10 15 10 30 20S75 30 90 20S135 10 150 20M-30 20C-15 30 15 30 30 20S75 10 90 20S135 30 150 20'/%3E%3C/g%3E%3C/svg%3E");
+  --linen:repeating-linear-gradient(0deg, rgba(255,255,255,.028) 0 1px, transparent 1px 3px),
+          repeating-linear-gradient(90deg, rgba(0,0,0,.07) 0 1px, transparent 1px 4px);
+  --leather:var(--grain), linear-gradient(160deg, #2E4A74 0%, #213759 55%, #1A2D4B 100%);
+}
+/* 오답 카드(살구색) — 시안 228줄(.result--soft .result__title) 값 */
+:root { --apricot-ink: #8A4F12; }
+/* 그림 모음: 0 크기로 숨긴다 (display:none이면 Safari·Firefox에서 그라데이션이 사라진다) */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ko { word-break: keep-all; overflow-wrap: break-word; }
+.nowrap { white-space: nowrap; }
