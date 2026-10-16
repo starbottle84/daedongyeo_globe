@@ -130,24 +130,11 @@
   box-shadow: inset 0 0 0 6px rgba(46,158,91,.2), 0 0 10px rgba(46,158,91,.28); animation: answerGlow 1.4s ease-in-out 3; }
 @keyframes answerGlow { 50% { opacity: .25; } }
 .choice.is-wrong { opacity: .55; filter: saturate(.6); background: linear-gradient(180deg,#FFF5E9,#FCE9D2); }
-/* 답한 뒤: 보기를 한 줄 칩으로 줄여 결과 카드 자리를 만든다
-   ([data-count]는 위 시안 규칙 .choices[data-count="3"] .choice 등보다 우선하게 붙인다) */
-.choices--done { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+/* 답한 뒤에는 보기 묶음을 늘 숨긴다 — 정답은 결과 카드의 정답 칩이 보여 준다(기준 시안 correct·wrong 화면에도 보기 줄이 없다).
+   남겨 두면 정답이 두 번 보이고, 390×844에서 카드가 설계의 '고르기 ≤ 50%'를 넘어 장소를 더 가린다 */
+.choices--done { display: none; }
 /* 그림 없는 4개 보기(고학년): 시안 4개 규칙은 왼쪽 정렬(메달 옆 글자)이라, 메달이 없을 때만 글자를 가운데에 둔다 */
 .choices[data-count="4"] .choice__label:first-child { margin: 0 auto; }
-.choices--done[data-count] .choice { flex-direction: row; min-height: 48px; padding: 4px 14px 4px 6px; gap: 8px; font-size: 18px; border-radius: 999px; box-shadow: inset 0 0 0 2px #E7D7B1; }
-.choices--done[data-count] .choice__medal { width: 38px; height: 38px; font-size: 22px; }
-.choices--done[data-count] .choice__medal::after { inset: 3px; }
-.choices--done[data-count] .choice.is-answer { box-shadow: inset 0 0 0 2.5px var(--green); }
-.choices--done[data-count] .choice.is-answer::after { content: none; }
-/* 답한 뒤 고르지 않은 보기는 흐리게 (정답 보기만 또렷하게) */
-.choices--done[data-count] .choice:not(.is-answer) { opacity: .55; filter: saturate(.6); }
-/* 그림 없는 보기(저학년·고학년)는 답한 뒤 칩 줄을 숨긴다 — 긴 이름 칩이 두 줄로 접혀 390×844에서 카드가 넘치고
-   진행 줄이 절취선 밑에 가린다. 정답은 결과 카드의 정답 칩이 보여 준다(기준 시안 correct·wrong 화면에도 보기 줄이 없다) */
-.choices--done.choices--plain { display: none; }
-/* 그림 보기(유아)도 틀린 적 없이 맞히면 칩 줄을 숨기고 결과 카드의 정답 칩만 남긴다 — 칩 줄이 남으면 390×844에서 카드가 화면의 53%로
-   설계의 '고르기 ≤ 50%'를 넘고 장소를 더 가린다(기준 시안 correct 화면에도 보기 줄이 없다). 틀린 적이 있으면 흐린 칩을 신호로 남긴다 */
-.choices--done:not(:has(.is-wrong)) { display: none; }
 /* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게 */
 .choice__label { word-break: keep-all; text-wrap: balance; }
 .chip--plain { padding-left: 12px; }
@@ -164,6 +151,8 @@
 .feedback .btn { margin-top: 14px; }
 /* 오답 결과는 제목이 두 줄이라 390×844 고르기에서 카드가 화면의 50%를 1px 넘는다 — 바로 붙은 설명 위 간격만 2px 줄인다 */
 .result--soft + .explain { margin-top: 10px; }
+/* 저학년·고학년 설명은 길어서(30~50자) 카드를 늘린다 → 글자·줄 간격을 조금 줄여 덜 늘어나게 한다 (유아는 19px 그대로) */
+.trip-panel--lower .explain, .trip-panel--upper .explain { font-size: 18px; line-height: 1.45; }
 /* 결과 카드 반짝이: 몇 번 깜빡이고 밝은 끝모습에서 멈춘다 (alternate라 홀수 번) */
 .result .spark { animation-iteration-count: 3; }
 /* 압축 카드의 결과: 동글이·제목을 줄여 지도(목표·정답 핀)를 덜 가린다 */

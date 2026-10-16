@@ -11,6 +11,9 @@ export interface GlobeHandle {
   flyTo(center: LngLat, zoom: number): void;
   /** 여러 지점이 다 보이게 화면을 맞춘다 (날짜변경선을 넘거나 아주 먼 지점도 지구본 기준으로 계산) */
   fitTo(points: LngLat[]): void;
+  /** 여행 카드 높이가 바뀌었을 때 카메라 여백만 다시 맞춘다 (가운데 지점·확대는 그대로 → 목표가 카드 위쪽 보이는 영역 가운데로 다시 온다).
+   *  날아가는 중이면 끊지 않고 그 비행이 끝난 뒤 한 번 맞춘다. 여행이 아닐 때(flyTo·fitTo 전, restore 뒤)는 아무것도 하지 않는다 */
+  refitPadding(): void;
   /** 손으로 돌리기·확대를 켜고 끈다 (유아 여행 중에는 끈다). 누르기는 언제나 된다 */
   setInteractive(on: boolean): void;
   /** 지명을 모두 숨기거나 다시 보여 준다 (위치 찍기 미션용) */
@@ -41,6 +44,8 @@ const PANEL_SHARE = 0.45;
 const PANEL_GAP_PX = 12;
 /** 카드 여백이 화면 높이의 이 비율을 넘지 않게 한다 */
 const MAX_PANEL_SHARE = 0.7;
+/** 여행 카드 높이가 이만큼(px) 넘게 바뀌어야 여백을 다시 맞춘다 (1~2px 흔들림에 지도가 움찔하지 않게) */
+const REFIT_MIN_PX = 4;
 /** 화면 맞추기 때 지점과 화면 가장자리 사이에 남길 여백(px). 핀 이름표(핀 위 약 62px)가 잘리지 않게 잡는다 */
 const FIT_MARGIN_PX = 68;
 /** MapLibre가 카메라 가운데로 허용하는 최대 위도 */
@@ -96,6 +101,29 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
   };
   // 카메라 여백: 아래쪽 카드 높이만큼 비워 두면 가운데가 카드 위쪽 영역의 한가운데가 된다
   const panelPadding = () => ({ top: 0, right: 0, bottom: panelPx(), left: 0 });
+
+  // 여행 중 마지막으로 준 아래 여백(px). 여행이 아니면 null — flyTo·fitTo가 정하고 restore()가 지운다.
+  // 여백은 날아갈 때 한 번만 재므로, 고르기 결과처럼 카메라가 움직이지 않는 단계에서 카드가 커지면 목표가 카드 뒤로 들어간다 → refitPadding
+  let tripBottom: number | null = null;
+  // 날아가는 중에 refitPadding을 부르면 진행 중인 flyTo·fitTo를 끊지 않고, 그 비행이 끝날 때(moveend) 한 번 맞춘다
+  let refitOnMoveEnd = false;
+  const refit = () => {
+    if (tripBottom === null) return;
+    const padding = panelPadding();
+    if (Math.abs(padding.bottom - tripBottom) <= REFIT_MIN_PX) return;
+    tripBottom = padding.bottom;
+    map.easeTo({ padding, duration: flightMs(300) });
+  };
+  map.on('moveend', () => {
+    if (!refitOnMoveEnd) return;
+    refitOnMoveEnd = false;
+    refit();
+  });
+  // 새로 날아갈 때는 그 비행이 지금 카드 높이로 여백을 다시 재므로, 미뤄 둔 맞추기는 버린다
+  const startTripFlight = (padding: { bottom: number }) => {
+    refitOnMoveEnd = false;
+    tripBottom = padding.bottom;
+  };
 
   // 지점들이 지구본 위쪽 보이는 영역 안에 다 들어오는 확대 단계.
   // MapLibre 지구본 반지름(px) = 512·2^zoom / (2π) / cos(가운데 위도). 가운데에서 각도 θ인 점은 반지름·sinθ 만큼 떨어져 보인다.
@@ -172,12 +200,14 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     // 방향 미션은 북쪽이 위라고 보고 내므로, 날아갈 때 돌리거나 기울인 화면을 바로 세운다(bearing·pitch 0)
     flyTo(center, zoom) {
       ensureGlobe();
+      const padding = panelPadding();
+      startTripFlight(padding);
       map.flyTo({
         center,
         zoom,
         bearing: 0,
         pitch: 0,
-        padding: panelPadding(),
+        padding,
         duration: flightMs(3000),
         essential: true,
       });
@@ -187,15 +217,23 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       if (points.length === 0) return;
       ensureGlobe();
       const { center, spread } = sphericalSpread(points);
+      const padding = panelPadding();
+      startTripFlight(padding);
       map.flyTo({
         center,
         zoom: zoomToFit(center, spread),
         bearing: 0,
         pitch: 0,
-        padding: panelPadding(),
+        padding,
         duration: flightMs(2000),
         essential: true,
       });
+    },
+
+    refitPadding() {
+      if (tripBottom === null) return;
+      if (map.isMoving()) refitOnMoveEnd = true;
+      else refit();
     },
 
     setInteractive,
@@ -251,6 +289,9 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     clearMarkers,
 
     restore() {
+      // 여행이 끝났으니 미뤄 둔 여백 맞추기도 버린다 — 남아 있으면 아래에서 여백을 0으로 되돌린 뒤 카드 여백을 다시 넣는다
+      tripBottom = null;
+      refitOnMoveEnd = false;
       // 지도가 이미 지워졌으면(개발 중 새로고침·화면 정리) 되돌릴 것이 없다.
       // Map.remove()는 캔버스 묶음을 문서에서 떼어 낸다. getStyle()은 새 스타일을 불러오는 동안에도 비어 있어서 기준으로 쓰지 않는다.
       if (!map.getCanvasContainer().isConnected) return;

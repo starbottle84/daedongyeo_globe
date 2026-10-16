@@ -45,6 +45,23 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
     return () => globe.restore();
   }, [globe, place, tier, openedAtMapMission]);
 
+  // 카메라 여백은 날아갈 때 한 번만 재므로, 카드 높이가 바뀌면(고르기 결과 카드가 붙는 등) 여백만 다시 맞춘다 — 목표가 카드 뒤로 들어가지 않게.
+  // 한 그리기에서 여러 번 알려 와도 한 번만 맞추게 다음 그림 틀(requestAnimationFrame)로 묶는다. 날아가는 중이면 globe가 비행 뒤로 미룬다
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    let frame = 0;
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => globe.refitPadding());
+    });
+    observer.observe(panel);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [globe]);
+
   // 본문이 넘쳐 아래에 내용(주 버튼 등)이 남아 있으면 아래쪽을 옅게 흐리고 작은 아래 화살표를 둬 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다)
   const moreBelow = useMoreBelow(bodyRef, contentRef);
 
