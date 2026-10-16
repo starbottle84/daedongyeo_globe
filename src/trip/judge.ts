@@ -5,6 +5,8 @@ import { distanceKm } from './geo';
 export interface TapInfo {
   at: LngLat;
   area: string | null;
+  /** 영역 층(area-hit)이 다 준비돼서 area를 믿을 수 있는지. 화면이 움직이는 동안이나 처음 받는 중에는 false */
+  areaReady: boolean;
 }
 
 // 찾아 누르기: 영역 이름이 있으면 그 영역 안을, 없으면 target에서 radiusKm 안을 눌러야 정답

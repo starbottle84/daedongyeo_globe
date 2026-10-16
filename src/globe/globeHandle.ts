@@ -141,8 +141,13 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
 
   // 처음 화면에서 지구본/평면 전환 버튼으로 평면 지도로 바꿔 두었으면 여행 내내 평면으로 남는데,
   // 화면 맞추기 계산(zoomToFit)은 지구본 기준이라 지점이 화면 밖이나 카드 밑으로 간다 → 움직이기 전에 지구본으로 되돌린다.
+  // 여행이 끝나면 restore()가 원래 투영(평면 등)으로 되돌릴 수 있게 바꾸기 전 값을 기억한다.
+  let projectionBeforeTrip: NonNullable<ReturnType<maplibregl.Map['getProjection']>> | null = null;
   const ensureGlobe = () => {
-    if (map.getProjection()?.type !== 'globe') map.setProjection({ type: 'globe' });
+    const current = map.getProjection();
+    if (current?.type === 'globe') return;
+    if (current && !projectionBeforeTrip) projectionBeforeTrip = current;
+    map.setProjection({ type: 'globe' });
   };
 
   return {
@@ -182,11 +187,6 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       // 마지막으로 받아 준 누르기 (시각·화면 위치)
       let last: { time: number; x: number; y: number } | null = null;
       const handler = (e: maplibregl.MapMouseEvent) => {
-        // 영역 데이터를 다 받기 전에는 누르기를 받지 않는다.
-        // 여행 손잡이는 스타일이 준비되자마자 건네지는데 영역 파일(areas.geojson, 약 868 KB)은 그 뒤에도 내려받는 중일 수 있고,
-        // 그때 누르면 영역을 못 찾아 맞게 누른 것도 틀렸다고 판정된다.
-        // (isSourceLoaded는 그런 소스가 없으면 오류 이벤트를 내므로, 소스가 있는지부터 본다)
-        if (!map.getSource('areas') || !map.isSourceLoaded('areas')) return;
         // 마우스 두 번 누르기는 'click'이 두 번 와서 한 번에 두 번 답한 셈이 되므로, 두 번째부터는 무시한다
         if (((e.originalEvent as MouseEvent | undefined)?.detail ?? 0) > 1) return;
         // 지구본 바깥(우주)을 누르면 MapLibre가 가장자리 지점으로 바꿔 준다.
@@ -202,7 +202,11 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
         const lat = e.lngLat.lat;
         // 지도 타일은 위도 ±85.05°까지만 있어서 극지방 끝에는 영역 층이 없다 → 남극·북극해로 본다
         const area = typeof ko === 'string' ? ko : lat <= -85.05 ? '남극' : lat >= 85.05 ? '북극해' : null;
-        listener({ at: [e.lngLat.lng, lat], area });
+        // 영역 층은 처음 내려받는 동안(areas.geojson)과 화면을 옮긴 뒤 새 타일을 만드는 동안 준비가 덜 돼 있다.
+        // 그때의 area는 믿을 수 없으므로 함께 알려 주고, 영역이 필요한 미션만 그 누르기를 건너뛴다(핀 꽂기는 그대로 받는다).
+        // (isSourceLoaded는 그런 소스가 없으면 오류 이벤트를 내므로, 소스가 있는지부터 본다)
+        const areaReady = Boolean(map.getSource('areas')) && map.isSourceLoaded('areas');
+        listener({ at: [e.lngLat.lng, lat], area, areaReady });
       };
       map.on('click', handler);
       return () => {
@@ -236,6 +240,13 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       setLabelsVisible(true);
       clearMarkers();
       map.easeTo({ padding: NO_PADDING, duration: 600 });
+      // 여행 전에 평면 지도를 골라 두었으면 그대로 돌려놓는다.
+      // 지구본/평면 버튼(GlobeControl)은 styledata 때만 아이콘을 고치는데 setProjection은 그 이벤트를 내지 않으므로 직접 알린다.
+      if (projectionBeforeTrip) {
+        map.setProjection(projectionBeforeTrip);
+        projectionBeforeTrip = null;
+        map.fire(new maplibregl.Event('styledata', { dataType: 'style' }));
+      }
     },
   };
 }

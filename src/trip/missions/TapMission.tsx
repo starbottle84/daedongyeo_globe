@@ -29,6 +29,8 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
       globe.showMarker('answer', mission.target, '정답');
     };
     return globe.onTap((tap) => {
+      // 영역 층이 아직 준비 중이면(처음 받는 중·화면 이동 직후) 대륙·대양 판정을 믿을 수 없으니 기회를 쓰지 않고 넘긴다
+      if (mission.area && !tap.areaReady) return;
       attempts.current += 1;
       if (judgeTap(mission, tap)) {
         showAnswer();

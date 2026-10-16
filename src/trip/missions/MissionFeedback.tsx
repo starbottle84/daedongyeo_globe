@@ -17,7 +17,10 @@ export function MissionFeedback({ correct, detail, explain, stars, onNext }: Mis
   const titleId = `${id}-title`;
   const detailId = `${id}-detail`;
   const explainId = `${id}-explain`;
-  const describedBy = [titleId, detail && detailId, explain && explainId].filter(Boolean).join(' ');
+  const starsId = `${id}-stars`;
+  const describedBy = [titleId, stars !== undefined && starsId, detail && detailId, explain && explainId]
+    .filter(Boolean)
+    .join(' ');
 
   // 결과가 나오면 '다음' 버튼이 패널 아래에 숨지 않게 보이는 곳까지 스크롤하고 초점을 옮긴다
   useEffect(() => {
@@ -30,9 +33,12 @@ export function MissionFeedback({ correct, detail, explain, stars, onNext }: Mis
     <div className={`feedback ${correct ? 'feedback--good' : 'feedback--again'}`} role="status">
       <p id={titleId} className="feedback__title">{correct ? '잘했어요!' : '괜찮아요, 같이 알아봐요'}</p>
       {stars !== undefined && (
-        <p className="feedback__stars" aria-label={`별 ${stars}개`}>
-          {'★'.repeat(stars)}
-          {'☆'.repeat(3 - stars)}
+        <p id={starsId} className="feedback__stars">
+          <span aria-hidden="true">
+            {'★'.repeat(stars)}
+            {'☆'.repeat(3 - stars)}
+          </span>
+          <span className="visually-hidden">별 {stars}개</span>
         </p>
       )}
       {detail && <p id={detailId}>{detail}</p>}
