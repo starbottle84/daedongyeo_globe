@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { buildStyle } from './buildStyle';
 import { ICONS } from './icons';
+import { createGlobeHandle, type GlobeHandle } from './globeHandle';
 import type { MapView } from './themes';
 
 declare global {
@@ -16,17 +17,19 @@ interface GlobeViewProps {
   view: MapView;
   onZoomChange: (zoom: number) => void;
   onSatelliteError: () => void;
+  /** 지도가 준비되면 여행 화면용 손잡이를 건네준다 */
+  onReady: (handle: GlobeHandle) => void;
 }
 
-export function GlobeView({ view, onZoomChange, onSatelliteError }: GlobeViewProps) {
+export function GlobeView({ view, onZoomChange, onSatelliteError, onReady }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const appliedView = useRef(view);
-  const callbacks = useRef({ onZoomChange, onSatelliteError });
+  const callbacks = useRef({ onZoomChange, onSatelliteError, onReady });
 
   useEffect(() => {
-    callbacks.current = { onZoomChange, onSatelliteError };
-  }, [onZoomChange, onSatelliteError]);
+    callbacks.current = { onZoomChange, onSatelliteError, onReady };
+  }, [onZoomChange, onSatelliteError, onReady]);
 
   useEffect(() => {
     const map = new maplibregl.Map({
@@ -52,6 +55,7 @@ export function GlobeView({ view, onZoomChange, onSatelliteError }: GlobeViewPro
     const reportZoom = () => callbacks.current.onZoomChange(Math.round(map.getZoom() * 10) / 10);
     map.on('zoom', reportZoom);
     map.on('load', reportZoom);
+    map.on('load', () => callbacks.current.onReady(createGlobeHandle(map)));
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
     map.addControl(new maplibregl.GlobeControl(), 'top-right');
