@@ -96,7 +96,7 @@ export function MissionFeedback({ correct, answer, detail, explain, stars, onNex
                   {answer.icon}
                 </span>
               )}
-              {answer.label}
+              <span className="chip__label">{answer.label}</span>
               {correct && (
                 <span className="chip__ok" aria-hidden="true">
                   <Icon name="check" />

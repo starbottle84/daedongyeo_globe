@@ -55,6 +55,9 @@
 /* 압축 카드는 글줄 높이를 줄여 방향 미션(두 줄 질문 + 나침반 3줄)도 390×844에서 40% 안에 든다 — 나침반 버튼은 48px 그대로 */
 .trip-panel--compact .ask__prompt { font-size: 20px; line-height: 1.15; }
 .trip-panel--compact .progress__label { line-height: 1; }
+/* 핀을 꽂은 뒤 '여기예요!' 버튼과 안내 줄: 압축 카드가 지도를 덜 가리게 조금 줄인다 (버튼은 손가락 크기 48px 넘게) */
+.trip-panel--compact .mission > .btn { min-height: 52px; margin-top: 10px; font-size: 22px; }
+.trip-panel--compact .mission__hint:not(:empty) { margin-top: 6px; }
 /* 앱 바탕에는 시안의 button 공통 규칙(손가락 모양)이 없어서 여기서 더한다 */
 .trip-panel .choice, .trip-panel .compass__dir { cursor: pointer; }
 
@@ -63,7 +66,8 @@
 .choice{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;padding:12px 8px;border:0;border-radius:22px;
   font-family:var(--title);font-size:24px;color:var(--ink);background:linear-gradient(180deg,#FFFFFF,#FFFAEE);
   box-shadow:inset 0 0 0 2px #E7D7B1, 0 6px 0 #D7C292, 0 9px 14px rgba(90,65,20,.15);transition:transform .08s ease, box-shadow .08s ease}
-.choice:active{transform:translateY(5px);box-shadow:inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292}
+/* 이미 틀린 보기·답한 뒤의 보기는 눌러도 아무 일이 없으므로 눌린 모습을 주지 않는다 (아래 .compass__dir도 같다) */
+.choice:not([aria-disabled="true"]):active{transform:translateY(5px);box-shadow:inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292}
 .choice__medal{position:relative;display:grid;place-items:center;width:66px;height:66px;border-radius:50%;font-size:40px;line-height:1;
   font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;
   background:radial-gradient(circle at 40% 35%,#FFF9E8,#F4E4BE);box-shadow:inset 0 0 0 2px rgba(201,164,90,.4), inset 0 3px 6px rgba(150,110,40,.15)}
@@ -116,13 +120,19 @@
 .choices--done[data-count] .choice.is-answer { box-shadow: inset 0 0 0 2.5px var(--green); animation: none; }
 /* 답한 뒤 고르지 않은 보기는 흐리게 (정답 보기만 또렷하게) */
 .choices--done[data-count] .choice:not(.is-answer) { opacity: .55; filter: saturate(.6); }
-/* 이미 틀린 보기·답한 뒤의 보기는 눌러도 아무 일이 없으므로 눌리는 것처럼 내려가지 않게 한다 */
-.choice[aria-disabled="true"]:active, .compass__dir[aria-disabled="true"]:active { transform: none; }
+/* 그림 없는 보기(저학년·고학년)는 답한 뒤 칩 줄을 숨긴다 — 긴 이름 칩이 두 줄로 접혀 390×844에서 카드가 넘치고
+   진행 줄이 절취선 밑에 가린다. 정답은 결과 카드의 정답 칩이 보여 준다(기준 시안 correct·wrong 화면에도 보기 줄이 없다) */
+.choices--done.choices--plain { display: none; }
 /* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게. 칩이 되면 왼쪽 여백을 오른쪽과 맞춘다 */
 .choice__label { word-break: keep-all; text-wrap: balance; }
 .choices--done[data-count] .choice__label:first-child { margin-left: 8px; }
 .chip--plain { padding-left: 12px; }
-.chip__prefix { color: var(--apricot-ink); }
+/* 정답 칩: 이름이 길면 낱말 경계에서 줄을 바꾼다. '정답:'·그림·체크는 줄어들지 않고 이름 칸만 줄어든다 */
+.result__body { min-width: 0; }
+.chip { box-sizing: border-box; max-width: 100%; word-break: keep-all; }
+.chip__prefix { flex: none; white-space: nowrap; color: var(--apricot-ink); }
+.chip__emoji, .chip__ok { flex: none; }
+.chip__label { min-width: 0; }
 /* 별은 연초록·살구 바탕에서 그림 대비 3:1이 넘게 진한 금색으로 */
 .result__stars { margin: 6px 0 0; font-size: 26px; letter-spacing: 2px; color: var(--gold-700); }
 .result__detail { margin: 10px 2px 0; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
@@ -146,9 +156,11 @@
 .compass { display: grid; grid-template-columns: repeat(3, 64px); grid-auto-rows: 48px; gap: 6px; justify-content: center; }
 .compass__dir { border: 0; border-radius: 14px; font-family: var(--title); font-size: 18px; color: var(--ink);
   background: linear-gradient(180deg,#FFFFFF,#FFFAEE); box-shadow: inset 0 0 0 2px #E7D7B1, 0 4px 0 #D7C292; }
-.compass__dir:active { transform: translateY(3px); box-shadow: inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292; }
+.compass__dir:not([aria-disabled="true"]):active { transform: translateY(3px); box-shadow: inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292; }
 .compass__dir.is-answer { box-shadow: inset 0 0 0 3px var(--green), 0 4px 0 #7FBF95; }
 .compass__dir.is-wrong { opacity: .5; }
+/* 답한 뒤에는 고르기처럼 정답 방향만 또렷하게 */
+.mission--done .compass__dir:not(.is-answer) { opacity: .5; }
 /* 결과 카드가 나침반 버튼의 아래 턱(4px)에 붙지 않게 (보기 아래 한마디는 비어 있어 여백이 없다) */
 .compass ~ .feedback { margin-top: 14px; }
 .compass__center { display: grid; place-items: center; border-radius: 50%; font-family: var(--title); font-size: 15px; color: var(--gold-ink);
