@@ -4,7 +4,7 @@ import type { MissionProps } from './types';
 import { useTries } from './useTries';
 
 export function ChoiceMission({ mission, tier, onDone }: MissionProps<MissionOf<'choice'>>) {
-  const { attempts, wrong, outcome, showAnswer, pick } = useTries(mission.answer, tier);
+  const { attempts, wrong, outcome, showAnswer, message, pick } = useTries(mission.answer, tier);
 
   return (
     <div className="mission">
@@ -32,6 +32,9 @@ export function ChoiceMission({ mission, tier, onDone }: MissionProps<MissionOf<
           );
         })}
       </div>
+      <p className="mission__hint" role="status" aria-live="polite">
+        {message}
+      </p>
       {outcome && (
         <MissionFeedback
           correct={outcome === 'correct'}

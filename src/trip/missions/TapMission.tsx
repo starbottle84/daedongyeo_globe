@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import type { MissionOf } from '../../content/types';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { MissionOf, View } from '../../content/types';
 import { afterWrong, judgeTap } from '../judge';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps, Outcome } from './types';
@@ -8,20 +8,30 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
   const [outcome, setOutcome] = useState<Outcome>(null);
   const [message, setMessage] = useState('지구본에서 찾아 눌러 보세요.');
   const attempts = useRef(0);
+  // 시작 화면: 미션에 view가 없으면 영역 미션은 장소 화면, 반경 미션은 target을 가운데에 둔 화면.
+  // (장소 화면 그대로면 target이 화면 가장자리·패널 밑에 갈 수 있는데, 유아는 지도를 움직일 수 없다)
+  const startView = useMemo<View>(
+    () => mission.view ?? (mission.area ? placeView : { center: mission.target, zoom: placeView.zoom }),
+    [mission, placeView],
+  );
 
   // 미션을 시작하면 찾을 곳이 보이는 화면으로 날아간다. 미션이 끝나면 표시를 지운다.
   useEffect(() => {
-    const view = mission.view ?? placeView;
-    globe.flyTo(view.center, view.zoom);
+    globe.flyTo(startView.center, startView.zoom);
     return () => globe.clearMarkers();
-  }, [globe, mission, placeView]);
+  }, [globe, startView]);
 
   useEffect(() => {
     if (outcome !== null) return undefined;
+    // 정답을 보여 줄 때는 유아의 반짝이 표시를 지우고 정답 핀만 남긴다
+    const showAnswer = () => {
+      globe.clearMarkers();
+      globe.showMarker('answer', mission.target, '정답');
+    };
     return globe.onTap((tap) => {
       attempts.current += 1;
       if (judgeTap(mission, tap)) {
-        globe.showMarker('answer', mission.target);
+        showAnswer();
         setOutcome('correct');
         return;
       }
@@ -32,16 +42,22 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
       } else if (next === 'retry') {
         setMessage('조금 빗나갔어요. 한 번 더 눌러 볼까요?');
       } else {
-        globe.showMarker('answer', mission.target);
+        showAnswer();
+        // 초록 핀이 화면 안에 보이도록 정답 위치로 날아간다
+        globe.flyTo(mission.target, startView.zoom);
         setOutcome('revealed');
       }
     });
-  }, [globe, mission, tier, outcome]);
+  }, [globe, mission, tier, outcome, startView.zoom]);
 
   return (
     <div className="mission">
       <p className="mission__prompt">{mission.prompt}</p>
-      {outcome === null && <p className="mission__hint">{message}</p>}
+      {outcome === null && (
+        <p className="mission__hint" role="status" aria-live="polite">
+          {message}
+        </p>
+      )}
       {outcome && (
         <MissionFeedback
           correct={outcome === 'correct'}

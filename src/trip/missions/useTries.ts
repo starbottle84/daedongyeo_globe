@@ -25,5 +25,9 @@ export function useTries<T>(answer: T, tier: Tier) {
     if (next === 'reveal') setOutcome('revealed');
   };
 
-  return { attempts, wrong, outcome, showAnswer: hint || outcome !== null, pick };
+  // 틀렸을 때 보기 아래에 띄우는 한마디 (할 말이 없으면 빈 문자열)
+  const message =
+    outcome !== null ? '' : hint ? '반짝이는 걸 눌러 봐!' : wrong.length > 0 ? '아쉬워요, 한 번 더 골라 볼까요?' : '';
+
+  return { attempts, wrong, outcome, showAnswer: hint || outcome !== null, message, pick };
 }

@@ -6,15 +6,17 @@
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
   max-height: 55vh; overflow-y: auto; box-sizing: border-box;
 }
+/* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 */
+.trip-panel:focus { outline: none; }
 .trip-panel__header {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  margin-bottom: 10px; font-size: 15px; color: var(--card-sub);
+  margin-bottom: 10px; font-size: 17px; color: var(--card-sub);
 }
 .trip-panel__close {
   flex: none; width: 44px; height: 44px; border: 0; border-radius: 50%;
   background: #e8ecf3; color: var(--card-text); font: inherit; font-size: 18px; cursor: pointer;
 }
-.trip-panel__progress { margin: 0 0 6px; font-size: 15px; font-weight: 700; color: #2a6496; }
+.trip-panel__progress { margin: 0 0 6px; font-size: 17px; font-weight: 700; color: #2a6496; }
 .trip-panel__note { margin: 8px 0 0; font-size: 14px; color: var(--card-sub); }
 
 .big-button {
@@ -38,13 +40,16 @@
   margin: 0; padding: 12px 14px; border-radius: 4px 16px 16px 16px;
   background: #eef4fb; font-size: 18px; line-height: 1.55;
 }
-.character__name { display: block; margin-bottom: 2px; font-size: 14px; color: #2a6496; }
+.character__name { display: block; margin-bottom: 2px; font-size: 17px; color: #2a6496; }
 .trip-panel--preschool .character__text { font-size: 22px; }
 
 /* 미션 */
 .mission__prompt { margin: 0 0 10px; font-size: 20px; font-weight: 700; line-height: 1.45; }
 .trip-panel--preschool .mission__prompt { font-size: 22px; }
 .mission__hint { margin: 0; font-size: 17px; color: var(--card-sub); }
+/* 보기 아래 한마디: 늘 붙어 있어야 화면 읽기 프로그램이 바뀐 말을 읽으므로 비어 있어도 숨기지 않는다 */
+.choices + .mission__hint,
+.compass + .mission__hint { margin-top: 10px; }
 
 .choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
 .choice {
@@ -79,7 +84,7 @@
 .feedback--good { background: #e8f7ee; }
 .feedback--again { background: #fff4e0; }
 .feedback__title { margin: 0 0 4px; font-size: 21px; font-weight: 700; }
-.feedback__stars { margin: 0 0 4px; font-size: 30px; color: #f0a020; letter-spacing: 2px; }
+.feedback__stars { margin: 0 0 4px; font-size: 30px; color: #c77700; letter-spacing: 2px; }
 .feedback p { margin: 4px 0 0; font-size: 17px; line-height: 1.5; }
 
 /* 도장 */
@@ -90,7 +95,7 @@
   color: #d9473b; transform: rotate(-8deg); animation: stamp-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
 }
 .stamp__place { font-size: 26px; font-weight: 800; }
-.stamp__date { font-size: 15px; }
+.stamp__date { font-size: 17px; }
 .stamp__title { margin: 12px 0 0; font-size: 21px; font-weight: 700; }
 .stamp__stars,
 .stamp__next { margin: 6px 0 0; font-size: 17px; color: var(--card-sub); }
@@ -100,7 +105,7 @@
 }
 
 /* 함께 이야기해요 */
-.talk__label { margin: 0; font-size: 15px; font-weight: 700; color: #2a6496; }
+.talk__label { margin: 0; font-size: 17px; font-weight: 700; color: #2a6496; }
 .talk__text { margin: 6px 0 0; font-size: 20px; line-height: 1.5; }
 .talk__note {
   margin: 6px 0 0; padding: 10px 12px; border-radius: 12px;
@@ -121,7 +126,7 @@
   min-height: 72px; padding: 10px 12px; border: 0; border-radius: 16px;
   background: #2a6496; color: #ffffff; font: inherit; text-align: left; cursor: pointer;
 }
-.place-card__stage { font-size: 14px; opacity: 0.85; }
+.place-card__stage { font-size: 17px; opacity: 0.85; }
 .place-card__name { font-size: 22px; font-weight: 800; }
 
 @media (prefers-reduced-motion: reduce) {

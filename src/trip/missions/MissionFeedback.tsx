@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 interface MissionFeedbackProps {
   correct: boolean;
   /** 정답 안내나 거리처럼 결과에 붙는 한 줄 */
@@ -9,6 +11,15 @@ interface MissionFeedbackProps {
 }
 
 export function MissionFeedback({ correct, detail, explain, stars, onNext }: MissionFeedbackProps) {
+  const nextRef = useRef<HTMLButtonElement>(null);
+
+  // 결과가 나오면 '다음' 버튼이 패널 아래에 숨지 않게 보이는 곳까지 스크롤하고 초점을 옮긴다
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    nextRef.current?.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+    nextRef.current?.focus({ preventScroll: true });
+  }, []);
+
   return (
     <div className={`feedback ${correct ? 'feedback--good' : 'feedback--again'}`} role="status">
       <p className="feedback__title">{correct ? '잘했어요!' : '괜찮아요, 같이 알아봐요'}</p>
@@ -20,7 +31,7 @@ export function MissionFeedback({ correct, detail, explain, stars, onNext }: Mis
       )}
       {detail && <p>{detail}</p>}
       {explain && <p>{explain}</p>}
-      <button type="button" className="big-button" onClick={onNext}>
+      <button ref={nextRef} type="button" className="big-button" onClick={onNext}>
         다음
       </button>
     </div>

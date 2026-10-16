@@ -8,7 +8,7 @@ import { useTries } from './useTries';
 const COMPASS_SLOTS: (Direction | 'center')[] = ['북서', '북', '북동', '서', 'center', '동', '남서', '남', '남동'];
 
 export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<MissionOf<'direction'>>) {
-  const { attempts, wrong, outcome, showAnswer, pick } = useTries<Direction>(mission.answer, tier);
+  const { attempts, wrong, outcome, showAnswer, message, pick } = useTries<Direction>(mission.answer, tier);
   const allowed = mission.options === 4 ? DIRECTIONS_4 : DIRECTIONS_8;
 
   useEffect(() => {
@@ -47,6 +47,9 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
           );
         })}
       </div>
+      <p className="mission__hint" role="status" aria-live="polite">
+        {message}
+      </p>
       {outcome && (
         <MissionFeedback
           correct={outcome === 'correct'}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { TIER_LABELS, type Place, type Tier, type View } from '../content/types';
 import type { GlobeHandle } from '../globe/globeHandle';
 import { CharacterBubble } from './CharacterBubble';
@@ -21,6 +21,7 @@ export function TripPanel({ place, tier, globe, nextPlace, onExit }: TripPanelPr
   const [state, dispatch] = useReducer(tripReducer, missions.length, createTripState);
   const [showNote, setShowNote] = useState(false);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
+  const panelRef = useRef<HTMLElement>(null);
 
   // 출발: 지구본이 목적지로 날아간다. 유아는 길을 잃지 않게 손 조작을 잠근다(누르기는 된다).
   useEffect(() => {
@@ -29,13 +30,24 @@ export function TripPanel({ place, tier, globe, nextPlace, onExit }: TripPanelPr
     return () => globe.restore();
   }, [globe, place, tier]);
 
+  // 단계나 미션이 바뀌면 패널로 초점을 옮겨 화면 읽기 프로그램이 새 내용부터 읽게 한다.
+  // (미션 결과가 나오면 나중에 나타나는 MissionFeedback이 '다음' 버튼으로 초점을 옮긴다)
+  useEffect(() => {
+    panelRef.current?.focus({ preventScroll: true });
+  }, [state.step, state.missionIndex]);
+
   const next = () => dispatch({ type: 'next' });
   const mission = state.step === 'mission' ? missions[state.missionIndex] : null;
   const stars = state.results.reduce((sum, r) => sum + (r.stars ?? 0), 0);
   const readAloud = tier === 'preschool' && <p className="trip-panel__note">부모님이 소리 내어 읽어 주세요.</p>;
 
   return (
-    <section className={`trip-panel trip-panel--${tier}`} aria-label={`${place.name} 여행`}>
+    <section
+      ref={panelRef}
+      tabIndex={-1}
+      className={`trip-panel trip-panel--${tier}`}
+      aria-label={`${place.name} 여행`}
+    >
       <header className="trip-panel__header">
         <span>
           {place.name} 여행 · {TIER_LABELS[tier]}

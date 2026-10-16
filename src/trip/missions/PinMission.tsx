@@ -31,7 +31,7 @@ export function PinMission({ mission, globe, placeView, onDone }: MissionProps<M
     if (!pinned) return;
     setResult(judgePin(mission, pinned));
     globe.setLabelsVisible(true);
-    globe.showMarker('answer', mission.target);
+    globe.showMarker('answer', mission.target, '정답');
     globe.fitTo([pinned, mission.target]);
   };
 
