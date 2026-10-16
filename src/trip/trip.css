@@ -55,9 +55,12 @@
 /* 압축 카드는 글줄 높이를 줄여 방향 미션(두 줄 질문 + 나침반 3줄)도 390×844에서 40% 안에 든다 — 나침반 버튼은 48px 그대로 */
 .trip-panel--compact .ask__prompt { font-size: 20px; line-height: 1.15; }
 .trip-panel--compact .progress__label { line-height: 1; }
-/* 핀을 꽂은 뒤 '여기예요!' 버튼과 안내 줄: 압축 카드가 지도를 덜 가리게 조금 줄인다 (버튼은 손가락 크기 48px 넘게) */
-.trip-panel--compact .mission > .btn { min-height: 52px; margin-top: 10px; font-size: 22px; }
 .trip-panel--compact .mission__hint:not(:empty) { margin-top: 6px; }
+/* 핀 꽂기: 안내 글과 '여기예요!' 버튼이 같은 높이의 자리를 쓴다 — 핀을 꽂아도 압축 카드가 커지지 않아 카드 바로 위에 꽂은 핀이
+   가리지 않고, 미션 시작 때 잰 카메라 여백도 그대로 맞는다. 버튼은 압축 카드라 조금 줄인다 (손가락 크기 48px 넘게) */
+.pin-slot { display: grid; align-items: center; min-height: 52px; margin-top: 8px; }
+.pin-slot__hint { margin: 0; font-size: 17px; color: var(--note); text-align: center; }
+.pin-slot .btn { min-height: 52px; margin-top: 0; font-size: 22px; }
 /* 앱 바탕에는 시안의 button 공통 규칙(손가락 모양)이 없어서 여기서 더한다 */
 .trip-panel .choice, .trip-panel .compass__dir { cursor: pointer; }
 
@@ -105,9 +108,13 @@
 .explain{margin:12px 2px 0;font-size:19px;line-height:1.5;color:var(--ink)}
 
 /* 앱에 맞게 더한 점 */
-/* 유아 힌트: 정답 보기가 반짝인다 / 정답 공개 */
-.choice.is-answer { box-shadow: inset 0 0 0 3px var(--green), 0 6px 0 #7FBF95, 0 0 0 6px rgba(46,158,91,.18); animation: answerGlow 1.4s ease-in-out 3; }
-@keyframes answerGlow { 50% { box-shadow: inset 0 0 0 3px var(--green), 0 6px 0 #7FBF95, 0 0 0 10px rgba(46,158,91,.08); } }
+/* 유아 힌트: 정답 보기가 반짝인다 / 정답 공개
+   반짝임은 보기 둘레의 초록 빛 테(::after)의 투명도만 3번 깜빡인다 — 움직임은 transform·opacity만 (설계 '움직임').
+   끝모습은 테가 보이는 상태라, 움직임 줄이기에서는 테가 멈춘 채 보인다 */
+.choice.is-answer { box-shadow: inset 0 0 0 3px var(--green), 0 6px 0 #7FBF95; }
+.choice.is-answer::after { content: ""; position: absolute; inset: -6px; border-radius: 28px; pointer-events: none;
+  box-shadow: inset 0 0 0 6px rgba(46,158,91,.2), 0 0 10px rgba(46,158,91,.28); animation: answerGlow 1.4s ease-in-out 3; }
+@keyframes answerGlow { 50% { opacity: .25; } }
 .choice.is-wrong { opacity: .55; filter: saturate(.6); background: linear-gradient(180deg,#FFF5E9,#FCE9D2); }
 /* 답한 뒤: 보기를 한 줄 칩으로 줄여 결과 카드 자리를 만든다
    ([data-count]는 위 시안 규칙 .choices[data-count="3"] .choice 등보다 우선하게 붙인다) */
@@ -117,18 +124,19 @@
 .choices--done[data-count] .choice { flex-direction: row; min-height: 48px; padding: 4px 14px 4px 6px; gap: 8px; font-size: 18px; border-radius: 999px; box-shadow: inset 0 0 0 2px #E7D7B1; }
 .choices--done[data-count] .choice__medal { width: 38px; height: 38px; font-size: 22px; }
 .choices--done[data-count] .choice__medal::after { inset: 3px; }
-.choices--done[data-count] .choice.is-answer { box-shadow: inset 0 0 0 2.5px var(--green); animation: none; }
+.choices--done[data-count] .choice.is-answer { box-shadow: inset 0 0 0 2.5px var(--green); }
+.choices--done[data-count] .choice.is-answer::after { content: none; }
 /* 답한 뒤 고르지 않은 보기는 흐리게 (정답 보기만 또렷하게) */
 .choices--done[data-count] .choice:not(.is-answer) { opacity: .55; filter: saturate(.6); }
 /* 그림 없는 보기(저학년·고학년)는 답한 뒤 칩 줄을 숨긴다 — 긴 이름 칩이 두 줄로 접혀 390×844에서 카드가 넘치고
    진행 줄이 절취선 밑에 가린다. 정답은 결과 카드의 정답 칩이 보여 준다(기준 시안 correct·wrong 화면에도 보기 줄이 없다) */
 .choices--done.choices--plain { display: none; }
-/* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게. 칩이 되면 왼쪽 여백을 오른쪽과 맞춘다 */
+/* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게 */
 .choice__label { word-break: keep-all; text-wrap: balance; }
-.choices--done[data-count] .choice__label:first-child { margin-left: 8px; }
 .chip--plain { padding-left: 12px; }
-/* 정답 칩: 이름이 길면 낱말 경계에서 줄을 바꾼다. '정답:'·그림·체크는 줄어들지 않고 이름 칸만 줄어든다 */
-.result__body { min-width: 0; }
+/* 정답 칩: 이름이 길면 낱말 경계에서 줄을 바꾼다. '정답:'·그림·체크는 줄어들지 않고 이름 칸만 줄어든다.
+   제목·칩은 카드의 색종이·반짝이보다 위에 그린다 — 긴 칩('괭이갈매기 ✓')의 글자·체크 배지를 장식이 덮지 않게 */
+.result__body { position: relative; z-index: 1; min-width: 0; }
 .chip { box-sizing: border-box; max-width: 100%; word-break: keep-all; }
 .chip__prefix { flex: none; white-space: nowrap; color: var(--apricot-ink); }
 .chip__emoji, .chip__ok { flex: none; }
@@ -159,10 +167,6 @@
 .compass__dir:not([aria-disabled="true"]):active { transform: translateY(3px); box-shadow: inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292; }
 .compass__dir.is-answer { box-shadow: inset 0 0 0 3px var(--green), 0 4px 0 #7FBF95; }
 .compass__dir.is-wrong { opacity: .5; }
-/* 답한 뒤에는 고르기처럼 정답 방향만 또렷하게 */
-.mission--done .compass__dir:not(.is-answer) { opacity: .5; }
-/* 결과 카드가 나침반 버튼의 아래 턱(4px)에 붙지 않게 (보기 아래 한마디는 비어 있어 여백이 없다) */
-.compass ~ .feedback { margin-top: 14px; }
 .compass__center { display: grid; place-items: center; border-radius: 50%; font-family: var(--title); font-size: 15px; color: var(--gold-ink);
   background: radial-gradient(circle,#FFF9E8,#F4E4BE); box-shadow: inset 0 0 0 2px rgba(201,164,90,.45); }
 
@@ -280,7 +284,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .choice.is-answer,
+  .choice.is-answer::after,
   .spark, .burst, .confetti,
   .result:not(.result--soft) .result__hero .dg,
   .stamp__seal { animation: none; }

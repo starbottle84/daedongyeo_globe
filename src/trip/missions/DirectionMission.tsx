@@ -19,7 +19,7 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
     return () => globe.clearMarkers();
   }, [globe, mission]);
 
-  // 결과 카드가 붙으면 카드가 커지므로, 그려진 뒤에 두 표시가 카드 위쪽에 다 보이게 다시 맞춘다 (PinMission과 같은 방식)
+  // 답하면 나침반 대신 결과 카드가 들어가 카드 높이가 바뀌므로, 그려진 뒤에 두 표시가 카드 위쪽에 다 보이게 다시 맞춘다 (PinMission과 같은 방식)
   useEffect(() => {
     if (outcome !== null) globe.fitTo([mission.from, mission.to]);
   }, [globe, mission, outcome]);
@@ -30,32 +30,36 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
         <Dongle mood="think" size="xs" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>
       </div>
-      <div className="compass" role="group" aria-label="방향 고르기">
-        {COMPASS_SLOTS.map((slot) => {
-          if (slot === 'center') {
+      {/* 답한 뒤에는 나침반을 빼서 결과 카드 자리를 만든다 — 정답은 결과 카드의 칩('남쪽' 등)이 보여 주고 지도에는 두 표시가 남는다.
+          나침반이 남으면 1024×768 가로 태블릿에서 결과가 카드를 넘쳐 진행 줄이 절취선에 잘린다 */}
+      {outcome === null && (
+        <div className="compass" role="group" aria-label="방향 고르기">
+          {COMPASS_SLOTS.map((slot) => {
+            if (slot === 'center') {
+              return (
+                <span key="center" className="compass__center">
+                  {mission.fromName}
+                </span>
+              );
+            }
+            if (!allowed.includes(slot)) return <span key={slot} aria-hidden="true" />;
+            const classes = ['compass__dir'];
+            if (showAnswer && slot === mission.answer) classes.push('is-answer');
+            if (wrong.includes(slot)) classes.push('is-wrong');
             return (
-              <span key="center" className="compass__center">
-                {mission.fromName}
-              </span>
+              <button
+                key={slot}
+                type="button"
+                className={classes.join(' ')}
+                aria-disabled={wrong.includes(slot)}
+                onClick={() => pick(slot)}
+              >
+                {slot}
+              </button>
             );
-          }
-          if (!allowed.includes(slot)) return <span key={slot} aria-hidden="true" />;
-          const classes = ['compass__dir'];
-          if (showAnswer && slot === mission.answer) classes.push('is-answer');
-          if (wrong.includes(slot)) classes.push('is-wrong');
-          return (
-            <button
-              key={slot}
-              type="button"
-              className={classes.join(' ')}
-              aria-disabled={wrong.includes(slot) || outcome !== null}
-              onClick={() => pick(slot)}
-            >
-              {slot}
-            </button>
-          );
-        })}
-      </div>
+          })}
+        </div>
+      )}
       <p className="mission__hint" role="status" aria-live="polite">
         {message}
       </p>

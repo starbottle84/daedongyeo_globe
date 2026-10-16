@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import type { LngLat, MissionOf } from '../../content/types';
 import { Dongle } from '../../ui/Dongle';
 import { judgePin } from '../judge';
@@ -8,6 +8,7 @@ import type { MissionProps } from './types';
 export function PinMission({ mission, globe, placeView, onDone }: MissionProps<MissionOf<'pin'>>) {
   const [pinned, setPinned] = useState<LngLat | null>(null);
   const [result, setResult] = useState<{ km: number; stars: number } | null>(null);
+  const moveHintId = useId();
 
   // 지명이 보이면 문제가 너무 쉬우므로 잠시 숨긴다. 미션이 끝나면 다시 보여 준다.
   useEffect(() => {
@@ -50,14 +51,23 @@ export function PinMission({ mission, globe, placeView, onDone }: MissionProps<M
         <Dongle mood="think" size="xs" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>
       </div>
-      {!pinned && <p className="mission__hint">지구본을 눌러 핀을 꽂아 보세요.</p>}
-      {pinned && !result && (
-        <>
-          <p className="mission__hint">다른 곳을 누르면 핀을 옮길 수 있어요.</p>
-          <button type="button" className="btn" onClick={confirm}>
-            여기예요!
-          </button>
-        </>
+      {/* 안내 글과 '여기예요!' 버튼이 같은 높이의 자리를 나눠 써서, 핀을 꽂아도 카드가 커지지 않는다 — 커지면 카드 바로 위에 꽂은 핀을 가린다.
+          카메라 여백은 미션을 시작할 때 재므로 처음부터 버튼 높이가 들어가 있어야 한다 (trip.css .pin-slot) */}
+      {!result && (
+        <div className="pin-slot">
+          {pinned ? (
+            <>
+              <button type="button" className="btn" aria-describedby={moveHintId} onClick={confirm}>
+                여기예요!
+              </button>
+              <span id={moveHintId} className="visually-hidden">
+                다른 곳을 누르면 핀을 옮길 수 있어요.
+              </span>
+            </>
+          ) : (
+            <p className="pin-slot__hint">지구본을 눌러 핀을 꽂아 보세요.</p>
+          )}
+        </div>
       )}
       {result && (
         <MissionFeedback

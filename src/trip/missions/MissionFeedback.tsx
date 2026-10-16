@@ -23,12 +23,13 @@ const CONFETTI = [
   { left: -4, top: 70, c: '#7CCBF0', r: 60, fx: 30, fy: -20, d: 0.18 },
   { left: 90, top: 66, c: '#F29A9A', r: -50, fx: -30, fy: -20, d: 0.1 },
 ];
-// 카드 오른쪽에 흩어지는 색종이 (기준 시안 702–705줄)
+// 카드 오른쪽 위 구석에 흩어지는 색종이 (기준 시안 702–705줄).
+// 시안의 오른쪽 가운데·아래 자리는 긴 정답 칩('괭이갈매기 ✓')의 글자·체크 배지와 겹쳐서, 제목 오른쪽 위 구석으로 모았다
 const SIDE_CONFETTI = [
   { right: 70, top: 8, c: '#E9C46A', r: 35, fx: -40, fy: 20, d: 0.15 },
-  { right: 10, top: 44, c: '#7CCBF0', r: -30, fx: -50, fy: 0, d: 0.22 },
-  { right: 92, bottom: 8, c: '#2E9E5B', r: 70, fx: -40, fy: -20, d: 0.28 },
-  { right: 56, bottom: 22, c: '#F29A9A', r: -15, fx: -30, fy: -30, d: 0.2 },
+  { right: 10, top: 14, c: '#7CCBF0', r: -30, fx: -50, fy: 0, d: 0.22 },
+  { right: 40, top: 2, c: '#2E9E5B', r: 70, fx: -40, fy: 20, d: 0.28 },
+  { right: 30, top: 36, c: '#F29A9A', r: -15, fx: -30, fy: 20, d: 0.2 },
 ];
 
 export function MissionFeedback({ correct, answer, detail, explain, stars, onNext }: MissionFeedbackProps) {
@@ -126,7 +127,7 @@ export function MissionFeedback({ correct, answer, detail, explain, stars, onNex
             >
               <svg><use href="#spark" /></svg>
             </span>
-            <span className="spark" style={{ right: 22, bottom: 14, ['--s' as string]: '13px', ['--d' as string]: '.6s' }} aria-hidden="true">
+            <span className="spark" style={{ right: 4, top: 36, ['--s' as string]: '13px', ['--d' as string]: '.6s' }} aria-hidden="true">
               <svg><use href="#spark" /></svg>
             </span>
             <span className="spark" style={{ left: 150, top: 8, ['--s' as string]: '12px', ['--d' as string]: '1.1s' }} aria-hidden="true">
@@ -140,7 +141,6 @@ export function MissionFeedback({ correct, answer, detail, explain, stars, onNex
                 style={{
                   right: p.right,
                   top: p.top,
-                  bottom: p.bottom,
                   ['--c' as string]: p.c,
                   ['--r' as string]: `${p.r}deg`,
                   ['--fx' as string]: `${p.fx}px`,
