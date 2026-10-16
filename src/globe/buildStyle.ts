@@ -115,7 +115,9 @@ export function buildStyle(view: MapView): StyleSpecification {
         id: 'geo-line', type: 'line', source: 'geoLines',
         paint: {
           // 데이터의 en 값은 'equator'처럼 대소문자가 섞여 있어 소문자로 바꿔 비교한다. 진한 바다 위에서도 보이게 진한 색을 쓴다
-          'line-color': ['match', ['downcase', ['get', 'en']], 'equator', '#D23B3B', 'international date line', '#6A4BC4', '#C9661E'],
+          // (그림 지도의 회귀선·극권은 바다색과 대비 약 2.9:1인 진한 주황 — 예전 #C9661E는 약 2.05:1이라 바다에 묻혔다. 굵기를 올리는 것보다 점선 모양이 또렷하다.
+          //  어두운 위성 사진 위에서는 예전 색이 더 잘 보여서 그대로 둔다)
+          'line-color': ['match', ['downcase', ['get', 'en']], 'equator', '#D23B3B', 'international date line', '#6A4BC4', t.satellite ? '#C9661E' : '#A9500F'],
           'line-width': 1.4,
           'line-dasharray': [4, 3],
         },
@@ -241,8 +243,11 @@ export function buildStyle(view: MapView): StyleSpecification {
         },
         paint: labelPaint(t.text, 2),
       },
+      // 대양 이름은 지구본이 작게 다 보이는 첫 화면(휴대폰 약 0~0.6, 태블릿 약 1~1.44)에서는 뺀다.
+      // 이름 자리 점이 지구본 가장자리 가까이에 있어(태평양 점은 첫 화면 가운데에서 84°) 글자가 가장자리 밖 하늘에 뜨고 지도 버튼 뒤에 가린다.
+      // 여행 장소 화면(1.5)과 지명 수 기준 장면(1.6)에서는 그대로 보인다
       {
-        id: 'ocean-label', type: 'symbol', source: 'marineLabels',
+        id: 'ocean-label', type: 'symbol', source: 'marineLabels', minzoom: 1.45,
         filter: ['==', ['get', 'cls'], 'ocean'],
         layout: {
           'text-field': koName, 'text-font': FONT.italic,
