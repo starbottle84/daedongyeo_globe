@@ -348,20 +348,116 @@ write('geo-lines', read('ne_50m_geographic_lines').map((f) => ({
 })));
 
 // ---------- 9. 대륙·대양 영역 (지도에 그리지 않고 '찾아 누르기' 미션 판정에만 쓴다) ----------
+// queryRenderedFeatures는 위에 그려진(뒤 순서) 영역부터 돌려주므로 바다를 앞에, 땅을 뒤에 둔다
+// (바다 다각형과 섬·빙붕이 겹치는 곳은 땅으로 판정된다).
 // 태평양·대서양은 남북 두 조각이지만 이름(ko)이 같아서 한 영역처럼 판정된다.
-const continents = read('ne_10m_geography_regions_polys')
-  .filter((f) => f.geometry && f.properties.FEATURECLA === 'Continent');
-const oceans = read('ne_10m_geography_marine_polys')
-  .filter((f) => f.geometry && f.properties.featurecla === 'ocean');
+const polygonsOf = (geom) => (geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates);
+
+function bboxOf(polygon) {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const [x, y] of polygon[0]) {
+    minX = Math.min(minX, x); minY = Math.min(minY, y);
+    maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
+  }
+  return [minX, minY, maxX, maxY];
+}
+
+function inPolygon(x, y, polygon) {
+  let inside = false;
+  for (const ring of polygon) {
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const a = ring[i];
+      const b = ring[j];
+      if ((a[1] > y) !== (b[1] > y) && x < ((b[0] - a[0]) * (y - a[1])) / (b[1] - a[1]) + a[0]) inside = !inside;
+    }
+  }
+  return inside;
+}
+
+// 단순화하면서 점이 3개 미만으로 줄어든 고리(아주 작은 섬 등)는 버린다. 남는 게 없으면 null.
+function areaFeature(ko, kind, geom) {
+  const polygons = polygonsOf(simplifyGeometry(geom, 0.05, 2))
+    .filter((p) => p[0].length >= 4)
+    .map((p) => p.filter((ring) => ring.length >= 4));
+  if (!polygons.length) return null;
+  return { type: 'Feature', properties: { ko, kind }, geometry: { type: 'MultiPolygon', coordinates: polygons } };
+}
+
+// 물: 대양 + 바다·만·해협 등. 바다는 가장 가까운 대양(라벨점에서 대양 다각형 가장자리까지 거리)의
+// 이름으로 판정하고, 교과서와 다르게 붙는 것은 overrides.json의 areaOcean으로 바로잡는다.
+// 석호·강 하구와 내륙 바다(areaSkip: 카스피해 등)는 대양이 아니므로 뺀다.
+const SEA_CLASSES = ['sea', 'gulf', 'bay', 'strait', 'channel', 'sound', 'fjord', 'inlet', 'reef', 'generic'];
+const marine = read('ne_10m_geography_marine_polys').filter((f) => f.geometry);
+const oceans = marine.filter((f) => f.properties.featurecla === 'ocean');
+const oceanKo = (f) => pick(f.properties.name_ko, f.properties.name);
+function nearestOcean(lng, lat) {
+  let best = '';
+  let bestDist = Infinity;
+  for (const o of oceans) {
+    for (const polygon of polygonsOf(o.geometry)) {
+      const dist = -pointToPolygonDist(lng, lat, polygon);
+      if (dist < bestDist) { bestDist = dist; best = oceanKo(o); }
+    }
+  }
+  return best;
+}
+const seas = marine
+  .filter((f) => SEA_CLASSES.includes(f.properties.featurecla) && !OVERRIDES.areaSkip.includes(f.properties.name))
+  .map((f) => {
+    const [lng, lat] = polylabel(largestPolygon(f.geometry));
+    return { f, ko: OVERRIDES.areaOcean[f.properties.name] ?? nearestOcean(lng, lat) };
+  });
+
+// 땅: 대륙 + 섬·지협(REGION으로 대륙을 정함, 중앙아메리카는 대륙 다각형에 빠져 있음) + 남극 빙붕.
+// 섬 무리 중에는 섬들을 느슨하게 감싼 큰 다각형(폴리네시아, 일본 등)이 많아 바다까지 덮으므로,
+// 안쪽 격자점의 80% 이상이 실제 땅(나라 면)인 섬만 쓴다. 대륙이 분명하지 않은 섬(REGION이 대양)은 뺀다.
+const CONTINENT_KO = {
+  Asia: '아시아', Europe: '유럽', Africa: '아프리카', 'North America': '북아메리카',
+  'South America': '남아메리카', Oceania: '오세아니아', Antarctica: '남극',
+};
+const land = countries.flatMap((f) => polygonsOf(f.geometry).map((p) => ({ p, box: bboxOf(p) })));
+const onLand = (x, y) => land.some(({ p, box }) => x >= box[0] && x <= box[2] && y >= box[1] && y <= box[3] && inPolygon(x, y, p));
+function landShare(geom) {
+  let inside = 0;
+  let hits = 0;
+  for (const p of polygonsOf(geom)) {
+    const [minX, minY, maxX, maxY] = bboxOf(p);
+    const step = Math.max(maxX - minX, maxY - minY, 0.4) / 20;
+    for (let x = minX + step / 2; x < maxX; x += step) {
+      for (let y = minY + step / 2; y < maxY; y += step) {
+        if (!inPolygon(x, y, p)) continue;
+        inside++;
+        if (onLand(x, y)) hits++;
+      }
+    }
+  }
+  return inside ? hits / inside : 0;
+}
+const regionAreas = read('ne_10m_geography_regions_polys').filter((f) => f.geometry);
+const continents = regionAreas.filter((f) => f.properties.FEATURECLA === 'Continent');
+const islands = regionAreas.filter((f) => ['Island', 'Island group', 'Isthmus'].includes(f.properties.FEATURECLA)
+  && CONTINENT_KO[f.properties.REGION] && landShare(f.geometry) >= 0.8);
+// 땅 비율이 낮아 뺀 섬 무리(노바야제믈랴, 누벨칼레도니 등)는 그 안에 든 실제 땅(나라 면 조각)만 쓴다.
+// 이미 대륙·섬 다각형에 든 조각은 건너뛰고, 여러 섬 무리에 들면 가장 작은 섬 무리의 대륙을 따른다.
+const inArea = (x, y, f) => polygonsOf(f.geometry).some((p) => inPolygon(x, y, p));
+const sizeOf = (f) => polygonsOf(f.geometry).reduce((sum, p) => sum + ringArea(p[0]), 0);
+const looseGroups = regionAreas
+  .filter((f) => f.properties.FEATURECLA === 'Island group' && CONTINENT_KO[f.properties.REGION] && !islands.includes(f))
+  .sort((a, b) => sizeOf(a) - sizeOf(b));
+const covered = [...continents, ...islands];
+const groupLand = countries.flatMap((c) => polygonsOf(c.geometry)).flatMap((p) => {
+  const [x, y] = polylabel(p);
+  if (covered.some((f) => inArea(x, y, f))) return [];
+  const group = looseGroups.find((f) => inArea(x, y, f));
+  return group ? [{ ko: CONTINENT_KO[group.properties.REGION], geometry: { type: 'Polygon', coordinates: p } }] : [];
+});
+const iceShelves = read('ne_10m_antarctic_ice_shelves_polys').filter((f) => f.geometry);
+
 write('areas', [
-  ...continents.map((f) => ({
-    type: 'Feature',
-    properties: { ko: pick(f.properties.NAME_KO, f.properties.NAME), kind: 'continent' },
-    geometry: simplifyGeometry(f.geometry, 0.05, 2),
-  })),
-  ...oceans.map((f) => ({
-    type: 'Feature',
-    properties: { ko: pick(f.properties.name_ko, f.properties.name), kind: 'ocean' },
-    geometry: simplifyGeometry(f.geometry, 0.05, 2),
-  })),
-]);
+  ...oceans.map((f) => areaFeature(oceanKo(f), 'ocean', f.geometry)),
+  ...seas.map(({ f, ko }) => areaFeature(ko, 'ocean', f.geometry)),
+  ...continents.map((f) => areaFeature(pick(f.properties.NAME_KO, f.properties.NAME), 'continent', f.geometry)),
+  ...groupLand.map(({ ko, geometry }) => areaFeature(ko, 'continent', geometry)),
+  ...islands.map((f) => areaFeature(CONTINENT_KO[f.properties.REGION], 'continent', f.geometry)),
+  ...iceShelves.map((f) => areaFeature('남극', 'continent', f.geometry)),
+].filter(Boolean));

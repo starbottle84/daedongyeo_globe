@@ -110,6 +110,13 @@ export function buildStyle(view: MapView): StyleSpecification {
       },
 
       // ---------- 지명 (아래쪽 레이어일수록 겹칠 때 먼저 가려짐) ----------
+      // 독도·울릉도처럼 땅 면이 없는 작은 섬의 점. 글을 못 읽는 아이도 섬이 있다는 걸 보게 하고,
+      // 맨 아래 기호 레이어 + 배치 무시라서 다른 지명을 가리지 않는다.
+      {
+        id: 'island-dot', type: 'symbol', source: 'regions',
+        filter: ['all', ['has', 'icon'], visibleFrom()],
+        layout: { 'icon-image': ['get', 'icon'], 'icon-allow-overlap': true, 'icon-ignore-placement': true },
+      },
       {
         id: 'geo-line-label', type: 'symbol', source: 'geoLines',
         layout: {

@@ -19,6 +19,7 @@ const FILES = [
   'ne_10m_rivers_lake_centerlines',
   'ne_50m_rivers_lake_centerlines',
   'ne_50m_geographic_lines',
+  'ne_10m_antarctic_ice_shelves_polys',
 ];
 
 fs.mkdirSync(RAW, { recursive: true });

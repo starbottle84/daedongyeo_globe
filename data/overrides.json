@@ -22,8 +22,33 @@
   },
   "add": {
     "regions": [
-      { "lng": 131.8669, "lat": 37.2422, "properties": { "ko": "독도", "en": "Dokdo", "cls": "island", "minz": 4, "rank": 0 } },
-      { "lng": 130.8667, "lat": 37.4983, "properties": { "ko": "울릉도", "en": "Ulleungdo", "cls": "island", "minz": 4, "rank": 0 } }
+      { "lng": 131.8669, "lat": 37.2422, "properties": { "ko": "독도", "en": "Dokdo", "cls": "island", "minz": 4, "rank": 0, "icon": "island" } },
+      { "lng": 130.8667, "lat": 37.4983, "properties": { "ko": "울릉도", "en": "Ulleungdo", "cls": "island", "minz": 4, "rank": 0, "icon": "island" } }
     ]
-  }
+  },
+  "areaOcean": {
+    "Mediterranean Sea": "대서양",
+    "Sea of Azov": "대서양",
+    "Gulf of Bothnia": "대서양",
+    "Gulf of Finland": "대서양",
+    "Gulf of Riga": "대서양",
+    "Vestfjorden": "대서양",
+    "Gulf of Mexico": "대서양",
+    "Bahía de Campeche": "대서양",
+    "Caribbean Sea": "대서양",
+    "Gulf of Honduras": "대서양",
+    "Golfo de Urabá": "대서양",
+    "James Bay": "북극해",
+    "Gulf of Thailand": "태평양",
+    "Gulf of Tonkin": "태평양",
+    "Qiongzhou Strait": "태평양",
+    "Java Sea": "태평양",
+    "Bali Sea": "태평양",
+    "Flores Sea": "태평양",
+    "Makassar Strait": "태평양",
+    "Tasman Sea": "태평양",
+    "Gulf of Anadyr'": "태평양",
+    "Norton Sound": "태평양"
+  },
+  "areaSkip": ["Caspian Sea", "Garabogaz Bay", "Saint Lawrence River"]
 }

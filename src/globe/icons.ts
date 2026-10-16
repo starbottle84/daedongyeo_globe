@@ -1,4 +1,4 @@
-// 수도·도시·산 아이콘을 캔버스로 직접 그린다 (2배 해상도, pixelRatio 2로 등록)
+// 수도·도시·섬·산 아이콘을 캔버스로 직접 그린다 (2배 해상도, pixelRatio 2로 등록)
 function drawIcon(size: number, draw: (ctx: CanvasRenderingContext2D, s: number) => void): ImageData {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
@@ -37,6 +37,15 @@ export const ICONS: Record<string, () => ImageData> = {
     ctx.fillStyle = '#ffffff';
     ctx.strokeStyle = '#1d2433';
     ctx.lineWidth = 2.5;
+    ctx.stroke();
+    ctx.fill();
+  }),
+  island: () => drawIcon(16, (ctx, s) => {
+    ctx.beginPath();
+    ctx.arc(s / 2, s / 2, s / 2 - 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#3a9a5b';
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
     ctx.stroke();
     ctx.fill();
   }),
