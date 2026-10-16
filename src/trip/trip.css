@@ -18,8 +18,8 @@
   -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent);
           mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent);
 }
-/* 흐림만으로는 놓치기 쉬워서 흐린 자리 가운데에 작은 아래 화살표도 둔다 (장식, 움직이지 않는다) */
-.trip-panel .pass-more { position: absolute; left: 50%; bottom: 10px; width: 10px; height: 10px; margin-left: -6.5px; pointer-events: none;
+/* 흐림만으로는 놓치기 쉬워서 흐린 자리 가운데에 작은 아래 화살표도 둔다 (장식, 움직이지 않는다). 시작 카드도 같은 화살표를 쓴다 */
+.trip-panel .pass-more, .launcher .pass-more { position: absolute; left: 50%; bottom: 10px; width: 10px; height: 10px; margin-left: -6.5px; pointer-events: none;
   border-right: 3px solid rgba(35, 57, 91, .4); border-bottom: 3px solid rgba(35, 57, 91, .4); transform: rotate(45deg); }
 /* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 */
 .trip-panel:focus { outline: none; }
@@ -291,6 +291,12 @@
 /* 넘치면 가죽 표지가 아니라 크림 종이 안에서 스크롤한다 (가죽 패딩 7px×2를 뺀 높이)
    — 바느질 점선이 내용과 같이 움직이지 않고, 잘린 곳도 종이의 둥근 모서리 안에 든다 */
 .launcher .page { max-height: calc(60vh - 14px); max-height: calc(60dvh - 14px); overflow-y: auto; }
+/* 종이가 넘쳐 아래에 표가 남았을 때(TripLauncher가 page--more를 붙인다): 여행 카드(.pass-body--more)처럼 아래쪽을 옅게 흐린다.
+   여기서는 종이 자체가 스크롤 상자라 mask를 걸면 종이 바탕까지 흐려져 가죽이 비치므로, 종이 아래쪽 색(#F3E8CF)으로 덮는 막을
+   스크롤 상자 아래에 붙여 둔다(sticky). 아래 화살표는 가죽 패딩 7px 위로 올려 종이 안 같은 자리(아래 10px)에 둔다 */
+.launcher .page--more::after { content: ""; position: sticky; bottom: 0; display: block; height: 44px; margin-top: -44px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(243, 232, 207, 0), #F3E8CF); }
+.launcher .pass-more { bottom: 17px; }
 /* 시안은 모든 요소가 border-box라서(*{box-sizing:border-box}) 시작 카드 안에서는 같게 맞춘다
    — 아니면 표 이름 칸(min-height+padding)·사진 칸(테두리)이 시안보다 커진다 */
 .launcher, .launcher *, .launcher *::before, .launcher *::after { box-sizing: border-box; }

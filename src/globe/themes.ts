@@ -28,9 +28,9 @@ export const THEMES: Record<MapView, Theme> = {
   map: {
     satellite: false,
     text: '#23395B', halo: '#FFFDF7',
-    water: '#2f6f9f', ocean: '#1F5C8A', oceanHalo: 'rgba(255,253,247,0.7)',
+    water: '#1F5C8A', ocean: '#1F5C8A', oceanHalo: 'rgba(255,253,247,0.7)',
     admin1: '#6a5f73', peak: '#7a4b1e', geoLine: '#b5482f',
-    border: '#5b6270', borderOpacity: 1, river: '#4fa3d9',
+    border: '#7A8194', borderOpacity: 0.85, river: '#4fa3d9',
     mountain: '#8b4f1d', desert: '#b06a10', flat: '#4f6b2a', otherRegion: '#3d4a66',
   },
   satellite: {

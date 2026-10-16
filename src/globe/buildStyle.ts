@@ -63,7 +63,7 @@ export function buildStyle(view: MapView): StyleSpecification {
       {
         id: 'coast-glow', type: 'line', source: 'countries',
         layout: { visibility: shown(!t.satellite), 'line-join': 'round' },
-        paint: { 'line-color': '#FFFFFF', 'line-opacity': 0.55, 'line-width': ['interpolate', ['linear'], ['zoom'], 1, 3, 6, 9] },
+        paint: { 'line-color': '#FFFFFF', 'line-opacity': 0.55, 'line-width': ['interpolate', ['linear'], ['zoom'], 1, 4, 6, 14] },
       },
       {
         id: 'coast-sand', type: 'line', source: 'countries',
@@ -114,7 +114,8 @@ export function buildStyle(view: MapView): StyleSpecification {
       {
         id: 'geo-line', type: 'line', source: 'geoLines',
         paint: {
-          'line-color': ['match', ['get', 'en'], 'Equator', '#e04848', 'International Date Line', '#7a5ccf', '#e08a3c'],
+          // 데이터의 en 값은 'equator'처럼 대소문자가 섞여 있어 소문자로 바꿔 비교한다. 진한 바다 위에서도 보이게 진한 색을 쓴다
+          'line-color': ['match', ['downcase', ['get', 'en']], 'equator', '#D23B3B', 'international date line', '#6A4BC4', '#C9661E'],
           'line-width': 1.4,
           'line-dasharray': [4, 3],
         },

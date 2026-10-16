@@ -1,4 +1,7 @@
 /* 오른쪽 위 둥근 지도 버튼 (기준 시안 73–85줄) */
+/* 버튼 묶음 높이 = 위성 52 + 사이 12 + 확대 캡슐(52 + 구분선 1.5 + 52) + 사이 12 + 투영 52.
+   세로 화면에서 안내 카드가 붙을 때 카드 묶음 높이 상한(global.css)이 이 값을 쓴다 — 아래 버튼 크기를 바꾸면 같이 고친다 */
+:root{--tools-h:233.5px}
 .tools{position:absolute;z-index:2;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));display:flex;flex-direction:column;align-items:center;gap:12px}
 /* 시안보다 한 단계 밝은 면 + 밝은 금테 (남색 하늘과 구분) */
 .tool,.zoom{position:relative;border:0;
