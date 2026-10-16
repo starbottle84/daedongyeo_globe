@@ -22,11 +22,11 @@
     "lower": [
       { "type": "choice", "prompt": "제주도는 우리나라 섬 가운데 어떤 섬일까?", "options": [{ "label": "가장 작은 섬" }, { "label": "가장 북쪽 섬" }, { "label": "가장 큰 섬" }], "answer": 2, "explain": "제주도는 우리나라에서 가장 큰 섬이에요." },
       { "type": "tap", "prompt": "제주도 한가운데 있는 한라산을 찾아 눌러 봐!", "target": [126.5312, 33.3617], "radiusKm": 12, "view": { "center": [126.55, 33.38], "zoom": 8 }, "explain": "한라산은 제주도 한가운데에 있는 산이에요." },
-      { "type": "direction", "prompt": "한반도에서 보면 제주도는 어느 쪽 바다에 있을까?", "from": [127.5, 36], "fromName": "한반도", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 한반도 남쪽 바다에 있어요." }
+      { "type": "direction", "prompt": "한반도에서 보면 제주도는 어느 쪽 바다에 있을까?", "from": [127.3, 38.3], "fromName": "한반도", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 한반도 남쪽 바다에 있어요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 한라산 꼭대기를 찍어 보세요.", "target": [126.5312, 33.3617], "starsKm": [5, 15], "view": { "center": [126.55, 33.38], "zoom": 8 }, "explain": "한라산 꼭대기에는 백록담이라는 호수가 있어요." },
-      { "type": "choice", "prompt": "한라산의 높이는 약 몇 m일까요?", "options": [{ "label": "약 950m" }, { "label": "약 1,950m" }, { "label": "약 2,950m" }, { "label": "약 8,850m" }], "answer": 1, "explain": "한라산은 높이 1,947m로 남한에서 가장 높은 산이에요." },
+      { "type": "choice", "prompt": "한라산 꼭대기에 있는 호수의 이름은 무엇일까요?", "options": [{ "label": "천지" }, { "label": "백록담" }, { "label": "소양호" }, { "label": "경포호" }], "answer": 1, "explain": "한라산 꼭대기의 호수는 백록담이에요. 천지는 백두산 꼭대기에 있어요." },
       { "type": "direction", "prompt": "서울에서 보면 제주도는 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.53, 33.38], "toName": "제주도", "options": 8, "answer": "남", "explain": "제주도는 서울에서 남쪽으로 약 470km 떨어져 있어요." }
     ]
   },
