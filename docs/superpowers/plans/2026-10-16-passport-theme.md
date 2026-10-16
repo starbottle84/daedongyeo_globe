@@ -1135,6 +1135,13 @@ git commit -m "feat: 그림 지도 색을 종이 여권과 맞추고 해안선 �
 10. **높이 단위:** 카드 최대 높이에 쓴 `vh`는 `dvh`로 바꾸고 `vh`를 대비값으로 앞에 둔다(iOS 주소창).
 11. **중복 규칙:** `trip.css` 가로 태블릿 블록의 `.ticket__body{--perf:60px}` 중복을 정리한다.
 12. **초점 테두리:** 종이 위 초점 테두리는 남색이다(작업 3에서 넣음). 여행 카드 안 버튼에도 같은지 확인한다.
+14. **작은 화면 규칙 다시 맞추기 (2묶음 검토):**
+   - Step 4의 `@media (max-height: 700px)`는 높이 740인 화면(360×740)에 걸리지 않는다. 기준을 `max-height: 760px`로 올린다.
+   - 종이 패딩은 변수 하나로 계산되게 한다. `.trip-panel .page { --pad: 16px; padding: var(--pad); }`, `.pass-body { margin: -2px calc(-1 * var(--pad)) calc(-1 * var(--pad)); padding: 2px var(--pad) var(--pad); }`, `.page--ticket { --tear: calc(var(--pad) + 61.5px); }`(지금 값 77.5px = 16 + 61.5와 같음). 압축 카드도 같은 방식으로 맞춘다. 작은 화면에서는 `--pad: 12px`만 바꾼다.
+   - Step 4의 `.trip-panel { max-height: 66vh }`는 쓰지 않는다. 미션 단계(`.trip-panel:has(.progress)` 또는 미션일 때 붙는 클래스)는 작은 화면에서 `max-height: 55dvh`(앞에 `55vh` 대비값), 출발·둘러보기·이야기는 지금 값(62)을 둔다.
+   - 고학년 긴 글로 본문이 넘칠 때 주 버튼이 잘려 안 보이는 일이 없게 한다. `.pass-body` 아래쪽에 스크롤할 내용이 남았음을 알리는 옅은 그라데이션(`mask-image` 또는 `::after` 그림자)을 넣거나, 주 버튼을 본문 밖 아래에 고정한다. 둘 중 캡처로 더 나은 쪽을 고른다.
+   - 확인: 360×740, 375×667에서 모든 단계를 재서 미션 단계 `ratio ≤ 0.55`, 주 버튼이 처음 화면에 보이거나 스크롤 표시가 보여야 한다.
+15. **'함께 이야기해요' 메모를 펼칠 때** `scrollIntoView({ block: 'nearest' })`로 메모가 보이게 한다.
 13. **글꼴 크기:** `@fontsource` 기본 불러오기는 latin-ext·vietnamese 묶음까지 미리 저장한다(woff2 174개, 약 2.5MB). 패키지에 한국어·라틴 묶음만 따로 부르는 CSS가 있으면 그것만 불러서 줄인다. 없으면 그대로 둔다.
 
 - [ ] **Step 7: Commit**
