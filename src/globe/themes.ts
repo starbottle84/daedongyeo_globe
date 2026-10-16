@@ -20,14 +20,15 @@ export interface Theme {
   otherRegion: string;
 }
 
-export const LAND_COLORS = ['#f6d58e', '#b8e0a0', '#f5b5a0', '#c9b8e8', '#a8d8c8', '#f2c6de', '#e8dca0'];
-export const OCEAN_COLOR = '#9fd3f0';
+// 종이 여권 화면과 어울리게 채도를 조금 낮춘 파스텔 (나라 구별용 여러 색은 유지)
+export const LAND_COLORS = ['#F3D99A', '#C3E2A4', '#F2C3AE', '#D2C6EA', '#B4DDCD', '#F1CDDF', '#E8DEAE'];
+export const OCEAN_COLOR = '#7EC6E3';
 
 export const THEMES: Record<MapView, Theme> = {
   map: {
     satellite: false,
-    text: '#1d2433', halo: '#ffffff',
-    water: '#2f6f9f', ocean: '#2a6496', oceanHalo: 'rgba(255,255,255,0.6)',
+    text: '#23395B', halo: '#FFFDF7',
+    water: '#2f6f9f', ocean: '#1F5C8A', oceanHalo: 'rgba(255,253,247,0.7)',
     admin1: '#6a5f73', peak: '#7a4b1e', geoLine: '#b5482f',
     border: '#5b6270', borderOpacity: 1, river: '#4fa3d9',
     mountain: '#8b4f1d', desert: '#b06a10', flat: '#4f6b2a', otherRegion: '#3d4a66',

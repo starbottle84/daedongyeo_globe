@@ -59,6 +59,17 @@ export function buildStyle(view: MapView): StyleSpecification {
       // ---------- 바탕: 바다 · 땅 · 물 ----------
       { id: 'ocean', type: 'background', paint: { 'background-color': OCEAN_COLOR } },
       { id: 'satellite', type: 'raster', source: 'satellite', layout: { visibility: shown(t.satellite) } },
+      // 해안선 두 겹 (흰 테두리 + 모래색). 땅 아래에 깔아 바다 쪽만 보이게 한다 — 나라 사이 경계에는 생기지 않는다.
+      {
+        id: 'coast-glow', type: 'line', source: 'countries',
+        layout: { visibility: shown(!t.satellite), 'line-join': 'round' },
+        paint: { 'line-color': '#FFFFFF', 'line-opacity': 0.55, 'line-width': ['interpolate', ['linear'], ['zoom'], 1, 3, 6, 9] },
+      },
+      {
+        id: 'coast-sand', type: 'line', source: 'countries',
+        layout: { visibility: shown(!t.satellite), 'line-join': 'round' },
+        paint: { 'line-color': '#EBDDB0', 'line-width': ['interpolate', ['linear'], ['zoom'], 1, 1.4, 6, 4] },
+      },
       {
         id: 'country-fill', type: 'fill', source: 'countries',
         layout: { visibility: shown(!t.satellite) },
