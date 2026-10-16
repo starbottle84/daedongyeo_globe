@@ -23,6 +23,7 @@ export function App() {
   const [satelliteFailed, setSatelliteFailed] = useState(false);
   const [globe, setGlobe] = useState<GlobeHandle | null>(null);
   const [trip, setTrip] = useState<Trip | null>(null);
+  const [tier, setTier] = useState<Tier>('preschool');
   const [applyUpdate, setApplyUpdate] = useState<(() => void) | null>(null);
 
   const changeView = useCallback((next: MapView) => {
@@ -37,7 +38,7 @@ export function App() {
   const nextPlace = trip ? (PLACES[PLACES.indexOf(trip.place) + 1] ?? null) : null;
 
   return (
-    <div className="app">
+    <div className={trip?.tier === 'preschool' ? 'app app--locked' : 'app'}>
       <GlobeView view={view} onZoomChange={setZoom} onSatelliteError={handleSatelliteError} onReady={setGlobe} />
       <InfoCard zoom={zoom} view={view} onViewChange={changeView} />
       <div className="bottom-stack">
@@ -54,7 +55,12 @@ export function App() {
               onExit={() => setTrip(null)}
             />
           ) : (
-            <TripLauncher places={PLACES} onStart={(place, tier) => setTrip({ place, tier })} />
+            <TripLauncher
+              places={PLACES}
+              tier={tier}
+              onTierChange={setTier}
+              onStart={(place, tier) => setTrip({ place, tier })}
+            />
           ))}
       </div>
     </div>

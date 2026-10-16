@@ -97,11 +97,27 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     }
   };
 
-  const setLabelsVisible = (on: boolean) => {
-    for (const layer of map.getStyle().layers) {
-      if (layer.type === 'symbol') map.setLayoutProperty(layer.id, 'visibility', on ? 'visible' : 'none');
+  let labelsHidden = false;
+  // 바뀌어야 할 층만 건드린다 (같은 값을 다시 넣으면 styledata가 또 와서 계속 돌 수 있다)
+  const applyLabels = () => {
+    const style = map.getStyle();
+    if (!style) return;
+    const want = labelsHidden ? 'none' : 'visible';
+    for (const layer of style.layers) {
+      if (layer.type !== 'symbol') continue;
+      if ((map.getLayoutProperty(layer.id, 'visibility') ?? 'visible') !== want) {
+        map.setLayoutProperty(layer.id, 'visibility', want);
+      }
     }
   };
+  const setLabelsVisible = (on: boolean) => {
+    labelsHidden = !on;
+    applyLabels();
+  };
+  // 그림/위성 지도를 바꾸면 스타일이 다시 적용되면서 숨긴 지명이 되살아나므로, 숨김 상태면 다시 숨긴다.
+  map.on('styledata', () => {
+    if (labelsHidden) applyLabels();
+  });
 
   const clearMarkers = () => {
     markers.forEach((marker) => marker.remove());
@@ -160,6 +176,8 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     clearMarkers,
 
     restore() {
+      // 지도가 이미 지워졌으면(개발 중 새로고침·화면 정리) 되돌릴 것이 없다
+      if (!map.getStyle()) return;
       setInteractive(true);
       setLabelsVisible(true);
       clearMarkers();

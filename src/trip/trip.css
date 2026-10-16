@@ -115,10 +115,10 @@
   background: #ffffff; color: var(--card-text); font: inherit; font-size: 18px; font-weight: 700; cursor: pointer;
 }
 .launcher__tiers button[aria-pressed="true"] { border-color: #2a6496; background: #eef4fb; color: #2a6496; }
-.launcher__places { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.launcher__places { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 10px; }
 .place-card {
   display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
-  min-height: 72px; padding: 12px 14px; border: 0; border-radius: 16px;
+  min-height: 72px; padding: 10px 12px; border: 0; border-radius: 16px;
   background: #2a6496; color: #ffffff; font: inherit; text-align: left; cursor: pointer;
 }
 .place-card__stage { font-size: 14px; opacity: 0.85; }

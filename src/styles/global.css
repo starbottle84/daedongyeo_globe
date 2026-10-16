@@ -10,6 +10,8 @@ body {
   font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
 }
 .app { position: relative; height: 100%; overflow: hidden; }
+/* 유아 여행 중에는 확대·지구본 버튼도 숨긴다 — 손 조작 잠금과 같이 */
+.app--locked .maplibregl-ctrl-top-right { display: none; }
 /* MapLibre CSS의 .maplibregl-map { position: relative }가 나중에 불려 덮어쓰므로 선택자를 한 단계 구체적으로 쓴다 */
 .app .globe {
   position: absolute; inset: 0;
