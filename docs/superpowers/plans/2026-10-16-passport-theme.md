@@ -727,7 +727,7 @@ export function CharacterBubble({ text, mood = 'talk' }: CharacterBubbleProps) {
 
 - [ ] **Step 3: `trip.css` — 여행 카드 규칙**
 
-옛 `.trip-panel`, `.trip-panel__*`, `.big-button`, `.character*`, `.talk*` 규칙을 지우고 다음을 둔다. 시안 186–193줄(`.progress`, `.pips`, `.ask`)도 옮긴다.
+먼저 `trip.css`의 `.visually-hidden` 규칙을 `src/styles/tokens.css` 끝으로 옮긴다(핀 결과의 '별 N개' 화면 읽기 글자가 쓴다 — 지우면 글자가 화면에 드러난다). 그다음 옛 `.trip-panel`, `.trip-panel__*`, `.big-button`, `.character*`, `.talk*` 규칙을 지우고 다음을 둔다. 시안 186–193줄(`.progress`, `.pips`, `.ask`)도 옮긴다.
 
 ```css
 .trip-panel { max-height: 62vh; overflow-y: auto; scroll-padding-bottom: 18px; }
@@ -1112,11 +1112,36 @@ git commit -m "feat: 그림 지도 색을 종이 여권과 맞추고 해안선 �
 
 - [ ] **Step 5: 확인** — tsc·lint·build. 캡처를 360×740과 375×667로: 첫 화면, `jeju:preschool:mission2`, `jeju:upper:` 4개 보기 미션, 도장. 가로 스크롤 없음(MEASURE `sw` = 너비), 미션 카드 `ratio ≤ 0.55`. 움직임 줄이기: shot-cdp.mjs에 `REDUCE=1`이면 `Emulation.setEmulatedMedia({features:[{name:'prefers-reduced-motion',value:'reduce'}]})`를 보내도록 더하고, 정답·도장 화면을 찍어 멈춘 최종 모습인지 본다. 새 버전 안내는 개발 중 `UpdateBanner`를 임시로 띄우지 말고, Storybook 없이 컴포넌트 CSS만 비교하므로 코드 리뷰로 확인한다.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 6: 1묶음 검토에서 넘어온 항목** (작업 1–3 검토자가 남긴 작은 문제와 계획 빈틈)
+
+1. **첫 화면 지구본 자리 잡기:** 지금은 지구본 가운데가 화면 가운데라 아래 절반이 시작 카드에 가린다(휴대폰·태블릿 둘 다). 기준 시안처럼 지구본 전체가 카드 위 빈 곳에 보이게 한다.
+   - 여행이 아닐 때 카메라 padding의 bottom을 `.bottom-stack` 높이로 준다. 지구본이 보이는 영역(카드 위, 로고 아래) 가운데에 오게 하려는 것이다.
+   - 보이는 영역에 지구본 지름이 들어가는 확대 단계를 고른다. `globeHandle`의 지구본 반지름 계산(512·2^z/(2π)/cos(lat))을 쓴다. 1280×800 같은 넓은 화면은 지금처럼 1.6을 넘지 않게 둔다.
+   - 창 크기가 바뀌거나 여행이 끝나 시작 카드가 다시 뜰 때도 맞춘다. 여행 중에는 하지 않는다(여행은 기존 `panelPadding` 그대로).
+   - 지명 수 기준 측정은 `jumpTo`로 하므로 영향이 없다.
+2. **지도 출처 표시:** 오른쪽 아래 MapLibre 출처 알약이 시작 카드 모서리에 겹친다.
+   - 여행이 아닐 때는 로고 아래 왼쪽으로 옮기고, 작은 반투명 남색 알약(글자 `var(--gold-300)` 12px)으로 바꾼다.
+   - 'i' 버튼은 누르는 곳 44px 이상으로 하고, 펼친 모양도 확인한다.
+   - `GlobeView`의 Map 옵션 `locale`에 `{ 'AttributionControl.ToggleAttribution': '지도 출처 보기' }`를 넣는다.
+3. **아시아 장면 그림(`pl-asia`):** 시베리아가 빠져 '남쪽 아시아'처럼 보인다.
+   - `countries.geojson`에서 러시아의 동경 60° 동쪽 부분을 더해 다시 맞춘다(별은 한반도).
+   - 기호 위에 만든 방법을 주석 한 줄로 단다.
+4. **`PlaceArt` 기본 그림:** 주석을 실제(기본은 아시아 그림)와 맞춘다. 장소가 늘기 전에 64×50 하늘 바탕 지구 장면 `pl-earth`를 더하고 기본값으로 쓴다.
+5. **`?shot=…:mission0`:** missionIndex가 -1이 되지 않게 `Math.max(0, …)`로 막는다.
+6. **확대·축소 캡슐 안 `<hr>`:** `aria-hidden="true"`를 붙여 화면 읽기에서 '구분선'이 읽히지 않게 한다.
+7. **쓰지 않는 `GlobeHandle.getProjection`:** 쓰는 곳이 없으면 지운다(인터페이스와 구현 둘 다).
+8. **안전 영역:** 로고 `left`와 지도 버튼 `right`에 `max(16px, env(safe-area-inset-left/right))`를 쓴다(노치 있는 아이폰 가로).
+9. **북쪽 버튼 위치:** `nth-child(4)`에 기대지 말고 클래스(`.tool--north`)로 고른다. 높이 768 이상 가로 태블릿에서는 시안처럼 아래로 쌓는다.
+10. **높이 단위:** 카드 최대 높이에 쓴 `vh`는 `dvh`로 바꾸고 `vh`를 대비값으로 앞에 둔다(iOS 주소창).
+11. **중복 규칙:** `trip.css` 가로 태블릿 블록의 `.ticket__body{--perf:60px}` 중복을 정리한다.
+12. **초점 테두리:** 종이 위 초점 테두리는 남색이다(작업 3에서 넣음). 여행 카드 안 버튼에도 같은지 확인한다.
+13. **글꼴 크기:** `@fontsource` 기본 불러오기는 latin-ext·vietnamese 묶음까지 미리 저장한다(woff2 174개, 약 2.5MB). 패키지에 한국어·라틴 묶음만 따로 부르는 CSS가 있으면 그것만 불러서 줄인다. 없으면 그대로 둔다.
+
+- [ ] **Step 7: Commit**
 
 ```bash
 git add -A src index.html vite.config.ts scripts/shot-cdp.mjs
-git commit -m "feat: 안내 카드 종이 모양, 작은 화면 맞춤, 움직임 줄이기 안전망, 옛 스타일 정리"
+git commit -m "feat: 안내 카드 종이 모양, 작은 화면 맞춤, 움직임 줄이기 안전망, 첫 화면 지구본 자리·출처 표시, 옛 스타일 정리"
 ```
 
 ---
