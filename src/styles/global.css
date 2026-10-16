@@ -16,6 +16,9 @@ body {
 .app--trip .info-card { display: none; }
 /* 여행 중에는 오른쪽 위 버튼(확대·나침반·지구본/평면 전환)을 모두 숨긴다 — 평면 지도로 바뀌면 화면 맞추기가 틀어진다 */
 .app--trip .maplibregl-ctrl-top-right { display: none; }
+/* 여행 중에는 오른쪽 아래 지도 출처 표시도 숨긴다 — 휴대폰에서 여행 카드의 '다음' 버튼 오른쪽 아래를 가린다.
+   (자료는 퍼블릭 도메인인 Natural Earth·NASA이고, 여행 밖 평소 화면에서는 그대로 보인다) */
+.app--trip .maplibregl-ctrl-bottom-right { display: none; }
 /* 유아 여행은 손 조작을 잠그는데, 그러면 MapLibre가 touch-action: none을 풀어서
    두 손가락으로 벌리면 페이지 전체가 커지고 아래로 쓸면 새로고침된다 — 직접 다시 막는다 */
 .app--locked .maplibregl-canvas-container,

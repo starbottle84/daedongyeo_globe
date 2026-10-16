@@ -20,6 +20,12 @@
     "country-labels": { "대한민국": 0.5 },
     "places": { "서울특별시": 1 }
   },
+  "props": {
+    "peaks": {
+      "에베레스트산": { "elev": 8849 },
+      "한라산": { "elev": 1947 }
+    }
+  },
   "add": {
     "regions": [
       { "lng": 131.8669, "lat": 37.2422, "properties": { "ko": "독도", "en": "Dokdo", "cls": "island", "minz": 4, "rank": 0, "icon": "island" } },

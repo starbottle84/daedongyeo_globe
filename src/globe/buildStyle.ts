@@ -171,6 +171,9 @@ export function buildStyle(view: MapView): StyleSpecification {
           'text-field': koName, 'text-font': FONT.italic,
           'text-size': ['interpolate', ['linear'], ['zoom'], 2, 11, 6, 14],
           'text-max-width': 7, 'text-letter-spacing': 0.08,
+          // 섬 점(icon)이 있는 독도·울릉도는 이름을 점 아래에 둔다 (가운데에 두면 점이 글자 밑에 가려진다)
+          'text-anchor': ['case', ['has', 'icon'], 'top', 'center'],
+          'text-offset': ['case', ['has', 'icon'], ['literal', [0, 0.6]], ['literal', [0, 0]]],
           'symbol-sort-key': ['get', 'rank'],
         },
         paint: labelPaint(['match', ['get', 'cls'],

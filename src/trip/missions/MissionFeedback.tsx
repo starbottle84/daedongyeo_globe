@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 
 interface MissionFeedbackProps {
   correct: boolean;
@@ -12,6 +12,12 @@ interface MissionFeedbackProps {
 
 export function MissionFeedback({ correct, detail, explain, stars, onNext }: MissionFeedbackProps) {
   const nextRef = useRef<HTMLButtonElement>(null);
+  // '다음' 버튼으로 초점이 오면 화면 읽기 프로그램은 버튼 이름만 읽으므로, 결과 문장들을 버튼 설명으로 묶어 함께 읽게 한다
+  const id = useId();
+  const titleId = `${id}-title`;
+  const detailId = `${id}-detail`;
+  const explainId = `${id}-explain`;
+  const describedBy = [titleId, detail && detailId, explain && explainId].filter(Boolean).join(' ');
 
   // 결과가 나오면 '다음' 버튼이 패널 아래에 숨지 않게 보이는 곳까지 스크롤하고 초점을 옮긴다
   useEffect(() => {
@@ -22,16 +28,16 @@ export function MissionFeedback({ correct, detail, explain, stars, onNext }: Mis
 
   return (
     <div className={`feedback ${correct ? 'feedback--good' : 'feedback--again'}`} role="status">
-      <p className="feedback__title">{correct ? '잘했어요!' : '괜찮아요, 같이 알아봐요'}</p>
+      <p id={titleId} className="feedback__title">{correct ? '잘했어요!' : '괜찮아요, 같이 알아봐요'}</p>
       {stars !== undefined && (
         <p className="feedback__stars" aria-label={`별 ${stars}개`}>
           {'★'.repeat(stars)}
           {'☆'.repeat(3 - stars)}
         </p>
       )}
-      {detail && <p>{detail}</p>}
-      {explain && <p>{explain}</p>}
-      <button ref={nextRef} type="button" className="big-button" onClick={onNext}>
+      {detail && <p id={detailId}>{detail}</p>}
+      {explain && <p id={explainId}>{explain}</p>}
+      <button ref={nextRef} type="button" className="big-button" aria-describedby={describedBy} onClick={onNext}>
         다음
       </button>
     </div>

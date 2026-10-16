@@ -32,8 +32,12 @@ export function TripPanel({ place, tier, globe, nextPlace, onExit }: TripPanelPr
 
   // 단계나 미션이 바뀌면 패널로 초점을 옮겨 화면 읽기 프로그램이 새 내용부터 읽게 한다.
   // (미션 결과가 나오면 나중에 나타나는 MissionFeedback이 '다음' 버튼으로 초점을 옮긴다)
+  // 같은 패널을 계속 쓰므로, 앞 미션 결과에서 '다음' 버튼까지 내려 둔 스크롤을 맨 위로 되돌려 제목부터 보이게 한다.
   useEffect(() => {
-    panelRef.current?.focus({ preventScroll: true });
+    const panel = panelRef.current;
+    if (!panel) return;
+    panel.scrollTop = 0;
+    panel.focus({ preventScroll: true });
   }, [state.step, state.missionIndex]);
 
   const next = () => dispatch({ type: 'next' });

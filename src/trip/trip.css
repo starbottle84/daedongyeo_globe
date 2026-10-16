@@ -6,6 +6,8 @@
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
   max-height: 55vh; overflow-y: auto; box-sizing: border-box;
 }
+/* 결과의 '다음' 버튼까지 스크롤할 때 카드 아래쪽 여백(18px)도 함께 보이게 한다 */
+.trip-panel { scroll-padding-bottom: 18px; }
 /* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 */
 .trip-panel:focus { outline: none; }
 .trip-panel__header {

@@ -139,9 +139,16 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     markers.clear();
   };
 
+  // 처음 화면에서 지구본/평면 전환 버튼으로 평면 지도로 바꿔 두었으면 여행 내내 평면으로 남는데,
+  // 화면 맞추기 계산(zoomToFit)은 지구본 기준이라 지점이 화면 밖이나 카드 밑으로 간다 → 움직이기 전에 지구본으로 되돌린다.
+  const ensureGlobe = () => {
+    if (map.getProjection()?.type !== 'globe') map.setProjection({ type: 'globe' });
+  };
+
   return {
     // 방향 미션은 북쪽이 위라고 보고 내므로, 날아갈 때 돌리거나 기울인 화면을 바로 세운다(bearing·pitch 0)
     flyTo(center, zoom) {
+      ensureGlobe();
       map.flyTo({
         center,
         zoom,
@@ -155,6 +162,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
 
     fitTo(points) {
       if (points.length === 0) return;
+      ensureGlobe();
       const { center, spread } = sphericalSpread(points);
       map.flyTo({
         center,
@@ -174,6 +182,11 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       // 마지막으로 받아 준 누르기 (시각·화면 위치)
       let last: { time: number; x: number; y: number } | null = null;
       const handler = (e: maplibregl.MapMouseEvent) => {
+        // 영역 데이터를 다 받기 전에는 누르기를 받지 않는다.
+        // 여행 손잡이는 스타일이 준비되자마자 건네지는데 영역 파일(areas.geojson, 약 868 KB)은 그 뒤에도 내려받는 중일 수 있고,
+        // 그때 누르면 영역을 못 찾아 맞게 누른 것도 틀렸다고 판정된다.
+        // (isSourceLoaded는 그런 소스가 없으면 오류 이벤트를 내므로, 소스가 있는지부터 본다)
+        if (!map.getSource('areas') || !map.isSourceLoaded('areas')) return;
         // 마우스 두 번 누르기는 'click'이 두 번 와서 한 번에 두 번 답한 셈이 되므로, 두 번째부터는 무시한다
         if (((e.originalEvent as MouseEvent | undefined)?.detail ?? 0) > 1) return;
         // 지구본 바깥(우주)을 누르면 MapLibre가 가장자리 지점으로 바꿔 준다.

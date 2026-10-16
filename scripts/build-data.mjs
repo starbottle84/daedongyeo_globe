@@ -20,7 +20,8 @@ const write = (name, features) => {
 
 // ---------- 보정 데이터 (data/overrides.json) ----------
 // 적용 순서: names(통째로 바꿀 이름, 끝말 규칙보다 우선) → suffixRules(끝말 규칙, 앞 띄어쓰기 포함)
-// → minz(키는 바뀐 뒤의 이름) → add(이미 올바른 이름이라 보정을 거치지 않고 덧붙임)
+// → minz(키는 바뀐 뒤의 이름) → props(키는 바뀐 뒤의 이름, 적은 속성만 덮어씀. 예: 산 높이 elev)
+// → add(이미 올바른 이름이라 보정을 거치지 않고 덧붙임)
 function fixName(ko) {
   if (OVERRIDES.names[ko]) return OVERRIDES.names[ko];
   for (const [from, to] of OVERRIDES.suffixRules) {
@@ -31,10 +32,12 @@ function fixName(ko) {
 
 function applyOverrides(name, features) {
   const minz = OVERRIDES.minz[name] ?? {};
+  const props = OVERRIDES.props?.[name] ?? {};
   for (const f of features) {
     const p = f.properties;
     if (typeof p.ko === 'string' && p.ko) p.ko = fixName(p.ko);
     if (Object.hasOwn(minz, p.ko)) p.minz = minz[p.ko];
+    if (Object.hasOwn(props, p.ko)) Object.assign(p, props[p.ko]);
   }
   const added = (OVERRIDES.add[name] ?? []).map((a) => point(a.lng, a.lat, a.properties));
   return [...features, ...added];
