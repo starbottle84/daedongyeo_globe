@@ -5,13 +5,21 @@
   --card-sub: #5a6478;
 }
 html, body, #root { margin: 0; height: 100%; }
+/* 화면 끝에서 당겨도 새로고침(당겨서 새로고침)·튕김이 일어나지 않게 */
+html, body { overscroll-behavior: none; }
 body {
   background: var(--space);
   font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
 }
 .app { position: relative; height: 100%; overflow: hidden; }
-/* 유아 여행 중에는 확대·지구본 버튼도 숨긴다 — 손 조작 잠금과 같이 */
-.app--locked .maplibregl-ctrl-top-right { display: none; }
+/* 여행 중에는 왼쪽 위 안내 카드를 숨긴다 — 휴대폰에서 누를 곳·참고 핀을 가리지 않게 */
+.app--trip .info-card { display: none; }
+/* 여행 중에는 오른쪽 위 버튼(확대·나침반·지구본/평면 전환)을 모두 숨긴다 — 평면 지도로 바뀌면 화면 맞추기가 틀어진다 */
+.app--trip .maplibregl-ctrl-top-right { display: none; }
+/* 유아 여행은 손 조작을 잠그는데, 그러면 MapLibre가 touch-action: none을 풀어서
+   두 손가락으로 벌리면 페이지 전체가 커지고 아래로 쓸면 새로고침된다 — 직접 다시 막는다 */
+.app--locked .maplibregl-canvas-container,
+.app--locked .maplibregl-canvas { touch-action: none; }
 /* MapLibre CSS의 .maplibregl-map { position: relative }가 나중에 불려 덮어쓰므로 선택자를 한 단계 구체적으로 쓴다 */
 .app .globe {
   position: absolute; inset: 0;

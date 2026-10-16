@@ -38,7 +38,7 @@ export function App() {
   const nextPlace = trip ? (PLACES[PLACES.indexOf(trip.place) + 1] ?? null) : null;
 
   return (
-    <div className={trip?.tier === 'preschool' ? 'app app--locked' : 'app'}>
+    <div className={!trip ? 'app' : trip.tier === 'preschool' ? 'app app--trip app--locked' : 'app app--trip'}>
       <GlobeView view={view} onZoomChange={setZoom} onSatelliteError={handleSatelliteError} onReady={setGlobe} />
       <InfoCard zoom={zoom} view={view} onViewChange={changeView} />
       <div className="bottom-stack">
