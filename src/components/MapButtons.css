@@ -1,6 +1,7 @@
 /* 오른쪽 위 둥근 지도 버튼 (기준 시안 73–85줄) */
 /* 버튼 묶음 높이 = 위성 52 + 사이 12 + 확대 캡슐(52 + 구분선 1.5 + 52) + 사이 12 + 투영 52.
-   세로 화면에서 안내 카드가 붙을 때 카드 묶음 높이 상한(global.css)이 이 값을 쓴다 — 아래 버튼 크기를 바꾸면 같이 고친다 */
+   세로 화면에서 안내 카드가 붙을 때 카드 묶음 높이 상한(global.css)이 이 값을 쓴다 — 아래 버튼 크기를 바꾸면 같이 고친다.
+   (북쪽 버튼은 넣지 않는다 — 안내 카드가 있을 때는 아래로 쌓지 않고 옆줄로 간다) */
 :root{--tools-h:233.5px}
 .tools{position:absolute;z-index:2;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));display:flex;flex-direction:column;align-items:center;gap:12px}
 /* 시안보다 한 단계 밝은 면 + 밝은 금테 (남색 하늘과 구분) */
@@ -23,6 +24,9 @@
 @media (max-height: 767px) {
   .tools > .tool--north { position: absolute; right: 64px; bottom: 0; }
 }
+/* 안내 카드(새 버전·위성 오류)가 붙으면 카드 묶음이 버튼 줄 바로 아래까지 올라오므로(global.css 높이 상한),
+   높이와 상관없이 북쪽 버튼을 지구본 버튼 왼쪽 같은 줄에 둔다 — 아래로 쌓으면 카드에 가려 눌리지 않는다 */
+.app:has(.bottom-stack :is(.update-banner, .satellite-notice)) .tools > .tool--north { position: absolute; right: 64px; bottom: 0; }
 
 /* 위성/그림 바꾸기: 아이콘 아래에 작은 글자 */
 .tool--labeled{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { TIER_LABELS, type Place, type Tier, type View } from '../content/types';
 import type { GlobeHandle } from '../globe/globeHandle';
 import { Icon } from '../ui/Icon';
+import { useMoreBelow } from '../ui/useMoreBelow';
 import { CharacterBubble } from './CharacterBubble';
 import { MissionView } from './missions/MissionView';
 import { StampCard } from './StampCard';
@@ -27,7 +28,6 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
       : createTripState(count),
   );
   const [showNote, setShowNote] = useState(false);
-  const [moreBelow, setMoreBelow] = useState(false);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
   const panelRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -45,23 +45,8 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
     return () => globe.restore();
   }, [globe, place, tier, openedAtMapMission]);
 
-  // 본문이 넘쳐 아래에 내용(주 버튼 등)이 남아 있으면 아래쪽을 옅게 흐리고 작은 아래 화살표를 둬 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다).
-  // 카드 높이(창 크기)나 내용(단계·결과·메모·늦게 들어온 글꼴)이 바뀔 때도 다시 잰다
-  useEffect(() => {
-    const body = bodyRef.current;
-    const content = contentRef.current;
-    if (!body || !content) return;
-    const update = () => setMoreBelow(body.scrollHeight - body.scrollTop - body.clientHeight > 1);
-    update();
-    body.addEventListener('scroll', update, { passive: true });
-    const observer = new ResizeObserver(update);
-    observer.observe(body);
-    observer.observe(content);
-    return () => {
-      body.removeEventListener('scroll', update);
-      observer.disconnect();
-    };
-  }, []);
+  // 본문이 넘쳐 아래에 내용(주 버튼 등)이 남아 있으면 아래쪽을 옅게 흐리고 작은 아래 화살표를 둬 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다)
+  const moreBelow = useMoreBelow(bodyRef, contentRef);
 
   // 부모님 메모를 펼치면 본문 아래쪽에 생기므로 메모가 보이는 곳까지 스크롤한다
   useEffect(() => {

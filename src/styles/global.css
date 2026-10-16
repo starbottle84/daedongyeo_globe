@@ -76,6 +76,7 @@ body {
 /* 세로 화면에서는 안내 카드가 붙어도 카드 묶음이 지도 버튼 줄 위로 올라오지 않게 묶음 높이에 상한을 둔다.
    (높이 780·844 화면도 위성 안내와 새 버전 안내가 같이 뜨면 올라오므로 높이와 상관없이 건다)
    시작 카드 종이가 그만큼 줄어 종이 안에서 스크롤한다. 상한 = 화면 높이 - 위 안전여백 - 지도 버튼 묶음 높이(--tools-h, MapButtons.css) - 틈 12 - 아래 안전여백.
+   (지도를 돌리면 생기는 북쪽 버튼은 안내 카드가 있을 때 옆줄로 가므로 묶음 높이에 넣지 않는다 — MapButtons.css)
    (가로 휴대폰은 버튼 줄 아래 남는 높이가 100px 남짓이라 두지 않는다 — 위 z-index로 카드가 버튼 위에 그려진다) */
 @media (orientation: portrait) {
   .app:not(.app--trip) .bottom-stack:has(.update-banner, .satellite-notice) {

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { STAGE_NAMES, TIER_LABELS, TIERS, type Place, type Tier } from '../content/types';
 import { Dongle } from '../ui/Dongle';
 import { PlaceArt } from '../ui/PlaceArt';
+import { useMoreBelow } from '../ui/useMoreBelow';
 import './trip.css';
 
 interface TripLauncherProps {
@@ -17,26 +18,9 @@ export function TripLauncher({ places, tier, onTierChange, onStart }: TripLaunch
   const stages = [...new Set(places.map((p) => p.stage))].sort((a, b) => a - b);
   const pageRef = useRef<HTMLDivElement>(null);
   const spreadRef = useRef<HTMLDivElement>(null);
-  const [moreBelow, setMoreBelow] = useState(false);
-
   // 종이가 넘쳐(낮은 화면, 안내 카드가 붙어 카드 묶음 높이 상한이 걸린 때 등) 아래에 표가 남아 있으면 여행 카드처럼
-  // 아래쪽을 옅게 흐리고 작은 아래 화살표를 둬 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다).
-  // 종이 높이(창 크기·안내 카드)나 내용(늦게 들어온 글꼴)이 바뀔 때도 다시 잰다
-  useEffect(() => {
-    const page = pageRef.current;
-    const spread = spreadRef.current;
-    if (!page || !spread) return;
-    const update = () => setMoreBelow(page.scrollHeight - page.scrollTop - page.clientHeight > 1);
-    update();
-    page.addEventListener('scroll', update, { passive: true });
-    const observer = new ResizeObserver(update);
-    observer.observe(page);
-    observer.observe(spread);
-    return () => {
-      page.removeEventListener('scroll', update);
-      observer.disconnect();
-    };
-  }, []);
+  // 아래쪽을 옅게 흐리고 작은 아래 화살표를 둬 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다)
+  const moreBelow = useMoreBelow(pageRef, spreadRef);
 
   return (
     <section className="passport launcher" aria-label="여행 고르기">
