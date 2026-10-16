@@ -28,3 +28,10 @@
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+/* 움직임 줄이기 안전망: 모든 움직임을 끈다. 등장 움직임의 채우기(both)도 없어지므로 도장 자국·색종이 등은 최종 모습으로 보인다.
+   내려찍는 나무 도장과 빛줄기는 움직임 동안만 보이는 그림이라 아예 숨긴다 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .stamp-tool, .impact { display: none; }
+}

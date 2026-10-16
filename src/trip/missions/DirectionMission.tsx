@@ -60,7 +60,9 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
           })}
         </div>
       )}
-      <p className="mission__hint" role="status" aria-live="polite">
+      {/* 다시 고르라는 말은 화면 읽기에만 들려준다 — 화면에서는 흐려진 오답 버튼(.is-wrong)이 신호다.
+          보이게 두면 한 줄이 붙어 압축 카드가 390×844에서 40%를 넘는다 */}
+      <p className="mission__hint visually-hidden" role="status" aria-live="polite">
         {message}
       </p>
       {outcome && (

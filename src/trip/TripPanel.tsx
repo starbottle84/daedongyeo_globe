@@ -27,16 +27,46 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
       : createTripState(count),
   );
   const [showNote, setShowNote] = useState(false);
+  const [moreBelow, setMoreBelow] = useState(false);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
   const panelRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const noteRef = useRef<HTMLParagraphElement>(null);
+  // 개발용 화면 확인 주소로 지도 미션(찾아 누르기·핀 꽂기·방향)을 바로 열 때는 그 미션이 카메라를 맞춘다.
+  // (부모 효과가 자식보다 나중에 돌아서, 장소로 날아가면 미션이 맞춘 화면을 덮는다. 고르기 미션은 카메라를 옮기지 않으니 장소로 날아간다)
+  const openedAtMapMission =
+    initialStep?.step === 'mission' && missions[Math.min(initialStep.missionIndex, missions.length - 1)].type !== 'choice';
 
   // 출발: 지구본이 목적지로 날아간다. 유아는 길을 잃지 않게 손 조작을 잠근다(누르기는 된다).
   useEffect(() => {
-    globe.flyTo(place.center, place.zoom);
+    if (!openedAtMapMission) globe.flyTo(place.center, place.zoom);
     globe.setInteractive(tier !== 'preschool');
     return () => globe.restore();
-  }, [globe, place, tier]);
+  }, [globe, place, tier, openedAtMapMission]);
+
+  // 본문이 넘쳐 아래에 내용(주 버튼 등)이 남아 있으면 아래쪽을 옅게 흐려 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다).
+  // 카드 높이(창 크기)나 내용(단계·결과·메모·늦게 들어온 글꼴)이 바뀔 때도 다시 잰다
+  useEffect(() => {
+    const body = bodyRef.current;
+    const content = contentRef.current;
+    if (!body || !content) return;
+    const update = () => setMoreBelow(body.scrollHeight - body.scrollTop - body.clientHeight > 1);
+    update();
+    body.addEventListener('scroll', update, { passive: true });
+    const observer = new ResizeObserver(update);
+    observer.observe(body);
+    observer.observe(content);
+    return () => {
+      body.removeEventListener('scroll', update);
+      observer.disconnect();
+    };
+  }, []);
+
+  // 부모님 메모를 펼치면 본문 아래쪽에 생기므로 메모가 보이는 곳까지 스크롤한다
+  useEffect(() => {
+    if (showNote) noteRef.current?.scrollIntoView({ block: 'nearest' });
+  }, [showNote]);
 
   // 단계나 미션이 바뀌면 패널로 초점을 옮겨 화면 읽기 프로그램이 새 내용부터 읽게 한다.
   // (미션 결과가 나오면 나중에 나타나는 MissionFeedback이 '다음' 버튼으로 초점을 옮긴다)
@@ -62,7 +92,7 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
     <section
       ref={panelRef}
       tabIndex={-1}
-      className={`passport trip-panel trip-panel--${tier}${compact ? ' trip-panel--compact' : ''}`}
+      className={`passport trip-panel trip-panel--${tier}${mission ? ' trip-panel--mission' : ''}${compact ? ' trip-panel--compact' : ''}`}
       aria-label={`${place.name} 여행`}
     >
       <div className="page page--ticket">
@@ -77,69 +107,72 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
         <div className="tear" aria-hidden="true" />
 
         {/* 넘치면 이 본문만 종이 안에서 스크롤한다 — 가죽 바느질 점선·머리말·닫기 버튼·절취선 홈은 제자리에 */}
-        <div className="pass-body" ref={bodyRef}>
-          {state.step === 'depart' && (
-            <>
-              <CharacterBubble text={place.intro[tier]} />
-              {readAloud}
-              <button type="button" className="btn" onClick={next}>
-                출발! <Icon name="plane" className="btn__plane" />
-              </button>
-            </>
-          )}
+        <div className={`pass-body${moreBelow ? ' pass-body--more' : ''}`} ref={bodyRef}>
+          {/* 내용 높이가 바뀌는 것을 재기 위한 묶음 (위 '아래에 내용이 남았는지' 참고) */}
+          <div ref={contentRef}>
+            {state.step === 'depart' && (
+              <>
+                <CharacterBubble text={place.intro[tier]} />
+                {readAloud}
+                <button type="button" className="btn" onClick={next}>
+                  출발! <Icon name="plane" className="btn__plane" />
+                </button>
+              </>
+            )}
 
-          {state.step === 'explore' && (
-            <>
-              <CharacterBubble text={place.story[tier]} />
-              {readAloud}
-              <button type="button" className="btn" onClick={next}>미션 시작</button>
-            </>
-          )}
+            {state.step === 'explore' && (
+              <>
+                <CharacterBubble text={place.story[tier]} />
+                {readAloud}
+                <button type="button" className="btn" onClick={next}>미션 시작</button>
+              </>
+            )}
 
-          {mission && (
-            <>
-              <div className="progress">
-                <span className="progress__label">미션 {state.missionIndex + 1} / {missions.length}</span>
-                <span className="pips" aria-hidden="true">
-                  {missions.map((_, i) => (
-                    <i key={i} className={`${i <= state.missionIndex ? 'on' : ''}${i === state.missionIndex ? ' now' : ''}`} />
-                  ))}
-                </span>
+            {mission && (
+              <>
+                <div className="progress">
+                  <span className="progress__label">미션 {state.missionIndex + 1} / {missions.length}</span>
+                  <span className="pips" aria-hidden="true">
+                    {missions.map((_, i) => (
+                      <i key={i} className={`${i <= state.missionIndex ? 'on' : ''}${i === state.missionIndex ? ' now' : ''}`} />
+                    ))}
+                  </span>
+                </div>
+                <MissionView
+                  key={state.missionIndex}
+                  mission={mission}
+                  tier={tier}
+                  globe={globe}
+                  placeView={placeView}
+                  onDone={(result) => dispatch({ type: 'missionDone', result })}
+                />
+                {readAloud}
+              </>
+            )}
+
+            {state.step === 'stamp' && (
+              <StampCard place={place} stars={tier === 'upper' ? stars : undefined} nextPlace={nextPlace} onNext={next} />
+            )}
+
+            {state.step === 'talk' && (
+              <div className="talk">
+                <h3 className="talk__label">함께 이야기해요</h3>
+                <CharacterBubble text={place.familyTalk[tier]} />
+                <button
+                  type="button"
+                  className="link-button"
+                  aria-expanded={showNote}
+                  onClick={() => setShowNote((v) => !v)}
+                >
+                  부모님 메모 {showNote ? '닫기' : '보기'}
+                </button>
+                {showNote && <p ref={noteRef} className="talk__note ko">{place.parentNote}</p>}
+                <button type="button" className="btn" onClick={onExit}>
+                  여행 마치기
+                </button>
               </div>
-              <MissionView
-                key={state.missionIndex}
-                mission={mission}
-                tier={tier}
-                globe={globe}
-                placeView={placeView}
-                onDone={(result) => dispatch({ type: 'missionDone', result })}
-              />
-              {readAloud}
-            </>
-          )}
-
-          {state.step === 'stamp' && (
-            <StampCard place={place} stars={tier === 'upper' ? stars : undefined} nextPlace={nextPlace} onNext={next} />
-          )}
-
-          {state.step === 'talk' && (
-            <div className="talk">
-              <h3 className="talk__label">함께 이야기해요</h3>
-              <CharacterBubble text={place.familyTalk[tier]} />
-              <button
-                type="button"
-                className="link-button"
-                aria-expanded={showNote}
-                onClick={() => setShowNote((v) => !v)}
-              >
-                부모님 메모 {showNote ? '닫기' : '보기'}
-              </button>
-              {showNote && <p className="talk__note ko">{place.parentNote}</p>}
-              <button type="button" className="btn" onClick={onExit}>
-                여행 마치기
-              </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </section>

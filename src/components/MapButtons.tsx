@@ -50,7 +50,7 @@ export function MapButtons({ globe, view, onViewChange }: MapButtonsProps) {
         <button type="button" aria-label="크게 보기" onClick={() => globe.zoomBy(1)}>
           <Icon name="plus" />
         </button>
-        <hr />
+        <hr aria-hidden="true" />
         <button type="button" aria-label="작게 보기" onClick={() => globe.zoomBy(-1)}>
           <Icon name="minus" />
         </button>
@@ -65,7 +65,7 @@ export function MapButtons({ globe, view, onViewChange }: MapButtonsProps) {
         <Icon name="globe" />
       </button>
       {tilted && (
-        <button type="button" className="tool" aria-label="북쪽을 위로" onClick={resetNorth}>
+        <button type="button" className="tool tool--north" aria-label="북쪽을 위로" onClick={resetNorth}>
           <Icon name="north" />
         </button>
       )}

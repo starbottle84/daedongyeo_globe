@@ -22,11 +22,12 @@ export interface GlobeHandle {
   clearMarkers(): void;
   /** 여행이 끝나면 지구본을 평소 상태로 되돌린다 (여백·손 조작·표시·지명) */
   restore(): void;
+  /** 여행이 아닐 때: 지구본 전체가 시작 카드 위·로고 아래 빈 곳 가운데에 보이게 여백과 확대 단계를 맞춘다 (가운데 지점은 그대로) */
+  frameHome(animate: boolean): void;
   /** 확대(+)·축소(−) 한 단계 */
   zoomBy(delta: number): void;
   /** 북쪽을 위로, 기울기 0으로 */
   resetNorth(): void;
-  getProjection(): 'globe' | 'mercator';
   setProjection(type: 'globe' | 'mercator'): void;
   /** 투영이 바뀔 때 알려 준다 (버튼, 여행 끝 restore, 그림/위성 바꾸기 모두). 듣기 시작할 때 지금 값도 한 번 알려 준다 */
   onProjectionChange(listener: (type: 'globe' | 'mercator') => void): () => void;
@@ -45,6 +46,10 @@ const FIT_MARGIN_PX = 68;
 /** MapLibre가 카메라 가운데로 허용하는 최대 위도 */
 const MAX_CENTER_LAT = 85.051129;
 const MAX_FIT_ZOOM = 7;
+/** 첫 화면 지구본: 로고 아래 틈(px), 오른쪽 위 지도 버튼과 겹치지 않게 양옆에 남길 폭(px), 넓은 화면에서도 넘지 않을 확대 단계 */
+const HOME_GAP_PX = 12;
+const HOME_SIDE_PX = 60;
+const HOME_MAX_ZOOM = 1.6;
 const NO_PADDING = { top: 0, right: 0, bottom: 0, left: 0 };
 
 // 기기에서 '움직임 줄이기'를 켰으면 날아가지 않고 바로 옮긴다 (essential: true는 이 설정을 무시하므로 직접 본다)
@@ -258,13 +263,33 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       }
     },
 
+    frameHome(animate) {
+      const container = map.getContainer();
+      const logo = document.querySelector('.logo');
+      const top = logo ? Math.max(0, logo.getBoundingClientRect().bottom - container.getBoundingClientRect().top) + HOME_GAP_PX : 0;
+      const padding = { top, right: 0, bottom: panelPx(), left: 0 };
+      // 보이는 영역(로고 아래 ~ 카드 위)에 지구본 지름이 들어가는 확대 단계 — 반지름 계산은 zoomToFit과 같다.
+      // 다만 MapLibre는 가운데 지점(지구본 앞면)을 화면 축척에 맞추고 구의 중심은 반지름만큼 더 뒤에 두어서, 화면에 보이는 둘레는
+      // 원근 때문에 r = R·D / √(D² + 2DR)로 작아진다(D: 카메라~가운데 거리). 보이는 반지름 r이 영역에 맞도록 R = (r² + r·√(r² + D²)) / D로 푼다.
+      // 평면 지도일 때는 지구본 반지름 계산이 맞지 않으므로 여백만 맞춘다
+      let zoom = map.getZoom();
+      if (projectionType() === 'globe') {
+        const r = Math.max(Math.min(container.clientHeight - padding.top - padding.bottom, container.clientWidth - HOME_SIDE_PX * 2), 80) / 2;
+        const d = container.clientHeight / 2 / Math.tan(rad(map.getVerticalFieldOfView()) / 2);
+        const radiusPx = (r * r + r * Math.sqrt(r * r + d * d)) / d;
+        const fit = Math.log2((radiusPx * 2 * Math.PI * Math.cos(rad(map.getCenter().lat))) / 512);
+        zoom = Math.min(HOME_MAX_ZOOM, Math.max(map.getMinZoom(), fit));
+      }
+      if (animate) map.easeTo({ padding, zoom, duration: flightMs(800) });
+      else map.jumpTo({ padding, zoom });
+    },
+
     zoomBy(delta) {
       map.easeTo({ zoom: map.getZoom() + delta, duration: flightMs(300) });
     },
     resetNorth() {
       map.easeTo({ bearing: 0, pitch: 0, duration: flightMs(400) });
     },
-    getProjection: projectionType,
     setProjection(type) {
       map.setProjection({ type });
     },

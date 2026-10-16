@@ -20,6 +20,7 @@ export function readShotParams(): ShotParams | null {
     placeId,
     tier: tier as Tier,
     step: m[1] as ShotParams['step'],
-    missionIndex: m[2] ? Number(m[2]) - 1 : 0,
+    // mission0처럼 0을 넣어도 -1번 미션이 되지 않게 막는다
+    missionIndex: m[2] ? Math.max(0, Number(m[2]) - 1) : 0,
   };
 }

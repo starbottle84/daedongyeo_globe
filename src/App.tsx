@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { GlobeView } from './globe/GlobeView';
 import type { GlobeHandle } from './globe/globeHandle';
 import { loadView, saveView } from './globe/viewStorage';
@@ -39,6 +39,9 @@ export function App() {
   const [trip, setTrip] = useState<Trip | null>(initialTrip);
   const [tier, setTier] = useState<Tier>('preschool');
   const [applyUpdate, setApplyUpdate] = useState<(() => void) | null>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  // 여행을 한 번이라도 했는지 — 여행이 끝나 시작 카드로 돌아올 때만 지구본을 부드럽게 옮긴다
+  const wasTrip = useRef(false);
 
   const changeView = useCallback((next: MapView) => {
     setView(next);
@@ -49,6 +52,30 @@ export function App() {
 
   useEffect(() => onUpdateReady((apply) => setApplyUpdate(() => apply)), []);
 
+  // 여행이 아닐 때는 지구본 전체가 시작 카드 위·로고 아래 빈 곳 가운데에 보이게 맞춘다.
+  // 창 크기가 바뀌거나, 아래 카드 묶음 높이가 바뀌면(안내 카드가 붙을 때 등) 다시 맞춘다. 여행 중에는 여행 카드가 카메라를 맞춘다.
+  useEffect(() => {
+    const stack = stackRef.current;
+    if (trip) wasTrip.current = true;
+    if (!globe || trip || !stack) return;
+    globe.frameHome(wasTrip.current);
+    wasTrip.current = false;
+    const reframe = () => globe.frameHome(false);
+    // 지켜보기를 시작하면 지금 크기도 한 번 알려 오므로, 높이가 실제로 바뀔 때만 다시 맞춘다 (방금 시작한 부드러운 이동을 끊지 않게)
+    let height = stack.offsetHeight;
+    const observer = new ResizeObserver(() => {
+      if (stack.offsetHeight === height) return;
+      height = stack.offsetHeight;
+      reframe();
+    });
+    observer.observe(stack);
+    window.addEventListener('resize', reframe);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', reframe);
+    };
+  }, [globe, trip]);
+
   const nextPlace = trip ? (PLACES[PLACES.indexOf(trip.place) + 1] ?? null) : null;
 
   return (
@@ -58,7 +85,7 @@ export function App() {
       <GlobeView view={view} onSatelliteError={handleSatelliteError} onReady={setGlobe} />
       <LogoBadge />
       {globe && !trip && <MapButtons globe={globe} view={view} onViewChange={changeView} />}
-      <div className="bottom-stack">
+      <div className="bottom-stack" ref={stackRef}>
         {view === 'satellite' && satelliteFailed && <SatelliteNotice onUseMap={() => changeView('map')} />}
         {applyUpdate && !trip && <UpdateBanner onReload={applyUpdate} />}
         {globe &&

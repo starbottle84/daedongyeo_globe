@@ -23,8 +23,8 @@ export default defineConfig({
         short_name: '지구본',
         description: '부모와 함께 지구본을 여행하며 지리를 익히는 어린이 교육 놀이',
         lang: 'ko',
-        theme_color: '#0b1630',
-        background_color: '#0b1630',
+        theme_color: '#1A2C49',
+        background_color: '#1A2C49',
         display: 'standalone',
         categories: ['education', 'kids'],
         icons: [

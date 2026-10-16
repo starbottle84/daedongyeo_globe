@@ -9,7 +9,7 @@ export function SatelliteNotice({ onUseMap }: SatelliteNoticeProps) {
   return (
     <div className="satellite-notice" role="status">
       <p>위성 사진을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</p>
-      <button type="button" onClick={onUseMap}>그림 지도로 보기</button>
+      <button type="button" className="btn btn--small" onClick={onUseMap}>그림 지도로 보기</button>
     </div>
   );
 }

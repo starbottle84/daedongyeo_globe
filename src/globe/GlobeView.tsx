@@ -39,8 +39,11 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
       maxZoom: 10,
       // 한글은 서버 글꼴 대신 기기에 깔린 한글 글꼴로 그린다
       localIdeographFontFamily: "'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif",
-      attributionControl: { customAttribution: 'Natural Earth' },
+      // 지도 출처는 오른쪽 아래에 두면 시작 카드 모서리에 겹치므로 왼쪽 위(로고 아래)에 단다 — 모양은 global.css
+      attributionControl: false,
+      locale: { 'AttributionControl.ToggleAttribution': '지도 출처 보기' },
     });
+    map.addControl(new maplibregl.AttributionControl({ customAttribution: 'Natural Earth' }), 'top-left');
 
     map.on('styleimagemissing', (e) => {
       const make = ICONS[e.id];

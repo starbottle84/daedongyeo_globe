@@ -1,11 +1,23 @@
 /* ───────── 여행 카드: 보딩 패스 (가죽+종이·머리말·절취선은 ui.css의 .passport·.page--ticket) ───────── */
 /* 넘치면 가죽 표지가 아니라 머리말·절취선 아래 본문(.pass-body)만 종이 안에서 스크롤한다
    — 바느질 점선·머리말·닫기 버튼이 제자리에 있고, 절취선이 움직이지 않으니 반원 홈(--tear)도 어긋나지 않는다 */
-.trip-panel { max-height: 62vh; display: flex; flex-direction: column; box-sizing: border-box; }
+/* 높이 상한: dvh(iOS 주소창이 보이고 숨는 것까지 반영)를 쓰고, 모르는 브라우저를 위해 vh를 앞에 둔다 */
+.trip-panel { max-height: 62vh; max-height: 62dvh; display: flex; flex-direction: column; box-sizing: border-box; }
 .trip-panel > .page { display: flex; flex-direction: column; min-height: 0; }
+/* 종이 패딩은 --pad 하나로 계산한다 — 스크롤 본문의 음수 여백, 절취선 길이, 반원 홈 자리가 함께 따라온다 (작은 화면은 --pad만 줄인다) */
+.trip-panel .page { --pad: 16px; padding: var(--pad); }
+.trip-panel .tear { margin: 12px calc(-1 * var(--pad)); }
+/* 반원 홈 = 위 패딩 + 머리말 48 + 절취선 위 여백 12 + 점선 굵기 절반 1.5 */
+.trip-panel .page--ticket { --tear: calc(var(--pad) + 61.5px); }
 /* 음수 여백만큼 패딩을 둬 내용 자리는 그대로 두고, 금박 버튼의 아래 턱 그림자·남색 초점 테두리가 스크롤 상자에 잘리지 않게 한다.
    scroll-padding: 결과의 '다음' 버튼까지 스크롤할 때 버튼 아래 턱과 종이 아래 여백이 함께 보이게 */
-.pass-body { min-height: 0; overflow-y: auto; scroll-padding-bottom: 18px; margin: -2px -16px -16px; padding: 2px 16px 16px; }
+.pass-body { min-height: 0; overflow-y: auto; scroll-padding-bottom: 18px;
+  margin: -2px calc(-1 * var(--pad)) calc(-1 * var(--pad)); padding: 2px var(--pad) var(--pad); }
+/* 본문이 넘쳐 아래에 내용(주 버튼 등)이 남았을 때: 아래쪽을 옅게 흐려 스크롤할 수 있음을 알린다 (끝까지 내리면 TripPanel이 뺀다) */
+.pass-body--more {
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent);
+          mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent);
+}
 /* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 */
 .trip-panel:focus { outline: none; }
 /* 앱 바탕에는 시안의 button 공통 규칙(손가락 모양)이 없어서 여기서 더한다 */
@@ -31,11 +43,10 @@
 .ask__prompt{margin:0;font-family:var(--title);font-size:22px;line-height:1.35;color:var(--ink);text-wrap:balance}
 
 /* 압축 카드: 찾아 누르기·핀 꽂기·방향 미션은 지도를 넓게 보여야 한다 (390×844에서 30% 이하, 방향은 40% 이하) */
-.trip-panel--compact .page { padding: 12px 14px; }
-.trip-panel--compact .tear { margin: 8px -14px; }
-.trip-panel--compact .pass-body { margin: -2px -14px -12px; padding: 2px 14px 12px; }
-/* 반원 홈 = 위 여백 12 + 머리말 48 + 절취선 위 여백 8 + 점선 굵기 절반 1.5 */
-.trip-panel--compact .page--ticket { --tear: 69.5px; }
+.trip-panel--compact .page { --pad: 12px; }
+.trip-panel--compact .tear { margin: 8px calc(-1 * var(--pad)); }
+/* 반원 홈 = 위 패딩 + 머리말 48 + 절취선 위 여백 8 + 점선 굵기 절반 1.5 */
+.trip-panel--compact .page--ticket { --tear: calc(var(--pad) + 57.5px); }
 .trip-panel--compact .progress { margin-bottom: 6px; }
 .trip-panel--compact .note { margin-top: 6px; font-size: 15px; }
 
@@ -209,7 +220,8 @@
 /* 카드가 넓으면(화면 480px 이상) 말풍선이 한 줄에 들어가므로 줄바꿈을 뺀다 */
 @media (min-width: 480px) { .visa__br { display: none; } }
 .visa .btn { margin-top: 12px; }
-.next-slot { flex: none; margin-left: auto; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; border: 2px dashed rgba(169,126,46,.55); opacity: .55; filter: saturate(.4); }
+/* 다음 도장 자리는 말풍선 바로 옆에 둔다 (넓은 카드에서도 오른쪽 끝으로 밀려 말풍선과 떨어지지 않게) */
+.next-slot { flex: none; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; border: 2px dashed rgba(169,126,46,.55); opacity: .55; filter: saturate(.4); }
 .next-slot svg { width: 100%; height: 100%; display: block; }
 /* 금색 '쾅!' 폭발 + 잉크 고리 (스티커북 시안)
    채우기(both)를 쓰지 않는다 — 첫 장면(투명도 .9)이 기다리는 동안 미리 보여 도장이 닿기 전에 고리가 떠 있게 된다.
@@ -217,8 +229,8 @@
 .stamp-zone::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 3px solid rgba(194,58,46,.35);
   opacity: 0; animation: inkRing .6s ease-out .74s; }
 @keyframes inkRing { 0% { opacity: .9; transform: scale(.7); } 100% { opacity: 0; transform: scale(1.2); } }
-/* '쾅!'은 도장 자리 오른쪽 위에 둔다(스티커북처럼 위로 내밀면 절취선에 잘린다). 끝 모습(stamp.png)에는 없으므로 사라진다 */
-.kwang { position: absolute; top: 2px; right: -54px; width: 70px; height: 56px; opacity: 0; pointer-events: none;
+/* '쾅!'은 도장 자리 오른쪽 아래에 둔다 — 위에 두면 쪽 번호(P.06)와 겹치고 꼭짓점이 절취선에 잘린다. 끝 모습(stamp.png)에는 없으므로 사라진다 */
+.kwang { position: absolute; bottom: 2px; right: -54px; width: 70px; height: 56px; opacity: 0; pointer-events: none;
   filter: drop-shadow(0 3px 4px rgba(35,57,91,.25)); animation: kwang .9s cubic-bezier(.2,1.8,.4,1) .72s both; }
 @keyframes kwang {
   0% { opacity: 1; transform: rotate(12deg) scale(0); }
@@ -275,7 +287,7 @@
 .ticket { border-radius: 14px; }
 /* 넘치면 가죽 표지가 아니라 크림 종이 안에서 스크롤한다 (가죽 패딩 7px×2를 뺀 높이)
    — 바느질 점선이 내용과 같이 움직이지 않고, 잘린 곳도 종이의 둥근 모서리 안에 든다 */
-.launcher .page { max-height: calc(60vh - 14px); overflow-y: auto; }
+.launcher .page { max-height: calc(60vh - 14px); max-height: calc(60dvh - 14px); overflow-y: auto; }
 /* 시안은 모든 요소가 border-box라서(*{box-sizing:border-box}) 시작 카드 안에서는 같게 맞춘다
    — 아니면 표 이름 칸(min-height+padding)·사진 칸(테두리)이 시안보다 커진다 */
 .launcher, .launcher *, .launcher *::before, .launcher *::after { box-sizing: border-box; }
@@ -313,8 +325,6 @@
   .mrz{display:block;margin:14px 0 0;font-family:'OCR A Std','Consolas','Courier New',monospace;font-size:12.5px;line-height:1.45;letter-spacing:.16em;color:rgba(35,57,91,.42);white-space:nowrap;overflow:hidden}
   /* 단계마다 .stage-block으로 감쌌으므로 첫 묶음의 제목만 위 여백을 없앤다 */
   .stage-block:first-child .stage{margin-top:0}
-  /* 시안은 46px이지만, 그 높이면 넓은 표(약 115px)에서 장면 그림의 위아래가 반 넘게 잘려서 높인다 */
-  .ticket__body{--perf:60px}
   .ticket__name{min-height:40px;font-size:19px}
   .ticket-slot{min-height:100px}
 }
@@ -333,4 +343,21 @@
   /* 도장은 자국만 보인다 (기준 시안 310–315줄의 도장 줄 + 잉크 고리) */
   .stamp-ink, .impact, .thud { animation: none !important; }
   .stamp-tool, .impact, .kwang, .stamp-zone::after { display: none; }
+}
+
+/* ───────── 작은 화면 (360×740, 375×667 등) ───────── */
+/* 높이 740인 화면도 걸리게 760px을 기준으로 한다. 종이 패딩(--pad)·글자·보기 높이를 줄이고,
+   미션 카드는 화면의 55% 안에 들게 높이 상한을 낮춘다(출발·둘러보기·도장·이야기는 62% 그대로). 넘치면 본문이 종이 안에서 스크롤한다 */
+@media (max-height: 760px) {
+  .trip-panel .page { --pad: 12px; }
+  .ask__prompt { font-size: 20px; }
+  .choice { min-height: 100px; }
+  .stamp-zone { width: 120px; height: 120px; }
+  /* 나무 도장도 도장 자리에 맞춰 줄인다 — 그대로면 눌리는 순간 손잡이가 절취선 위로 나가 잘린다 */
+  .stamp-tool { width: 106px; margin-left: -53px; bottom: 20px; }
+  .trip-panel--mission { max-height: 55vh; max-height: 55dvh; }
+}
+@media (max-width: 370px) {
+  .ticket__name { font-size: 16px; }
+  .tiers button { font-size: 17px; }
 }

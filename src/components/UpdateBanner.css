@@ -1,11 +1,12 @@
+/* 새 버전 안내: 여행 카드 종이(.page)와 같은 크림 종이 카드 */
 .update-banner {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 12px 16px; border-radius: 14px;
-  background: var(--card-bg); color: var(--card-text);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  padding: 12px 16px; border-radius: 18px;
+  background-color: var(--cream-100);
+  background-image: var(--fiber), linear-gradient(180deg, #FFFDF7, #F6EEDC);
+  box-shadow: 0 0 0 1px rgba(150, 110, 40, 0.25), 0 8px 18px rgba(3, 8, 20, 0.4);
+  color: var(--ink); font-family: var(--body);
 }
-.update-banner p { margin: 0; font-size: 17px; }
-.update-banner button {
-  flex: none; min-height: 44px; padding: 0 16px; border: 0; border-radius: 12px;
-  background: #2a6496; color: #ffffff; font: inherit; font-size: 17px; cursor: pointer;
-}
+.update-banner p { margin: 0; font-size: 17px; word-break: keep-all; }
+/* 버튼 모양은 ui.css의 금박 작은 판(.btn .btn--small) */
+.update-banner .btn { flex: none; cursor: pointer; }

@@ -1,11 +1,12 @@
+/* 위성 오류 안내: 여행 카드 종이(.page)와 같은 크림 종이 카드 */
 .satellite-notice {
   display: flex; align-items: center; gap: 12px;
-  padding: 12px 16px; border-radius: 14px;
-  background: var(--card-bg); color: var(--card-text);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  padding: 12px 16px; border-radius: 18px;
+  background-color: var(--cream-100);
+  background-image: var(--fiber), linear-gradient(180deg, #FFFDF7, #F6EEDC);
+  box-shadow: 0 0 0 1px rgba(150, 110, 40, 0.25), 0 8px 18px rgba(3, 8, 20, 0.4);
+  color: var(--ink); font-family: var(--body);
 }
-.satellite-notice p { margin: 0; font-size: 14px; }
-.satellite-notice button {
-  flex: none; min-height: 44px; padding: 8px 14px; border: 0; border-radius: 10px;
-  background: #2a6496; color: #ffffff; font: inherit; font-size: 14px; cursor: pointer;
-}
+.satellite-notice p { margin: 0; font-size: 17px; word-break: keep-all; }
+/* 버튼 모양은 ui.css의 금박 작은 판(.btn .btn--small) */
+.satellite-notice .btn { flex: none; cursor: pointer; }
