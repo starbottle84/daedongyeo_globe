@@ -17,5 +17,9 @@ export function MissionView(props: MissionProps<Mission>) {
       return <PinMission {...props} mission={mission} />;
     case 'direction':
       return <DirectionMission {...props} mission={mission} />;
+    default: {
+      const unreachable: never = mission;
+      return unreachable;
+    }
   }
 }
