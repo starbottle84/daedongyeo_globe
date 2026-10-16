@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { GlobeHandle } from '../globe/globeHandle';
 import type { MapView } from '../globe/themes';
 import { Icon } from '../ui/Icon';
@@ -14,23 +14,24 @@ interface MapButtonsProps {
 export function MapButtons({ globe, view, onViewChange }: MapButtonsProps) {
   const [projection, setProjection] = useState<'globe' | 'mercator'>('globe');
   const [tilted, setTilted] = useState(false);
+  const projectionButton = useRef<HTMLButtonElement>(null);
 
-  // 여행이 끝나면 restore()가 투영을 되돌린 뒤 이 버튼이 다시 그려진다.
-  // 효과(useEffect)는 여행 카드의 정리(restore)가 끝난 다음에 돌므로 여기서 읽으면 되돌린 값이다.
+  // 투영은 지도에서 직접 듣는다. 여행이 끝나 restore()가 되돌릴 때도, 그림/위성 지도를 바꿔
+  // 새 스타일에 적힌 투영(지구본)이 다시 들어갈 때도 버튼 이름이 실제 투영과 맞는다.
   useEffect(() => {
-    setProjection(globe.getProjection());
-    return globe.onCameraChange(({ bearing, pitch }) => setTilted(Math.abs(bearing) > 1 || pitch > 1));
+    const offProjection = globe.onProjectionChange(setProjection);
+    const offCamera = globe.onCameraChange(({ bearing, pitch }) => setTilted(Math.abs(bearing) > 1 || pitch > 1));
+    return () => {
+      offProjection();
+      offCamera();
+    };
   }, [globe]);
-  // 그림/위성 지도를 바꾸면 새 스타일에 적힌 투영(지구본)이 다시 들어가므로 실제 값을 다시 읽는다.
-  // (App에서 GlobeView가 이 버튼보다 앞에 있어서, 스타일을 바꾸는 GlobeView의 효과가 이 효과보다 먼저 돈다)
-  useEffect(() => {
-    setProjection(globe.getProjection());
-  }, [globe, view]);
 
-  const toggleProjection = () => {
-    const next = projection === 'globe' ? 'mercator' : 'globe';
-    globe.setProjection(next);
-    setProjection(next);
+  const toggleProjection = () => globe.setProjection(projection === 'globe' ? 'mercator' : 'globe');
+  // 북쪽 버튼은 바로 세우면 사라지므로, 키보드 초점이 문서 처음으로 떨어지지 않게 투영 버튼으로 옮긴다
+  const resetNorth = () => {
+    globe.resetNorth();
+    projectionButton.current?.focus();
   };
   const satellite = view === 'satellite';
 
@@ -39,11 +40,10 @@ export function MapButtons({ globe, view, onViewChange }: MapButtonsProps) {
       <button
         type="button"
         className="tool tool--labeled"
-        aria-pressed={satellite}
         aria-label={satellite ? '그림 지도로 보기' : '위성 지도로 보기'}
         onClick={() => onViewChange(satellite ? 'map' : 'satellite')}
       >
-        <Icon name={satellite ? 'globe' : 'sat'} />
+        <Icon name={satellite ? 'map' : 'sat'} />
         <span className="tool__caption" aria-hidden="true">{satellite ? '그림' : '위성'}</span>
       </button>
       <div className="zoom">
@@ -56,6 +56,7 @@ export function MapButtons({ globe, view, onViewChange }: MapButtonsProps) {
         </button>
       </div>
       <button
+        ref={projectionButton}
         type="button"
         className="tool"
         aria-label={projection === 'globe' ? '평면 지도로 보기' : '지구본으로 보기'}
@@ -64,7 +65,7 @@ export function MapButtons({ globe, view, onViewChange }: MapButtonsProps) {
         <Icon name="globe" />
       </button>
       {tilted && (
-        <button type="button" className="tool" aria-label="북쪽을 위로" onClick={() => globe.resetNorth()}>
+        <button type="button" className="tool" aria-label="북쪽을 위로" onClick={resetNorth}>
           <Icon name="north" />
         </button>
       )}

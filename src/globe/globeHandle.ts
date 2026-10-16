@@ -28,6 +28,8 @@ export interface GlobeHandle {
   resetNorth(): void;
   getProjection(): 'globe' | 'mercator';
   setProjection(type: 'globe' | 'mercator'): void;
+  /** 투영이 바뀔 때 알려 준다 (버튼, 여행 끝 restore, 그림/위성 바꾸기 모두). 듣기 시작할 때 지금 값도 한 번 알려 준다 */
+  onProjectionChange(listener: (type: 'globe' | 'mercator') => void): () => void;
   /** 돌림·기울기가 바뀔 때 알려 준다 (북쪽 버튼을 보일지 정하는 데 쓴다) */
   onCameraChange(listener: (cam: { bearing: number; pitch: number }) => void): () => void;
 }
@@ -157,6 +159,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     if (current && !projectionBeforeTrip) projectionBeforeTrip = current;
     map.setProjection({ type: 'globe' });
   };
+  const projectionType = (): 'globe' | 'mercator' => (map.getProjection()?.type === 'mercator' ? 'mercator' : 'globe');
 
   return {
     // 방향 미션은 북쪽이 위라고 보고 내므로, 날아갈 때 돌리거나 기울인 화면을 바로 세운다(bearing·pitch 0)
@@ -261,11 +264,18 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     resetNorth() {
       map.easeTo({ bearing: 0, pitch: 0, duration: flightMs(400) });
     },
-    getProjection() {
-      return map.getProjection()?.type === 'mercator' ? 'mercator' : 'globe';
-    },
+    getProjection: projectionType,
     setProjection(type) {
       map.setProjection({ type });
+    },
+    onProjectionChange(listener) {
+      // MapLibre는 setProjection 때도, 스타일을 바꾸며 투영이 달라질 때도 'projectiontransition'을 보낸다
+      const handler = () => listener(projectionType());
+      map.on('projectiontransition', handler);
+      handler();
+      return () => {
+        map.off('projectiontransition', handler);
+      };
     },
     onCameraChange(listener) {
       const handler = () => listener({ bearing: map.getBearing(), pitch: map.getPitch() });
