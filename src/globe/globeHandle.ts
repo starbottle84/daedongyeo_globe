@@ -24,14 +24,21 @@ export interface GlobeHandle {
   restore(): void;
 }
 
-/** 아래쪽 여행 카드가 차지하는 화면 높이 비율 (대략) */
+/** 아래쪽 카드 묶음(.bottom-stack)을 찾지 못했을 때 쓰는, 카드가 차지하는 화면 높이 비율 (대략) */
 const PANEL_SHARE = 0.45;
+/** 카드 위쪽 끝과 지도 사이에 남길 틈(px) */
+const PANEL_GAP_PX = 12;
+/** 카드 여백이 화면 높이의 이 비율을 넘지 않게 한다 */
+const MAX_PANEL_SHARE = 0.7;
 /** 화면 맞추기 때 지점과 화면 가장자리 사이에 남길 여백(px). 핀 이름표(핀 위 약 62px)가 잘리지 않게 잡는다 */
 const FIT_MARGIN_PX = 68;
 /** MapLibre가 카메라 가운데로 허용하는 최대 위도 */
 const MAX_CENTER_LAT = 85.051129;
 const MAX_FIT_ZOOM = 7;
 const NO_PADDING = { top: 0, right: 0, bottom: 0, left: 0 };
+
+// 기기에서 '움직임 줄이기'를 켰으면 날아가지 않고 바로 옮긴다 (essential: true는 이 설정을 무시하므로 직접 본다)
+const flightMs = (ms: number) => (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 0 : ms);
 
 type Vec3 = [number, number, number];
 const rad = (deg: number) => (deg * Math.PI) / 180;
@@ -61,7 +68,15 @@ function sphericalSpread(points: LngLat[]): { center: LngLat; spread: number } {
 
 export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
   const markers = new Map<MarkerKind, maplibregl.Marker>();
-  const panelPx = () => Math.round(map.getContainer().clientHeight * PANEL_SHARE);
+  // 아래쪽 카드에 가려지는 높이(px). 카드 묶음 높이는 단계마다 달라서 어림값(45%)으로는 지점이 카드 밑에 숨곤 한다.
+  // 그래서 일부러 앱의 아래쪽 카드 묶음(.bottom-stack) 요소를 직접 읽어, 지도 아래 끝 ~ 카드 위쪽 끝 + 틈만큼 비운다.
+  const panelPx = () => {
+    const container = map.getContainer();
+    const stack = document.querySelector('.bottom-stack');
+    if (!stack) return Math.round(container.clientHeight * PANEL_SHARE);
+    const covered = container.getBoundingClientRect().bottom - stack.getBoundingClientRect().top + PANEL_GAP_PX;
+    return Math.round(Math.min(Math.max(covered, 0), container.clientHeight * MAX_PANEL_SHARE));
+  };
   // 카메라 여백: 아래쪽 카드 높이만큼 비워 두면 가운데가 카드 위쪽 영역의 한가운데가 된다
   const panelPadding = () => ({ top: 0, right: 0, bottom: panelPx(), left: 0 });
 
@@ -125,25 +140,50 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
   };
 
   return {
+    // 방향 미션은 북쪽이 위라고 보고 내므로, 날아갈 때 돌리거나 기울인 화면을 바로 세운다(bearing·pitch 0)
     flyTo(center, zoom) {
-      map.flyTo({ center, zoom, padding: panelPadding(), duration: 3000, essential: true });
+      map.flyTo({
+        center,
+        zoom,
+        bearing: 0,
+        pitch: 0,
+        padding: panelPadding(),
+        duration: flightMs(3000),
+        essential: true,
+      });
     },
 
     fitTo(points) {
       if (points.length === 0) return;
       const { center, spread } = sphericalSpread(points);
-      map.flyTo({ center, zoom: zoomToFit(center, spread), padding: panelPadding(), duration: 2000, essential: true });
+      map.flyTo({
+        center,
+        zoom: zoomToFit(center, spread),
+        bearing: 0,
+        pitch: 0,
+        padding: panelPadding(),
+        duration: flightMs(2000),
+        essential: true,
+      });
     },
 
     setInteractive,
     setLabelsVisible,
 
     onTap(listener) {
+      // 마지막으로 받아 준 누르기 (시각·화면 위치)
+      let last: { time: number; x: number; y: number } | null = null;
       const handler = (e: maplibregl.MapMouseEvent) => {
+        // 마우스 두 번 누르기는 'click'이 두 번 와서 한 번에 두 번 답한 셈이 되므로, 두 번째부터는 무시한다
+        if (((e.originalEvent as MouseEvent | undefined)?.detail ?? 0) > 1) return;
         // 지구본 바깥(우주)을 누르면 MapLibre가 가장자리 지점으로 바꿔 준다.
         // 그 지점을 다시 화면 위치로 바꿨을 때 누른 곳과 다르면 지구본을 누른 것이 아니므로 무시한다.
         const back = map.project(e.lngLat);
         if (Math.hypot(back.x - e.point.x, back.y - e.point.y) > 3) return;
+        // 방금 받아 준 누르기와 거의 같은 때(350ms)·같은 곳(24px)이면 손가락이 두 번 닿은 것으로 보고 무시한다
+        const now = performance.now();
+        if (last && now - last.time < 350 && Math.hypot(e.point.x - last.x, e.point.y - last.y) < 24) return;
+        last = { time: now, x: e.point.x, y: e.point.y };
         const hit = map.queryRenderedFeatures(e.point, { layers: ['area-hit'] })[0];
         const ko: unknown = hit?.properties.ko;
         const lat = e.lngLat.lat;
@@ -176,8 +216,9 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     clearMarkers,
 
     restore() {
-      // 지도가 이미 지워졌으면(개발 중 새로고침·화면 정리) 되돌릴 것이 없다
-      if (!map.getStyle()) return;
+      // 지도가 이미 지워졌으면(개발 중 새로고침·화면 정리) 되돌릴 것이 없다.
+      // Map.remove()는 캔버스 묶음을 문서에서 떼어 낸다. getStyle()은 새 스타일을 불러오는 동안에도 비어 있어서 기준으로 쓰지 않는다.
+      if (!map.getCanvasContainer().isConnected) return;
       setInteractive(true);
       setLabelsVisible(true);
       clearMarkers();

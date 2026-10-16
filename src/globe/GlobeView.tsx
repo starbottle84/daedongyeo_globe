@@ -55,7 +55,11 @@ export function GlobeView({ view, onZoomChange, onSatelliteError, onReady }: Glo
     const reportZoom = () => callbacks.current.onZoomChange(Math.round(map.getZoom() * 10) / 10);
     map.on('zoom', reportZoom);
     map.on('load', reportZoom);
-    map.on('load', () => callbacks.current.onReady(createGlobeHandle(map)));
+    // 여행 손잡이는 스타일(층)이 준비되자마자 만든다. 'load'는 위성 타일을 다 받을 때까지 기다려 여행 시작이 늦어진다.
+    // ('style.load'는 처음 넘긴 스타일에도 오고, 언제나 'load'보다 먼저 온다)
+    const giveHandle = () => callbacks.current.onReady(createGlobeHandle(map));
+    if (map.isStyleLoaded()) giveHandle();
+    else map.once('style.load', giveHandle);
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
     map.addControl(new maplibregl.GlobeControl(), 'top-right');
