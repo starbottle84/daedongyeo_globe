@@ -1,4 +1,5 @@
 import type { MissionOf } from '../../content/types';
+import { Dongle } from '../../ui/Dongle';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps } from './types';
 import { useTries } from './useTries';
@@ -8,8 +9,11 @@ export function ChoiceMission({ mission, tier, onDone }: MissionProps<MissionOf<
 
   return (
     <div className="mission">
-      <p className="mission__prompt">{mission.prompt}</p>
-      <div className="choices">
+      <div className="ask">
+        <Dongle mood="think" size="sm" decorative />
+        <p className="ask__prompt ko">{mission.prompt}</p>
+      </div>
+      <div className={`choices${outcome ? ' choices--done' : ''}`} data-count={mission.options.length}>
         {mission.options.map((option, i) => {
           const classes = ['choice'];
           if (showAnswer && i === mission.answer) classes.push('is-answer');
@@ -23,11 +27,11 @@ export function ChoiceMission({ mission, tier, onDone }: MissionProps<MissionOf<
               onClick={() => pick(i)}
             >
               {option.icon && (
-                <span className="choice__icon" aria-hidden="true">
+                <span className="choice__medal" aria-hidden="true">
                   {option.icon}
                 </span>
               )}
-              <span>{option.label}</span>
+              <span className="choice__label">{option.label}</span>
             </button>
           );
         })}
@@ -38,7 +42,7 @@ export function ChoiceMission({ mission, tier, onDone }: MissionProps<MissionOf<
       {outcome && (
         <MissionFeedback
           correct={outcome === 'correct'}
-          detail={outcome === 'revealed' ? `정답: ${mission.options[mission.answer].label}` : undefined}
+          answer={mission.options[mission.answer]}
           explain={mission.explain}
           onNext={() => onDone({ type: 'choice', correct: outcome === 'correct', attempts })}
         />

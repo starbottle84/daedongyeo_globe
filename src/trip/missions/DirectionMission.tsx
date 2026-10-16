@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { DIRECTIONS_4, DIRECTIONS_8, type Direction, type MissionOf } from '../../content/types';
+import { Dongle } from '../../ui/Dongle';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps } from './types';
 import { useTries } from './useTries';
@@ -20,7 +21,10 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
 
   return (
     <div className="mission">
-      <p className="mission__prompt">{mission.prompt}</p>
+      <div className="ask">
+        <Dongle mood="think" size="xs" decorative />
+        <p className="ask__prompt ko">{mission.prompt}</p>
+      </div>
       <div className="compass" role="group" aria-label="방향 고르기">
         {COMPASS_SLOTS.map((slot) => {
           if (slot === 'center') {
@@ -53,7 +57,7 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
       {outcome && (
         <MissionFeedback
           correct={outcome === 'correct'}
-          detail={outcome === 'revealed' ? `정답: ${mission.answer}쪽` : undefined}
+          answer={{ label: `${mission.answer}쪽` }}
           explain={mission.explain}
           onNext={() => onDone({ type: 'direction', correct: outcome === 'correct', attempts })}
         />

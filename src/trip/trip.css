@@ -40,48 +40,92 @@
 .trip-panel--compact .note { margin-top: 6px; font-size: 15px; }
 
 /* 미션 */
-.mission__prompt { margin: 0 0 10px; font-size: 20px; font-weight: 700; line-height: 1.45; }
-.trip-panel--preschool .mission__prompt { font-size: 22px; }
-.mission__hint { margin: 0; font-size: 17px; color: var(--card-sub); }
-/* 보기 아래 한마디: 늘 붙어 있어야 화면 읽기 프로그램이 바뀐 말을 읽으므로 비어 있어도 숨기지 않는다 */
-.choices + .mission__hint,
-.compass + .mission__hint { margin-top: 10px; }
+.mission__hint { margin: 10px 0 0; font-size: 17px; color: var(--note); }
+/* 보기 아래 한마디: 늘 붙어 있어야 화면 읽기 프로그램이 바뀐 말을 읽으므로 비어 있어도 숨기지 않고 여백만 없앤다 */
+.mission__hint:empty { margin: 0; }
+.trip-panel--compact .ask { margin-bottom: 6px; }
+/* 압축 카드는 글줄 높이를 줄여 방향 미션(두 줄 질문 + 나침반 3줄)도 390×844에서 40% 안에 든다 — 나침반 버튼은 48px 그대로 */
+.trip-panel--compact .ask__prompt { font-size: 20px; line-height: 1.15; }
+.trip-panel--compact .progress__label { line-height: 1; }
+/* 앱 바탕에는 시안의 button 공통 규칙(손가락 모양)이 없어서 여기서 더한다 */
+.trip-panel .choice, .trip-panel .compass__dir { cursor: pointer; }
 
-.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
-.choice {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  min-height: 64px; padding: 10px; border: 3px solid #d5dde9; border-radius: 16px;
-  background: #ffffff; color: var(--card-text); font: inherit; font-size: 19px; font-weight: 700; cursor: pointer;
-}
-.choice__icon { font-size: 44px; line-height: 1; }
+/* 보기 카드·결과 카드 (기준 시안 195–235줄, 선택자 이름 그대로) */
+.choices{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.choice{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;padding:12px 8px;border:0;border-radius:22px;
+  font-family:var(--title);font-size:24px;color:var(--ink);background:linear-gradient(180deg,#FFFFFF,#FFFAEE);
+  box-shadow:inset 0 0 0 2px #E7D7B1, 0 6px 0 #D7C292, 0 9px 14px rgba(90,65,20,.15);transition:transform .08s ease, box-shadow .08s ease}
+.choice:active{transform:translateY(5px);box-shadow:inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292}
+.choice__medal{position:relative;display:grid;place-items:center;width:66px;height:66px;border-radius:50%;font-size:40px;line-height:1;
+  font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;
+  background:radial-gradient(circle at 40% 35%,#FFF9E8,#F4E4BE);box-shadow:inset 0 0 0 2px rgba(201,164,90,.4), inset 0 3px 6px rgba(150,110,40,.15)}
+.choice__medal::after{content:"";position:absolute;inset:5px;border-radius:50%;border:1.3px dashed rgba(169,126,46,.4)}
+.choices[data-count="3"]{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.choices[data-count="3"] .choice{min-height:108px;font-size:20px}
+.choices[data-count="3"] .choice__medal{width:56px;height:56px;font-size:34px}
+.choices[data-count="4"] .choice{flex-direction:row;justify-content:flex-start;gap:10px;min-height:66px;padding:8px 12px;font-size:20px}
+.choices[data-count="4"] .choice__medal{width:46px;height:46px;font-size:28px}
+.choices[data-count="4"] .choice__medal::after{inset:4px}
 
-.compass {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
-  max-width: 300px; margin: 0 auto;
-}
-.compass__dir {
-  min-height: 56px; border: 3px solid #d5dde9; border-radius: 14px;
-  background: #ffffff; color: var(--card-text); font: inherit; font-size: 19px; font-weight: 700; cursor: pointer;
-}
-.compass__center {
-  display: grid; place-items: center; font-size: 17px; font-weight: 700; color: #2a6496; text-align: center;
-}
+.result{position:relative;display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;border-radius:22px;
+  background:var(--fiber),linear-gradient(180deg,#F2FAF3,#E2F2E5);box-shadow:inset 0 0 0 2px rgba(46,158,91,.38), 0 3px 0 rgba(46,158,91,.22)}
+.result--soft{background:var(--fiber),linear-gradient(180deg,#FFF7E8,#FCEBD0);box-shadow:inset 0 0 0 2px rgba(206,148,58,.4), 0 3px 0 rgba(206,148,58,.22)}
+.result__hero{position:relative;flex:none;width:92px;height:92px;display:grid;place-items:center}
+.result__hero .dg{position:relative;width:84px;height:84px}
+.burst{position:absolute;inset:-16px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg, rgba(233,196,106,.55) 0 9deg, transparent 9deg 20deg);
+  -webkit-mask:radial-gradient(circle, #000 30%, transparent 68%);mask:radial-gradient(circle, #000 30%, transparent 68%);
+  animation:spin 26s linear infinite}
+.result--soft .burst{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spark{position:absolute;width:var(--s,14px);height:var(--s,14px);color:var(--c,#E3B13F);animation:twinkle 1.4s ease-in-out infinite alternate;animation-delay:var(--d,0s)}
+.spark svg{width:100%;height:100%;display:block}
+.confetti{position:absolute;width:7px;height:11px;border-radius:2px;background:var(--c);transform:rotate(var(--r));animation:pop .7s cubic-bezier(.2,1.4,.4,1) both;animation-delay:var(--d,0s)}
+@keyframes pop{from{transform:translate(var(--fx,0),var(--fy,0)) rotate(0) scale(.2);opacity:0}to{transform:rotate(var(--r)) scale(1);opacity:1}}
+.result__title{margin:0;font-family:var(--title);font-size:30px;line-height:1.1;color:var(--green-ink)}
+.result--soft .result__title{font-size:23px;line-height:1.25;color:#8A4F12}
+.chip{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 12px 5px 6px;border-radius:999px;background:#FFFFFF;
+  font-family:var(--title);font-size:19px;color:var(--ink);box-shadow:inset 0 0 0 2px rgba(46,158,91,.45)}
+.chip__emoji{font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;font-size:20px;line-height:1}
+.chip__ok{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff}
+.chip__ok svg{width:14px;height:14px}
+.result--soft .chip{box-shadow:inset 0 0 0 2px rgba(206,148,58,.5)}
+.explain{margin:12px 2px 0;font-size:19px;line-height:1.5;color:var(--ink)}
 
-/* 보기·방향 버튼의 상태 */
-.is-wrong { border-color: #e9b4b4; background: #fbeeee; color: #a04444; }
-.is-answer { border-color: #2fb36b; background: #e8f7ee; animation: answer-glow 1s ease-in-out infinite alternate; }
-@keyframes answer-glow {
-  from { box-shadow: 0 0 0 0 rgba(47, 179, 107, 0.5); }
-  to { box-shadow: 0 0 0 8px rgba(47, 179, 107, 0); }
-}
-
-/* 미션 결과 */
-.feedback { margin-top: 14px; padding: 14px; border-radius: 16px; }
-.feedback--good { background: #e8f7ee; }
-.feedback--again { background: #fff4e0; }
-.feedback__title { margin: 0 0 4px; font-size: 21px; font-weight: 700; }
-.feedback__stars { margin: 0 0 4px; font-size: 30px; color: #c77700; letter-spacing: 2px; }
-.feedback p { margin: 4px 0 0; font-size: 17px; line-height: 1.5; }
+/* 앱에 맞게 더한 점 */
+/* 유아 힌트: 정답 보기가 반짝인다 / 정답 공개 */
+.choice.is-answer { box-shadow: inset 0 0 0 3px var(--green), 0 6px 0 #7FBF95, 0 0 0 6px rgba(46,158,91,.18); animation: answerGlow 1.4s ease-in-out 3; }
+@keyframes answerGlow { 50% { box-shadow: inset 0 0 0 3px var(--green), 0 6px 0 #7FBF95, 0 0 0 10px rgba(46,158,91,.08); } }
+.choice.is-wrong { opacity: .55; filter: saturate(.6); background: linear-gradient(180deg,#FFF5E9,#FCE9D2); }
+/* 답한 뒤: 보기를 한 줄 칩으로 줄여 결과 카드 자리를 만든다
+   ([data-count]는 위 시안 규칙 .choices[data-count="3"] .choice 등보다 우선하게 붙인다) */
+.choices--done { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.choices--done[data-count] .choice { flex-direction: row; min-height: 48px; padding: 4px 14px 4px 6px; gap: 8px; font-size: 18px; border-radius: 999px; box-shadow: inset 0 0 0 2px #E7D7B1; }
+.choices--done[data-count] .choice__medal { width: 38px; height: 38px; font-size: 22px; }
+.choices--done[data-count] .choice__medal::after { inset: 3px; }
+.choices--done[data-count] .choice.is-answer { box-shadow: inset 0 0 0 2.5px var(--green); animation: none; }
+/* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게. 칩이 되면 왼쪽 여백을 오른쪽과 맞춘다 */
+.choice__label { word-break: keep-all; text-wrap: balance; }
+.choices--done[data-count] .choice__label:first-child { margin-left: 8px; }
+.chip--plain { padding-left: 12px; }
+.chip__prefix { color: var(--apricot-ink); }
+.result__stars { margin: 6px 0 0; font-size: 26px; letter-spacing: 2px; color: var(--gold-600); }
+.result__detail { margin: 10px 2px 0; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
+.feedback .btn { margin-top: 14px; }
+/* 동글이 깡충: 2~3번만 */
+.result:not(.result--soft) .result__hero .dg { animation: hop .5s ease-in-out .1s 3; }
+@keyframes hop { 50% { transform: translateY(-6px); } }
+/* 방향: 나침반 3×3 (압축 카드라 48px) */
+.compass { display: grid; grid-template-columns: repeat(3, 64px); grid-auto-rows: 48px; gap: 6px; justify-content: center; }
+.compass__dir { border: 0; border-radius: 14px; font-family: var(--title); font-size: 18px; color: var(--ink);
+  background: linear-gradient(180deg,#FFFFFF,#FFFAEE); box-shadow: inset 0 0 0 2px #E7D7B1, 0 4px 0 #D7C292; }
+.compass__dir:active { transform: translateY(3px); box-shadow: inset 0 0 0 2px #E7D7B1, 0 1px 0 #D7C292; }
+.compass__dir.is-answer { box-shadow: inset 0 0 0 3px var(--green), 0 4px 0 #7FBF95; }
+.compass__dir.is-wrong { opacity: .5; }
+/* 결과 카드가 나침반 버튼의 아래 턱(4px)에 붙지 않게 (보기 아래 한마디는 비어 있어 여백이 없다) */
+.compass ~ .feedback { margin-top: 14px; }
+.compass__center { display: grid; place-items: center; border-radius: 50%; font-family: var(--title); font-size: 15px; color: var(--gold-ink);
+  background: radial-gradient(circle,#FFF9E8,#F4E4BE); box-shadow: inset 0 0 0 2px rgba(201,164,90,.45); }
 
 /* 도장 */
 .stamp { text-align: center; }
@@ -197,6 +241,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .is-answer,
+  .choice.is-answer,
+  .spark, .burst, .confetti,
+  .result:not(.result--soft) .result__hero .dg,
   .stamp__seal { animation: none; }
+  .choice { transition: none; }
 }

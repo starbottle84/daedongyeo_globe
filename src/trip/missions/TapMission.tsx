@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { MissionOf, View } from '../../content/types';
+import { Dongle } from '../../ui/Dongle';
 import { afterWrong, judgeTap } from '../judge';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps, Outcome } from './types';
@@ -54,7 +55,10 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
 
   return (
     <div className="mission">
-      <p className="mission__prompt">{mission.prompt}</p>
+      <div className="ask">
+        <Dongle mood="think" size="xs" decorative />
+        <p className="ask__prompt ko">{mission.prompt}</p>
+      </div>
       {outcome === null && (
         <p className="mission__hint" role="status" aria-live="polite">
           {message}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { LngLat, MissionOf } from '../../content/types';
+import { Dongle } from '../../ui/Dongle';
 import { judgePin } from '../judge';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps } from './types';
@@ -45,12 +46,15 @@ export function PinMission({ mission, globe, placeView, onDone }: MissionProps<M
 
   return (
     <div className="mission">
-      <p className="mission__prompt">{mission.prompt}</p>
+      <div className="ask">
+        <Dongle mood="think" size="xs" decorative />
+        <p className="ask__prompt ko">{mission.prompt}</p>
+      </div>
       {!pinned && <p className="mission__hint">지구본을 눌러 핀을 꽂아 보세요.</p>}
       {pinned && !result && (
         <>
           <p className="mission__hint">다른 곳을 누르면 핀을 옮길 수 있어요.</p>
-          <button type="button" className="big-button" onClick={confirm}>
+          <button type="button" className="btn" onClick={confirm}>
             여기예요!
           </button>
         </>
