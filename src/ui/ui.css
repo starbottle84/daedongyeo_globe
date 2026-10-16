@@ -68,6 +68,8 @@
 .dg--hero { width: 84px; height: 84px; }
 button { -webkit-tap-highlight-color: transparent; }
 button:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold-500); outline-offset: 3px; }
+/* 크림 종이 위에서는 금색 테두리가 잘 안 보여서(대비 약 1.5:1) 남색으로 그린다 */
+.page button:focus-visible { outline-color: var(--navy-600); }
 
 /* ───────── 왼쪽 위 로고 (기준 시안 61–71줄) ───────── */
 .logo{position:absolute;z-index:2;top:max(16px,env(safe-area-inset-top));left:16px;display:flex;align-items:center;gap:8px;

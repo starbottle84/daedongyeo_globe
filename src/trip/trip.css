@@ -155,15 +155,28 @@
 .ticket__stub { height: var(--perf); padding: 0; overflow: hidden; }
 .ticket__stub svg { width: 100%; height: 100%; display: block; }
 .ticket-slot { border: 2px dashed rgba(169,126,46,.35); border-radius: 14px; min-height: 78px; }
-.launcher { max-height: 60vh; overflow-y: auto; }
+/* 키보드 초점 테두리가 둥근 표 둘레를 따라 그려지게 */
+.ticket { border-radius: 14px; }
+/* 넘치면 가죽 표지가 아니라 크림 종이 안에서 스크롤한다 (가죽 패딩 7px×2를 뺀 높이)
+   — 바느질 점선이 내용과 같이 움직이지 않고, 잘린 곳도 종이의 둥근 모서리 안에 든다 */
+.launcher .page { max-height: calc(60vh - 14px); overflow-y: auto; }
 /* 시안은 모든 요소가 border-box라서(*{box-sizing:border-box}) 시작 카드 안에서는 같게 맞춘다
    — 아니면 표 이름 칸(min-height+padding)·사진 칸(테두리)이 시안보다 커진다 */
 .launcher, .launcher *, .launcher *::before, .launcher *::after { box-sizing: border-box; }
+
+/* ───────── 넓은 세로 화면(세로 태블릿 등): 표가 넓어진 만큼 위 칸도 높인다 ───────── */
+/* 42px 그대로면 넓은 표(약 122px)에서 장면 그림의 위아래가 반 넘게 잘린다 (이름 칸 36px + 60px) */
+@media (min-width: 560px) {
+  .ticket__body { --perf: 60px; }
+  .ticket-slot { min-height: 96px; }
+}
 
 /* ───────── 가로 태블릿: 시작 카드는 두 쪽 펼친 여권 (기준 시안 280–305줄) ───────── */
 @media (orientation: landscape) and (min-width: 900px) {
   /* 시작 카드만 넓게 (여행 카드는 .bottom-stack 너비 그대로) */
   .app:not(.app--trip) .bottom-stack { width: min(900px, calc(100vw - 48px)); }
+  /* 같이 쌓이는 안내 카드(새 버전·위성 오류)는 원래 너비 그대로 가운데에 둔다 */
+  .app:not(.app--trip) .bottom-stack > :not(.launcher) { align-self: center; width: min(560px, 100%); box-sizing: border-box; }
   .launcher .page{padding:18px 22px}
   .spread{display:grid;grid-template-columns:minmax(0,.86fr) 34px minmax(0,1.3fr);align-items:center}
   .spread__spine{display:block;align-self:stretch;margin:-18px 0;position:relative;
@@ -188,6 +201,12 @@
   .ticket__body{--perf:60px}
   .ticket__name{min-height:40px;font-size:19px}
   .ticket-slot{min-height:100px}
+}
+
+/* 낮은 화면(375×667 등): 시작 카드의 여백을 몇 px 줄여 종이 안 스크롤 없이 들어가게 한다 */
+@media (max-height: 700px) {
+  .launcher .stage { margin: 6px 0 5px; }
+  .launcher .tiers { margin-top: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

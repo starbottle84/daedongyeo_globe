@@ -38,6 +38,8 @@ try {
   for (let i = 0; i < 100 && !events.some((e) => e.method === 'Page.loadEventFired'); i++) await sleep(100);
   await send('Runtime.evaluate', { expression: 'document.fonts.ready.then(()=>1)', awaitPromise: true });
   await sleep(2600); // 등장 애니메이션이 끝날 때까지
+  // 찍기 전에 페이지에서 식 하나 실행하고 값 출력: EVAL="__map.setBearing(30)" (지도 돌린 모습 등)
+  if (process.env.EVAL) { const r = await send('Runtime.evaluate', { expression: process.env.EVAL, awaitPromise: true, returnByValue: true }); console.log('eval', JSON.stringify(r.result.result?.value ?? r.result.exceptionDetails?.text)); await sleep(1200); }
   // 확대해 보기: CLIP="x,y,w,h" SCALE=2
   const c = (process.env.CLIP || '').split(',').map(Number);
   const clip = c.length === 4 ? { x: c[0], y: c[1], width: c[2], height: c[3], scale: 1 } : { x: 0, y: 0, width: W, height: H, scale: 1 };
