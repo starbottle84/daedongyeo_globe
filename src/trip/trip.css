@@ -1,12 +1,20 @@
 /* ───────── 여행 카드: 보딩 패스 (가죽+종이·머리말·절취선은 ui.css의 .passport·.page--ticket) ───────── */
-/* 결과의 '다음' 버튼까지 스크롤할 때 카드 아래쪽 여백(18px)도 함께 보이게 한다 */
-.trip-panel { max-height: 62vh; overflow-y: auto; scroll-padding-bottom: 18px; box-sizing: border-box; }
+/* 넘치면 가죽 표지가 아니라 머리말·절취선 아래 본문(.pass-body)만 종이 안에서 스크롤한다
+   — 바느질 점선·머리말·닫기 버튼이 제자리에 있고, 절취선이 움직이지 않으니 반원 홈(--tear)도 어긋나지 않는다 */
+.trip-panel { max-height: 62vh; display: flex; flex-direction: column; box-sizing: border-box; }
+.trip-panel > .page { display: flex; flex-direction: column; min-height: 0; }
+/* 음수 여백만큼 패딩을 둬 내용 자리는 그대로 두고, 금박 버튼의 아래 턱 그림자·남색 초점 테두리가 스크롤 상자에 잘리지 않게 한다.
+   scroll-padding: 결과의 '다음' 버튼까지 스크롤할 때 버튼 아래 턱과 종이 아래 여백이 함께 보이게 */
+.pass-body { min-height: 0; overflow-y: auto; scroll-padding-bottom: 18px; margin: -2px -16px -16px; padding: 2px 16px 16px; }
 /* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 */
 .trip-panel:focus { outline: none; }
 /* 앱 바탕에는 시안의 button 공통 규칙(손가락 모양)이 없어서 여기서 더한다 */
 .trip-panel .btn, .trip-panel .close { cursor: pointer; }
 .btn__plane { transform: rotate(45deg); }
 .trip-panel--preschool .bubble--say { font-size: 22px; }
+/* 저학년·고학년은 글이 길어서 동글이를 줄여 말풍선 폭을 넓힌다(고학년은 글자도 19px로) — 줄 수가 줄어 버튼이 카드 안에 보이게 */
+.trip-panel--lower .say .dg--lg, .trip-panel--upper .say .dg--lg { width: 56px; height: 56px; }
+.trip-panel--upper .bubble--say { font-size: 19px; }
 .talk__label { margin: 0 0 8px; font-family: var(--title); font-weight: 400; font-size: 20px; color: var(--gold-ink); }
 .talk__note { margin: 8px 0 0; padding: 10px 12px; border-radius: 14px; background: var(--cream-200); font-size: 17px; line-height: 1.55; color: var(--note); }
 .link-button { margin-top: 10px; min-height: 48px; padding: 0 4px; border: 0; background: none; font-family: var(--title);
@@ -25,6 +33,7 @@
 /* 압축 카드: 찾아 누르기·핀 꽂기·방향 미션은 지도를 넓게 보여야 한다 (390×844에서 30% 이하, 방향은 40% 이하) */
 .trip-panel--compact .page { padding: 12px 14px; }
 .trip-panel--compact .tear { margin: 8px -14px; }
+.trip-panel--compact .pass-body { margin: -2px -14px -12px; padding: 2px 14px 12px; }
 /* 반원 홈 = 위 여백 12 + 머리말 48 + 절취선 위 여백 8 + 점선 굵기 절반 1.5 */
 .trip-panel--compact .page--ticket { --tear: 69.5px; }
 .trip-panel--compact .progress { margin-bottom: 6px; }
