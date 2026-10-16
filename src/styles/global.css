@@ -8,14 +8,13 @@ html, body, #root { margin: 0; height: 100%; }
 /* 화면 끝에서 당겨도 새로고침(당겨서 새로고침)·튕김이 일어나지 않게 */
 html, body { overscroll-behavior: none; }
 body {
-  background: var(--space);
-  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  background: var(--navy-800);
+  font-family: var(--body);
 }
 .app { position: relative; height: 100%; overflow: hidden; }
-/* 여행 중에는 왼쪽 위 안내 카드를 숨긴다 — 휴대폰에서 누를 곳·참고 핀을 가리지 않게 */
-.app--trip .info-card { display: none; }
-/* 여행 중에는 오른쪽 위 버튼(확대·나침반·지구본/평면 전환)을 모두 숨긴다 — 평면 지도로 바뀌면 화면 맞추기가 틀어진다 */
-.app--trip .maplibregl-ctrl-top-right { display: none; }
+/* 여행 중에는 왼쪽 위 '지구 여권' 배지를 숨긴다 — 휴대폰에서 누를 곳·참고 핀을 가리지 않게.
+   (오른쪽 위 지도 버튼은 App이 여행 중에 아예 그리지 않는다 — 평면 지도로 바뀌면 화면 맞추기가 틀어진다) */
+.app--trip .logo { display: none; }
 /* 여행 중에는 오른쪽 아래 지도 출처 표시도 숨긴다 — 휴대폰에서 여행 카드의 '다음' 버튼 오른쪽 아래를 가린다.
    (자료는 퍼블릭 도메인인 Natural Earth·NASA이고, 여행 밖 평소 화면에서는 그대로 보인다) */
 .app--trip .maplibregl-ctrl-bottom-right { display: none; }
@@ -23,11 +22,31 @@ body {
    두 손가락으로 벌리면 페이지 전체가 커지고 아래로 쓸면 새로고침된다 — 직접 다시 막는다 */
 .app--locked .maplibregl-canvas-container,
 .app--locked .maplibregl-canvas { touch-action: none; }
-/* MapLibre CSS의 .maplibregl-map { position: relative }가 나중에 불려 덮어쓰므로 선택자를 한 단계 구체적으로 쓴다 */
+/* MapLibre CSS의 .maplibregl-map { position: relative }가 나중에 불려 덮어쓰므로 선택자를 한 단계 구체적으로 쓴다.
+   지구본 밖은 투명하게 두어 뒤에 깐 여권 표지 하늘(.sky)이 비치게 한다 */
 .app .globe {
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 50%, #17284d 0%, var(--space) 70%);
+  position: absolute; inset: 0; z-index: 0;
+  background: transparent;
 }
+
+/* ───────── 여권 표지 하늘 (기준 시안 40–55줄) ───────── */
+.sky{position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(90% 55% at 50% 30%, rgba(86,128,190,.38), transparent 70%),
+    radial-gradient(140% 80% at 50% 115%, rgba(6,14,30,.6), transparent 62%),
+    var(--grain), var(--linen),
+    linear-gradient(180deg,#284470 0%,#23395B 48%,#1B2D4B 100%);
+}
+/* 표지의 금박 테두리 (얇게 눌린 선) */
+.sky::after{content:"";position:absolute;inset:9px;border-radius:24px;
+  border:1.5px solid rgba(233,196,106,.24);
+  box-shadow:inset 0 1px 0 rgba(0,0,0,.25), 0 1px 0 rgba(255,255,255,.05)}
+.star{position:absolute;width:var(--s,10px);height:var(--s,10px);color:var(--c,#F3DDA0);opacity:var(--o,.85);
+  animation:twinkle 2.8s ease-in-out infinite alternate;animation-delay:var(--d,0s)}
+.star svg{width:100%;height:100%;display:block}
+@keyframes twinkle{from{transform:scale(.7);opacity:calc(var(--o,.85)*.5)}to{transform:scale(1);opacity:var(--o,.85)}}
+/* 여행 중에는 시안처럼 하늘 금박 테두리를 숨긴다 */
+.app--trip .sky::after { display: none; }
 /* 지구본 아래쪽에 쌓이는 카드들 (위성 안내 · 새 버전 알림 · 여행 카드) */
 .bottom-stack {
   position: absolute; left: 50%; z-index: 1; transform: translateX(-50%);

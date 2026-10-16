@@ -22,6 +22,14 @@ export interface GlobeHandle {
   clearMarkers(): void;
   /** 여행이 끝나면 지구본을 평소 상태로 되돌린다 (여백·손 조작·표시·지명) */
   restore(): void;
+  /** 확대(+)·축소(−) 한 단계 */
+  zoomBy(delta: number): void;
+  /** 북쪽을 위로, 기울기 0으로 */
+  resetNorth(): void;
+  getProjection(): 'globe' | 'mercator';
+  setProjection(type: 'globe' | 'mercator'): void;
+  /** 돌림·기울기가 바뀔 때 알려 준다 (북쪽 버튼을 보일지 정하는 데 쓴다) */
+  onCameraChange(listener: (cam: { bearing: number; pitch: number }) => void): () => void;
 }
 
 /** 아래쪽 카드 묶음(.bottom-stack)을 찾지 못했을 때 쓰는, 카드가 차지하는 화면 높이 비율 (대략) */
@@ -241,12 +249,33 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       clearMarkers();
       map.easeTo({ padding: NO_PADDING, duration: 600 });
       // 여행 전에 평면 지도를 골라 두었으면 그대로 돌려놓는다.
-      // 지구본/평면 버튼(GlobeControl)은 styledata 때만 아이콘을 고치는데 setProjection은 그 이벤트를 내지 않으므로 직접 알린다.
       if (projectionBeforeTrip) {
         map.setProjection(projectionBeforeTrip);
         projectionBeforeTrip = null;
-        map.fire(new maplibregl.Event('styledata', { dataType: 'style' }));
       }
+    },
+
+    zoomBy(delta) {
+      map.easeTo({ zoom: map.getZoom() + delta, duration: flightMs(300) });
+    },
+    resetNorth() {
+      map.easeTo({ bearing: 0, pitch: 0, duration: flightMs(400) });
+    },
+    getProjection() {
+      return map.getProjection()?.type === 'mercator' ? 'mercator' : 'globe';
+    },
+    setProjection(type) {
+      map.setProjection({ type });
+    },
+    onCameraChange(listener) {
+      const handler = () => listener({ bearing: map.getBearing(), pitch: map.getPitch() });
+      map.on('rotate', handler);
+      map.on('pitch', handler);
+      handler();
+      return () => {
+        map.off('rotate', handler);
+        map.off('pitch', handler);
+      };
     },
   };
 }

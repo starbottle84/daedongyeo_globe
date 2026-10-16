@@ -15,21 +15,20 @@ declare global {
 
 interface GlobeViewProps {
   view: MapView;
-  onZoomChange: (zoom: number) => void;
   onSatelliteError: () => void;
   /** 지도가 준비되면 여행 화면용 손잡이를 건네준다 */
   onReady: (handle: GlobeHandle) => void;
 }
 
-export function GlobeView({ view, onZoomChange, onSatelliteError, onReady }: GlobeViewProps) {
+export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const appliedView = useRef(view);
-  const callbacks = useRef({ onZoomChange, onSatelliteError, onReady });
+  const callbacks = useRef({ onSatelliteError, onReady });
 
   useEffect(() => {
-    callbacks.current = { onZoomChange, onSatelliteError, onReady };
-  }, [onZoomChange, onSatelliteError, onReady]);
+    callbacks.current = { onSatelliteError, onReady };
+  }, [onSatelliteError, onReady]);
 
   useEffect(() => {
     const map = new maplibregl.Map({
@@ -52,17 +51,11 @@ export function GlobeView({ view, onZoomChange, onSatelliteError, onReady }: Glo
       if ('sourceId' in e && e.sourceId === 'satellite') callbacks.current.onSatelliteError();
       else console.error(e.error);
     });
-    const reportZoom = () => callbacks.current.onZoomChange(Math.round(map.getZoom() * 10) / 10);
-    map.on('zoom', reportZoom);
-    map.on('load', reportZoom);
     // 여행 손잡이는 스타일(층)이 준비되자마자 만든다. 'load'는 위성 타일을 다 받을 때까지 기다려 여행 시작이 늦어진다.
     // ('style.load'는 처음 넘긴 스타일에도 오고, 언제나 'load'보다 먼저 온다)
     const giveHandle = () => callbacks.current.onReady(createGlobeHandle(map));
     if (map.isStyleLoaded()) giveHandle();
     else map.once('style.load', giveHandle);
-
-    map.addControl(new maplibregl.NavigationControl(), 'top-right');
-    map.addControl(new maplibregl.GlobeControl(), 'top-right');
 
     mapRef.current = map;
     if (import.meta.env.DEV) window.__map = map;
