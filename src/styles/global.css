@@ -15,3 +15,10 @@ body {
   position: absolute; inset: 0;
   background: radial-gradient(circle at 50% 50%, #17284d 0%, var(--space) 70%);
 }
+/* 지구본 아래쪽에 쌓이는 카드들 (위성 안내 · 새 버전 알림 · 여행 카드) */
+.bottom-stack {
+  position: absolute; left: 50%; z-index: 1; transform: translateX(-50%);
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: min(560px, calc(100vw - 32px));
+  display: flex; flex-direction: column; gap: 12px;
+}

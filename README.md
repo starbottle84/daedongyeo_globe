@@ -34,10 +34,17 @@ npm run data:build
 
 지명 수정·장소 추가·표시 단계 조정은 `data/overrides.json`에서 합니다.
 
+## 여행 콘텐츠 추가하기
+
+`src/content/places/`에 장소 JSON을 만들고 `src/content/index.ts`의 목록에 넣습니다. 형식이 틀리면 앱이 켜질 때 "콘텐츠 오류 [장소id] 칸: 이유"로 알려 줍니다.
+미션 종류는 `tap`(찾아 누르기: `radiusKm` 또는 대륙·대양 이름 `area`), `choice`(고르기), `pin`(위치 찍기, 고학년), `direction`(방향 고르기: 4 또는 8방위)입니다.
+
 ## 구성
 
 - `src/globe/` — 지구본 스타일(`buildStyle.ts`), 보기 테마(`themes.ts`), 아이콘, 보기 기억, `GlobeView` 컴포넌트
 - `src/components/` — 정보 카드, 위성 사진 실패 안내
+- `src/content/` — 여행 콘텐츠 형식(`types.ts`), 검사기(`parsePlace.ts`), 장소 JSON(`places/`)
+- `src/trip/` — 여행 진행(`tripReducer.ts`), 정답 판정(`judge.ts`), 여행 카드·미션 화면
 - `scripts/build-data.mjs` — 원본 → 경량 GeoJSON 변환 (보정 데이터·강 한국어 이름 적용)
 - `scripts/download-raw.mjs`, `scripts/download-glyphs.mjs`, `scripts/generate-icons.mjs` — 원본 데이터·글꼴·아이콘 준비
 - `scripts/path-safe-build.mjs` — 한글 경로 안전 빌드

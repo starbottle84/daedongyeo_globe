@@ -10,7 +10,7 @@
 .info-card__zoom { margin-top: 6px; font-size: 12px; }
 .info-card__views { display: flex; gap: 4px; margin-top: 10px; padding: 3px; border-radius: 10px; background: #e8ecf3; }
 .info-card__views button {
-  flex: 1; padding: 6px 12px; border: 0; border-radius: 8px;
+  flex: 1; min-height: 44px; padding: 6px 12px; border: 0; border-radius: 8px;
   background: transparent; color: var(--card-sub); font: inherit; font-size: 13px; cursor: pointer;
 }
 .info-card__views button[aria-pressed="true"] {
