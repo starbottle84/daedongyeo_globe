@@ -42,7 +42,7 @@ try {
   const c = (process.env.CLIP || '').split(',').map(Number);
   const clip = c.length === 4 ? { x: c[0], y: c[1], width: c[2], height: c[3], scale: 1 } : { x: 0, y: 0, width: W, height: H, scale: 1 };
   const shot = await send('Page.captureScreenshot', { format: 'png', clip });
-  if (process.env.MEASURE) { const r = await send('Runtime.evaluate', { expression: "(()=>{const d=[...document.querySelectorAll('.dock > section')].find(e=>!e.hidden);const b=d.getBoundingClientRect();return JSON.stringify({top:Math.round(b.top),h:Math.round(b.height),ratio:+(b.height/innerHeight).toFixed(3),sw:document.documentElement.scrollWidth})})()", returnByValue: true }); console.log('measure', r.result.result.value); }
+  if (process.env.MEASURE) { const r = await send('Runtime.evaluate', { expression: "(()=>{const d=document.querySelector('.bottom-stack');const b=d.getBoundingClientRect();return JSON.stringify({top:Math.round(b.top),h:Math.round(b.height),ratio:+(b.height/innerHeight).toFixed(3),sw:document.documentElement.scrollWidth})})()", returnByValue: true }); console.log('measure', r.result.result.value); }
   fs.writeFileSync(out, Buffer.from(shot.result.data, 'base64'));
   console.log('saved', path.resolve(out));
   ws.close();

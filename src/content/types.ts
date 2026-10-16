@@ -4,6 +4,11 @@ export type Tier = 'preschool' | 'lower' | 'upper';
 export const TIERS: Tier[] = ['preschool', 'lower', 'upper'];
 export const TIER_LABELS: Record<Tier, string> = { preschool: '유아', lower: '저학년', upper: '고학년' };
 
+/** 탐험 5단계 이름 (설계 문서 2026-10-16-globe-geography-design) */
+export const STAGE_NAMES: Record<number, string> = {
+  1: '둥근 지구', 2: '우리나라', 3: '이웃 나라', 4: '세계 대륙', 5: '지구 탐험가',
+};
+
 export type ByTier<T> = Record<Tier, T>;
 
 /** [경도, 위도] */
