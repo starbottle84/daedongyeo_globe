@@ -245,7 +245,8 @@ export function buildStyle(view: MapView): StyleSpecification {
       },
       // 대양 이름은 지구본이 작게 다 보이는 첫 화면(휴대폰 약 0~0.6, 태블릿 약 1~1.44)에서는 뺀다.
       // 이름 자리 점이 지구본 가장자리 가까이에 있어(태평양 점은 첫 화면 가운데에서 84°) 글자가 가장자리 밖 하늘에 뜨고 지도 버튼 뒤에 가린다.
-      // 여행 장소 화면(1.5)과 지명 수 기준 장면(1.6)에서는 그대로 보인다
+      // 여행 장소 화면(1.5)과 지명 수 기준 장면(1.6)에서는 그대로 보인다.
+      // 확대 1.45 아래로 넓게 보는 여행 화면(먼 두 점 방향 미션 등)에서도 대양 이름은 빠진다 — 그때도 이름이 가장자리에 걸리기 쉬워 같은 이유로 둔다
       {
         id: 'ocean-label', type: 'symbol', source: 'marineLabels', minzoom: 1.45,
         filter: ['==', ['get', 'cls'], 'ocean'],
@@ -262,6 +263,8 @@ export function buildStyle(view: MapView): StyleSpecification {
         layout: {
           'text-field': koName, 'text-font': FONT.medium, 'text-size': 20,
           'text-letter-spacing': 0.3, 'text-allow-overlap': true,
+          // 오세아니아 이름 자리 점은 첫 화면 지구본 아래 가장자리에 걸려 글자 절반이 하늘로 나온다 — 글자 아래 끝을 점에 맞춰 지구본 안쪽에 둔다
+          'text-anchor': ['match', ['get', 'en'], 'Australia', 'bottom', 'center'],
         },
         paint: {
           'text-color': '#ffffff', 'text-halo-color': 'rgba(29, 36, 51, 0.7)', 'text-halo-width': 2,

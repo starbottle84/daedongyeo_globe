@@ -73,6 +73,8 @@ body {
    카드가 지도 버튼 줄까지 올라오면 카드 버튼이 지도 버튼에 가려 눌리지 않는다. (묶음에 transform이 있어 카드에 z-index를 줘도 소용없다)
    안내 카드가 없을 때는 그대로 지도 버튼이 위다 — 가로 휴대폰에서 시작 카드가 지도 버튼 가장자리를 덮지 않게 */
 .app:not(.app--trip) .bottom-stack:has(.update-banner, .satellite-notice) { z-index: 3; }
+/* 안내 카드가 붙어 묶음 높이에 상한이 걸리면 시작 카드 종이가 줄어 종이 안에서 스크롤한다 (아래 세로·가로 규칙 공통) */
+.bottom-stack:has(.update-banner, .satellite-notice) .launcher { min-height: 0; display: flex; flex-direction: column; }
 /* 세로 화면에서는 안내 카드가 붙어도 카드 묶음이 지도 버튼 줄 위로 올라오지 않게 묶음 높이에 상한을 둔다.
    (높이 780·844 화면도 위성 안내와 새 버전 안내가 같이 뜨면 올라오므로 높이와 상관없이 건다)
    시작 카드 종이가 그만큼 줄어 종이 안에서 스크롤한다. 상한 = 화면 높이 - 위 안전여백 - 지도 버튼 묶음 높이(--tools-h, MapButtons.css) - 틈 12 - 아래 안전여백.
@@ -83,7 +85,6 @@ body {
     max-height: calc(100vh - max(16px, env(safe-area-inset-top)) - var(--tools-h) - 12px - max(16px, env(safe-area-inset-bottom)));
     max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - var(--tools-h) - 12px - max(16px, env(safe-area-inset-bottom)));
   }
-  .bottom-stack:has(.update-banner, .satellite-notice) .launcher { min-height: 0; display: flex; flex-direction: column; }
 }
 /* 가로 화면(667×375, 844×390 등 가로 휴대폰)에서 안내 카드가 붙으면 위 z-index 3인 카드 묶음이 로고·지도 출처 알약·오른쪽 지도 버튼 가장자리를 덮는다.
    묶음 높이에 상한을 둬 로고 아래 출처 알약 밑에서 멈추게 하고(시작 카드 종이가 줄어 종이 안에서 스크롤한다),
@@ -93,7 +94,6 @@ body {
     max-height: calc(100vh - max(16px, env(safe-area-inset-top)) - 100px - max(16px, env(safe-area-inset-bottom)));
     max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - 100px - max(16px, env(safe-area-inset-bottom)));
   }
-  .bottom-stack:has(.update-banner, .satellite-notice) .launcher { min-height: 0; display: flex; flex-direction: column; }
 }
 /* 폭도 오른쪽 지도 버튼 줄(안전여백 + 버튼 52 + 틈 12)과 겹치지 않게 양쪽에서 줄인다. 두 쪽 펼친 시작 카드를 쓰는 넓은 가로 화면(900px 이상)은
    카드가 버튼 줄 아래에서 시작하므로 그대로 둔다 */

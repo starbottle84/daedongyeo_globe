@@ -88,7 +88,8 @@ export function App() {
       {globe && !trip && <MapButtons globe={globe} view={view} onViewChange={changeView} />}
       <div className="bottom-stack" ref={stackRef}>
         {view === 'satellite' && satelliteFailed && <SatelliteNotice onUseMap={() => changeView('map')} />}
-        {applyUpdate && !trip && <UpdateBanner onReload={applyUpdate} />}
+        {/* 위성 안내가 떠 있는 동안 새 버전 안내는 미룬다 — 두 장이 같이 뜨면 가로 휴대폰에서 시작 카드 종이가 50px 남짓으로 눌려 쓸 수 없다 */}
+        {applyUpdate && !trip && !(view === 'satellite' && satelliteFailed) && <UpdateBanner onReload={applyUpdate} />}
         {globe &&
           (trip ? (
             <TripPanel

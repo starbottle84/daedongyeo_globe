@@ -145,6 +145,9 @@
 /* 그림 없는 보기(저학년·고학년)는 답한 뒤 칩 줄을 숨긴다 — 긴 이름 칩이 두 줄로 접혀 390×844에서 카드가 넘치고
    진행 줄이 절취선 밑에 가린다. 정답은 결과 카드의 정답 칩이 보여 준다(기준 시안 correct·wrong 화면에도 보기 줄이 없다) */
 .choices--done.choices--plain { display: none; }
+/* 그림 보기(유아)도 틀린 적 없이 맞히면 칩 줄을 숨기고 결과 카드의 정답 칩만 남긴다 — 칩 줄이 남으면 390×844에서 카드가 화면의 53%로
+   설계의 '고르기 ≤ 50%'를 넘고 장소를 더 가린다(기준 시안 correct 화면에도 보기 줄이 없다). 틀린 적이 있으면 흐린 칩을 신호로 남긴다 */
+.choices--done:not(:has(.is-wrong)) { display: none; }
 /* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게 */
 .choice__label { word-break: keep-all; text-wrap: balance; }
 .chip--plain { padding-left: 12px; }
