@@ -13,7 +13,7 @@ body {
    (자료는 퍼블릭 도메인인 Natural Earth·NASA이고, 여행 밖 평소 화면에서는 로고 아래에 보인다) */
 .app--trip .maplibregl-ctrl-top-left { display: none; }
 /* 지도 출처: 로고 아래 왼쪽의 작은 반투명 남색 알약 (MapLibre 기본 흰 상자 대신).
-   좁은 화면의 접힌 모양은 동그란 'i' 버튼 — 보이는 알약은 32px이고, 누르는 곳은 위아래로 넓혀 44px */
+   좁은 화면의 접힌 모양은 동그란 'i' 버튼 — 보이는 알약은 32px이고, 누르는 곳은 위아래로 넓혀 48px(다른 버튼과 같게) */
 .app .maplibregl-ctrl-top-left {
   top: calc(max(16px, env(safe-area-inset-top)) + 56px); left: max(16px, env(safe-area-inset-left));
 }
@@ -26,7 +26,7 @@ body {
 .app .maplibregl-ctrl-top-left .maplibregl-ctrl-attrib.maplibregl-compact { width: 32px; padding: 0; }
 .app .maplibregl-ctrl-top-left .maplibregl-ctrl-attrib.maplibregl-compact-show { width: auto; padding: 0 12px 0 32px; }
 .app .maplibregl-ctrl-top-left .maplibregl-ctrl-attrib-button {
-  top: -6px; left: -6px; width: 44px; height: 44px; border-radius: 50%; background-color: transparent;
+  top: -8px; left: -8px; width: 48px; height: 48px; border-radius: 50%; background-color: transparent;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23F6E0A0' fill-rule='evenodd'%3E%3Cpath d='M4 10a6 6 0 1 0 12 0 6 6 0 1 0-12 0m5-3a1 1 0 1 0 2 0 1 1 0 1 0-2 0m0 3a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0'/%3E%3C/svg%3E");
   background-position: center; background-size: 22px; background-repeat: no-repeat;
 }
@@ -69,3 +69,6 @@ body {
   width: min(560px, calc(100vw - 32px));
   display: flex; flex-direction: column; gap: 12px;
 }
+/* 여행이 아닐 때는 카드 묶음을 오른쪽 위 지도 버튼(z-index 2)보다 위에 둔다 — 낮은 휴대폰에서 안내 카드(새 버전·위성 오류)가
+   지도 버튼 줄까지 올라오면 카드 버튼이 지도 버튼에 가려 눌리지 않는다. (묶음에 transform이 있어 카드에 z-index를 줘도 소용없다) */
+.app:not(.app--trip) .bottom-stack { z-index: 3; }

@@ -44,6 +44,10 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
       locale: { 'AttributionControl.ToggleAttribution': '지도 출처 보기' },
     });
     map.addControl(new maplibregl.AttributionControl({ customAttribution: 'Natural Earth' }), 'top-left');
+    // 폭 640px 이하에서는 MapLibre가 출처를 펼친 채로 시작해 지구본 가장자리를 덮으므로, 처음에는 접힌 'i'로 둔다 (누르면 펼쳐짐)
+    const attrib = map.getContainer().querySelector('.maplibregl-ctrl-attrib.maplibregl-compact');
+    attrib?.classList.remove('maplibregl-compact-show');
+    attrib?.removeAttribute('open');
 
     map.on('styleimagemissing', (e) => {
       const make = ICONS[e.id];

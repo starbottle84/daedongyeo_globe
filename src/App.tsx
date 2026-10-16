@@ -61,12 +61,13 @@ export function App() {
     globe.frameHome(wasTrip.current);
     wasTrip.current = false;
     const reframe = () => globe.frameHome(false);
-    // 지켜보기를 시작하면 지금 크기도 한 번 알려 오므로, 높이가 실제로 바뀔 때만 다시 맞춘다 (방금 시작한 부드러운 이동을 끊지 않게)
+    // 지켜보기를 시작하면 지금 크기도 한 번 알려 오므로, 높이가 실제로 바뀔 때만 다시 맞춘다 (방금 시작한 부드러운 이동을 끊지 않게).
+    // 쓰는 도중 안내 카드가 붙어 높이가 바뀌면 툭 옮기지 않고 부드럽게 옮긴다 (창 크기·회전은 바로 맞춘다)
     let height = stack.offsetHeight;
     const observer = new ResizeObserver(() => {
       if (stack.offsetHeight === height) return;
       height = stack.offsetHeight;
-      reframe();
+      globe.frameHome(true);
     });
     observer.observe(stack);
     window.addEventListener('resize', reframe);

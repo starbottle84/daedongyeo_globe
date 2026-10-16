@@ -45,7 +45,7 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
     return () => globe.restore();
   }, [globe, place, tier, openedAtMapMission]);
 
-  // 본문이 넘쳐 아래에 내용(주 버튼 등)이 남아 있으면 아래쪽을 옅게 흐려 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다).
+  // 본문이 넘쳐 아래에 내용(주 버튼 등)이 남아 있으면 아래쪽을 옅게 흐리고 작은 아래 화살표를 둬 스크롤할 수 있음을 알린다 (끝까지 내리면 뺀다).
   // 카드 높이(창 크기)나 내용(단계·결과·메모·늦게 들어온 글꼴)이 바뀔 때도 다시 잰다
   useEffect(() => {
     const body = bodyRef.current;
@@ -174,6 +174,7 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
             )}
           </div>
         </div>
+        {moreBelow && <span className="pass-more" aria-hidden="true" />}
       </div>
     </section>
   );
