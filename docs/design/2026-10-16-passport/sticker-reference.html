@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지구 여권 스티커북</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<style>
+/* ===== 토큰 ===== */
+:root {
+  --navy: #23395B; --navy-deep: #172844; --navy-hi: #2F4B76;
+  --cream: #FFFDF7; --paper: #F6EEDC; --paper-2: #EFE3C8; --paper-edge: #E2D2AE; --stitch: #E2D3B2;
+  --gold: #E9C46A; --gold-hi: #F8DE92; --gold-lo: #DDB04C; --gold-ink: #7A5A12;
+  --stamp: #C8342B;
+  --green: #2E9E5B; --green-ink: #1C6E42; --mint: #E5F6EB;
+  --ink: #23395B; --ink-soft: #5E503D;
+  --white: #FFFFFF;
+  --f-title: 'Jua', 'Malgun Gothic', sans-serif;
+  --f-body: 'Gowun Dodum', 'Malgun Gothic', sans-serif;
+  /* 스티커: 흰 테두리 + 두께(아래쪽 턱) + 부드러운 그림자 */
+  --stk-ring: 0 0 0 4px var(--white);
+  --stk-on-paper: 0 0 0 4px var(--white), 0 0 0 5px rgba(122, 96, 48, .16), 0 6px 0 4px var(--paper-edge), 0 10px 16px 3px rgba(35, 57, 91, .18);
+  --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .16 .2 0 0 0 -.06'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--navy-deep); color: var(--ink); font-family: var(--f-body); -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+p { margin: 0; }
+.app { position: relative; width: 100%; height: 100%; overflow: hidden; container: app / size; word-break: keep-all; overflow-wrap: break-word; }
+
+/* ===== 배경: 여권 표지 밤하늘 ===== */
+.sky {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(90% 55% at 50% 32%, #34507D 0%, rgba(52, 80, 125, 0) 70%),
+    linear-gradient(180deg, #22385A 0%, #1E3253 55%, #172844 100%);
+}
+.star { position: absolute; width: var(--s, 10px); height: var(--s, 10px); color: var(--c, #F3D27A); }
+.star svg { width: 100%; height: 100%; display: block; }
+.dot { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #FFF4D6; opacity: .7; }
+@keyframes twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.75); } }
+.star { animation: twinkle 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+
+/* 지구본 자리 (실제 앱에서는 MapLibre 캔버스가 그린다) */
+.globe-art {
+  position: absolute; left: 50%; top: var(--gy, 30%);
+  width: calc(var(--gs, min(86cqw, 44cqh)) * 1.1333); aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+.globe-art svg { width: 100%; height: 100%; display: block; }
+
+/* 한반도·제주 자리 (그림 지도 대역) */
+.map-art { position: absolute; inset: 0; display: none; }
+.map-art svg { width: 100%; height: 100%; display: block; }
+.app:not([data-screen="home"]) .globe-art,
+.app:not([data-screen="home"]) .star,
+.app:not([data-screen="home"]) .dot { display: none; }
+.app:not([data-screen="home"]) .map-art { display: block; }
+
+/* ===== 왼쪽 위 로고 ===== */
+.logo {
+  position: absolute; z-index: 3; top: max(16px, env(safe-area-inset-top)); left: 16px;
+  display: flex; align-items: center; gap: 8px; height: 46px; padding: 0 14px 0 8px;
+  border-radius: 16px; background: linear-gradient(180deg, #2A446C, #1A2D4C);
+  box-shadow: 0 0 0 3px var(--white), 0 5px 0 3px rgba(9, 18, 36, .35), 0 8px 14px rgba(0, 0, 0, .25);
+  transform: rotate(-3deg);
+}
+.logo__emblem { width: 30px; height: 30px; color: var(--gold); flex: none; }
+.logo__text { display: flex; flex-direction: column; line-height: 1; }
+.logo__name { font-family: var(--f-title); font-size: 20px; color: #F6D57E; letter-spacing: .5px; }
+.logo__sub { margin-top: 3px; font-family: var(--f-title); font-size: 8px; letter-spacing: 2.4px; color: #E9C46A; opacity: .8; }
+
+/* ===== 오른쪽 위 지도 버튼 ===== */
+.ctrls {
+  position: absolute; z-index: 3; top: max(18px, env(safe-area-inset-top)); right: 18px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.ctrl, .zoom {
+  border: 0; background: radial-gradient(circle at 38% 28%, #FFFFFF 0%, #FFF8EA 55%, #F2E4C4 100%);
+  box-shadow: 0 0 0 3px var(--white), 0 5px 0 3px #B9A47A, 0 9px 14px 2px rgba(0, 0, 0, .3);
+  color: var(--navy);
+}
+.ctrl { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; padding: 0; }
+.ctrl svg { width: 26px; height: 26px; }
+.zoom { width: 50px; border-radius: 25px; display: flex; flex-direction: column; overflow: hidden; }
+.zoom button { width: 50px; height: 52px; border: 0; background: none; display: grid; place-items: center; padding: 0; color: var(--navy); }
+.zoom button + button { border-top: 2px dashed #E3D3AE; }
+.zoom svg { width: 24px; height: 24px; }
+.ctrl:active, .zoom button:active { transform: translateY(3px); }
+.app:not([data-screen="home"]) .ctrls { display: none; }
+
+/* ===== 아래 카드 자리 ===== */
+.bottom {
+  position: absolute; z-index: 2; left: 50%; transform: translateX(-50%);
+  bottom: max(18px, env(safe-area-inset-bottom));
+  width: min(520px, calc(100% - 36px));
+}
+.screen { display: none; }
+.app[data-screen="home"] .screen[data-s="home"],
+.app[data-screen="depart"] .screen[data-s="depart"],
+.app[data-screen="mission"] .screen[data-s="mission"],
+.app[data-screen="correct"] .screen[data-s="correct"],
+.app[data-screen="wrong"] .screen[data-s="wrong"],
+.app[data-screen="stamp"] .screen[data-s="stamp"] { display: block; }
+
+/* 종이 카드: 크림 종이 + 점 모눈 + 바늘땀 + 흰 스티커 테두리 */
+.card {
+  position: relative; border-radius: 28px; padding: 18px 18px 20px;
+  background-color: var(--cream);
+  background-image: radial-gradient(rgba(201, 178, 128, .30) 1.1px, transparent 1.4px), var(--paper-noise);
+  background-size: 18px 18px, 160px 160px;
+  background-position: 9px 9px, 0 0;
+  box-shadow: 0 0 0 5px var(--white), 0 9px 0 5px rgba(10, 22, 46, .28), 0 18px 34px 4px rgba(4, 12, 30, .42);
+}
+.card::before {
+  content: ''; position: absolute; inset: 7px; border-radius: 22px; pointer-events: none;
+  border: 2px dashed var(--stitch);
+}
+.card > * { position: relative; }
+
+/* 마스킹 테이프 */
+.washi {
+  position: absolute !important; z-index: 2; height: 24px; width: 92px; pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(240, 205, 115, .93) 0 7px, rgba(248, 224, 158, .93) 7px 14px);
+  clip-path: polygon(0 8%, 4% 0, 8% 10%, 12% 0, 88% 0, 92% 10%, 96% 0, 100% 8%, 97% 50%, 100% 92%, 96% 100%, 92% 90%, 88% 100%, 12% 100%, 8% 90%, 4% 100%, 0 92%, 3% 50%);
+}
+.washi--blue { background: repeating-linear-gradient(90deg, rgba(150, 205, 235, .92) 0 6px, rgba(196, 228, 246, .92) 6px 12px); }
+.washi--l { top: -11px; left: 22px; transform: rotate(-7deg); }
+.washi--r { top: -9px; right: 22px; transform: rotate(7deg); width: 84px; }
+.washi--c { top: -12px; left: 50%; margin-left: -46px; transform: rotate(-3deg); }
+
+/* ===== 동글이 ===== */
+.dg { display: block; flex: none; overflow: visible; }
+
+/* 말풍선 (흰 스티커) */
+.bubble {
+  text-wrap: balance;
+  position: relative; background: var(--white); color: var(--ink);
+  border-radius: 20px; padding: 12px 16px;
+  box-shadow: 0 0 0 2px #EADDBF, 0 4px 0 2px #E7D8B6, 0 8px 14px rgba(35, 57, 91, .12);
+  font-family: var(--f-body); font-size: 20px; line-height: 1.5;
+}
+.bubble::before { /* 꼬리 */
+  content: ''; position: absolute; left: -11px; top: 22px; width: 18px; height: 18px;
+  background: var(--white); border-radius: 0 0 0 6px;
+  transform: rotate(45deg) skew(8deg, 8deg);
+  box-shadow: -2px 2px 0 0 #EADDBF;
+}
+.bubble--title { font-family: var(--f-title); font-size: 22px; line-height: 1.3; padding: 9px 16px 10px; }
+.bubble--title::before { top: 14px; }
+
+/* ===== 큰 버튼: 통통한 금색 스티커 ===== */
+.big {
+  position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; min-height: 62px; margin-top: 18px; padding: 0 20px;
+  border: 0; border-radius: 22px; color: var(--navy);
+  background: linear-gradient(180deg, #FBE29A 0%, #EFC96A 52%, #E4B551 100%);
+  box-shadow: inset 0 -5px 0 rgba(166, 112, 18, .28), inset 0 2px 0 rgba(255, 255, 255, .7),
+    0 0 0 4px var(--white), 0 7px 0 4px #D3BC8C, 0 12px 18px 3px rgba(35, 57, 91, .26);
+  font-family: var(--f-title); font-size: 26px; letter-spacing: .5px;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+.big::before { /* 반짝 광택 */
+  content: ''; position: absolute; left: 14px; right: 14px; top: 5px; height: 38%;
+  border-radius: 16px 16px 30px 30px; background: linear-gradient(180deg, rgba(255, 255, 255, .75), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+.big svg { width: 26px; height: 26px; position: relative; }
+.big span { position: relative; }
+.big:active { transform: translateY(5px); box-shadow: inset 0 -3px 0 rgba(166, 112, 18, .28), 0 0 0 4px var(--white), 0 2px 0 4px #D3BC8C, 0 5px 10px 2px rgba(35, 57, 91, .2); }
+
+/* ===== 홈: 여권 펼침 시작 카드 ===== */
+.launcher { padding: 16px 16px 16px; }
+.pp-deco { display: none; }
+.launcher__intro { display: flex; gap: 14px; align-items: center; margin: -44px 0 10px; }
+.launcher .dg--hero { width: 88px; height: 88px; margin-left: -6px; }
+.launcher .bubble--title { margin-top: 30px; }
+
+.tiers {
+  display: flex; gap: 4px; padding: 4px; border-radius: 18px;
+  background: var(--paper-2); box-shadow: inset 0 2px 0 rgba(122, 96, 48, .12);
+}
+.tier {
+  flex: 1; min-height: 48px; border: 0; border-radius: 14px; background: transparent;
+  font-family: var(--f-title); font-size: 19px; color: #6A5230;
+}
+.tier[aria-pressed="true"] {
+  color: var(--navy);
+  background: linear-gradient(180deg, #FBE29A, #EBC261);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .75), inset 0 -3px 0 rgba(166, 112, 18, .22), 0 3px 0 #C99A3A, 0 5px 8px rgba(122, 86, 20, .25);
+}
+
+.launcher__stages { margin-top: 12px; display: grid; gap: 10px; }
+.stage__label { margin: 0 0 7px; }
+.stage__label span {
+  display: inline-block; padding: 3px 14px 4px; font-family: var(--f-title); font-size: 16px; color: var(--navy);
+  background: repeating-linear-gradient(135deg, rgba(240, 205, 115, .75) 0 7px, rgba(248, 224, 158, .75) 7px 14px);
+  clip-path: polygon(0 10%, 3% 0, 97% 0, 100% 10%, 98% 50%, 100% 90%, 97% 100%, 3% 100%, 0 90%, 2% 50%);
+  transform: rotate(-1.5deg);
+}
+.stage:nth-child(2) .stage__label span { background: repeating-linear-gradient(90deg, rgba(150, 205, 235, .7) 0 6px, rgba(196, 228, 246, .7) 6px 12px); transform: rotate(1deg); }
+.stage__row { display: flex; gap: 10px; }
+
+/* 장소 스티커 */
+.place {
+  position: relative; flex: 0 0 calc((100% - 30px) / 4); min-width: 0;
+  display: flex; flex-direction: column; align-items: stretch; padding: 5px 5px 0;
+  border: 0; border-radius: 17px; background: var(--white);
+  transform: rotate(var(--r, 0deg));
+  box-shadow: 0 0 0 1px rgba(122, 96, 48, .12), 0 4px 0 #E4D5B3, 0 8px 12px rgba(35, 57, 91, .18);
+  transition: transform .1s ease;
+}
+.place__art { display: block; height: 46px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .05); }
+.place__art svg { width: 100%; height: 100%; display: block; }
+.place__name { display: block; padding: 5px 0 6px; text-align: center; font-family: var(--f-title); font-size: 17px; line-height: 1.15; color: var(--navy); white-space: nowrap; }
+.place:active { transform: rotate(var(--r, 0deg)) translateY(3px); box-shadow: 0 0 0 1px rgba(122, 96, 48, .12), 0 1px 0 #E4D5B3, 0 3px 6px rgba(35, 57, 91, .18); }
+.place__art { position: relative; }
+.place__art::after { /* 비닐 스티커 광택 */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0) 28%, rgba(255, 255, 255, .42) 36%, rgba(255, 255, 255, .1) 44%, rgba(255, 255, 255, 0) 52%);
+}
+
+/* ===== 여행 카드 ===== */
+.panel { padding: 16px 16px 18px; }
+.panel__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.tag {
+  position: relative; display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px 0 26px;
+  border-radius: 10px 14px 14px 10px; background: linear-gradient(180deg, #2C4870, #1F3457);
+  color: #FFF6DF; font-family: var(--f-title); font-size: 18px; white-space: nowrap;
+  box-shadow: 0 0 0 3px var(--white), 0 4px 0 3px #D9C69C, 0 7px 10px rgba(35, 57, 91, .2);
+  transform: rotate(-2deg); margin-left: 4px;
+}
+.tag__hole { position: absolute; left: 9px; top: 50%; width: 9px; height: 9px; margin-top: -4.5px; border-radius: 50%; background: var(--cream); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35); }
+.tag__dot { color: #E9C46A; }
+.tag__tier { color: var(--gold); }
+.close {
+  flex: none; width: 48px; height: 48px; border: 0; border-radius: 50%; padding: 0; display: grid; place-items: center;
+  background: radial-gradient(circle at 38% 30%, #FFFFFF, #FBF1DD 70%, #F1E2C0);
+  box-shadow: 0 0 0 3px var(--white), 0 0 0 4px rgba(122, 96, 48, .14), 0 4px 0 3px #DCCAA2, 0 7px 10px rgba(35, 57, 91, .18);
+  color: var(--navy);
+}
+.close svg { width: 20px; height: 20px; }
+.close:active { transform: translateY(3px); }
+
+.say { display: flex; align-items: flex-start; gap: 12px; }
+.say .dg { width: 72px; height: 72px; margin-top: 2px; }
+.say .bubble { flex: 1; min-width: 0; margin-top: 4px; }
+.say .bubble::before { top: 24px; }
+.mini-sticker { position: absolute; right: -12px; top: -18px; width: 40px; height: 40px; transform: rotate(14deg); }
+.say--small .dg { width: 52px; height: 52px; }
+.say--small .bubble { padding: 9px 14px; font-size: 18px; }
+.say--small .bubble::before { top: 15px; }
+
+.note { display: flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 16px; color: var(--ink-soft); padding-left: 4px; }
+.note svg { width: 20px; height: 20px; flex: none; color: var(--gold-ink); }
+
+/* 미션 진행 탭 (카드 위로 튀어나온 책갈피) */
+.ptab {
+  position: absolute !important; z-index: 2; top: -30px; left: 50%; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px 6px;
+  border-radius: 14px 14px 0 0; background: linear-gradient(180deg, #2F4C78, #23395B);
+  color: #FFF4D6; font-family: var(--f-title); font-size: 17px; white-space: nowrap;
+  box-shadow: 0 0 0 3px var(--white);
+}
+.ptab__pips { display: inline-flex; gap: 4px; }
+.ptab__pips i { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .5); }
+.ptab__pips i.is-now { background: transparent; box-shadow: inset 0 0 0 2px var(--gold); }
+
+.ask { display: flex; align-items: center; gap: 10px; }
+.ask .dg { width: 60px; height: 60px; }
+.ask__prompt { text-wrap: balance; flex: 1; font-family: var(--f-title); font-size: 23px; line-height: 1.35; color: var(--navy); }
+.ask__prompt--small { font-size: 20px; }
+
+/* 보기 카드 */
+.choices { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; padding: 0 4px; }
+.choices[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.choice {
+  position: relative; min-height: 128px; padding: 10px 6px; border: 0; border-radius: 22px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF8EB 100%);
+  transform: rotate(var(--r, 0deg));
+  box-shadow: var(--stk-on-paper);
+  transition: transform .1s ease;
+}
+.choice::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0) 18%, rgba(255, 255, 255, .7) 26%, rgba(255, 255, 255, 0) 38%); }
+.choices.is-done .choice::after { opacity: .5; }
+.choice__icon {
+  width: 70px; height: 70px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 40% 35%, #FFF6E0, #FBE6B8); font-size: 44px; line-height: 1;
+  box-shadow: inset 0 -3px 0 rgba(200, 160, 80, .2);
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+}
+.choice__label { font-family: var(--f-title); font-size: 26px; line-height: 1.1; color: var(--navy); }
+.choice:active { transform: rotate(var(--r, 0deg)) translateY(4px); }
+.choices[data-count="3"] .choice { min-height: 118px; }
+.choices[data-count="3"] .choice__icon { width: 58px; height: 58px; font-size: 36px; }
+.choices[data-count="3"] .choice__label { font-size: 21px; }
+.choices[data-count="4"] .choice { min-height: 72px; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 8px 12px; }
+.choices[data-count="4"] .choice__icon { width: 50px; height: 50px; font-size: 30px; }
+.choices[data-count="4"] .choice__label { font-size: 21px; text-align: left; }
+
+/* 답한 뒤: 보기가 납작해지고 고른 답에 체크 스티커 */
+.choices.is-done { margin-top: 4px; }
+.choices.is-done .choice { min-height: 62px; flex-direction: row; gap: 10px; padding: 6px 12px; }
+.choices.is-done .choice__icon { width: 46px; height: 46px; font-size: 28px; }
+.choices.is-done .choice__label { font-size: 22px; }
+.choice.is-correct { background: linear-gradient(180deg, #F2FBF5, #DDF3E5); }
+.choice.is-correct .choice__icon { background: radial-gradient(circle at 40% 35%, #FFFFFF, #E9F7EE); }
+.choice.is-dim { opacity: .5; filter: saturate(.4); }
+.choice.is-wrong { background: linear-gradient(180deg, #FFF6F1, #FBE7DE); }
+.choice.is-wrong .choice__label { color: #8C3B22; }
+.choice.is-answer { background: linear-gradient(180deg, #F2FBF5, #DDF3E5); animation: answer-glow 1.1s ease-in-out infinite alternate; }
+@keyframes answer-glow {
+  from { box-shadow: var(--stk-on-paper), 0 0 0 4px rgba(46, 158, 91, 0); }
+  to { box-shadow: var(--stk-on-paper), 0 0 0 11px rgba(46, 158, 91, .35); }
+}
+.badge {
+  position: absolute; top: -10px; right: -8px; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--green); color: #fff;
+  box-shadow: 0 0 0 3px var(--white), 0 3px 6px rgba(20, 60, 35, .3);
+  animation: badge-pop .45s cubic-bezier(.2, 1.7, .4, 1) both .1s;
+}
+.badge svg { width: 20px; height: 20px; }
+.badge--x { background: #D9825F; }
+@keyframes badge-pop { from { transform: scale(0) rotate(-40deg); } to { transform: scale(1) rotate(0); } }
+.hint { min-height: 0; font-size: 16px; color: var(--ink-soft); }
+
+/* 결과 스티커 */
+.feedback {
+  position: relative; display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 12px 14px 12px 10px;
+  border-radius: 22px; transform: rotate(-1.2deg);
+  box-shadow: 0 0 0 4px var(--white), 0 0 0 5px rgba(122, 96, 48, .14), 0 6px 0 4px var(--paper-edge), 0 10px 16px 3px rgba(35, 57, 91, .16);
+}
+.feedback--good { background: linear-gradient(180deg, #ECF9F1, #DCF2E4); animation: slap-in .5s cubic-bezier(.2, 1.5, .4, 1) both; }
+.feedback--again { background: linear-gradient(180deg, #FFF7EA, #FCEBD2); transform: rotate(.8deg); }
+.feedback .dg { width: 72px; height: 72px; margin: -16px 0 -8px -2px; }
+.feedback__title { font-family: var(--f-title); font-size: 30px; line-height: 1.15; color: var(--green-ink); }
+.feedback--again .feedback__title { font-size: 22px; color: #8A4A10; }
+.feedback__text { text-wrap: balance; margin-top: 4px; font-size: 18px; line-height: 1.45; color: var(--ink); }
+.feedback__detail { margin-top: 2px; font-family: var(--f-title); font-size: 18px; color: var(--green-ink); }
+@keyframes slap-in { from { transform: scale(.6) rotate(-8deg); opacity: 0; } to { transform: scale(1) rotate(-1.2deg); opacity: 1; } }
+
+/* 축하 반짝이 */
+.spark { position: absolute !important; color: var(--gold); pointer-events: none; animation: twinkle 1.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.spark svg { display: block; width: 100%; height: 100%; }
+.confetti { position: absolute !important; width: 8px; height: 12px; border-radius: 3px; background: var(--c); transform: rotate(var(--rot)); pointer-events: none; animation: confetti-pop .7s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: var(--d, 0s); }
+@keyframes confetti-pop { from { transform: translate(var(--fx), var(--fy)) scale(.2) rotate(0); opacity: 0; } to { transform: translate(0, 0) scale(1) rotate(var(--rot)); opacity: 1; } }
+
+/* ===== 도장 ===== */
+.pp-page {
+  position: relative; height: 134px; border-radius: 18px; overflow: visible;
+  background-color: #F7EEDA;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='22'%3E%3Cpath d='M0 11 Q16 3 32 11 T64 11' fill='none' stroke='%23E7D6B1' stroke-width='1.1'/%3E%3C/svg%3E");
+  background-size: 64px 11px;
+  box-shadow: inset 0 0 0 2px #EBDDBE, inset 0 3px 8px rgba(122, 90, 40, .12);
+  animation: thud .7s ease-out both;
+}
+.pp-micro { position: absolute !important; left: 14px; top: 10px; font-family: var(--f-title); font-size: 10px; letter-spacing: 3px; color: #B9A271; }
+.slot {
+  position: absolute !important; right: 24px; top: 50%; width: 76px; height: 76px; margin-top: -38px; border-radius: 50%;
+  border: 3px dashed #D3BE8E; display: grid; place-items: center; transform: rotate(6deg);
+}
+.slot svg { width: 60px; height: 60px; clip-path: circle(50%); opacity: .4; filter: grayscale(.5); }
+.stamp-wrap { position: absolute !important; left: 50%; top: 50%; width: 124px; height: 124px; margin: -62px 0 0 -96px; }
+.stamp-art { width: 100%; height: 100%; display: block; overflow: visible; transform: rotate(-10deg); animation: slap 0.62s cubic-bezier(.3, 1.4, .5, 1) both .15s; filter: drop-shadow(0 5px 6px rgba(80, 40, 20, .25)); }
+.ink-ring { position: absolute; inset: 6px; border-radius: 50%; border: 3px solid var(--stamp); opacity: 0; animation: ink-ring .7s ease-out .5s both; }
+.kwang { position: absolute !important; width: 70px; height: 56px; left: 50%; top: -18px; margin-left: -8px; transform: rotate(12deg); animation: kwang .5s cubic-bezier(.2, 1.8, .4, 1) both .55s; filter: drop-shadow(0 3px 4px rgba(35, 57, 91, .25)); }
+@keyframes slap {
+  0% { transform: translate(40px, -90px) scale(1.9) rotate(-30deg); opacity: 0; }
+  55% { transform: translate(0, 0) scale(.9) rotate(-8deg); opacity: 1; }
+  75% { transform: scale(1.05) rotate(-11deg); }
+  100% { transform: scale(1) rotate(-10deg); opacity: 1; }
+}
+@keyframes thud { 0%, 45% { transform: none; } 55% { transform: translateY(4px) scale(.995); } 70% { transform: translateY(-1px); } 100% { transform: none; } }
+@keyframes ink-ring { from { transform: scale(.9); opacity: .55; } to { transform: scale(1.35); opacity: 0; } }
+@keyframes kwang { from { transform: rotate(12deg) scale(0); } to { transform: rotate(12deg) scale(1); } }
+.stamp-title { margin-top: 12px; text-align: center; font-family: var(--f-title); font-size: 25px; color: var(--navy); }
+.panel--stamp .say { margin-top: 8px; align-items: center; }
+.panel--stamp .say .dg { width: 48px; height: 48px; }
+.panel--stamp .big { margin-top: 14px; }
+.feedback + .big { margin-top: 16px; }
+
+/* ===== 넓은 화면(태블릿 가로): 홈 카드가 진짜 펼친 여권처럼 두 쪽 ===== */
+@container app (min-width: 760px) {
+  .app[data-screen="home"] .bottom { width: min(780px, calc(100% - 48px)); bottom: 24px; }
+  .launcher { display: grid; grid-template-columns: 300px 1fr; gap: 0; padding: 20px 22px 22px; }
+  .launcher::after { /* 가운데 접힌 자리 */
+    content: ''; position: absolute; top: 10px; bottom: 10px; left: 322px; width: 26px; margin-left: -13px; pointer-events: none;
+    background: linear-gradient(90deg, rgba(150, 120, 60, 0), rgba(150, 120, 60, .16) 45%, rgba(150, 120, 60, .22) 50%, rgba(150, 120, 60, .16) 55%, rgba(150, 120, 60, 0));
+  }
+  .launcher__left { position: relative; display: flex; flex-direction: column; padding-right: 26px; }
+  .pp-deco { display: block; position: relative; flex: 1; min-height: 60px; margin-top: 12px; }
+  .pp-deco__mark { position: absolute; right: 4px; bottom: 16px; width: 60px; height: 60px; color: #E6D4AA; opacity: .75; }
+  .pp-deco__mrz { position: absolute; left: 2px; bottom: 0; font: 12px/1 ui-monospace, Consolas, monospace; letter-spacing: 1.5px; color: #C8B48A; white-space: nowrap; }
+  .launcher__intro { flex-direction: column; align-items: flex-start; gap: 8px; margin: -66px 0 18px; }
+  .launcher .dg--hero { width: 112px; height: 112px; margin-left: -4px; }
+  .launcher .bubble--title { margin-top: 0; font-size: 24px; }
+  .launcher .bubble--title::before { left: 30px; top: -8px; transform: rotate(135deg) skew(8deg, 8deg); }
+  .launcher__stages { margin-top: 0; padding-left: 34px; gap: 14px; }
+  .place { flex-basis: 92px; }
+  .place__art { height: 56px; }
+  .place__name { font-size: 18px; }
+}
+@container app (orientation: landscape) and (min-width: 760px) {
+  .globe-art { --gs: min(56cqh, 70cqw); --gy: 31%; }
+}
+
+/* 움직임 줄이기 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* 측정용 표시 (?measure=1) */
+.measure { position: absolute; z-index: 9; left: 4px; top: 70px; padding: 2px 6px; background: #000c; color: #0f0; font: 12px monospace; }
+</style>
+</head>
+<body>
+
+<!-- ============ 공용 그림 정의 (React에서는 Sprite 컴포넌트 하나로 둔다) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- 동글이 색 -->
+    <radialGradient id="dgSea" cx=".36" cy=".3" r=".8">
+      <stop offset="0" stop-color="#A2E3FF"/><stop offset=".45" stop-color="#4FB3EC"/><stop offset="1" stop-color="#2771BB"/>
+    </radialGradient>
+    <linearGradient id="dgLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#AEE07F"/><stop offset="1" stop-color="#69B24F"/></linearGradient>
+    <radialGradient id="dgShade" cx=".38" cy=".32" r=".72"><stop offset=".62" stop-color="#0B2A5A" stop-opacity="0"/><stop offset="1" stop-color="#0B2A5A" stop-opacity=".36"/></radialGradient>
+    <linearGradient id="dgDome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDA066"/><stop offset="1" stop-color="#A3663A"/></linearGradient>
+    <linearGradient id="dgBrim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D99C64"/><stop offset="1" stop-color="#AE7243"/></linearGradient>
+    <clipPath id="dgClip"><circle cx="60" cy="70" r="37"/></clipPath>
+
+    <g id="dg-body">
+      <circle cx="60" cy="70" r="37" fill="url(#dgSea)"/>
+      <g clip-path="url(#dgClip)">
+        <path d="M14 50 C22 40 36 42 40 50 C43 56 37 60 35 67 C33 76 32 88 25 89 C17 89 11 66 14 50Z" fill="url(#dgLand)"/>
+        <path d="M19 57 C23 54 28 56 27 61 C26 65 21 65 19 62Z" fill="#EBD59C"/>
+        <path d="M80 42 C89 37 100 44 101 55 C101 63 94 64 89 60 C85 57 77 51 80 42Z" fill="url(#dgLand)"/>
+        <path d="M66 99 C75 92 92 93 97 102 C99 109 88 113 76 111 C67 109 61 104 66 99Z" fill="url(#dgLand)"/>
+        <path d="M45 101 c4 -3 10 -2 11 2 c1 4 -5 6 -9 5 c-3 -1 -4 -5 -2 -7Z" fill="#EBD59C"/>
+      </g>
+      <circle cx="60" cy="70" r="37" fill="url(#dgShade)"/>
+      <ellipse cx="45" cy="50" rx="11" ry="5.5" transform="rotate(-32 45 50)" fill="#fff" opacity=".6"/>
+      <circle cx="34.5" cy="61" r="2.4" fill="#fff" opacity=".65"/>
+      <ellipse cx="60" cy="44.5" rx="27" ry="4.6" fill="#0B2A5A" opacity=".2" clip-path="url(#dgClip)"/>
+    </g>
+    <g id="dg-hat">
+      <ellipse cx="0" cy="1" rx="34" ry="8.5" fill="#83502B"/>
+      <ellipse cx="0" cy="-.6" rx="33" ry="7.2" fill="url(#dgBrim)"/>
+      <path d="M-21 -1 C-22 -27 22 -27 21 -1 Z" fill="url(#dgDome)"/>
+      <path d="M-21.3 -6.5 C-10 -3.6 10 -3.6 21.3 -6.5 L21.1 -1.2 C10 1.6 -10 1.6 -21.1 -1.2Z" fill="#5A361C"/>
+      <path d="M0 -7.4 L1.4 -4.6 4.4 -4.2 2.2 -2.1 2.8 .9 0 -.6 -2.8 .9 -2.2 -2.1 -4.4 -4.2 -1.4 -4.6Z" fill="#F4CF5E"/>
+      <ellipse cx="-9" cy="-15" rx="6.5" ry="2.8" transform="rotate(-24 -9 -15)" fill="#fff" opacity=".38"/>
+      <circle cx="0" cy="-20.6" r="2.6" fill="#B8783F"/>
+    </g>
+    <g id="dg-hat-sil">
+      <ellipse cx="0" cy="1" rx="34" ry="8.5"/>
+      <path d="M-21 -1 C-22 -27 22 -27 21 -1 Z"/>
+      <circle cx="0" cy="-20.6" r="2.6"/>
+    </g>
+    <g id="dg-eyes">
+      <g fill="#1B2540"><ellipse cx="48" cy="71" rx="4.8" ry="6.2"/><ellipse cx="72" cy="71" rx="4.8" ry="6.2"/></g>
+      <g fill="#fff"><circle cx="49.7" cy="68.6" r="1.9"/><circle cx="73.7" cy="68.6" r="1.9"/><circle cx="46.8" cy="73.9" r=".9"/><circle cx="70.8" cy="73.9" r=".9"/></g>
+    </g>
+    <g id="dg-cheeks" fill="#FF8DA1"><ellipse cx="40" cy="81" rx="6" ry="3.6"/><ellipse cx="80" cy="81" rx="6" ry="3.6"/></g>
+    <path id="spark4" d="M0 -10 Q1.6 -1.6 10 0 Q1.6 1.6 0 10 Q-1.6 1.6 -10 0 Q-1.6 -1.6 0 -10Z"/>
+
+    <!-- 동글이: 기본 (말하기) -->
+    <g id="dg-cut-default">
+      <circle cx="60" cy="70" r="37"/>
+      <use href="#dg-hat-sil" transform="translate(60 36) rotate(-8)"/>
+      <path d="M28 82 Q20 88 18 96" fill="none" stroke-width="18"/>
+      <path d="M92 72 Q102 64 104 52" fill="none" stroke-width="18"/>
+    </g>
+    <symbol id="dg-default" viewBox="0 0 120 120">
+      <g transform="translate(0 2)">
+        <use href="#dg-cut-default" transform="translate(0 3.5)" fill="#14223F" stroke="#14223F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" opacity=".2"/>
+        <use href="#dg-cut-default" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <g fill="none" stroke="#3489CF" stroke-width="9" stroke-linecap="round"><path d="M28 82 Q20 88 18 96"/><path d="M92 72 Q102 64 104 52"/></g>
+        <use href="#dg-body"/>
+        <use href="#dg-eyes"/>
+        <use href="#dg-cheeks" opacity=".8"/>
+        <path d="M53.5 80 Q60 90.5 66.5 80 Q60 82.2 53.5 80Z" fill="#7A2433"/>
+        <path d="M56.4 85.3 Q60 89 63.6 85.3 Q60 83.9 56.4 85.3Z" fill="#FF7D8D"/>
+        <use href="#dg-hat" transform="translate(60 36) rotate(-8)"/>
+      </g>
+    </symbol>
+
+    <!-- 동글이: 음… (생각) -->
+    <g id="dg-cut-think">
+      <circle cx="60" cy="70" r="37"/>
+      <use href="#dg-hat-sil" transform="translate(58 36) rotate(-15)"/>
+      <path d="M28 84 Q21 90 20 97" fill="none" stroke-width="18"/>
+      <path d="M95 80 Q101 93 87 97" fill="none" stroke-width="18"/>
+    </g>
+    <symbol id="dg-think" viewBox="0 0 120 120">
+      <g transform="translate(0 2)">
+        <use href="#dg-cut-think" transform="translate(0 3.5)" fill="#14223F" stroke="#14223F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" opacity=".2"/>
+        <use href="#dg-cut-think" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M28 84 Q21 90 20 97" fill="none" stroke="#3489CF" stroke-width="9" stroke-linecap="round"/>
+        <use href="#dg-body"/>
+        <g fill="#1B2540"><ellipse cx="50.5" cy="69.5" rx="4.6" ry="6"/><ellipse cx="74.5" cy="69.5" rx="4.6" ry="6"/></g>
+        <g fill="#fff"><circle cx="52.2" cy="67.2" r="1.9"/><circle cx="76.2" cy="67.2" r="1.9"/></g>
+        <g fill="none" stroke="#1B2540" stroke-width="2.6" stroke-linecap="round"><path d="M43.5 59.5 Q48.5 55.8 54 58.2"/><path d="M68 58.5 Q73 57 78 59"/></g>
+        <use href="#dg-cheeks" opacity=".55"/>
+        <path d="M53 86 q3 -2.4 6 0 t6 0" fill="none" stroke="#7A2433" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M95 80 Q101 93 87 97" fill="none" stroke="#1F5F9E" stroke-width="11.5" stroke-linecap="round"/>
+        <path d="M95 80 Q101 93 87 97" fill="none" stroke="#3B8FD4" stroke-width="8" stroke-linecap="round"/>
+        <use href="#dg-hat" transform="translate(58 36) rotate(-15)"/>
+        <g fill="#F2C75C" stroke="#fff" stroke-width="2"><circle cx="97" cy="27" r="3.4"/><circle cx="105" cy="17" r="4.4"/><circle cx="113" cy="6.5" r="5"/></g>
+      </g>
+    </symbol>
+
+    <!-- 동글이: 신나요 -->
+    <g id="dg-cut-happy">
+      <circle cx="60" cy="70" r="37"/>
+      <use href="#dg-hat-sil" transform="translate(62 27) rotate(11)"/>
+      <path d="M28 64 Q17 55 15 43" fill="none" stroke-width="18"/>
+      <path d="M92 64 Q103 55 105 43" fill="none" stroke-width="18"/>
+    </g>
+    <symbol id="dg-happy" viewBox="0 0 120 120">
+      <g transform="translate(0 2)">
+        <use href="#dg-cut-happy" transform="translate(0 3.5)" fill="#14223F" stroke="#14223F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" opacity=".2"/>
+        <use href="#dg-cut-happy" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <g fill="none" stroke="#3489CF" stroke-width="9" stroke-linecap="round"><path d="M28 64 Q17 55 15 43"/><path d="M92 64 Q103 55 105 43"/></g>
+        <use href="#dg-body"/>
+        <g fill="none" stroke="#1B2540" stroke-width="3.8" stroke-linecap="round"><path d="M42.5 73 Q48 65.5 53.5 73"/><path d="M66.5 73 Q72 65.5 77.5 73"/></g>
+        <g fill="#FF8DA1" opacity=".9"><ellipse cx="39.5" cy="80" rx="6.5" ry="4"/><ellipse cx="80.5" cy="80" rx="6.5" ry="4"/></g>
+        <path d="M50 79 Q60 97 70 79 Q60 82.5 50 79Z" fill="#7A2433"/>
+        <path d="M54.6 87.2 Q60 93.2 65.4 87.2 Q60 85 54.6 87.2Z" fill="#FF7D8D"/>
+        <use href="#dg-hat" transform="translate(62 27) rotate(11)"/>
+        <g fill="#F4C84E" stroke="#fff" stroke-width="1.6" stroke-linejoin="round">
+          <use href="#spark4" transform="translate(13 24) scale(.8)"/>
+          <use href="#spark4" transform="translate(108 22) scale(.7)"/>
+          <use href="#spark4" transform="translate(112 64) scale(.45)"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- 동글이: 토닥토닥 -->
+    <g id="dg-cut-comfort">
+      <circle cx="60" cy="70" r="37"/>
+      <use href="#dg-hat-sil" transform="translate(60 36) rotate(-4)"/>
+      <path d="M27 80 Q21 90 29 97" fill="none" stroke-width="18"/>
+      <path d="M95 77 Q106 78 110 88" fill="none" stroke-width="18"/>
+    </g>
+    <symbol id="dg-comfort" viewBox="0 0 120 120">
+      <g transform="translate(0 2) rotate(-7 60 72)">
+        <use href="#dg-cut-comfort" transform="translate(0 3.5)" fill="#14223F" stroke="#14223F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" opacity=".2"/>
+        <use href="#dg-cut-comfort" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <g fill="none" stroke="#3489CF" stroke-width="9" stroke-linecap="round"><path d="M27 80 Q21 90 29 97"/><path d="M95 77 Q106 78 110 88"/></g>
+        <use href="#dg-body"/>
+        <g fill="#1B2540"><ellipse cx="48" cy="72" rx="4.4" ry="5.6"/><ellipse cx="72" cy="72" rx="4.4" ry="5.6"/></g>
+        <g fill="#fff"><circle cx="49.6" cy="69.8" r="2.1"/><circle cx="73.6" cy="69.8" r="2.1"/><circle cx="46.6" cy="74.6" r="1.1"/><circle cx="70.6" cy="74.6" r="1.1"/></g>
+        <g fill="none" stroke="#1B2540" stroke-width="2.4" stroke-linecap="round"><path d="M42 63.5 Q47 61.8 52.5 60.2"/><path d="M67.5 60.2 Q73 61.8 78 63.5"/></g>
+        <use href="#dg-cheeks" opacity=".85"/>
+        <path d="M54.5 84 Q60 89 65.5 84" fill="none" stroke="#7A2433" stroke-width="2.8" stroke-linecap="round"/>
+        <use href="#dg-hat" transform="translate(60 36) rotate(-4)"/>
+        <path d="M18 31 c-3 -4 -9 -2 -8 3 c1 4 8 8 8 8 s7 -4 8 -8 c1 -5 -5 -7 -8 -3z" fill="#FF8DA1" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
+        <g fill="none" stroke="#E0A83A" stroke-width="2.4" stroke-linecap="round"><path d="M111 75 q4 -2 4 -7"/><path d="M116 84 q3 1 4 -1"/></g>
+      </g>
+    </symbol>
+
+    <!-- 작은 아이콘 (24 격자, currentColor) -->
+    <symbol id="ic-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5 21 8.5 12 13.5 3 8.5Z" fill="#CFE8F7"/><path d="M3.5 12.8 12 17.6 20.5 12.8"/><path d="M3.5 16.6 12 21.4 20.5 16.6"/></g></symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-minus" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9" fill="#CFE8F7"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3.4 9.3h17.2M3.4 14.7h17.2"/></g></symbol>
+    <symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></symbol>
+    <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M4.5 12h14M13 5.5 19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5.5 12.5 10 17 18.5 7.5" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-plane" viewBox="0 0 24 24"><path d="M21.3 3.2c-.9-.8-2.3-.6-3.3.3l-3.6 3.4L5.5 4.3 3.6 6.1l7.3 4.2-3.6 3.6-3.1-.4-1.5 1.5 3.6 2 2 3.6 1.5-1.5-.4-3.1 3.6-3.6 4.2 7.3 1.8-1.9-2.6-8.9 3.4-3.6c.9-1 1.1-2.4.3-3.3z" fill="currentColor"/></symbol>
+    <symbol id="ic-read" viewBox="0 0 24 24"><path d="M3.5 9.2h3.8L12 5v14l-4.7-4.2H3.5z" fill="currentColor"/><path d="M15.3 9.2c1.4 1.6 1.4 4 0 5.6M18 6.6c2.9 3 2.9 7.8 0 10.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-emblem" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="16" cy="16" r="11.5"/><ellipse cx="16" cy="16" rx="5" ry="11.5"/><path d="M4.8 12.5h22.4M4.8 19.5h22.4"/></g><path d="M26 2.5l1.1 2.4 2.4 1.1-2.4 1.1L26 9.5l-1.1-2.4-2.4-1.1 2.4-1.1z" fill="currentColor"/></symbol>
+
+    <!-- 장소 스티커 그림 (64x50) -->
+    <radialGradient id="gTang" cx=".38" cy=".35" r=".7"><stop offset="0" stop-color="#FFC963"/><stop offset=".6" stop-color="#F7951F"/><stop offset="1" stop-color="#E2730F"/></radialGradient>
+    <linearGradient id="gSeoul" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9CC"/><stop offset="1" stop-color="#FFC6A5"/></linearGradient>
+    <symbol id="pl-pacific" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#BFE8F8"/>
+      <circle cx="52" cy="11" r="6.5" fill="#FFE39A"/>
+      <path d="M0 31 Q8 27 16 31 T32 31 T48 31 T64 31 V50 H0Z" fill="#59B1E5"/>
+      <path d="M14 34 C15 22 35 18 42 29 C43 31 42 34 40 34Z" fill="#3A6DB0"/>
+      <path d="M41 30 C45 27 47 23 52 21.5 C50 25.5 49.5 28 51.5 31 C47.5 31.5 44 31.8 41 32Z" fill="#3A6DB0"/>
+      <path d="M17 31 C20 27 30 26 37 30 L37 34 H16Z" fill="#9CC7EE"/>
+      <circle cx="23" cy="27.2" r="1.6" fill="#14223F"/>
+      <path d="M28 20 C27.5 16 25 14 22 13.5 M28 20 C28.5 16 31 13.5 34 13" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M0 35 Q8 31 16 35 T32 35 T48 35 T64 35 V50 H0Z" fill="#2E86C8"/>
+      <path d="M6 42 q3 -2 6 0 M38 44 q3 -2 6 0 M22 46 q3 -2 6 0" stroke="#fff" stroke-opacity=".6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="pl-asia" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#A9DCF2"/>
+      <path d="%%ASIA%%" fill="#8CC866" stroke="#fff" stroke-width=".9" stroke-linejoin="round"/>
+      <path d="M49.8 19.6 L51.2 22.7 54.6 23.1 52 25.4 52.7 28.8 49.8 27.1 46.9 28.8 47.6 25.4 45 23.1 48.4 22.7Z" fill="#F4C84E" stroke="#23395B" stroke-width=".9" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="pl-antarctica" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#D7EFFA"/>
+      <g fill="#fff"><circle cx="9" cy="9" r="1.4"/><circle cx="54" cy="7" r="1.2"/><circle cx="48" cy="18" r="1"/><circle cx="14" cy="22" r="1"/></g>
+      <path d="M0 39 C10 34 22 36 30 34 C40 31 52 34 64 37 V50 H0Z" fill="#fff"/>
+      <path d="M0 45 C16 42 32 45 64 43 V50 H0Z" fill="#BFE0F0"/>
+      <path d="M23.6 24 C20.5 28 20.5 32 22.5 34.5 M40.4 24 C43.5 28 43.5 32 41.5 34.5" stroke="#26324A" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="32" cy="28" rx="9" ry="11.5" fill="#26324A"/>
+      <circle cx="32" cy="17.5" r="7.2" fill="#26324A"/>
+      <ellipse cx="32" cy="30" rx="6" ry="8.4" fill="#fff"/>
+      <circle cx="29.3" cy="18" r="2.6" fill="#fff"/><circle cx="34.7" cy="18" r="2.6" fill="#fff"/>
+      <circle cx="29.6" cy="18.2" r="1.2" fill="#14223F"/><circle cx="34.4" cy="18.2" r="1.2" fill="#14223F"/>
+      <path d="M30.4 20.8 H33.6 L32 23.2Z" fill="#F4A62A"/>
+      <ellipse cx="28.4" cy="39.5" rx="3.2" ry="1.4" fill="#F4A62A"/><ellipse cx="35.6" cy="39.5" rx="3.2" ry="1.4" fill="#F4A62A"/>
+      <g fill="#FF9DB0" opacity=".7"><ellipse cx="27" cy="21.4" rx="1.6" ry="1"/><ellipse cx="37" cy="21.4" rx="1.6" ry="1"/></g>
+    </symbol>
+    <symbol id="pl-seoul" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gSeoul)"/>
+      <circle cx="13" cy="12" r="5" fill="#FFF6DD"/>
+      <path d="M0 41 V34 H6 V30 H11 V36 H15 V28 H20 V37 H44 V31 H49 V26 H54 V34 H58 V31 H64 V50 H0Z" fill="#B9A7CB"/>
+      <path d="M6 50 C15 37 25 31.5 32 31.5 C39 31.5 49 37 58 50Z" fill="#7DBB5E"/>
+      <path d="M14 44 C20 37 26 34 32 33.5" stroke="#A4D483" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M30.5 32 L31.2 17 H32.8 L33.5 32Z" fill="#F7F1E5"/>
+      <rect x="31.45" y="5.5" width="1.1" height="11" fill="#2F4C78"/>
+      <rect x="26.5" y="15.5" width="11" height="4.2" rx="2.1" fill="#2F4C78"/>
+      <g fill="#F6CF62"><circle cx="29.3" cy="17.6" r=".7"/><circle cx="32" cy="17.6" r=".7"/><circle cx="34.7" cy="17.6" r=".7"/></g>
+      <rect x="28" y="19.7" width="8" height="2" rx="1" fill="#F7F1E5"/>
+      <circle cx="32" cy="5.5" r="1.5" fill="#F4C84E"/>
+    </symbol>
+    <symbol id="pl-dokdo" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#C2E8F8"/>
+      <circle cx="52" cy="11" r="5.5" fill="#FFE39A"/>
+      <path d="M12 12 q3 -3 6 0 q3 -3 6 0" stroke="#2F4C78" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M30 7 q2 -2 4 0 q2 -2 4 0" stroke="#2F4C78" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <rect y="35" width="64" height="15" fill="#3E98D6"/>
+      <path d="M9 37 C11 27 15 17.5 20.5 16.5 C26 17.5 29 27 31 37Z" fill="#927D5D"/>
+      <path d="M13 26 C16 20 25 19.5 28 26 C24 24 17.5 24 13 26Z" fill="#7BBE5C"/>
+      <path d="M33 37 C35 30 40 25 45 25 C50 25.5 54 30.5 56 37Z" fill="#A48E6A"/>
+      <path d="M37 30.5 C40 26.5 49 26 52 30.5 C48 29 41 29 37 30.5Z" fill="#7BBE5C"/>
+      <path d="M5 37 q3 -2 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+      <path d="M10 44 q3 -2 6 0 M40 45 q3 -2 6 0" stroke="#fff" stroke-opacity=".6" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="pl-jeju" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#E6F3CB"/>
+      <circle cx="16" cy="38" r="9.5" fill="url(#gTang)"/>
+      <ellipse cx="13" cy="34.5" rx="3" ry="1.8" transform="rotate(-30 13 34.5)" fill="#fff" opacity=".45"/>
+      <circle cx="35" cy="29" r="15" fill="url(#gTang)"/>
+      <ellipse cx="29" cy="22.5" rx="5" ry="3" transform="rotate(-30 29 22.5)" fill="#fff" opacity=".5"/>
+      <path d="M35 15 C35 13 36 11.5 37 10.5" stroke="#6B4A2A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <path d="M37 12.5 C41 6.5 49 6.5 52 9.5 C48 13.5 42 14.5 37 12.5Z" fill="#4FA34B"/>
+      <path d="M38 12.2 C42 10.8 46 10.2 50 10" stroke="#3A8A39" stroke-width=".9" fill="none"/>
+      <circle cx="35" cy="15.6" r="1" fill="#D06D16"/>
+    </symbol>
+    <symbol id="st-tang" viewBox="0 0 40 40">
+      <g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round" transform="translate(0 2)" opacity="1">
+        <circle cx="19" cy="23" r="13"/><path d="M21 12 C24 6 31 6 34 9 C31 13 25 14 21 12Z"/>
+      </g>
+      <g transform="translate(0 3.5)" opacity=".18"><circle cx="19" cy="23" r="16" fill="#14223F"/></g>
+      <g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><circle cx="19" cy="23" r="13"/><path d="M21 12 C24 6 31 6 34 9 C31 13 25 14 21 12Z"/></g>
+      <circle cx="19" cy="23" r="13" fill="url(#gTang)"/>
+      <ellipse cx="14" cy="18" rx="4" ry="2.4" transform="rotate(-30 14 18)" fill="#fff" opacity=".5"/>
+      <path d="M21 12 C24 6 31 6 34 9 C31 13 25 14 21 12Z" fill="#4FA34B"/>
+      <path d="M19 11.5 C19 10.5 19.6 9.5 20.4 9" stroke="#6B4A2A" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    </symbol>
+    <symbol id="pl-baekdu" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#CFE9FA"/>
+      <path d="M6 15 a4 4 0 0 1 7 -2 a5 5 0 0 1 9 2 a3 3 0 0 1 0 6 h-15 a3 3 0 0 1 -1 -6z" fill="#fff"/>
+      <path d="M2 50 L22 20 Q24 17 27 17 H37 Q40 17 42 20 L62 50Z" fill="#8090B5"/>
+      <path d="M37 17 Q40 17 42 20 L62 50 H44 L40 30Z" fill="#6B7AA0"/>
+      <path d="M16.6 28 L22 20 Q24 17 27 17 H37 Q40 17 42 20 L47.4 28 L43.5 26.4 40.5 29.4 36.5 26.4 32 30 27.5 26.4 23.5 29.4 20.5 26.4Z" fill="#fff"/>
+      <ellipse cx="32" cy="18.2" rx="6.5" ry="1.9" fill="#3E9AD8"/>
+      <path d="M0 50 C8 42 16 44 22 46 C30 41 40 42 46 46 C52 42 58 43 64 46 V50Z" fill="#7DBB5E"/>
+    </symbol>
+
+    <!-- 도장 잉크 결 -->
+    <filter id="ink" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -5 3.55" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in" result="inked"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="3" result="w"/>
+      <feDisplacementMap in="inked" in2="w" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <pattern id="waves" width="54" height="30" patternUnits="userSpaceOnUse">
+      <path d="M6 10 q4 -4 8 0 t8 0" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M33 25 q4 -4 8 0 t8 0" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.6" stroke-linecap="round"/>
+    </pattern>
+    <linearGradient id="gSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A6DCF0"/><stop offset="1" stop-color="#78C0E2"/></linearGradient>
+    <radialGradient id="gOcean" cx=".42" cy=".38" r=".66"><stop offset="0" stop-color="#5FC0EC"/><stop offset=".7" stop-color="#2F86C8"/><stop offset="1" stop-color="#1F5E9C"/></radialGradient>
+    <radialGradient id="gAtmo" r=".5"><stop offset=".86" stop-color="#9ED8FF" stop-opacity="0"/><stop offset=".885" stop-color="#9ED8FF" stop-opacity=".55"/><stop offset=".93" stop-color="#7FBFF0" stop-opacity=".16"/><stop offset="1" stop-color="#7FBFF0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gTerm" cx=".36" cy=".3" r=".78"><stop offset=".55" stop-color="#0A1F45" stop-opacity="0"/><stop offset="1" stop-color="#0A1F45" stop-opacity=".5"/></radialGradient>
+    <clipPath id="globeClip"><circle r="300"/></clipPath>
+  </defs>
+</svg>
+
+<div class="app" id="app" data-screen="home">
+  <!-- 밤하늘 -->
+  <div class="sky" aria-hidden="true"></div>
+  <div aria-hidden="true">
+    <span class="star" style="left:7%;top:13%;--s:12px;--d:.2s"><svg viewBox="-10 -10 20 20"><use href="#spark4" fill="currentColor"/></svg></span>
+    <span class="star" style="left:82%;top:5%;--s:9px;--c:#FFF1C9;--d:1.1s"><svg viewBox="-10 -10 20 20"><use href="#spark4" fill="currentColor"/></svg></span>
+    <span class="star" style="left:11%;top:41%;--s:8px;--c:#FFF1C9;--d:2s"><svg viewBox="-10 -10 20 20"><use href="#spark4" fill="currentColor"/></svg></span>
+    <span class="star" style="left:88%;top:44%;--s:13px;--d:.7s"><svg viewBox="-10 -10 20 20"><use href="#spark4" fill="currentColor"/></svg></span>
+    <span class="star" style="left:46%;top:3.5%;--s:7px;--c:#FFF1C9;--d:1.6s"><svg viewBox="-10 -10 20 20"><use href="#spark4" fill="currentColor"/></svg></span>
+    <span class="dot" style="left:23%;top:9%"></span><span class="dot" style="left:64%;top:7%"></span>
+    <span class="dot" style="left:5%;top:30%"></span><span class="dot" style="left:93%;top:31%"></span>
+    <span class="dot" style="left:30%;top:46%"></span><span class="dot" style="left:74%;top:47%"></span>
+  </div>
+
+  <!-- 지구본 대역 (실제: MapLibre globe, 배경은 투명하게 두고 위 하늘이 비치게) -->
+  <div class="globe-art" aria-hidden="true">
+    <svg viewBox="-340 -340 680 680">
+      <circle r="338" fill="url(#gAtmo)"/>
+      <circle r="300" fill="url(#gOcean)"/>
+      <g clip-path="url(#globeClip)">
+        <path d="%%GLOBE_LAND%%" fill="#A6D883" stroke="#F4FBEA" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="%%GLOBE_ICE%%" fill="#F3F8FC" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="%%GLOBE_KOREA%%" fill="#F5CB55" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+      </g>
+      <circle r="300" fill="url(#gTerm)"/>
+      <ellipse cx="-118" cy="-150" rx="110" ry="60" transform="rotate(-32 -118 -150)" fill="#fff" opacity=".12"/>
+    </svg>
+  </div>
+
+  <!-- 한반도 남쪽 · 제주 대역 (실제: MapLibre 그림 지도) -->
+  <div class="map-art" aria-hidden="true">
+    <svg viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice">
+      <defs><g id="kland"><path d="%%KMAP_KOR%%"/><path d="%%KMAP_JPN%%"/></g></defs>
+      <rect x="-400" y="-200" width="1200" height="1300" fill="url(#gSea)"/>
+      <rect x="-400" y="-200" width="1200" height="1300" fill="url(#waves)"/>
+      <use href="#kland" transform="translate(0 3.5)" fill="#4E97C2" stroke="#4E97C2" stroke-width="7" stroke-linejoin="round" opacity=".45"/>
+      <use href="#kland" fill="#fff" stroke="#fff" stroke-width="8" stroke-linejoin="round"/>
+      <use href="#kland" fill="#F5E9C6" stroke="#F5E9C6" stroke-width="4.5" stroke-linejoin="round"/>
+      <use href="#kland" fill="#C5E29F" stroke="#C5E29F" stroke-width=".6" stroke-linejoin="round"/>
+      <!-- 한라산 -->
+      <g transform="translate(%%HALLA_X%% %%HALLA_Y%%)">
+        <path d="M-9 4 L-2 -5 Q0 -7 2 -5 L9 4Z" fill="#7FB862"/>
+        <path d="M-4 -2 L-2 -5 Q0 -7 2 -5 L4 -2 L2 -3 L0 -1.5 L-2 -3Z" fill="#fff"/>
+      </g>
+      <!-- 목적지 핀 스티커 -->
+      <g transform="translate(%%HALLA_X%% %%HALLA_Y%%)">
+        <ellipse cx="0" cy="2" rx="9" ry="3.2" fill="#1C3A5E" opacity=".28"/>
+        <path d="M0 0 C-4 -9 -15 -16 -15 -28 A15 15 0 0 1 15 -28 C15 -16 4 -9 0 0Z" fill="#fff" transform="translate(0 0) scale(1.18) translate(0 1.2)"/>
+        <path d="M0 0 C-4 -9 -15 -16 -15 -28 A15 15 0 0 1 15 -28 C15 -16 4 -9 0 0Z" fill="#E9B949"/>
+        <circle cx="0" cy="-28" r="8.5" fill="#23395B"/>
+        <path d="M0 -33.2 L1.6 -30 5 -29.6 2.5 -27.2 3.1 -23.8 0 -25.4 -3.1 -23.8 -2.5 -27.2 -5 -29.6 -1.6 -30Z" fill="#F6D57E"/>
+        <ellipse cx="-6" cy="-36" rx="4" ry="2.2" transform="rotate(-35 -6 -36)" fill="#fff" opacity=".55"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- 왼쪽 위 로고 -->
+  <div class="logo" role="img" aria-label="지구 여권">
+    <svg class="logo__emblem" aria-hidden="true"><use href="#ic-emblem"/></svg>
+    <span class="logo__text" aria-hidden="true"><span class="logo__name">지구 여권</span><span class="logo__sub">EARTH PASSPORT</span></span>
+  </div>
+
+  <!-- 오른쪽 위 지도 버튼 -->
+  <nav class="ctrls" aria-label="지도 버튼">
+    <button class="ctrl" type="button" aria-label="위성 지도로 보기"><svg aria-hidden="true"><use href="#ic-layers"/></svg></button>
+    <div class="zoom">
+      <button type="button" aria-label="크게 보기"><svg aria-hidden="true"><use href="#ic-plus"/></svg></button>
+      <button type="button" aria-label="작게 보기"><svg aria-hidden="true"><use href="#ic-minus"/></svg></button>
+    </div>
+    <button class="ctrl" type="button" aria-label="평면 지도로 보기"><svg aria-hidden="true"><use href="#ic-globe"/></svg></button>
+  </nav>
+
+  <main class="bottom">
+    <!-- ================= 홈 ================= -->
+    <section class="screen" data-s="home" aria-label="여행 고르기">
+      <div class="card launcher">
+        <span class="washi washi--r" aria-hidden="true"></span>
+        <div class="launcher__left">
+          <div class="launcher__intro">
+            <svg class="dg dg--hero" viewBox="0 0 120 120" aria-hidden="true"><use href="#dg-default"/></svg>
+            <p class="bubble bubble--title">어디로 떠나 볼까?</p>
+          </div>
+          <div class="tiers" role="group" aria-label="나이 구간">
+            <button class="tier" type="button" aria-pressed="true">유아</button>
+            <button class="tier" type="button" aria-pressed="false">저학년</button>
+            <button class="tier" type="button" aria-pressed="false">고학년</button>
+          </div>
+          <div class="pp-deco" aria-hidden="true">
+            <svg class="pp-deco__mark"><use href="#ic-emblem"/></svg>
+            <span class="pp-deco__mrz">P&lt;EARTH&lt;&lt;PASSPORT&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+          </div>
+        </div>
+        <div class="launcher__stages">
+          <div class="stage">
+            <p class="stage__label"><span>1단계 · 둥근 지구</span></p>
+            <div class="stage__row">
+              <button class="place" type="button" style="--r:-3deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-pacific"/></svg></span><span class="place__name">태평양</span></button>
+              <button class="place" type="button" style="--r:2deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-asia"/></svg></span><span class="place__name">아시아</span></button>
+              <button class="place" type="button" style="--r:-1.5deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-antarctica"/></svg></span><span class="place__name">남극</span></button>
+            </div>
+          </div>
+          <div class="stage">
+            <p class="stage__label"><span>2단계 · 우리나라</span></p>
+            <div class="stage__row">
+              <button class="place" type="button" style="--r:2.5deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-seoul"/></svg></span><span class="place__name">서울</span></button>
+              <button class="place" type="button" style="--r:-2deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-dokdo"/></svg></span><span class="place__name">독도</span></button>
+              <button class="place" type="button" style="--r:1.5deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-jeju"/></svg></span><span class="place__name">제주도</span></button>
+              <button class="place" type="button" style="--r:-2.5deg"><span class="place__art"><svg aria-hidden="true"><use href="#pl-baekdu"/></svg></span><span class="place__name">백두산</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 출발 ================= -->
+    <section class="screen" data-s="depart" aria-label="제주도 여행">
+      <div class="card panel">
+        <span class="washi washi--c" aria-hidden="true"></span>
+        <header class="panel__head">
+          <span class="tag"><span class="tag__hole" aria-hidden="true"></span>제주도 여행 <span class="tag__dot">·</span> <span class="tag__tier">유아</span></span>
+          <button class="close" type="button" aria-label="여행 그만하기"><svg aria-hidden="true"><use href="#ic-close"/></svg></button>
+        </header>
+        <div class="say">
+          <svg class="dg" viewBox="0 0 120 120" aria-hidden="true"><use href="#dg-default"/></svg>
+          <p class="bubble">귤이 주렁주렁 열리는 섬으로 가 볼까?<svg class="mini-sticker" viewBox="0 0 40 40" aria-hidden="true"><use href="#st-tang"/></svg></p>
+        </div>
+        <p class="note"><svg aria-hidden="true"><use href="#ic-read"/></svg>부모님이 소리 내어 읽어 주세요.</p>
+        <button class="big" type="button"><span>출발!</span><svg aria-hidden="true"><use href="#ic-plane"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ================= 미션 ================= -->
+    <section class="screen" data-s="mission" aria-label="제주도 여행">
+      <div class="card panel">
+        <span class="ptab">미션 2 / 2 <span class="ptab__pips" aria-hidden="true"><i></i><i class="is-now"></i></span></span>
+        <header class="panel__head">
+          <span class="tag"><span class="tag__hole" aria-hidden="true"></span>제주도 여행 <span class="tag__dot">·</span> <span class="tag__tier">유아</span></span>
+          <button class="close" type="button" aria-label="여행 그만하기"><svg aria-hidden="true"><use href="#ic-close"/></svg></button>
+        </header>
+        <div class="ask">
+          <svg class="dg" viewBox="0 0 120 120" aria-hidden="true"><use href="#dg-think"/></svg>
+          <p class="ask__prompt">제주도에서 많이 나는 과일은 무엇일까?</p>
+        </div>
+        <div class="choices" data-count="2" id="choices">
+          <button class="choice" type="button" style="--r:-1.8deg"><span class="choice__icon" aria-hidden="true">🍊</span><span class="choice__label">귤</span></button>
+          <button class="choice" type="button" style="--r:1.6deg"><span class="choice__icon" aria-hidden="true">🥥</span><span class="choice__label">코코넛</span></button>
+        </div>
+        <p class="hint" role="status" aria-live="polite"></p>
+        <p class="note"><svg aria-hidden="true"><use href="#ic-read"/></svg>부모님이 소리 내어 읽어 주세요.</p>
+      </div>
+    </section>
+
+    <!-- ================= 정답 ================= -->
+    <section class="screen" data-s="correct" aria-label="제주도 여행">
+      <div class="card panel">
+        <span class="ptab">미션 2 / 2 <span class="ptab__pips" aria-hidden="true"><i></i><i></i></span></span>
+        <header class="panel__head">
+          <span class="tag"><span class="tag__hole" aria-hidden="true"></span>제주도 여행 <span class="tag__dot">·</span> <span class="tag__tier">유아</span></span>
+          <button class="close" type="button" aria-label="여행 그만하기"><svg aria-hidden="true"><use href="#ic-close"/></svg></button>
+        </header>
+        <div class="choices is-done" data-count="2">
+          <button class="choice is-correct" type="button" aria-disabled="true" style="--r:-1.8deg"><span class="choice__icon" aria-hidden="true">🍊</span><span class="choice__label">귤</span><span class="badge" aria-hidden="true"><svg><use href="#ic-check"/></svg></span></button>
+          <button class="choice is-dim" type="button" aria-disabled="true" style="--r:1.6deg"><span class="choice__icon" aria-hidden="true">🥥</span><span class="choice__label">코코넛</span></button>
+        </div>
+        <div class="feedback feedback--good" role="status">
+          <span class="confetti" style="left:58%;top:-12px;--c:#7CC6EC;--rot:24deg;--fx:-40px;--fy:30px;--d:.05s" aria-hidden="true"></span>
+          <span class="confetti" style="left:88%;top:-8px;--c:#F59A8B;--rot:-30deg;--fx:-70px;--fy:40px;--d:.1s" aria-hidden="true"></span>
+          <span class="confetti" style="left:94%;bottom:-10px;--c:#7FD3A4;--rot:60deg;--fx:-80px;--fy:-20px;--d:.15s" aria-hidden="true"></span>
+          <span class="confetti" style="left:40%;bottom:-12px;--c:#F4C84E;--rot:-12deg;--fx:-10px;--fy:-30px;--d:.12s" aria-hidden="true"></span>
+          <span class="spark" style="right:14px;top:10px;width:18px;height:18px;--d:.3s" aria-hidden="true"><svg viewBox="-11 -11 22 22"><use href="#spark4" fill="currentColor" stroke="#fff" stroke-width="2"/></svg></span>
+          <span class="spark" style="right:40px;top:-14px;width:12px;height:12px;--d:.9s" aria-hidden="true"><svg viewBox="-11 -11 22 22"><use href="#spark4" fill="currentColor" stroke="#fff" stroke-width="2"/></svg></span>
+          <svg class="dg" viewBox="0 0 120 120" aria-hidden="true"><use href="#dg-happy"/></svg>
+          <div>
+            <p class="feedback__title">잘했어요!</p>
+            <p class="feedback__text">제주도는 따뜻해서 귤이 잘 자라요.</p>
+          </div>
+        </div>
+        <button class="big" type="button"><span>다음</span><svg aria-hidden="true"><use href="#ic-arrow"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ================= 틀렸을 때 (참고) ================= -->
+    <section class="screen" data-s="wrong" aria-label="제주도 여행">
+      <div class="card panel">
+        <span class="ptab">미션 2 / 2 <span class="ptab__pips" aria-hidden="true"><i></i><i></i></span></span>
+        <header class="panel__head">
+          <span class="tag"><span class="tag__hole" aria-hidden="true"></span>제주도 여행 <span class="tag__dot">·</span> <span class="tag__tier">유아</span></span>
+          <button class="close" type="button" aria-label="여행 그만하기"><svg aria-hidden="true"><use href="#ic-close"/></svg></button>
+        </header>
+        <div class="choices is-done" data-count="2">
+          <button class="choice is-answer" type="button" aria-disabled="true" style="--r:-1.8deg"><span class="choice__icon" aria-hidden="true">🍊</span><span class="choice__label">귤</span></button>
+          <button class="choice is-wrong" type="button" aria-disabled="true" style="--r:1.6deg"><span class="choice__icon" aria-hidden="true">🥥</span><span class="choice__label">코코넛</span></button>
+        </div>
+        <div class="feedback feedback--again" role="status">
+          <svg class="dg" viewBox="0 0 120 120" aria-hidden="true"><use href="#dg-comfort"/></svg>
+          <div>
+            <p class="feedback__title">괜찮아요, 같이 알아봐요</p>
+            <p class="feedback__detail">정답: 귤</p>
+            <p class="feedback__text">제주도는 따뜻해서 귤이 잘 자라요.</p>
+          </div>
+        </div>
+        <button class="big" type="button"><span>다음</span><svg aria-hidden="true"><use href="#ic-arrow"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ================= 도장 ================= -->
+    <section class="screen" data-s="stamp" aria-label="제주도 여행">
+      <div class="card panel panel--stamp">
+        <header class="panel__head">
+          <span class="tag"><span class="tag__hole" aria-hidden="true"></span>제주도 여행 <span class="tag__dot">·</span> <span class="tag__tier">유아</span></span>
+          <button class="close" type="button" aria-label="여행 그만하기"><svg aria-hidden="true"><use href="#ic-close"/></svg></button>
+        </header>
+        <div class="pp-page">
+          <span class="pp-micro" aria-hidden="true">PASSPORT</span>
+          <div class="slot" aria-hidden="true"><svg viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice"><use href="#pl-baekdu"/></svg></div>
+          <div class="stamp-wrap">
+            <span class="ink-ring" aria-hidden="true"></span>
+            <svg class="stamp-art" viewBox="0 0 160 160" role="img" aria-label="제주도 도장, 10월 16일">
+              <circle cx="80" cy="80" r="77" fill="#fff"/>
+              <circle cx="80" cy="80" r="70.5" fill="#FFF8EC"/>
+              <g filter="url(#ink)">
+                <circle cx="80" cy="80" r="64" fill="none" stroke="#C8342B" stroke-width="5"/>
+                <circle cx="80" cy="80" r="56.5" fill="none" stroke="#C8342B" stroke-width="1.8"/>
+                <path id="stampArc" d="M35 80 A45 45 0 0 1 125 80" fill="none"/>
+                <text font-family="Jua" font-size="10.5" letter-spacing="2.6" fill="#C8342B"><textPath href="#stampArc" startOffset="50%" text-anchor="middle">EARTH PASSPORT</textPath></text>
+                <text x="80" y="90" text-anchor="middle" font-family="Jua" font-size="33" fill="#C8342B">제주도</text>
+                <path d="M44 100 H116" stroke="#C8342B" stroke-width="1.8"/>
+                <text x="80" y="119" text-anchor="middle" font-family="Jua" font-size="16.5" fill="#C8342B">10월 16일</text>
+                <g fill="#C8342B"><use href="#spark4" transform="translate(31 82) scale(.42)"/><use href="#spark4" transform="translate(129 82) scale(.42)"/></g>
+              </g>
+            </svg>
+          </div>
+          <svg class="kwang" viewBox="0 0 80 64" aria-hidden="true">
+            <polygon points="%%BURST%%" fill="#F4CB55" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+            <text x="40" y="41" text-anchor="middle" font-family="Jua" font-size="22" fill="#23395B">쾅!</text>
+          </svg>
+        </div>
+        <p class="stamp-title">제주도 도장을 받았어요!</p>
+        <div class="say say--small">
+          <svg class="dg" viewBox="0 0 120 120" aria-hidden="true"><use href="#dg-happy"/></svg>
+          <p class="bubble">다음엔 백두산에 가 볼까요?</p>
+        </div>
+        <button class="big" type="button"><span>계속</span><svg aria-hidden="true"><use href="#ic-arrow"/></svg></button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // ?s=home|depart|mission|correct|wrong|stamp  (보기 수 시험: &n=3 또는 &n=4)
+  const q = new URLSearchParams(location.search);
+  const app = document.getElementById('app');
+  app.dataset.screen = q.get('s') || 'home';
+  // 미리보기용: ?w=390&h=844 로 앱 화면 크기를 직접 정한다 (헤드리스 크롬은 창 폭이 500px 밑으로 줄지 않는다)
+  if (q.get('w')) { app.style.width = q.get('w') + 'px'; app.style.height = (q.get('h') || 844) + 'px'; }
+  if (q.get('z')) app.style.zoom = q.get('z'); // 세부 확인용 확대
+  const n = Number(q.get('n'));
+  if (n === 3 || n === 4) {
+    const extra = [['🍌', '바나나'], ['🍍', '파인애플']].slice(0, n - 2);
+    const box = document.getElementById('choices');
+    box.dataset.count = String(n);
+    extra.forEach(([icon, label], i) => {
+      const b = document.createElement('button');
+      b.className = 'choice'; b.type = 'button'; b.style.setProperty('--r', (i % 2 ? 1.4 : -1.2) + 'deg');
+      b.innerHTML = `<span class="choice__icon" aria-hidden="true">${icon}</span><span class="choice__label">${label}</span>`;
+      box.appendChild(b);
+    });
+  }
+  if (q.get('measure')) {
+    requestAnimationFrame(() => {
+      const card = document.querySelector('.screen[style], .app .screen:not([hidden])');
+      const vis = [...document.querySelectorAll('.screen')].find((el) => getComputedStyle(el).display !== 'none');
+      const r = vis.querySelector('.card').getBoundingClientRect();
+      const m = document.createElement('div'); m.className = 'measure';
+      const H = app.clientHeight; m.textContent = `card top ${Math.round(r.top)} h ${Math.round(r.height)} = ${Math.round((H - r.top) / H * 100)}% of ${H} (w ${app.clientWidth})`;
+      app.appendChild(m);
+    });
+  }
+</script>
+</body>
+</html>
