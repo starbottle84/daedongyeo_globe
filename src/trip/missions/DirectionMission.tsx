@@ -19,8 +19,13 @@ export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<
     return () => globe.clearMarkers();
   }, [globe, mission]);
 
+  // 결과 카드가 붙으면 카드가 커지므로, 그려진 뒤에 두 표시가 카드 위쪽에 다 보이게 다시 맞춘다 (PinMission과 같은 방식)
+  useEffect(() => {
+    if (outcome !== null) globe.fitTo([mission.from, mission.to]);
+  }, [globe, mission, outcome]);
+
   return (
-    <div className="mission">
+    <div className={`mission${outcome ? ' mission--done' : ''}`}>
       <div className="ask">
         <Dongle mood="think" size="xs" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>

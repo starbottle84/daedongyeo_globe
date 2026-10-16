@@ -14,12 +14,21 @@ interface MissionFeedbackProps {
   onNext: () => void;
 }
 
-// 정답일 때 동글이 둘레로 튀어나오는 색종이 (기준 시안 682–685줄)
+// 정답일 때 동글이 둘레로 튀어나오는 색종이 (기준 시안 682–685줄).
+// 자리는 시안의 동글이 칸(92px) 기준 px 값 그대로 두고 비율로 바꿔 그린다 — 압축 카드의 작은 칸(64px)에서도 같은 자리에 온다
+const HERO_PX = 92;
 const CONFETTI = [
   { left: -6, top: 10, c: '#E9C46A', r: -24, fx: 30, fy: 30, d: 0.05 },
   { left: 84, top: 2, c: '#2E9E5B', r: 28, fx: -30, fy: 30, d: 0.12 },
   { left: -4, top: 70, c: '#7CCBF0', r: 60, fx: 30, fy: -20, d: 0.18 },
   { left: 90, top: 66, c: '#F29A9A', r: -50, fx: -30, fy: -20, d: 0.1 },
+];
+// 카드 오른쪽에 흩어지는 색종이 (기준 시안 702–705줄)
+const SIDE_CONFETTI = [
+  { right: 70, top: 8, c: '#E9C46A', r: 35, fx: -40, fy: 20, d: 0.15 },
+  { right: 10, top: 44, c: '#7CCBF0', r: -30, fx: -50, fy: 0, d: 0.22 },
+  { right: 92, bottom: 8, c: '#2E9E5B', r: 70, fx: -40, fy: -20, d: 0.28 },
+  { right: 56, bottom: 22, c: '#F29A9A', r: -15, fx: -30, fy: -30, d: 0.2 },
 ];
 
 export function MissionFeedback({ correct, answer, detail, explain, stars, onNext }: MissionFeedbackProps) {
@@ -55,8 +64,8 @@ export function MissionFeedback({ correct, answer, detail, explain, stars, onNex
                   className="confetti"
                   aria-hidden="true"
                   style={{
-                    left: p.left,
-                    top: p.top,
+                    left: `${(p.left / HERO_PX) * 100}%`,
+                    top: `${(p.top / HERO_PX) * 100}%`,
                     ['--c' as string]: p.c,
                     ['--r' as string]: `${p.r}deg`,
                     ['--fx' as string]: `${p.fx}px`,
@@ -120,6 +129,26 @@ export function MissionFeedback({ correct, answer, detail, explain, stars, onNex
             <span className="spark" style={{ right: 22, bottom: 14, ['--s' as string]: '13px', ['--d' as string]: '.6s' }} aria-hidden="true">
               <svg><use href="#spark" /></svg>
             </span>
+            <span className="spark" style={{ left: 150, top: 8, ['--s' as string]: '12px', ['--d' as string]: '1.1s' }} aria-hidden="true">
+              <svg><use href="#spark" /></svg>
+            </span>
+            {SIDE_CONFETTI.map((p, i) => (
+              <span
+                key={i}
+                className="confetti"
+                aria-hidden="true"
+                style={{
+                  right: p.right,
+                  top: p.top,
+                  bottom: p.bottom,
+                  ['--c' as string]: p.c,
+                  ['--r' as string]: `${p.r}deg`,
+                  ['--fx' as string]: `${p.fx}px`,
+                  ['--fy' as string]: `${p.fy}px`,
+                  ['--d' as string]: `${p.d}s`,
+                }}
+              />
+            ))}
           </>
         )}
       </div>

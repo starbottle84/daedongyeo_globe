@@ -8,7 +8,7 @@ export function ChoiceMission({ mission, tier, onDone }: MissionProps<MissionOf<
   const { attempts, wrong, outcome, showAnswer, message, pick } = useTries(mission.answer, tier);
 
   return (
-    <div className="mission">
+    <div className={`mission${outcome ? ' mission--done' : ''}`}>
       <div className="ask">
         <Dongle mood="think" size="sm" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>

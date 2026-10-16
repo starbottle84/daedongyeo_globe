@@ -46,15 +46,20 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
         setMessage('조금 빗나갔어요. 한 번 더 눌러 볼까요?');
       } else {
         showAnswer();
-        // 초록 핀이 화면 안에 보이도록 정답 위치로 날아간다
-        globe.flyTo(mission.target, startView.zoom);
         setOutcome('revealed');
       }
     });
-  }, [globe, mission, tier, outcome, startView.zoom]);
+  }, [globe, mission, tier, outcome]);
+
+  // 결과 카드가 그려진 뒤에 초록 핀이 카드 위쪽 보이는 곳 가운데에 오도록 정답 위치로 날아간다.
+  // 누르는 순간에 날아가면 결과가 붙기 전의 짧은 카드 높이로 여백을 재서, 카드가 커진 뒤 핀이 카드 밑에 숨는다.
+  // (자식 MissionFeedback의 효과가 이 효과보다 먼저 돌므로, 여기서 재는 카드 높이는 다 커진 높이다 — PinMission과 같다)
+  useEffect(() => {
+    if (outcome !== null) globe.flyTo(mission.target, startView.zoom);
+  }, [globe, mission.target, outcome, startView.zoom]);
 
   return (
-    <div className="mission">
+    <div className={`mission${outcome ? ' mission--done' : ''}`}>
       <div className="ask">
         <Dongle mood="think" size="xs" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>

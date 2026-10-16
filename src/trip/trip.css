@@ -43,7 +43,15 @@
 .mission__hint { margin: 10px 0 0; font-size: 17px; color: var(--note); }
 /* 보기 아래 한마디: 늘 붙어 있어야 화면 읽기 프로그램이 바뀐 말을 읽으므로 비어 있어도 숨기지 않고 여백만 없앤다 */
 .mission__hint:empty { margin: 0; }
+/* 유아 힌트 줄이 붙어도 고르기 카드가 390×844에서 50% 안에 들게 보기와의 간격을 조금 줄인다 */
+.choices + .mission__hint:not(:empty) { margin-top: 6px; }
+/* 결과가 나오면 안내 줄('부모님이 소리 내어 읽어 주세요.')과 질문 줄을 숨긴다 — 시안의 결과 화면(correct·wrong)에도 없고,
+   남겨 두면 유아 정답 카드가 높이 상한에 걸려 안내 줄이 '다음' 버튼 아래에서 잘려 보인다.
+   압축 카드의 결과도 설계대로 동글이 + 제목 + 한 줄 + 다음만 남아 지도를 덜 가린다 */
+.mission--done + .note, .mission--done > .ask { display: none; }
 .trip-panel--compact .ask { margin-bottom: 6px; }
+/* 고르기 질문 줄 동글이: 설계(56~64px)에 맞춘다 */
+.ask .dg--sm { width: 56px; height: 56px; }
 /* 압축 카드는 글줄 높이를 줄여 방향 미션(두 줄 질문 + 나침반 3줄)도 390×844에서 40% 안에 든다 — 나침반 버튼은 48px 그대로 */
 .trip-panel--compact .ask__prompt { font-size: 20px; line-height: 1.15; }
 .trip-panel--compact .progress__label { line-height: 1; }
@@ -100,18 +108,37 @@
 /* 답한 뒤: 보기를 한 줄 칩으로 줄여 결과 카드 자리를 만든다
    ([data-count]는 위 시안 규칙 .choices[data-count="3"] .choice 등보다 우선하게 붙인다) */
 .choices--done { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+/* 그림 없는 4개 보기(고학년): 시안 4개 규칙은 왼쪽 정렬(메달 옆 글자)이라, 메달이 없을 때만 글자를 가운데에 둔다 */
+.choices[data-count="4"] .choice__label:first-child { margin: 0 auto; }
 .choices--done[data-count] .choice { flex-direction: row; min-height: 48px; padding: 4px 14px 4px 6px; gap: 8px; font-size: 18px; border-radius: 999px; box-shadow: inset 0 0 0 2px #E7D7B1; }
 .choices--done[data-count] .choice__medal { width: 38px; height: 38px; font-size: 22px; }
 .choices--done[data-count] .choice__medal::after { inset: 3px; }
 .choices--done[data-count] .choice.is-answer { box-shadow: inset 0 0 0 2.5px var(--green); animation: none; }
+/* 답한 뒤 고르지 않은 보기는 흐리게 (정답 보기만 또렷하게) */
+.choices--done[data-count] .choice:not(.is-answer) { opacity: .55; filter: saturate(.6); }
+/* 이미 틀린 보기·답한 뒤의 보기는 눌러도 아무 일이 없으므로 눌리는 것처럼 내려가지 않게 한다 */
+.choice[aria-disabled="true"]:active, .compass__dir[aria-disabled="true"]:active { transform: none; }
 /* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게. 칩이 되면 왼쪽 여백을 오른쪽과 맞춘다 */
 .choice__label { word-break: keep-all; text-wrap: balance; }
 .choices--done[data-count] .choice__label:first-child { margin-left: 8px; }
 .chip--plain { padding-left: 12px; }
 .chip__prefix { color: var(--apricot-ink); }
-.result__stars { margin: 6px 0 0; font-size: 26px; letter-spacing: 2px; color: var(--gold-600); }
+/* 별은 연초록·살구 바탕에서 그림 대비 3:1이 넘게 진한 금색으로 */
+.result__stars { margin: 6px 0 0; font-size: 26px; letter-spacing: 2px; color: var(--gold-700); }
 .result__detail { margin: 10px 2px 0; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
 .feedback .btn { margin-top: 14px; }
+/* 결과 카드 반짝이: 몇 번 깜빡이고 밝은 끝모습에서 멈춘다 (alternate라 홀수 번) */
+.result .spark { animation-iteration-count: 3; }
+/* 압축 카드의 결과: 동글이·제목을 줄여 지도(목표·정답 핀)를 덜 가린다 */
+.trip-panel--compact .result { padding: 8px 12px 8px 8px; gap: 10px; }
+.trip-panel--compact .result__hero { width: 64px; height: 64px; }
+.trip-panel--compact .result__hero .dg { width: 58px; height: 58px; }
+.trip-panel--compact .burst { inset: -10px; }
+.trip-panel--compact .result__title { font-size: 24px; }
+.trip-panel--compact .result--soft .result__title { font-size: 20px; }
+/* 8방향 정답 공개처럼 설명이 두 줄이어도 카드 안 스크롤 없이 들어가게 간격을 조금 줄인다 */
+.trip-panel--compact .explain { margin-top: 8px; }
+.trip-panel--compact .feedback .btn { margin-top: 10px; }
 /* 동글이 깡충: 2~3번만 */
 .result:not(.result--soft) .result__hero .dg { animation: hop .5s ease-in-out .1s 3; }
 @keyframes hop { 50% { transform: translateY(-6px); } }

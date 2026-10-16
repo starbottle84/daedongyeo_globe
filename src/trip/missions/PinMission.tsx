@@ -45,7 +45,7 @@ export function PinMission({ mission, globe, placeView, onDone }: MissionProps<M
   };
 
   return (
-    <div className="mission">
+    <div className={`mission${result ? ' mission--done' : ''}`}>
       <div className="ask">
         <Dongle mood="think" size="xs" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>
