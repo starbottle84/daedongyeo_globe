@@ -69,6 +69,17 @@ body {
   width: min(560px, calc(100vw - 32px));
   display: flex; flex-direction: column; gap: 12px;
 }
-/* 여행이 아닐 때는 카드 묶음을 오른쪽 위 지도 버튼(z-index 2)보다 위에 둔다 — 낮은 휴대폰에서 안내 카드(새 버전·위성 오류)가
-   지도 버튼 줄까지 올라오면 카드 버튼이 지도 버튼에 가려 눌리지 않는다. (묶음에 transform이 있어 카드에 z-index를 줘도 소용없다) */
-.app:not(.app--trip) .bottom-stack { z-index: 3; }
+/* 여행이 아닐 때 안내 카드(새 버전·위성 오류)가 붙으면 카드 묶음을 오른쪽 위 지도 버튼(z-index 2)보다 위에 둔다 — 낮은 휴대폰에서
+   카드가 지도 버튼 줄까지 올라오면 카드 버튼이 지도 버튼에 가려 눌리지 않는다. (묶음에 transform이 있어 카드에 z-index를 줘도 소용없다)
+   안내 카드가 없을 때는 그대로 지도 버튼이 위다 — 가로 휴대폰에서 시작 카드가 지도 버튼 가장자리를 덮지 않게 */
+.app:not(.app--trip) .bottom-stack:has(.update-banner, .satellite-notice) { z-index: 3; }
+/* 낮은 세로 화면에서는 안내 카드가 붙어도 카드 묶음이 지도 버튼 줄 위로 올라오지 않게 묶음 높이에 상한을 둔다.
+   시작 카드 종이가 그만큼 줄어 종이 안에서 스크롤한다. 244px = 지도 버튼 세 칸(52 + 104 + 52) + 사이 12×2 + 틈 12.
+   (가로 휴대폰은 버튼 줄 아래 남는 높이가 100px 남짓이라 두지 않는다 — 위 z-index로 카드가 버튼 위에 그려진다) */
+@media (max-height: 760px) and (orientation: portrait) {
+  .app:not(.app--trip) .bottom-stack:has(.update-banner, .satellite-notice) {
+    max-height: calc(100vh - max(16px, env(safe-area-inset-top)) - 244px - max(16px, env(safe-area-inset-bottom)));
+    max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - 244px - max(16px, env(safe-area-inset-bottom)));
+  }
+  .bottom-stack:has(.update-banner, .satellite-notice) .launcher { min-height: 0; display: flex; flex-direction: column; }
+}

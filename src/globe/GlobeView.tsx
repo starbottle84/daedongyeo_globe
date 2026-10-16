@@ -44,10 +44,20 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
       locale: { 'AttributionControl.ToggleAttribution': '지도 출처 보기' },
     });
     map.addControl(new maplibregl.AttributionControl({ customAttribution: 'Natural Earth' }), 'top-left');
-    // 폭 640px 이하에서는 MapLibre가 출처를 펼친 채로 시작해 지구본 가장자리를 덮으므로, 처음에는 접힌 'i'로 둔다 (누르면 펼쳐짐)
-    const attrib = map.getContainer().querySelector('.maplibregl-ctrl-attrib.maplibregl-compact');
-    attrib?.classList.remove('maplibregl-compact-show');
-    attrib?.removeAttribute('open');
+    // 폭 640px 이하에서는 MapLibre가 출처를 펼친 채로 시작해 지구본 가장자리를 덮으므로, 처음에는 접힌 'i'로 둔다 (누르면 펼쳐짐).
+    // 넓은 화면에서 좁아질 때(가로→세로로 돌림)도 MapLibre가 다시 펼치므로 그때도 접는다 — 좁은 채로 아이가 직접 펼쳐 둔 것은 그대로 둔다
+    const attrib = map.getContainer().querySelector('.maplibregl-ctrl-attrib');
+    let attribCompact = false;
+    const collapseAttrib = () => {
+      const compact = !!attrib?.classList.contains('maplibregl-compact');
+      if (compact && !attribCompact) {
+        attrib?.classList.remove('maplibregl-compact-show');
+        attrib?.removeAttribute('open');
+      }
+      attribCompact = compact;
+    };
+    collapseAttrib();
+    map.on('resize', collapseAttrib); // 출처 컨트롤이 먼저 단 'resize' 처리기(접기/펼치기 바꿈) 다음에 돈다
 
     map.on('styleimagemissing', (e) => {
       const make = ICONS[e.id];

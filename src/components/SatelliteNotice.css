@@ -10,8 +10,8 @@
 .satellite-notice p { margin: 0; font-size: 17px; word-break: keep-all; }
 /* 버튼 모양은 ui.css의 금박 작은 판(.btn .btn--small) */
 .satellite-notice .btn { flex: none; cursor: pointer; }
-/* 작은 화면(360×740, 375×667 등): 카드 높이를 줄여 지구본 자리를 덜 가리고 지도 버튼 줄과 덜 겹치게 */
+/* 작은 화면(360×740, 375×667 등): 패딩을 줄여 카드 높이를 덜어 낸다 (본문은 설계의 '16px 이상'을 지킨다) */
 @media (max-height: 760px) {
   .satellite-notice { padding: 10px 12px; }
-  .satellite-notice p { font-size: 15px; }
+  .satellite-notice p { font-size: 16px; }
 }

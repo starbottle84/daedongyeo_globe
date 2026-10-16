@@ -46,10 +46,12 @@ const FIT_MARGIN_PX = 68;
 /** MapLibre가 카메라 가운데로 허용하는 최대 위도 */
 const MAX_CENTER_LAT = 85.051129;
 const MAX_FIT_ZOOM = 7;
-/** 첫 화면 지구본: 로고 아래 틈(px), 오른쪽 위 지도 버튼과 겹치지 않게 양옆에 남길 폭(px), 넓은 화면에서도 넘지 않을 확대 단계 */
+/** 첫 화면 지구본: 로고 아래 틈(px), 오른쪽 위 지도 버튼과 겹치지 않게 양옆에 남길 폭(px), 넓은 화면에서도 넘지 않을 확대 단계,
+ *  보이는 영역이 아주 낮아도 줄이지 않을 지름(px) — 더 작으면 대륙 이름(유럽·아시아·태평양…)끼리 겹친다 */
 const HOME_GAP_PX = 12;
 const HOME_SIDE_PX = 60;
 const HOME_MAX_ZOOM = 1.6;
+const HOME_MIN_DIAMETER_PX = 180;
 const NO_PADDING = { top: 0, right: 0, bottom: 0, left: 0 };
 
 // 기기에서 '움직임 줄이기'를 켰으면 날아가지 않고 바로 옮긴다 (essential: true는 이 설정을 무시하므로 직접 본다)
@@ -274,7 +276,11 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       // 평면 지도일 때는 지구본 반지름 계산이 맞지 않으므로 여백만 맞춘다
       let zoom = map.getZoom();
       if (projectionType() === 'globe') {
-        const r = Math.max(Math.min(container.clientHeight - padding.top - padding.bottom, container.clientWidth - HOME_SIDE_PX * 2), 80) / 2;
+        // 보이는 영역이 지름 하한보다 낮으면(가로 휴대폰, 낮은 화면에 안내 카드가 붙을 때) 로고 아래 여백을 모자란 만큼 줄이고,
+        // 그래도 모자라면 아래 여백도 줄여 하한 크기로 둔다 — 넘치는 아래쪽은 카드 뒤로 들어간다
+        padding.top = Math.max(0, Math.min(padding.top, container.clientHeight - padding.bottom - HOME_MIN_DIAMETER_PX));
+        padding.bottom = Math.max(0, Math.min(padding.bottom, container.clientHeight - padding.top - HOME_MIN_DIAMETER_PX));
+        const r = Math.max(Math.min(container.clientHeight - padding.top - padding.bottom, container.clientWidth - HOME_SIDE_PX * 2), HOME_MIN_DIAMETER_PX) / 2;
         const d = container.clientHeight / 2 / Math.tan(rad(map.getVerticalFieldOfView()) / 2);
         const radiusPx = (r * r + r * Math.sqrt(r * r + d * d)) / d;
         const fit = Math.log2((radiusPx * 2 * Math.PI * Math.cos(rad(map.getCenter().lat))) / 512);
