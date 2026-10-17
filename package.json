@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "node scripts/path-safe-build.mjs",
     "lint": "eslint .",
+    "check:content": "node --experimental-strip-types scripts/check-content.ts",
     "preview": "vite preview",
     "data:download": "node scripts/download-raw.mjs",
     "data:build": "node scripts/build-data.mjs",

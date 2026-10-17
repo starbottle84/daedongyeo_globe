@@ -16,7 +16,7 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "한반도에서 제일 높은 산, 백두산을 눌러 봐!", "targetName": "백두산", "target": [128.0554, 42.0063], "radiusKm": 40, "explain": "여기가 백두산이에요!" },
+      { "type": "tap", "prompt": "한반도에서 제일 높은 산, 백두산을 눌러 봐!", "targetName": "백두산", "target": [128.0554, 42.0063], "radiusKm": 50, "explain": "여기가 백두산이에요!" },
       { "type": "choice", "prompt": "백두산 꼭대기에 있는 것은 무엇일까?", "options": [{ "label": "사막", "icon": "🏜️" }, { "label": "호수", "icon": "🏞️" }], "answer": 1, "explain": "백두산 꼭대기에는 천지라는 큰 호수가 있어요." }
     ],
     "lower": [
