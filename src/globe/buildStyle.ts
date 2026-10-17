@@ -186,8 +186,10 @@ export function buildStyle(view: MapView): StyleSpecification {
           'text-size': ['interpolate', ['linear'], ['zoom'], 2, 11, 6, 14],
           'text-max-width': 7, 'text-letter-spacing': 0.08,
           // 섬 점(icon)이 있는 독도·울릉도는 이름을 점 아래에 둔다 (가운데에 두면 점이 글자 밑에 가려진다)
-          'text-anchor': ['case', ['has', 'icon'], 'top', 'center'],
-          'text-offset': ['case', ['has', 'icon'], ['literal', [0, 0.6]], ['literal', [0, 0]]],
+          // 제주도 이름 자리는 한라산 봉우리와 거의 같은 곳이라, 가운데에 두면 확대 6.2부터 보이는 '한라산'이 가려진다.
+          // 이름을 봉우리 오른쪽(섬 동쪽)으로 비켜 둔다 — 아래로 내리면 같은 자리의 '제주특별자치도'(확대 7부터)가 대신 한라산을 가린다
+          'text-anchor': ['case', ['has', 'icon'], 'top', ['==', koName, '제주도'], 'left', 'center'],
+          'text-offset': ['case', ['has', 'icon'], ['literal', [0, 0.6]], ['==', koName, '제주도'], ['literal', [1.6, 0]], ['literal', [0, 0]]],
           'symbol-sort-key': ['get', 'rank'],
         },
         paint: labelPaint(['match', ['get', 'cls'],
