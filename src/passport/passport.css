@@ -1,0 +1,102 @@
+/* ───────── 여권 책 (덮개 화면 'full') : 가죽 표지 띠 + 단계마다 도장판 한 쪽 ───────── */
+
+/* 머리: 가죽 표지 띠. 덮개 종이의 안쪽 여백(20/18, modal.css)만큼 당겨 종이 가장자리까지 채우고, 스크롤해도 위에 붙어 있어 닫기가 늘 보인다.
+   붙는 자리(top)는 스크롤 상자의 안쪽 여백 안쪽에서 재므로 위 여백만큼 음수로 준다. ('.page > *'의 position: relative보다 앞서게 덮개 선택자를 붙인다) */
+.modal .pb-cover { position: sticky; top: -20px; z-index: 3; display: flex; align-items: center; gap: 12px;
+  margin: -20px -18px 0; padding: 14px 14px 16px 18px; background: var(--leather);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 6px 12px -6px rgba(10, 20, 40, .45); }
+/* 표지 아래 가장자리의 금실 박음질 */
+.pb-cover::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 5px; border-top: 1.4px dashed rgba(233, 196, 106, .55); pointer-events: none; }
+/* 여권 사진 자리: 아이 색 동그라미 동글이에 금테 */
+.pb-cover .pb-cover__photo { width: 58px; height: 58px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .9), inset 0 -4px 7px rgba(90, 65, 20, .12), 0 0 0 2.5px var(--gold-500), 0 4px 8px rgba(0, 0, 0, .35); }
+.pb-cover__words { flex: 1; min-width: 0; }
+.pb-cover__en { display: flex; align-items: center; gap: 6px; margin: 0; font-family: var(--title); font-size: 10px; letter-spacing: .24em; color: rgba(239, 210, 131, .8); }
+.pb-cover__en svg { flex: none; width: 20px; height: 20px; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .4)); }
+/* 이름: 로고와 같은 금박 글자 */
+.pb-cover__title { margin: 3px 0 0; font-family: var(--title); font-weight: 400; font-size: 24px; line-height: 1.2; text-wrap: balance;
+  background: linear-gradient(180deg, #FFF1C2 0%, #EFCF7A 45%, #C99A3F 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .45)); }
+.pb-cover__tier { display: inline-block; margin: 5px 0 0; padding: 2px 10px; border-radius: 999px; font-family: var(--title); font-size: 14px; line-height: 1.25;
+  color: var(--gold-200); box-shadow: inset 0 0 0 1.3px rgba(233, 196, 106, .6); }
+
+/* 단계 한 쪽: 시작 카드의 표처럼 흰 종이 + 보안 무늬, 오른쪽 위에 옅은 장미꽃 무늬 */
+.pb-page { position: relative; margin-top: 14px; padding: 12px 14px 16px; border-radius: 18px; overflow: hidden;
+  background-color: #FFFEF9; background-image: var(--guilloche);
+  box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F, 0 6px 12px rgba(90, 65, 20, .1); }
+.pb-page > * { position: relative; }
+.pb-page .rosette { right: -85px; top: -85px; width: 170px; height: 170px; opacity: .16; }
+.pb-page .stage { margin: 0 0 12px; }
+
+/* 도장판: 3칸 격자(넓으면 4칸), 장소마다 한 칸 */
+.pb-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 8px; margin: 0; padding: 0; list-style: none; }
+.pb-cell { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; text-align: center; }
+.pb-cell__slot { position: relative; display: block; width: min(92px, 100%); aspect-ratio: 1; }
+/* 안 받은 칸: 점선 원 안에 흐린 장소 그림 (도장 카드의 '다음 도장 자리'와 같은 모양) */
+.pb-cell:not(.pb-cell--got) .pb-cell__slot { box-sizing: border-box; padding: 6px; border-radius: 50%; border: 2.5px dashed rgba(169, 126, 46, .5); }
+.pb-cell:not(.pb-cell--got) .pb-cell__slot svg { display: block; width: 100%; height: 100%; border-radius: 50%; opacity: .5; filter: saturate(.35); }
+/* 받은 칸: 빨간 잉크 도장. 칸마다 기울기가 조금씩 다르고, 열면 차례로 '쿵' 하고 찍힌다 (움직임 줄이기에서는 찍힌 모습 그대로) */
+.pb-seal { display: block; width: 100%; height: 100%; mix-blend-mode: multiply; transform: rotate(var(--tilt, 0deg));
+  animation: pbThud .42s cubic-bezier(.2, .9, .3, 1.15) calc(.2s + var(--i, 0) * .05s) both; }
+@keyframes pbThud {
+  0% { opacity: 0; transform: rotate(var(--tilt, 0deg)) scale(1.35); }
+  55% { opacity: 1; }
+  100% { opacity: 1; transform: rotate(var(--tilt, 0deg)) scale(1); } }
+.pb-cell__name { margin-top: 6px; max-width: 100%; font-family: var(--title); font-size: 18px; line-height: 1.2; color: var(--ink); word-break: keep-all; overflow-wrap: break-word; }
+.pb-cell:not(.pb-cell--got) .pb-cell__name { color: var(--note); }
+.pb-cell__date { margin-top: 1px; font-size: 15px; line-height: 1.3; color: var(--note); white-space: nowrap; }
+/* 고학년 최고 별: 도장 오른쪽 위에 겹친 금색 알약 (도장 카드의 별 알약과 같은 모양) */
+.pb-cell__stars { position: absolute; top: -4px; right: 0; padding: 1px 8px; border-radius: 999px; background: #FFF6DA;
+  box-shadow: inset 0 0 0 1.5px rgba(201, 164, 90, .6), 0 2px 0 rgba(201, 164, 90, .35); font-family: var(--title); font-size: 15px; line-height: 1.3; color: var(--gold-ink); }
+
+/* 잠긴 단계: 쪽 전체를 흐린 종이로 덮고, 가운데에 가죽 자물쇠와 여는 방법 */
+.pb-page--locked .pb-grid { filter: grayscale(.7); }
+.pb-page > .pb-lock { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  padding: 16px; background: var(--fiber), rgba(246, 238, 220, .74); }
+.pb-lock__badge { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--leather); color: var(--gold-300);
+  box-shadow: inset 0 0 0 1.5px rgba(233, 196, 106, .6), 0 3px 0 rgba(8, 16, 32, .35); }
+.pb-lock__badge svg { width: 26px; height: 26px; }
+.pb-lock__text { margin: 0; padding: 7px 16px; border-radius: 16px; background: #FFFFFF; text-align: center; text-wrap: balance;
+  font-family: var(--title); font-size: 19px; line-height: 1.3; color: var(--ink); box-shadow: inset 0 0 0 2px #EAD9AC, 0 3px 0 #E4D09F; }
+
+/* 저장 안 됨 안내 (D11): 오답 카드와 같은 살구색 */
+.pb-warn { margin: 16px 0 0; padding: 12px 16px; border-radius: 16px; font-size: 17px; line-height: 1.5; color: var(--apricot-ink);
+  background: var(--fiber), linear-gradient(180deg, #FFF7E8, #FCEBD0); box-shadow: inset 0 0 0 2px rgba(206, 148, 58, .4); }
+
+/* 넓은 화면(세로 태블릿·가로 태블릿): 도장판 4칸, 도장도 조금 크게 */
+@media (min-width: 560px) {
+  .pb-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pb-cell__slot { width: min(112px, 100%); }
+}
+/* 좁은 화면(360px 등): 덮개 종이 안쪽 여백이 18/14로 줄어드는 것(modal.css)에 표지 띠를 맞춘다 */
+@media (max-width: 370px) {
+  .modal .pb-cover { top: -18px; margin: -18px -14px 0; padding-left: 14px; padding-right: 12px; gap: 10px; }
+  .pb-cover .pb-cover__photo { width: 52px; height: 52px; }
+  .pb-cover__title { font-size: 22px; }
+  .pb-page { padding-left: 10px; padding-right: 10px; }
+}
+
+/* ───────── 시작 카드의 '여권' 버튼: 아이 칩 줄 오른쪽 끝의 작은 가죽 여권 ───────── */
+/* 칩 줄(.kids, family.css)과 한 줄에 둔다(높이도 칩 줄과 같은 56px — 낮은 화면에서 시작 카드가 늘지 않게). 칩이 넘치면 칩 줄만 가로로 스크롤하고 여권은 끝에 남는다.
+   칩 줄과 사이를 띄우지 않고, 누르는 곳(48px) 안에서 표지를 오른쪽에 붙여 그 왼쪽 빈 곳이 사이 여백이 되게 한다 — 형제 두 명의 칩이 390px 화면에서 넘치지 않게 */
+.kids-row { display: flex; align-items: center; margin-top: 10px; }
+.kids-row > .kids { flex: 1 1 auto; min-width: 0; margin-top: 0; }
+.book-btn { position: relative; flex: none; display: grid; place-items: center end; width: 48px; height: 56px; padding: 0; border: 0; border-radius: 10px; background: none; cursor: pointer; }
+/* 표지: 가죽 + 금실 박음질 + 금박 문장. 왼쪽은 책등(어두운 띠), 오른쪽 가장자리에는 크림색 종이가 살짝 보인다 */
+.book-btn__cover { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  width: 42px; height: 54px; padding-left: 3px; box-sizing: border-box; border-radius: 4px 9px 9px 4px; background: var(--leather);
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .16), 2px 1px 0 #FBF4E2, 3px 2px 0 #D9C59A, 0 4px 0 #0E1B30, 0 6px 9px rgba(10, 20, 40, .3);
+  transition: transform .08s ease; }
+.book-btn__cover::before { content: ""; position: absolute; inset: 3px 3px 3px 7px; border-radius: 2px 6px 6px 2px; border: 1.2px dashed rgba(233, 196, 106, .6); pointer-events: none; }
+.book-btn__cover svg { width: 26px; height: 26px; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .4)); }
+.book-btn__cover span { font-family: var(--title); font-size: 12px; line-height: 1; letter-spacing: .06em; color: var(--gold-300); }
+.book-btn:active .book-btn__cover { transform: translateY(3px);
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .16), 2px 1px 0 #FBF4E2, 3px 2px 0 #D9C59A, 0 1px 0 #0E1B30, 0 2px 4px rgba(10, 20, 40, .3); }
+/* 좁은 화면(375·360px): 여권 버튼 자리만큼 아이 칩을 조금 줄이고(360px은 종이 옆 여백도 12px로), 형제 두 명의 칩이 스크롤 없이 다 보이게 한다 */
+@media (max-width: 380px) {
+  .kids-row .kid { gap: 6px; padding-right: 10px; }
+  .kids-row .kid .avatar { width: 34px; height: 34px; }
+}
+@media (max-width: 370px) {
+  .launcher .page { padding-left: 12px; padding-right: 12px; }
+}

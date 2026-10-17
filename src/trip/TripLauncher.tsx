@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { STAGE_NAMES, type Place } from '../content/types';
 import { ProfileChips } from '../family/ProfileChips';
 import { ProfileForm } from '../family/ProfileForm';
+import { PassportBook } from '../passport/PassportBook';
+import { StampSeal } from '../passport/StampSeal';
+import { koreanDate } from '../progress/date';
 import { computeUnlocked, stageCounts } from '../progress/rules';
 import { createProfile } from '../progress/store';
 import type { Profile, ProfileProgress } from '../progress/types';
@@ -43,6 +46,8 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
     return { left, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요!` };
   };
   const hintText = hintStage !== null && progress ? lockInfo(progress, hintStage).text : null;
+  // 여권 책 (아이 칩 줄 오른쪽 끝의 '여권' 버튼으로 연다)
+  const [bookOpen, setBookOpen] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
   const spreadRef = useRef<HTMLDivElement>(null);
   // 종이가 넘쳐(낮은 화면, 안내 카드가 붙어 카드 묶음 높이 상한이 걸린 때 등) 아래에 표가 남아 있으면 여행 카드처럼
@@ -83,7 +88,17 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                 {!activeProfile ? '탐험가 여권을 만들어 볼까?' : (hintText ?? '어디로 떠나 볼까?')}
               </p>
             </div>
-            {activeProfile && <ProfileChips profiles={profiles} activeId={activeProfile.id} onAdded={justMade} />}
+            {activeProfile && (
+              <div className="kids-row">
+                <ProfileChips profiles={profiles} activeId={activeProfile.id} onAdded={justMade} />
+                <button type="button" className="book-btn" aria-label={`${activeProfile.name}의 여권 보기`} onClick={() => setBookOpen(true)}>
+                  <span className="book-btn__cover" aria-hidden="true">
+                    <svg><use href="#emblem" /></svg>
+                    <span>여권</span>
+                  </span>
+                </button>
+              </div>
+            )}
             <p className="mrz" aria-hidden="true">
               P&lt;KOR&lt;&lt;DONGGEURI&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br />EARTH&lt;PASSPORT&lt;&lt;2026&lt;&lt;&lt;&lt;&lt;&lt;
             </p>
@@ -115,7 +130,8 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                   </h2>
                   <div className={`tickets tickets--${stage % 2 === 1 ? 1 : 2}`}>
                     {inStage.map((p) => {
-                      const stamped = Boolean(progress.stamps[p.id]);
+                      const stamp = progress.stamps[p.id];
+                      const stamped = Boolean(stamp);
                       return (
                         <button
                           key={p.id}
@@ -128,8 +144,8 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                           <span className="ticket__body">
                             <span className="ticket__stub"><PlaceArt placeId={p.id} /></span>
                             <span className="ticket__name">{p.name}</span>
-                            {/* 도장 받은 표: 오른쪽 위에 작은 빨간 도장 자국 (작업 5에서 도장 그림 컴포넌트로 바꾼다) */}
-                            {stamped && <span className="ticket__seal" aria-hidden="true"><Icon name="check" /></span>}
+                            {/* 도장 받은 표: 오른쪽 위에 작게 찍힌 빨간 도장 (여권 책과 같은 도장 그림) */}
+                            {stamp && <span className="ticket__seal" aria-hidden="true"><StampSeal name={p.name} date={koreanDate(stamp.firstDate)} /></span>}
                             {/* 잠긴 표: 반투명 종이 덮개 + 자물쇠 */}
                             {lock && <span className="ticket__lock" aria-hidden="true"><span className="ticket__lock-badge"><Icon name="lock" /></span></span>}
                           </span>
@@ -147,6 +163,9 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
         </div>
       </div>
       {moreBelow && <span className="pass-more" aria-hidden="true" />}
+      {activeProfile && progress && (
+        <PassportBook open={bookOpen} profile={activeProfile} progress={progress} places={places} onClose={() => setBookOpen(false)} />
+      )}
     </section>
   );
 }
