@@ -55,7 +55,8 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => globe.refitPadding());
     });
-    observer.observe(panel);
+    // 카드 묶음(.bottom-stack)을 지켜본다 — 여행 중 위성 안내 카드가 붙어 묶음이 커져도 여백을 다시 맞추게
+    observer.observe(panel.parentElement ?? panel);
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
