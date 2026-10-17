@@ -34,7 +34,7 @@ dialog.modal { padding: 0; border: 0; background: transparent; color: var(--ink)
 }
 /* 되돌리기 어려운 쪽·닫기: 큰 금박 버튼 아래 가운데의 작은 밑줄 글자 (누르는 곳은 48px).
    누르는 곳의 아래 빈자리만큼 종이 아래 여백을 당겨 위아래 여백이 비슷해 보이게 한다 */
-.link-button.modal__leave { display: block; margin: 10px auto -8px; }
+.link-button.modal__leave { display: block; min-width: 48px; margin: 10px auto -8px; padding: 0 12px; }
 
 /* ───────── 어른 확인: 길게 누르기 버튼 + 더하기 문제 ───────── */
 .adult-gate { position: relative; display: inline-flex; }

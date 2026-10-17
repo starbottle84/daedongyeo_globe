@@ -14,17 +14,28 @@ interface AdultGateProps {
 
 interface Question { a: number; b: number; options: number[] }
 
+// 고르게 섞기 (Fisher–Yates). sort(() => Math.random() - 0.5)는 자리마다 나올 확률이 고르지 않다
+function shuffle<T>(xs: T[]): T[] {
+  const out = [...xs];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 function makeQuestion(): Question {
   const a = 11 + Math.floor(Math.random() * 39);
   const b = 11 + Math.floor(Math.random() * 39);
   const answer = a + b;
-  const wrong = new Set<number>();
-  for (const d of [10, -10, 1, -1, 11, -9]) {
-    if (wrong.size === 2) break;
-    if (answer + d > 0) wrong.add(answer + d);
-  }
-  const options = [answer, ...wrong].sort(() => Math.random() - 0.5);
-  return { a, b, options };
+  // 오답은 정답에서 ±1·±9·±10·±11 중 서로 다른 두 칸만큼 떨어진 수 (정답이 22 이상이라 늘 양수).
+  // 늘 ±10이면 정답이 언제나 가운데 수이고 일의 자리도 같아서, 덧셈 없이 '가운데 수'로 맞힐 수 있었다.
+  // 정답보다 큰 오답 개수(0·1·2)를 먼저 고르게 뽑아, 정답이 가장 큰 수·가운데 수·가장 작은 수일 때가 똑같이 나오게 한다
+  const up = shuffle([1, 9, 10, 11]);
+  const down = shuffle([-1, -9, -10, -11]);
+  const k = Math.floor(Math.random() * 3);
+  const [d1, d2] = [...up.slice(0, k), ...down.slice(0, 2 - k)];
+  return { a, b, options: shuffle([answer, answer + d1, answer + d2]) };
 }
 
 // 어른 확인: 신원 확인이 아니라 아이가 실수로 들어가지 않게 하는 '한 번 더 생각하기'.
@@ -37,6 +48,7 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
   const [wrong, setWrong] = useState(false);
   const timer = useRef<number | null>(null);
   const done = useRef(false);
+  const qRef = useRef<HTMLParagraphElement>(null);
   const id = useId();
 
   const clear = () => { if (timer.current !== null) { clearTimeout(timer.current); timer.current = null; } };
@@ -73,6 +85,8 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
     if (v === q.a + q.b) { setOpen(false); onUnlock(); return; }
     setWrong(true);
     setQ(makeQuestion());
+    // 보기 버튼은 새 문제와 함께 새로 그려져 초점이 사라지므로, 그대로 남는 문제 글로 초점을 돌려준다 (새 식도 바로 읽힌다)
+    qRef.current?.focus();
   };
 
   return (
@@ -93,20 +107,21 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
         {children}
         {label && <span>{label}</span>}
       </button>
-      {hint && <span className="adult-gate__hint" role="status">길게 눌러 주세요</span>}
+      {/* 알림 영역(role=status)은 늘 그려 두고 안의 글만 바꾼다 — 알림 영역이 글과 함께 새로 생기면 읽어 주지 않는 화면 읽기 프로그램이 많다 */}
+      <span role="status">{hint && <span className="adult-gate__hint">길게 눌러 주세요</span>}</span>
       <Modal open={open} labelledBy={`${id}-t`} onClose={() => setOpen(false)}>
         <div className="adult-gate__head">
           <h2 id={`${id}-t`} className="modal__title">어른 확인</h2>
           <p className="modal__body ko">아래 문제의 답을 골라 주세요.</p>
         </div>
         {/* 열릴 때 초점은 보기 버튼이 아니라 문제 글에 둔다 — Enter를 길게 눌러 열면 자동 반복 키가 첫 보기를 눌러 버리기 때문 */}
-        <p className="adult-gate__q" aria-live="polite" tabIndex={-1}>{q.a} + {q.b} = ?</p>
+        <p ref={qRef} className="adult-gate__q" aria-live="polite" tabIndex={-1}>{q.a} + {q.b} = ?</p>
         <div className="adult-gate__options">
           {q.options.map((v) => (
             <button key={`${q.a}-${q.b}-${v}`} type="button" className="choice adult-gate__opt" onClick={() => choose(v)}>{v}</button>
           ))}
         </div>
-        {wrong && <p className="adult-gate__wrong" role="status">다시 한 번 풀어 주세요.</p>}
+        <div role="status">{wrong && <p className="adult-gate__wrong">다시 한 번 풀어 주세요.</p>}</div>
         <button type="button" className="link-button modal__leave" onClick={() => setOpen(false)}>닫기</button>
       </Modal>
     </span>
