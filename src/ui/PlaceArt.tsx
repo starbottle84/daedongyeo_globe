@@ -1,5 +1,10 @@
 // 장소 그림. 장면 그림(pl-*)이 있는 장소만 그 그림을, 나머지는 기본 지구 그림(pl-earth)을 쓴다 (계획 4에서 장소가 늘어나도 깨지지 않게).
-const SCENES = new Set(['pacific', 'asia', 'antarctica', 'seoul', 'dokdo', 'jeju', 'baekdu']);
+const SCENES = new Set([
+  'asia', 'europe', 'africa', 'north-america', 'south-america', 'oceania', 'antarctica',
+  'pacific', 'atlantic', 'indian', 'arctic', 'southern',
+  'seoul', 'busan', 'jeju', 'ulleungdo', 'dokdo', 'baekdu', 'hallasan', 'hangang', 'nakdonggang',
+  'east-sea', 'west-sea', 'south-sea',
+]);
 
 interface PlaceArtProps {
   placeId: string;
