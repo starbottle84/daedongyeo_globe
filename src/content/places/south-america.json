@@ -17,7 +17,7 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "나무늘보가 사는 땅, 남아메리카를 눌러 봐!", "targetName": "남아메리카", "target": [-60, -12], "area": "남아메리카", "explain": "여기가 남아메리카예요. 아주 큰 숲이 있어요." },
-      { "type": "choice", "prompt": "남아메리카 숲에 사는 동물은 누구일까?", "options": [{ "label": "나무늘보", "icon": "🦥" }, { "label": "판다", "icon": "🐼" }], "answer": 0, "explain": "나무늘보는 남아메리카 숲의 나무 위에서 살아요." }
+      { "type": "choice", "prompt": "남아메리카 숲에 사는 동물은 누구일까?", "options": [{ "label": "나무늘보", "icon": "🦥" }, { "label": "얼룩말", "icon": "🦓" }], "answer": 0, "explain": "나무늘보는 남아메리카 숲의 나무 위에서 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "아마존강 둘레에는 무엇이 넓게 펼쳐져 있을까?", "options": [{ "label": "아주 넓은 숲" }, { "label": "높은 빌딩이 가득한 도시" }, { "label": "넓은 논과 밭" }], "answer": 0, "explain": "아마존강 둘레에는 세계에서 가장 넓은 숲(열대 우림)이 펼쳐져 있어요." },
@@ -26,7 +26,7 @@
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 아마존강이 대서양과 만나는 곳을 찍어 보세요.", "targetName": "아마존강 하구", "target": [-50.09, 0.71], "starsKm": [450, 1100], "view": { "center": [-60, -15], "zoom": 2 }, "explain": "아마존강은 적도 가까이에서 대서양으로 흘러 들어가요." },
-      { "type": "choice", "prompt": "우리나라가 한여름인 7월, 아르헨티나는 어떤 계절일까요?", "options": [{ "label": "봄" }, { "label": "여름" }, { "label": "가을" }, { "label": "겨울" }], "answer": 3, "explain": "아르헨티나는 적도 남쪽, 남반구에 있어서 계절이 우리나라와 반대예요. 그래서 7월이 겨울이에요." },
+      { "type": "choice", "prompt": "우리나라가 한여름인 7월, 아르헨티나는 어떤 계절일까요?", "options": [{ "label": "봄" }, { "label": "여름" }, { "label": "가을" }, { "label": "겨울" }], "answer": 3, "explain": "아르헨티나는 남반구에 있어서 계절이 우리나라와 반대예요." },
       { "type": "direction", "prompt": "칠레의 산티아고에서 보면 아르헨티나의 부에노스아이레스는 어느 방향에 있을까요?", "from": [-70.669, -33.448], "fromName": "산티아고", "to": [-58.3816, -34.6037], "toName": "부에노스아이레스", "options": 8, "answer": "동", "explain": "부에노스아이레스는 산티아고에서 안데스산맥을 넘어 동쪽으로 약 1,100km 떨어져 있어요." }
     ]
   },

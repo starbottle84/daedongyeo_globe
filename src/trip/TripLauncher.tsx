@@ -146,7 +146,8 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                         >
                           <span className="ticket__body">
                             <span className="ticket__stub"><PlaceArt placeId={p.id} /></span>
-                            <span className="ticket__name">{p.name}</span>
+                            {/* 다섯 글자 이름(북아메리카 등)은 좁은 표에서 끝 글자가 잘리지 않게 글자를 줄인다 (trip.css .ticket__name--long) */}
+                            <span className={`ticket__name${[...p.name].length >= 5 ? ' ticket__name--long' : ''}`}>{p.name}</span>
                             {/* 도장 받은 표: 오른쪽 위에 작게 찍힌 빨간 도장 (여권 책과 같은 도장 그림) */}
                             {stamp && <span className="ticket__seal" aria-hidden="true"><StampSeal name={p.name} date={koreanDate(stamp.firstDate)} /></span>}
                             {/* 잠긴 표: 반투명 종이 덮개 + 자물쇠 (누른 차례가 바뀌면 자물쇠를 새로 그려 흔들기를 다시 한다) */}

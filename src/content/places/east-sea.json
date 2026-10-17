@@ -20,14 +20,14 @@
       { "type": "choice", "prompt": "아침에 동해 바다 위로 떠오르는 건 뭘까?", "options": [{ "label": "해님", "icon": "🌞" }, { "label": "눈사람", "icon": "⛄" }], "answer": 0, "explain": "동해에서는 아침에 바다 위로 해가 떠올라요." }
     ],
     "lower": [
-      { "type": "choice", "prompt": "동해 바닷가에서 많이 볼 수 있는 것은 무엇일까?", "options": [{ "label": "넓은 갯벌" }, { "label": "긴 모래사장" }, { "label": "옹기종기 모인 작은 섬들" }], "answer": 1, "explain": "동해 바닷가에는 긴 모래사장이 많아요. 넓은 갯벌은 서해에, 작은 섬들은 남해에 많아요." },
+      { "type": "choice", "prompt": "동해 바닷가에서 많이 볼 수 있는 것은 무엇일까?", "options": [{ "label": "넓은 갯벌" }, { "label": "긴 모래사장" }, { "label": "옹기종기 모인 작은 섬들" }], "answer": 1, "explain": "동해는 모래사장, 서해는 갯벌, 남해는 섬이 많아요." },
       { "type": "tap", "prompt": "우리나라 동쪽 바다, 동해를 찾아 눌러 봐!", "targetName": "동해", "target": [132.3, 38.8], "radiusKm": 230, "view": { "center": [129, 37.5], "zoom": 4.5 }, "explain": "동해는 우리나라 동쪽에 있는 바다예요." },
       { "type": "direction", "prompt": "서울에서 보면 동해는 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [132, 38.5], "toName": "동해", "options": 4, "answer": "동", "explain": "동해는 우리나라 동쪽에 있어서 동해라고 불러요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 동해 한가운데를 찍어 보세요.", "targetName": "동해 한가운데", "target": [133.5, 39.5], "starsKm": [250, 500], "view": { "center": [127.5, 37.5], "zoom": 4 }, "explain": "동해는 한반도와 러시아, 일본 열도에 둘러싸인 바다예요." },
       { "type": "choice", "prompt": "동해의 평균 깊이는 약 얼마일까요?", "options": [{ "label": "약 40m" }, { "label": "약 400m" }, { "label": "약 1,700m" }, { "label": "약 10,000m" }], "answer": 2, "explain": "동해의 평균 깊이는 약 1,700m예요. 서해(약 44m)보다 훨씬 깊어요." },
-      { "type": "choice", "prompt": "동해에 물고기가 많이 모이는 까닭은 무엇일까요?", "options": [{ "label": "갯벌이 아주 넓어서" }, { "label": "따뜻한 바닷물과 차가운 바닷물이 만나서" }, { "label": "바다가 아주 얕아서" }, { "label": "강물이 흘러들지 않아서" }], "answer": 1, "explain": "동해에서는 남쪽에서 올라오는 따뜻한 바닷물(난류)과 북쪽에서 내려오는 차가운 바닷물(한류)이 만나 물고기가 많이 모여요." }
+      { "type": "choice", "prompt": "동해에 물고기가 많이 모이는 까닭은 무엇일까요?", "options": [{ "label": "갯벌이 아주 넓어서" }, { "label": "따뜻한 물과 찬물이 만나서" }, { "label": "바다가 아주 얕아서" }, { "label": "강물이 흘러들지 않아서" }], "answer": 1, "explain": "따뜻한 난류와 차가운 한류가 만나는 곳에 물고기가 많이 모여요." }
     ]
   },
   "familyTalk": {

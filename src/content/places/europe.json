@@ -17,7 +17,7 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "성이 많은 땅, 유럽을 눌러 봐!", "targetName": "유럽", "target": [20, 52], "area": "유럽", "explain": "여기가 유럽이에요. 아시아와 붙어 있어요." },
-      { "type": "choice", "prompt": "유럽에 많은 뾰족 지붕의 큰 옛날 집은 무엇일까?", "options": [{ "label": "오두막", "icon": "🛖" }, { "label": "성", "icon": "🏰" }], "answer": 1, "explain": "유럽에는 지붕이 뾰족한 옛날 성이 많아요." }
+      { "type": "choice", "prompt": "유럽에 많은 뾰족 지붕의 큰 옛날 집은 무엇일까?", "options": [{ "label": "작은 집", "icon": "🏠" }, { "label": "성", "icon": "🏰" }], "answer": 1, "explain": "유럽에는 지붕이 뾰족한 옛날 성이 많아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "유럽은 어느 대륙과 땅으로 이어져 있을까?", "options": [{ "label": "남아메리카" }, { "label": "오세아니아" }, { "label": "아시아" }], "answer": 2, "explain": "유럽은 동쪽으로 아시아와 땅이 이어져 있어요." },
@@ -26,7 +26,7 @@
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 이탈리아 북쪽을 둘러싼 높은 산맥, 알프스산맥을 찍어 보세요.", "targetName": "알프스산맥", "target": [10.5, 46.5], "starsKm": [400, 900], "view": { "center": [20, 50], "zoom": 2.2 }, "explain": "알프스산맥은 프랑스·스위스·이탈리아·오스트리아 등에 걸쳐 있어요. 가장 높은 봉우리는 몽블랑산(약 4,800m)이에요." },
-      { "type": "choice", "prompt": "경도 0°인 본초 자오선이 지나는 그리니치 천문대는 어느 나라에 있을까요?", "options": [{ "label": "프랑스" }, { "label": "영국" }, { "label": "독일" }, { "label": "스페인" }], "answer": 1, "explain": "그리니치 천문대는 영국 런던에 있어요. 이곳을 지나는 본초 자오선이 경도 0°의 기준이에요." },
+      { "type": "choice", "prompt": "경도 0°인 본초 자오선이 지나는 그리니치 천문대는 어느 나라에 있을까요?", "options": [{ "label": "프랑스" }, { "label": "영국" }, { "label": "독일" }, { "label": "스페인" }], "answer": 1, "explain": "경도 0°의 기준인 그리니치 천문대는 영국 런던에 있어요." },
       { "type": "direction", "prompt": "영국 런던에서 보면 이탈리아 로마는 어느 방향에 있을까요?", "from": [-0.1276, 51.5072], "fromName": "런던", "to": [12.4964, 41.9028], "toName": "로마", "options": 8, "answer": "남동", "explain": "로마는 런던에서 남동쪽으로 약 1,400km 떨어져 있어요." }
     ]
   },

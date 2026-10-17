@@ -46,8 +46,9 @@ const PANEL_GAP_PX = 12;
 const MAX_PANEL_SHARE = 0.7;
 /** 여행 카드 높이가 이만큼(px) 넘게 바뀌어야 여백을 다시 맞춘다 (1~2px 흔들림에 지도가 움찔하지 않게) */
 const REFIT_MIN_PX = 4;
-/** 화면 맞추기 때 지점과 화면 가장자리 사이에 남길 여백(px). 핀 이름표(핀 위 약 62px)가 잘리지 않게 잡는다 */
-const FIT_MARGIN_PX = 68;
+/** 화면 맞추기 때 지점과 화면 가장자리 사이에 남길 여백(px). 핀 이름표(핀 위 약 62px)와
+ *  긴 이름표의 반쪽 폭('부에노스아이레스' 8글자 약 74px)이 잘리지 않게 잡는다 */
+const FIT_MARGIN_PX = 76;
 /** MapLibre가 카메라 가운데로 허용하는 최대 위도 */
 const MAX_CENTER_LAT = 85.051129;
 const MAX_FIT_ZOOM = 7;

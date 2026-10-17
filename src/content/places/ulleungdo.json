@@ -2,8 +2,8 @@
   "id": "ulleungdo",
   "stage": 2,
   "name": "울릉도",
-  "center": [130.87, 37.48],
-  "zoom": 7.8,
+  "center": [130.45, 37.35],
+  "zoom": 6.3,
   "intro": {
     "preschool": "동쪽 바다 멀리 있는 섬으로 가 볼까?",
     "lower": "오늘은 동해에 있는 섬, 울릉도로 가 볼까?",
@@ -20,13 +20,13 @@
       { "type": "choice", "prompt": "울릉도에서 유명한 바다 친구는 누구일까?", "options": [{ "label": "코끼리", "icon": "🐘" }, { "label": "오징어", "icon": "🦑" }], "answer": 1, "explain": "울릉도는 오징어가 유명해요." }
     ],
     "lower": [
-      { "type": "choice", "prompt": "울릉도에서 가장 높은 산은 무엇일까?", "options": [{ "label": "한라산" }, { "label": "백두산" }, { "label": "성인봉" }], "answer": 2, "explain": "울릉도에서 가장 높은 산은 성인봉이에요. 한라산은 제주도에, 백두산은 한반도 북쪽 끝에 있어요." },
+      { "type": "choice", "prompt": "울릉도에서 가장 높은 산은 무엇일까?", "options": [{ "label": "한라산" }, { "label": "백두산" }, { "label": "성인봉" }], "answer": 2, "explain": "성인봉은 울릉도, 한라산은 제주도에서 가장 높은 산이에요." },
       { "type": "tap", "prompt": "울릉도에 가는 배를 탈 수 있는 도시, 포항을 찾아 눌러 봐!", "targetName": "포항", "target": [129.36, 36.02], "radiusKm": 30, "view": { "center": [130.1, 36.8], "zoom": 6.6 }, "explain": "포항에서 배를 타면 울릉도에 갈 수 있어요." },
       { "type": "direction", "prompt": "강릉에서 보면 울릉도는 어느 쪽에 있을까?", "from": [128.876, 37.7519], "fromName": "강릉", "to": [130.8667, 37.4983], "toName": "울릉도", "options": 4, "answer": "동", "explain": "울릉도는 강릉에서 동쪽 바다로 약 180km 떨어져 있어요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 울릉도의 위치를 찍어 보세요.", "targetName": "울릉도", "target": [130.8667, 37.4983], "starsKm": [20, 60], "view": { "center": [129, 36.7], "zoom": 5.6 }, "explain": "울릉도는 한반도 동쪽 해안에서 멀리 떨어진 동해 바다에 있어요." },
-      { "type": "choice", "prompt": "울릉도는 어떻게 만들어진 섬일까요?", "options": [{ "label": "화산이 터져 솟아올라서" }, { "label": "산호가 오랫동안 쌓여서" }, { "label": "빙하가 땅을 깎아서" }, { "label": "강물이 흙을 실어 와 쌓여서" }], "answer": 0, "explain": "울릉도는 바다 밑에서 화산이 터져 솟아오른 화산섬이에요. 독도도 화산섬이에요." },
+      { "type": "choice", "prompt": "울릉도는 어떻게 만들어진 섬일까요?", "options": [{ "label": "화산이 터져서" }, { "label": "산호가 쌓여서" }, { "label": "빙하가 땅을 깎아서" }, { "label": "강물이 흙을 쌓아서" }], "answer": 0, "explain": "울릉도와 독도는 바다 밑 화산이 터져 솟아오른 화산섬이에요." },
       { "type": "direction", "prompt": "포항에서 보면 울릉도는 어느 방향에 있을까요?", "from": [129.36, 36.02], "fromName": "포항", "to": [130.8667, 37.4983], "toName": "울릉도", "options": 8, "answer": "북동", "explain": "울릉도는 포항에서 북동쪽으로 약 210km 떨어져 있어요." }
     ]
   },
