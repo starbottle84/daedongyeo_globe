@@ -343,6 +343,32 @@
 .ticket--nudge .ticket__lock-badge { animation: lockNudge .5s ease-in-out; }
 @keyframes lockNudge { 20% { transform: rotate(-14deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(5deg); } }
 
+/* 시작 카드의 '여권' 버튼: 아이 칩 줄 오른쪽 끝의 작은 가죽 여권 (누르면 여권 책이 열린다, passport.css) */
+/* 칩 줄(.kids, family.css)과 한 줄에 둔다(높이도 칩 줄과 같은 56px — 낮은 화면에서 시작 카드가 늘지 않게). 칩이 넘치면 칩 줄만 가로로 스크롤하고 여권은 끝에 남는다.
+   칩 줄과 사이를 띄우지 않고, 누르는 곳(48px) 안에서 표지를 오른쪽에 붙여 그 왼쪽 빈 곳이 사이 여백이 되게 한다 — 형제 두 명의 칩이 390px 화면에서 넘치지 않게 */
+.kids-row { display: flex; align-items: center; margin-top: 10px; }
+.kids-row > .kids { flex: 1 1 auto; min-width: 0; margin-top: 0; }
+.book-btn { position: relative; flex: none; display: grid; place-items: center end; width: 48px; height: 56px; padding: 0; border: 0; border-radius: 10px; background: none; cursor: pointer; }
+/* 표지: 가죽 + 금실 박음질 + 금박 문장. 왼쪽은 책등(어두운 띠), 오른쪽 가장자리에는 크림색 종이가 살짝 보인다 */
+.book-btn__cover { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  width: 42px; height: 54px; padding-left: 3px; box-sizing: border-box; border-radius: 4px 9px 9px 4px; background: var(--leather);
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .16), 2px 1px 0 #FBF4E2, 3px 2px 0 #D9C59A, 0 4px 0 #0E1B30, 0 6px 9px rgba(10, 20, 40, .3);
+  transition: transform .08s ease; }
+.book-btn__cover::before { content: ""; position: absolute; inset: 3px 3px 3px 7px; border-radius: 2px 6px 6px 2px; border: 1.2px dashed rgba(233, 196, 106, .6); pointer-events: none; }
+.book-btn__cover svg { width: 26px; height: 26px; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .4)); }
+.book-btn__cover span { font-family: var(--title); font-size: 12px; line-height: 1; letter-spacing: .06em; color: var(--gold-300); }
+.book-btn:active .book-btn__cover { transform: translateY(3px);
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .16), 2px 1px 0 #FBF4E2, 3px 2px 0 #D9C59A, 0 1px 0 #0E1B30, 0 2px 4px rgba(10, 20, 40, .3); }
+/* 좁은 화면(375·360px): 여권 버튼 자리만큼 아이 칩을 조금 줄이고(360px은 종이 옆 여백도 12px로), 형제 두 명의 칩이 스크롤 없이 다 보이게 한다.
+   종이 여백은 아이 칩 줄이 있는 카드만 줄인다 — 첫 실행(여권 만들기) 카드는 그대로 */
+@media (max-width: 380px) {
+  .kids-row .kid { gap: 6px; padding-right: 10px; }
+  .kids-row .kid .avatar { width: 34px; height: 34px; }
+}
+@media (max-width: 370px) {
+  .launcher:not(.launcher--new) .page { padding-left: 12px; padding-right: 12px; }
+}
+
 /* ───────── 넓은 세로 화면(세로 태블릿 등): 표가 넓어진 만큼 위 칸도 높인다 ───────── */
 /* 42px 그대로면 넓은 표(약 122px)에서 장면 그림의 위아래가 반 넘게 잘린다 (이름 칸 36px + 60px) */
 @media (min-width: 560px) {

@@ -1,7 +1,7 @@
 import { useId, type CSSProperties } from 'react';
 import { STAGE_NAMES, TIER_LABELS, type Place } from '../content/types';
 import { koreanDate } from '../progress/date';
-import { computeUnlocked, stageCounts, stagesOf } from '../progress/rules';
+import { computeUnlocked, stageCounts, stageLockLeft, stagesOf } from '../progress/rules';
 import { useStorageOk } from '../progress/store';
 import type { Profile, ProfileProgress } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
@@ -33,9 +33,7 @@ export function PassportBook({ open, profile, progress, places, onClose }: Passp
   const unlocked = computeUnlocked(places, progress);
   // 잠긴 단계를 열려면 앞 단계 도장을 몇 개 더 모아야 하는지 (시작 카드의 잠긴 표 안내와 같은 계산)
   const lockInfo = (stage: number) => {
-    const prev = stages[stages.indexOf(stage) - 1];
-    const { got, need } = stageCounts(places, progress, prev);
-    const left = Math.max(1, need - got);
+    const { prev, left } = stageLockLeft(places, progress, stage);
     return { left, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` };
   };
   // 받은 도장이 '쿵' 하고 나타나는 차례 (단계를 넘어 이어서 센다)
@@ -83,7 +81,8 @@ export function PassportBook({ open, profile, progress, places, onClose }: Passp
                 <p className="pb-lock__text ko">{lock.text}</p>
               </div>
             )}
-            <ul className="pb-grid">
+            {/* 목록 모양(list-style)을 없앤 ul은 Safari VoiceOver가 목록으로 읽지 않아서 role을 적어 둔다 ('7개 중 n번째') */}
+            <ul className="pb-grid" role="list">
               {inStage.map((p) => {
                 const stamp = progress.stamps[p.id];
                 const tilt = `${TILTS[places.indexOf(p) % TILTS.length]}deg`;

@@ -5,7 +5,7 @@ import { ProfileForm } from '../family/ProfileForm';
 import { PassportBook } from '../passport/PassportBook';
 import { StampSeal } from '../passport/StampSeal';
 import { koreanDate } from '../progress/date';
-import { computeUnlocked, stageCounts } from '../progress/rules';
+import { computeUnlocked, stageCounts, stageLockLeft } from '../progress/rules';
 import { createProfile } from '../progress/store';
 import type { Profile, ProfileProgress } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
@@ -40,14 +40,13 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
   const hintStage = lockHint && lockHint.profileId === activeProfile?.id ? lockHint.stage : null;
   // 잠긴 단계를 열려면 앞 단계 도장을 몇 개 더 모아야 하는지
   const lockInfo = (kid: ProfileProgress, stage: number) => {
-    const prev = stages[stages.indexOf(stage) - 1];
-    const { got, need } = stageCounts(places, kid, prev);
-    const left = Math.max(1, need - got);
+    const { prev, left } = stageLockLeft(places, kid, stage);
     return { left, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요!` };
   };
   const hintText = hintStage !== null && progress ? lockInfo(progress, hintStage).text : null;
-  // 여권 책 (아이 칩 줄 오른쪽 끝의 '여권' 버튼으로 연다)
-  const [bookOpen, setBookOpen] = useState(false);
+  // 여권 책 (아이 칩 줄 오른쪽 끝의 '여권' 버튼으로 연다). 연 아이의 id에 묶어 둔다 — 책이 열린 채 다른 탭에서
+  // 그 아이를 지우거나 바꾸면 책이 닫히고, 기록을 지운 뒤 새로 만든 아이(새 id)에서 책이 저절로 열리지 않는다
+  const [bookFor, setBookFor] = useState<string | null>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const spreadRef = useRef<HTMLDivElement>(null);
   // 종이가 넘쳐(낮은 화면, 안내 카드가 붙어 카드 묶음 높이 상한이 걸린 때 등) 아래에 표가 남아 있으면 여행 카드처럼
@@ -91,7 +90,7 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
             {activeProfile && (
               <div className="kids-row">
                 <ProfileChips profiles={profiles} activeId={activeProfile.id} onAdded={justMade} />
-                <button type="button" className="book-btn" aria-label={`${activeProfile.name}의 여권 보기`} onClick={() => setBookOpen(true)}>
+                <button type="button" className="book-btn" aria-label={`${activeProfile.name}의 여권 보기`} onClick={() => setBookFor(activeProfile.id)}>
                   <span className="book-btn__cover" aria-hidden="true">
                     <svg><use href="#emblem" /></svg>
                     <span>여권</span>
@@ -164,7 +163,7 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
       </div>
       {moreBelow && <span className="pass-more" aria-hidden="true" />}
       {activeProfile && progress && (
-        <PassportBook open={bookOpen} profile={activeProfile} progress={progress} places={places} onClose={() => setBookOpen(false)} />
+        <PassportBook open={bookFor === activeProfile.id} profile={activeProfile} progress={progress} places={places} onClose={() => setBookFor(null)} />
       )}
     </section>
   );

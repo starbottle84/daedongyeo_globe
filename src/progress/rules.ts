@@ -18,6 +18,14 @@ export function stageCounts(places: Place[], progress: ProfileProgress, stage: n
   return { got, total: inStage.length, need: stageThreshold(inStage.length) };
 }
 
+/** 잠긴 단계를 열려면 앞 단계 도장을 몇 개 더 모아야 하는지: 앞 단계 번호와 남은 수 (최소 1). 시작 카드·여권 책이 같이 쓴다 */
+export function stageLockLeft(places: Place[], progress: ProfileProgress, stage: number): { prev: number; left: number } {
+  const stages = stagesOf(places);
+  const prev = stages[stages.indexOf(stage) - 1];
+  const { got, need } = stageCounts(places, progress, prev);
+  return { prev, left: Math.max(1, need - got) };
+}
+
 /** 저장된 열린 단계 + 지금 도장으로 열리는 단계 (한 번 열린 단계는 그대로 둔다) */
 export function computeUnlocked(places: Place[], progress: ProfileProgress): number[] {
   const stages = stagesOf(places);
