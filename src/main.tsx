@@ -9,6 +9,7 @@ import '@fontsource/gowun-dodum/latin-400.css';
 import './styles/tokens.css';
 import './styles/global.css';
 import './ui/ui.css';
+import './ui/modal.css';
 import { App } from './App';
 import { readSeed } from './dev/shotParams';
 import { registerPwa } from './lib/registerPwa';

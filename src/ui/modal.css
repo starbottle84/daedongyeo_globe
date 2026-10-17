@@ -1,0 +1,77 @@
+/* ───────── 덮개 화면 (<dialog>.showModal) : 가죽 표지 + 크림 종이 카드를 맨 위 층에 띄운다 ───────── */
+/* 브라우저 기본 dialog 모양(흰 바탕·검은 테두리·안쪽 여백·최대 크기)을 없애고 카드만 보이게 한다 */
+dialog.modal { padding: 0; border: 0; background: transparent; color: var(--ink); overflow: visible; max-width: none; max-height: none; }
+.modal::backdrop { background: rgba(10, 20, 40, .55); }
+.modal--sheet { width: min(440px, calc(100vw - 32px)); }
+.modal--full { width: min(720px, 100vw); height: min(100vh, 900px); height: min(100dvh, 900px); }
+.modal__card { display: flex; flex-direction: column; box-sizing: border-box; }
+.modal--sheet .modal__card { max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); }
+.modal--full .modal__card { height: 100%; }
+/* 카드가 화면보다 길면 종이 안에서 스크롤한다.
+   덮개는 여행 카드 안에 놓일 수 있어서(✕ 확인) 선택자를 길게 써 여행 카드의 '.trip-panel .page' 여백 규칙보다 앞서게 한다 */
+.modal > .modal__card > .page { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 20px 18px 18px; }
+.modal button { cursor: pointer; }
+
+/* 등장: 짧게 떠오르기 (transform·opacity만). 움직임 줄이기에서는 끈다 — ::backdrop은 공통 안전망(*)에 걸리지 않아 따로 끈다 */
+.modal[open] { animation: modalIn .2s cubic-bezier(.2, .9, .3, 1.1) both; }
+.modal[open]::backdrop { animation: modalFade .2s ease-out both; }
+@keyframes modalIn { from { opacity: 0; transform: translateY(14px) scale(.96); } }
+@keyframes modalFade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .modal[open], .modal[open]::backdrop { animation: none; }
+}
+
+.modal__title { margin: 0; font-family: var(--title); font-weight: 400; font-size: 23px; line-height: 1.3; color: var(--ink); text-wrap: balance; }
+.modal__body { margin: 6px 0 0; font-size: 17px; line-height: 1.5; color: var(--ink-soft); text-wrap: balance; }
+/* 동글이 말풍선 안의 제목·설명 (꼬리는 첫 줄 높이에) */
+.modal__bubble { flex: 1; min-width: 0; }
+.modal__bubble::before { top: 30px; }
+/* 좁은 화면(360px 등): 종이 옆 여백·동글이·제목을 조금 줄여 '여행을 그만할까요?' 같은 제목이 한 줄에 들게 */
+@media (max-width: 370px) {
+  .modal > .modal__card > .page { padding: 18px 14px 16px; }
+  .modal .say .dg--md { width: 54px; height: 54px; }
+  .modal__bubble .modal__title { font-size: 21px; }
+}
+/* 되돌리기 어려운 쪽·닫기: 큰 금박 버튼 아래 가운데의 작은 밑줄 글자 (누르는 곳은 48px).
+   누르는 곳의 아래 빈자리만큼 종이 아래 여백을 당겨 위아래 여백이 비슷해 보이게 한다 */
+.link-button.modal__leave { display: block; margin: 10px auto -8px; }
+
+/* ───────── 어른 확인: 길게 누르기 버튼 + 더하기 문제 ───────── */
+.adult-gate { position: relative; display: inline-flex; }
+/* 왼쪽 위 로고와 같은 가죽 알약. 길게 누르는 동안 화면이 끌리거나 글자가 골라지거나 길게 누르기 메뉴가 뜨지 않게 막는다 */
+.adult-gate__btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 48px; height: 48px; padding: 0 16px; border: 0; border-radius: 24px; overflow: hidden; cursor: pointer;
+  font-family: var(--title); font-size: 18px; color: var(--gold-200); text-shadow: 0 1px 0 rgba(0, 0, 0, .4);
+  background: var(--leather);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 -1px 0 rgba(0, 0, 0, .35), 0 4px 0 rgba(8, 16, 32, .55), 0 8px 16px rgba(4, 10, 24, .35);
+  touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.adult-gate__btn::before { content: ""; position: absolute; z-index: 1; inset: 3.5px; border-radius: 21px;
+  border: 1.3px dashed rgba(233, 196, 106, .55); pointer-events: none; }
+/* 누르는 동안 안쪽 금색 띠가 --hold 동안 왼쪽에서 오른쪽으로 차오른다 (손을 떼면 빠르게 비운다).
+   움직임 줄이기에서는 공통 안전망이 전환을 꺼서 누르는 동안 바로 가득 찬 띠로 보인다 */
+.adult-gate__btn::after { content: ""; position: absolute; inset: 3.5px; border-radius: 21px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(233, 196, 106, .14), rgba(233, 196, 106, .55));
+  transform: scaleX(0); transform-origin: left center; transition: transform .15s ease-out; }
+.adult-gate__btn.is-holding::after { transform: scaleX(1); transition: transform var(--hold, 1500ms) linear; }
+.adult-gate__btn > * { position: relative; z-index: 2; }
+.adult-gate__btn svg { width: 20px; height: 20px; flex: none; }
+.adult-gate__btn:focus-visible { outline: 3px solid var(--gold-500); outline-offset: 3px; }
+/* 짧게 눌렀을 때: 버튼 아래 흰 말풍선 (3초 뒤 사라진다) */
+.adult-gate__hint { position: absolute; z-index: 3; top: calc(100% + 12px); left: 0; padding: 8px 14px; border-radius: 14px; white-space: nowrap;
+  background: #FFFFFF; color: var(--ink); font-family: var(--title); font-size: 17px;
+  box-shadow: inset 0 0 0 2px #EAD9AC, 0 3px 0 #E4D09F, 0 6px 14px rgba(4, 10, 24, .3);
+  animation: modalFade .18s ease-out both; }
+.adult-gate__hint::before { content: ""; position: absolute; left: 18px; top: -7px; width: 12px; height: 12px; background: #FFFFFF;
+  border-left: 2px solid #EAD9AC; border-top: 2px solid #EAD9AC; border-top-left-radius: 3px; transform: rotate(45deg); }
+
+/* 문제 카드: 움푹한 크림 홈 안에 큰 식 */
+.adult-gate__head { text-align: center; }
+.adult-gate__q { margin: 14px 0 0; padding: 12px 8px; border-radius: 18px; text-align: center;
+  font-family: var(--title); font-size: 40px; line-height: 1.15; color: var(--ink); letter-spacing: .02em;
+  background: var(--cream-200); box-shadow: inset 0 0 0 1.5px rgba(150, 110, 40, .22), inset 0 2px 5px rgba(120, 90, 40, .14); }
+/* 문제 글은 열릴 때 초점만 받아 두는 자리라(누르는 곳이 아님) 테두리를 그리지 않는다 */
+.adult-gate__q:focus { outline: none; }
+/* 보기: 고르기 미션의 보기 카드 모양 그대로, 64px 넘게 (여행 카드 css의 .choice 크기보다 앞서게 묶음 선택자로) */
+.adult-gate__options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.adult-gate__options .choice { min-height: 72px; padding: 8px; font-size: 30px; }
+.adult-gate__wrong { margin: 12px 0 0; text-align: center; font-family: var(--title); font-size: 18px; color: var(--apricot-ink); }

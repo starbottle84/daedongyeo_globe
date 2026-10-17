@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { TIER_LABELS, type Place, type Tier, type View } from '../content/types';
+import { ConfirmDialog } from '../family/ConfirmDialog';
 import type { GlobeHandle } from '../globe/globeHandle';
 import { Icon } from '../ui/Icon';
 import { useMoreBelow } from '../ui/useMoreBelow';
@@ -28,6 +29,7 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
       : createTripState(count),
   );
   const [showNote, setShowNote] = useState(false);
+  const [confirmExit, setConfirmExit] = useState(false);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
   const panelRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -83,6 +85,8 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
   }, [state.step, state.missionIndex]);
 
   const next = () => dispatch({ type: 'next' });
+  // 도장을 받기 전에는 실수로 나가지 않게 한 번 묻는다 (도장 뒤에는 이미 저장했으니 바로 나간다)
+  const requestExit = () => (state.step === 'stamp' || state.step === 'talk' ? onExit() : setConfirmExit(true));
   const mission = state.step === 'mission' ? missions[state.missionIndex] : null;
   const stars = state.results.reduce((sum, r) => sum + (r.stars ?? 0), 0);
   // 찾아 누르기·핀 꽂기·방향 미션은 지도를 넓게 보여야 해서 카드를 줄인다
@@ -103,7 +107,7 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
         <header className="pass-head">
           <span className="pass-head__tag" aria-hidden="true"><Icon name="plane" /></span>
           <h2 className="pass-head__title">{place.name} 여행 · {TIER_LABELS[tier]}</h2>
-          <button type="button" className="close" onClick={onExit} aria-label="여행 그만하기">
+          <button type="button" className="close" onClick={requestExit} aria-label="여행 그만하기">
             <Icon name="close" />
           </button>
         </header>
@@ -179,6 +183,15 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
         </div>
         {moreBelow && <span className="pass-more" aria-hidden="true" />}
       </div>
+      <ConfirmDialog
+        open={confirmExit}
+        title="여행을 그만할까요?"
+        body="끝까지 하면 여권에 도장을 받아요."
+        keepLabel="계속 여행하기"
+        leaveLabel="그만하기"
+        onKeep={() => setConfirmExit(false)}
+        onLeave={onExit}
+      />
     </section>
   );
 }
