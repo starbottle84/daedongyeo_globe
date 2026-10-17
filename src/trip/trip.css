@@ -21,8 +21,8 @@
 /* 흐림만으로는 놓치기 쉬워서 흐린 자리 가운데에 작은 아래 화살표도 둔다 (장식, 움직이지 않는다). 시작 카드도 같은 화살표를 쓴다 */
 .trip-panel .pass-more, .launcher .pass-more { position: absolute; left: 50%; bottom: 10px; width: 10px; height: 10px; margin-left: -6.5px; pointer-events: none;
   border-right: 3px solid rgba(35, 57, 91, .4); border-bottom: 3px solid rgba(35, 57, 91, .4); transform: rotate(45deg); }
-/* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 */
-.trip-panel:focus { outline: none; }
+/* 단계가 바뀔 때 화면 읽기용으로 패널에 초점을 옮기므로 테두리는 그리지 않는다 (여행을 마치고 돌아온 시작 카드도 같다) */
+.trip-panel:focus, .launcher:focus { outline: none; }
 /* 앱 바탕에는 시안의 button 공통 규칙(손가락 모양)이 없어서 여기서 더한다 */
 .trip-panel .btn, .trip-panel .close { cursor: pointer; }
 .btn__plane { transform: rotate(45deg); }

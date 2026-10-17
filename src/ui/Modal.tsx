@@ -57,8 +57,11 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
         if (fromBackdrop && e.target === e.currentTarget && size === 'sheet') onClose();
       }}
       // 키를 누르고 있을 때 생기는 자동 반복 Enter·Space는 창 안 버튼을 누르지 않게 한다
-      // (✕를 Enter로 길게 누르면 열리자마자 '계속 여행하기'가 눌려 창이 열렸다 닫히기를 되풀이했다)
-      onKeyDown={(e) => { if (e.repeat && (e.key === 'Enter' || e.key === ' ')) e.preventDefault(); }}
+      // (✕를 Enter로 길게 누르면 열리자마자 '계속 여행하기'가 눌려 창이 열렸다 닫히기를 되풀이했다).
+      // 버튼·보기 칸에서만 막는다 — 글 입력칸에서 Space를 길게 누르는 것은 그대로 둔다
+      onKeyDown={(e) => {
+        if (e.repeat && (e.key === 'Enter' || e.key === ' ') && (e.target as Element).matches('button, [role="button"], [role="radio"]')) e.preventDefault();
+      }}
     >
       <div className="passport modal__card"><div className="page">{children}</div></div>
     </dialog>,

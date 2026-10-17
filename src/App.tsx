@@ -71,6 +71,8 @@ export function App() {
     const stack = stackRef.current;
     if (trip) wasTrip.current = true;
     if (!globe || trip || !stack) return;
+    // 여행을 마치고 돌아온 때는 사라진 여행 카드 대신 시작 카드에 초점을 준다 (그대로 두면 body로 떨어진다). 앱을 처음 열 때는 옮기지 않는다
+    if (wasTrip.current) stack.querySelector<HTMLElement>('.launcher')?.focus({ preventScroll: true });
     globe.frameHome(wasTrip.current);
     wasTrip.current = false;
     const reframe = () => globe.frameHome(false);

@@ -44,6 +44,8 @@ export function TripLauncher({ places, profiles, activeProfile, onStart }: TripL
   return (
     <section
       ref={sectionRef}
+      // 여행을 마치고 돌아오면 App이 여기로 초점을 옮긴다 (여행 카드가 사라져 초점이 body로 떨어지지 않게)
+      tabIndex={-1}
       className={`passport launcher${activeProfile ? '' : ' launcher--new'}`}
       aria-label={activeProfile ? '여행 고르기' : '여권 만들기'}
       onClickCapture={(e) => { if (e.timeStamp - madeAt.current < 700) { e.preventDefault(); e.stopPropagation(); } }}

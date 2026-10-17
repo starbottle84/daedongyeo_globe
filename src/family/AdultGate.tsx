@@ -96,10 +96,24 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
         className={`adult-gate__btn${holding ? ' is-holding' : ''}`}
         aria-label={ariaLabel}
         style={{ ['--hold' as string]: `${holdMs}ms` }}
-        onPointerDown={start}
+        onPointerDown={(e) => {
+          // 오른쪽·가운데 단추로는 열지 않는다
+          if (e.button !== 0) return;
+          // 손가락으로 누르면 버튼에 초점이 가지 않아, 창을 닫으면 초점이 body로 떨어졌다 — 닫은 뒤 이 버튼으로 돌아오게 먼저 초점을 준다
+          e.currentTarget.focus({ preventScroll: true });
+          start();
+        }}
         onPointerUp={end}
         onPointerLeave={cancel}
         onPointerCancel={cancel}
+        // 손가락은 포인터 캡처 때문에 밖으로 끌어내도 pointerleave가 오지 않는다 — 버튼(여유 8px) 밖으로 나가면 멈춘다
+        onPointerMove={(e) => {
+          if (timer.current === null) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          if (e.clientX < r.left - 8 || e.clientX > r.right + 8 || e.clientY < r.top - 8 || e.clientY > r.bottom + 8) cancel();
+        }}
+        // 키보드로 누르는 중에 Tab으로 초점이 나가면 멈춘다 (떼는 키가 다른 곳으로 가 타이머가 그대로 돌았다)
+        onBlur={cancel}
         // 길게 눌러 창을 연 뒤 손을 떼면 브라우저가 click을 만들어 손가락 아래에 막 나타난 창 안 버튼으로 보낸다
         // (작은 휴대폰에서는 '+' 아래가 바로 답 보기 줄이라, 문제를 보기도 전에 답이 눌렸다) — 그 click을 만들지 않게 한다.
         // React의 touchend는 passive가 아니라 preventDefault가 듣는다. 짧게 누른 때는 그대로 둔다

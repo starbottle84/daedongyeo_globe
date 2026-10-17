@@ -1,4 +1,4 @@
-import { useId, useState, type KeyboardEvent } from 'react';
+import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { TIER_LABELS, TIERS, type Tier } from '../content/types';
 import { AVATAR_COLORS, AVATAR_LABELS, type AvatarColor } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
@@ -39,6 +39,7 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
   const [tier, setTier] = useState<Tier>(initial?.tier ?? 'preschool');
   const [color, setColor] = useState<AvatarColor>(initial?.color ?? 'sky');
   const id = useId();
+  const tiersRef = useRef<HTMLDivElement>(null);
 
   return (
     <form
@@ -55,10 +56,19 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
         type="text"
         maxLength={10}
         autoComplete="off"
-        enterKeyHint="done"
+        enterKeyHint="next"
         placeholder="탐험가"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        // 이름 칸의 Enter(휴대폰 키보드의 '다음')로는 만들지 않는다 — 바로 만들면 나이·색을 고르기 전에 기본값(유아·하늘색)으로 만들어졌다.
+        // 키보드를 닫고 나이 구간의 고른 칸으로 초점을 옮긴다. 한글 조합을 끝내는 Enter는 그대로 둔다 (조합만 끝내고 제출은 하지 않는다).
+        // 사파리는 조합을 끝내는 Enter에 isComposing을 false로 주므로 keyCode 229(조합 중 키)도 본다
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter' || e.nativeEvent.isComposing || e.keyCode === 229) return;
+          e.preventDefault();
+          e.currentTarget.blur();
+          tiersRef.current?.querySelector<HTMLElement>('[aria-checked="true"]')?.focus();
+        }}
       />
       <div className="name-ideas" role="group" aria-label="추천 별명">
         {NAME_IDEAS.map((n) => (
@@ -69,7 +79,7 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
       {/* 나이·바탕색 칸 이름은 화면 읽기에만 둔다 — 보기(유아·저학년·고학년, 색 동그라미)가 스스로 설명하고,
           첫 실행 카드가 390×844에서 화면의 60% 안에 들어 '여권 만들기' 버튼이 스크롤 없이 보이게 */}
       <p id={`${id}-tier`} className="visually-hidden">나이</p>
-      <div className="tiers" role="radiogroup" aria-labelledby={`${id}-tier`} onKeyDown={arrowPick(TIERS, tier, setTier)}>
+      <div ref={tiersRef} className="tiers" role="radiogroup" aria-labelledby={`${id}-tier`} onKeyDown={arrowPick(TIERS, tier, setTier)}>
         {TIERS.map((t) => (
           <button key={t} type="button" role="radio" aria-checked={t === tier} tabIndex={t === tier ? 0 : -1} onClick={() => setTier(t)}>
             {TIER_LABELS[t]}
