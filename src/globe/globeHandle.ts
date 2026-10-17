@@ -9,8 +9,9 @@ export type MarkerKind = 'answer' | 'hint' | 'pin' | 'from' | 'to';
 export interface GlobeHandle {
   /** 아래쪽 여행 카드에 가려지지 않는 위쪽 영역 한가운데로 날아간다 */
   flyTo(center: LngLat, zoom: number): void;
-  /** 여러 지점이 다 보이게 화면을 맞춘다 (날짜변경선을 넘거나 아주 먼 지점도 지구본 기준으로 계산) */
-  fitTo(points: LngLat[]): void;
+  /** 여러 지점이 다 보이게 화면을 맞춘다 (날짜변경선을 넘거나 아주 먼 지점도 지구본 기준으로 계산).
+   *  maxZoom을 주면 그보다 더 확대하지 않는다 (넓은 바다 한가운데에 핀을 가까이 꽂아도 주변이 보이게) */
+  fitTo(points: LngLat[], maxZoom?: number): void;
   /** 여행 카드 높이가 바뀌었을 때 카메라 여백만 다시 맞춘다 (가운데 지점·확대는 그대로 → 목표가 카드 위쪽 보이는 영역 가운데로 다시 온다).
    *  날아가는 중이면 끊지 않고 그 비행이 끝난 뒤 한 번 맞춘다. 여행이 아닐 때(flyTo·fitTo 전, restore 뒤)는 아무것도 하지 않는다 */
   refitPadding(): void;
@@ -214,7 +215,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       });
     },
 
-    fitTo(points) {
+    fitTo(points, maxZoom) {
       if (points.length === 0) return;
       ensureGlobe();
       const { center, spread } = sphericalSpread(points);
@@ -222,7 +223,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       startTripFlight(padding);
       map.flyTo({
         center,
-        zoom: zoomToFit(center, spread),
+        zoom: Math.min(zoomToFit(center, spread), maxZoom ?? MAX_FIT_ZOOM),
         bearing: 0,
         pitch: 0,
         padding,

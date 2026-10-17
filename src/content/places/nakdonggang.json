@@ -16,7 +16,7 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "길고 긴 강, 낙동강을 눌러 봐!", "targetName": "낙동강", "target": [128.4, 36.05], "radiusKm": 80, "view": { "center": [128.4, 36.05], "zoom": 7.5 }, "explain": "여기가 낙동강이에요! 남쪽 바다까지 흘러가요." },
+      { "type": "tap", "prompt": "길고 긴 강, 낙동강을 눌러 봐!", "targetName": "낙동강", "target": [128.4, 36.05], "radiusKm": 38, "view": { "center": [128.4, 36.05], "zoom": 7.5 }, "explain": "여기가 낙동강이에요! 남쪽 바다까지 흘러가요." },
       { "type": "choice", "prompt": "겨울마다 낙동강에 찾아오는 손님은 누구일까?", "options": [{ "label": "낙타", "icon": "🐫" }, { "label": "철새", "icon": "🦢" }], "answer": 1, "explain": "겨울이면 고니 같은 철새가 훨훨 날아와요." }
     ],
     "lower": [

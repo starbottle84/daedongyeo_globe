@@ -16,7 +16,7 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "서울을 지나는 큰 강, 한강을 눌러 봐!", "targetName": "한강", "target": [126.99, 37.52], "radiusKm": 60, "view": { "center": [126.99, 37.52], "zoom": 7.5 }, "explain": "여기가 한강이에요! 서울 한가운데로 흘러요." },
+      { "type": "tap", "prompt": "서울을 지나는 큰 강, 한강을 눌러 봐!", "targetName": "한강", "target": [126.99, 37.52], "radiusKm": 38, "view": { "center": [126.99, 37.52], "zoom": 7.5 }, "explain": "여기가 한강이에요! 서울 한가운데로 흘러요." },
       { "type": "choice", "prompt": "한강 위에 많이 놓여 있는 것은 무엇일까?", "options": [{ "label": "다리", "icon": "🌉" }, { "label": "화산", "icon": "🌋" }], "answer": 0, "explain": "한강에는 다리가 많아요. 자동차가 씽씽 건너요." }
     ],
     "lower": [
