@@ -14,7 +14,7 @@ const lines = JSON.parse(readFileSync(`${VOICE_DIR}lines.json`, 'utf8'));
 const NOTES = {
   출발: '설레는 목소리로 밝게, 천천히',
   둘러보기: '이야기 들려주듯 천천히, 문장 사이에 잠깐 쉬기. 의성어·의태어는 리듬 있게',
-  '미션 질문': '묻는 말투로 또박또박, 끝을 살짝 올려서',
+  '미션 질문': '또박또박. 물어볼 때는 끝을 살짝 올리고, 눌러 보라고 할 때는 다정하게',
   '정답 설명': '칭찬에 이어 다정하게 알려 주듯',
   '함께 이야기': '같이 놀자고 부르듯 신나게',
   도장: '축하하듯 크고 밝게',
@@ -70,7 +70,7 @@ const md = [
 
 // 엑셀에서 한글이 깨지지 않게 UTF-8 BOM을 붙인다
 const csvCell = (s) => (/[",\n]/.test(String(s)) ? `"${String(s).replace(/"/g, '""')}"` : String(s));
-const csv = `﻿${[
+const csv = `\uFEFF${[
   ['번호', '파일 이름', '장소', '나이 구간', '상황', '읽을 문장', '읽는 느낌'],
   ...rows.map((r) => [r.no, r.file, r.place, r.tier, r.situation, r.text, r.note]),
 ].map((r) => r.map(csvCell).join(',')).join('\r\n')}\r\n`;

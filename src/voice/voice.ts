@@ -97,6 +97,8 @@ for (const type of WAKE_EVENTS) document.addEventListener(type, wake, { capture:
 export function stopVoice(): void {
   token += 1;
   queue = [];
+  // 앞 문장의 늦은 'ended'·'error'가 다음 목록의 문장을 꺼내지 않게 지금 문장 표시도 지운다 (새 문장을 재생할 때 다시 정한다)
+  current = '';
   clearTimeout(timer);
   if (audio && !audio.paused) audio.pause();
 }

@@ -23,6 +23,8 @@ const { voiceLines } = await import('../src/voice/lines.ts');
 const lines = voiceLines(PLACES);
 const ids = new Set(lines.map((l) => l.id));
 if (ids.size !== lines.length) throw new Error('같은 id의 문장이 둘 있어요');
+const upper = lines.find((l) => l.id !== l.id.toLowerCase());
+if (upper) throw new Error(`음성 파일 이름(id)은 모두 소문자여야 해요: ${upper.id}`);
 
 const outDir = fileURLToPath(new URL('../public/voice/', import.meta.url));
 mkdirSync(outDir, { recursive: true });

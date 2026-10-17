@@ -41,8 +41,10 @@ const COMMON_TEXT = {
 const COMMON_SITUATION: Record<keyof typeof COMMON_TEXT, VoiceSituation> = {
   correct: '결과', soft: '결과', hint: '힌트', hintTap: '힌트', revisit: '도장',
 };
+// 파일 이름은 모두 소문자로 쓴다 (대소문자를 가리지 않는 Windows·macOS에서도 헷갈리지 않게): hintTap → common.hint-tap
+const kebab = (key: string) => key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 export const COMMON_VOICE = Object.fromEntries(
-  Object.entries(COMMON_TEXT).map(([key, text]) => [key, lineId(`common.${key}`, text)]),
+  Object.entries(COMMON_TEXT).map(([key, text]) => [key, lineId(`common.${kebab(key)}`, text)]),
 ) as Record<keyof typeof COMMON_TEXT, string>;
 
 const unlockText = (stage: number) => {
@@ -53,9 +55,11 @@ const unlockText = (stage: number) => {
 export const unlockVoice = (stage: number) => lineId(`common.unlock.${stage}`, unlockText(stage));
 
 const stampText = (place: Place) => `${place.name} 도장을 받았어요!`;
-const nextText = (place: Place) => `다음엔 ${place.name}에 가 볼까요?`;
-/** 도장 카드의 '다음엔 ○○에 가 볼까요?' — 가 볼 곳(place)의 이름이 들어간다 */
-export const nextVoice = (place: Place) => lineId(`${place.id}.next`, nextText(place));
+const nextText = (place: Place, short = false) => `${short ? '' : '다음엔 '}${place.name}에 가 볼까요?`;
+/** 도장 카드의 '다음엔 ○○에 가 볼까요?' — 가 볼 곳(place)의 이름이 들어간다.
+ * 새 단계가 열린 도장 카드는 '다음엔'을 뺀 '○○에 가 볼까요?'를 보여 주니(StampCard) 소리도 그 글(short)을 읽는다 */
+export const nextVoice = (place: Place, short = false) =>
+  lineId(`${place.id}.next${short ? '-short' : ''}`, nextText(place, short));
 
 /** 장소 하나의 유아 문장 id. 미션 설명이 없는 미션은 explain이 null이다 */
 export interface PlaceVoice {
@@ -95,6 +99,7 @@ export function voiceLines(places: Place[]): VoiceLine[] {
     add(v.stamp, stampText(place), '도장');
     add(v.talk, place.familyTalk.preschool, '함께 이야기');
     add(nextVoice(place), nextText(place), '다음 장소');
+    add(nextVoice(place, true), nextText(place, true), '다음 장소');
   }
   for (const key of Object.keys(COMMON_TEXT) as (keyof typeof COMMON_TEXT)[]) {
     lines.push({ id: COMMON_VOICE[key], text: COMMON_TEXT[key], place: null, situation: COMMON_SITUATION[key] });

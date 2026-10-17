@@ -128,7 +128,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
           ? [
               stampOutcome?.isNew === false ? COMMON_VOICE.revisit : voice.stamp,
               opened !== undefined ? unlockVoice(opened) : null,
-              nextPlace ? nextVoice(nextPlace) : null,
+              nextPlace ? nextVoice(nextPlace, opened !== undefined) : null,
             ]
           : state.step === 'talk'
             ? [voice.talk]
