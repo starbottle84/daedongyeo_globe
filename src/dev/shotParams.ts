@@ -29,7 +29,7 @@ export function readShotParams(): ShotParams | null {
   };
 }
 
-/** 개발 중 화면 확인용 진행 상태: ?seed=new(프로필 없음) | one(유아 1명, 도장 없음) | siblings(유아·고학년, 1단계 도장 2개 = 2단계 열림) | full(유아·고학년 둘 다 모든 도장)
+/** 개발 중 화면 확인용 진행 상태: ?seed=new(프로필 없음) | one(유아 1명, 도장 없음) | siblings(유아·고학년, 1단계 도장 2개 + 저장된 열린 단계 [1,2] = 견본 때 2단계가 열린 아이) | full(유아·고학년 둘 다 모든 도장)
  *  이 상태는 저장하지 않는다. ?shot=과 같이 쓸 수 있다 (예: ?seed=siblings&shot=jeju:preschool:stamp) */
 export function readSeed(): SaveData | null {
   if (!import.meta.env.DEV) return null;
