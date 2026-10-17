@@ -28,7 +28,14 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
-    if (open && !d.open) { pressedBackdrop.current = false; pressedInside.current = false; d.showModal(); }
+    if (open && !d.open) {
+      pressedBackdrop.current = false;
+      pressedInside.current = false;
+      d.showModal();
+      // 첫 초점을 둘 곳(data-autofocus)이 있으면 그리로. 브라우저는 처음 만나는 초점 칸에 주는데, 크롬은 내용이 넘치는 스크롤 종이도
+      // 초점 칸으로 봐서 이름 없는 큰 칸이 먼저 잡힌다. React의 autoFocus는 창이 닫힌 채 처음 그릴 때 불려 효과가 없다
+      d.querySelector<HTMLElement>('[data-autofocus]')?.focus();
+    }
     if (!open && d.open) d.close();
   }, [open]);
   // body 바로 아래에 그린다 — 연 자리(시작 카드·여행 카드) 안에 두면 '.launcher .page'의 높이 상한(화면 60%)·'.launcher *'의

@@ -19,8 +19,9 @@ interface ParentSpaceProps {
 }
 
 // 미션 정답을 부모님이 읽기 쉬운 한 줄로: 고르기는 정답 보기, 방향은 'OO쪽'.
-// 찾아 누르기·위치 찍기는 찾을 곳이 장소와 다를 때가 있어서(독도 여행의 울릉도, 남극 여행의 킹조지섬) 미션 설명을 쓰고,
-// 설명이 없으면 '지도에서 OO'(대륙·대양 이름, 없으면 장소 이름)
+// 찾아 누르기에 대륙·대양 이름(area)이 있으면 그곳이 찾을 곳이라 '지도에서 OO'.
+// 그 밖에는 찾을 곳이 장소와 다를 때가 있어서(독도 여행의 울릉도, 남극 여행의 킹조지섬) 미션 설명을, 없으면 '지도에서 (장소 이름)'.
+// 아이 말투 설명('여기가 독도예요!' 등)은 찾을 곳 이름 칸(targetName)을 둔 뒤 바꾼다 (계획 3 작업 7 Step 0)
 function answerOf(m: Mission, place: Place): string {
   switch (m.type) {
     case 'choice': {
@@ -31,7 +32,8 @@ function answerOf(m: Mission, place: Place): string {
       return `${m.answer}쪽`;
     case 'tap':
     case 'pin':
-      return m.explain ?? `지도에서 ${(m.type === 'tap' && m.area) || place.name}`;
+      if (m.type === 'tap' && m.area) return `지도에서 ${m.area}`;
+      return m.explain ?? `지도에서 ${place.name}`;
   }
 }
 
@@ -79,9 +81,10 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
   const inRow = (id: string, selector: string) => () =>
     listRef.current?.querySelector<HTMLElement>(`[data-kid="${CSS.escape(id)}"] ${selector}`);
 
-  const activeTier = save.profiles.find((p) => p.id === save.activeProfileId)?.tier ?? 'preschool';
-  // 배경지식의 미션 정답은 고른 아이의 나이 구간을 맨 앞에 펼쳐 둔다
-  const tierOrder = [activeTier, ...TIERS.filter((t) => t !== activeTier)];
+  // 배경지식의 미션 정답은 고른 아이의 나이 구간을 맨 앞에 펼쳐 둔다. 열 때 한 번만 정한다 —
+  // 연 채로 그 아이의 구간을 고쳐도 펼쳐 둔 장소의 줄 순서·펼침(부모님이 직접 접고 편 것)이 바뀌지 않게. 다음에 열면 새 구간이 앞이다
+  const [firstTier] = useState(() => save.profiles.find((p) => p.id === save.activeProfileId)?.tier ?? 'preschool');
+  const tierOrder = [firstTier, ...TIERS.filter((t) => t !== firstTier)];
   const iosHint = isIosBrowser();
 
   return (
@@ -92,7 +95,8 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
           <p className="ps-head__en" aria-hidden="true">FOR PARENTS</p>
           <h2 id={titleId} className="ps-head__title">부모님 공간</h2>
         </div>
-        <button type="button" className="close" aria-label="닫기" onClick={onClose}>
+        {/* 열면 초점이 여기로 온다 (Modal의 data-autofocus) — 그러지 않으면 크롬이 스크롤되는 종이(이름 없는 칸)에 먼저 준다 */}
+        <button type="button" className="close" aria-label="닫기" data-autofocus onClick={onClose}>
           <Icon name="close" />
         </button>
       </header>
@@ -226,7 +230,7 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
                   <div className="ps-place__body">
                     <p className="ps-note ko">{p.parentNote}</p>
                     {tierOrder.map((t) => (
-                      <details key={t} className="ps-tier" open={t === activeTier}>
+                      <details key={t} className="ps-tier" open={t === firstTier}>
                         <summary>
                           {TIER_LABELS[t]} 미션 정답
                           <span className="ps-chev" aria-hidden="true" />
@@ -265,6 +269,8 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
                 ? '모든 기록은 이 기기에만 저장돼요. 계정·광고·외부 전송이 없어요.'
                 : '이 기기에 진행이 저장되지 않고 있어요. 사생활 보호(시크릿) 모드에서는 창을 닫으면 기록이 사라져요.'}
             </p>
+            {/* 개인정보 문구(D10)는 저장이 안 될 때도 맞는 말이라 남긴다 */}
+            {!storageOk && <p className="ko">계정·광고·외부 전송이 없어요.</p>}
             {iosHint && <p className="ko">홈 화면에 추가하면 기록이 더 오래 남아요.</p>}
           </div>
         </div>

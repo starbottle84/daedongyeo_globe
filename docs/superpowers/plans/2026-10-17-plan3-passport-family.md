@@ -957,6 +957,7 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
       - `updateProfile`은 `tier: patch.tier ?? p.tier, color: patch.color ?? p.color`로 덮는다.
       - 주 칸이 더 새로운 버전이면 처음부터 저장 안 됨 안내가 뜨게 한다. `storage.ts`에 `storedIsNewer()`를 두고 `initProgress`에서 `storageOk = canStore() && !storedIsNewer()`로 한다.
       - 계획 Task 1 머리에 "구현 뒤 검토로 바뀐 점은 `src/progress/*.ts` 실제 코드가 기준"이라고 한 줄 적는다.
+  11. **부모님 공간 찾아 누르기·위치 찍기 정답 (작업 6 검토):** `area`가 없는 미션은 정답 줄에 `explain`이 나오는데, 아이 말투인 곳이 6개다(독도·백두산·제주 유아 '여기가 OO예요!', 백두산 저학년, 서울 유아·저학년 '빨간 별은…'). tap·pin 미션에 선택 칸 `targetName`(찾을 곳 이름)을 둔다(`types.ts`·`parsePlace` 검사·장소 JSON). 채운 뒤 정답 줄은 '지도에서 {targetName}'으로, `explain`은 그 아래 작은 덧붙임 줄로 보인다(`ParentSpace.tsx`의 `answerOf`). 계획 4에서 장소를 늘릴 때도 tap·pin마다 채운다.
 
 - [ ] **Step 1: 코드 검사** — tsc·lint·build를 통과한다. 지명 수(1280×800 세 장면 ≥ 33/118/38, 지구 여권 계획 작업 7 Step 3 방법)를 잰다.
 - [ ] **Step 2: 시나리오** — 같은 크롬 프로필을 유지하는 CDP 스크립트로 처음부터 끝까지 확인한다.
