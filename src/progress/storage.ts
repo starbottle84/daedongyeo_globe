@@ -4,7 +4,8 @@ import { AVATAR_COLORS, SAVE_VERSION, type Profile, type ProfileProgress, type S
 // 같은 GitHub 계정의 다른 앱과 키가 겹치지 않게 앱 이름을 앞에 붙인다
 export const SAVE_KEY = 'daedongyeo-globe:save';
 const BACKUP_KEY = 'daedongyeo-globe:save-backup';
-const MAX_PROFILES = 8;
+/** 한 기기에 둘 수 있는 아이 수. 읽을 때 이보다 많으면 자르므로, 만들 때도 이 수를 넘기지 않는다 */
+export const MAX_PROFILES = 8;
 
 export function emptySave(): SaveData {
   return { version: SAVE_VERSION, activeProfileId: null, profiles: [], progress: {} };
@@ -108,8 +109,9 @@ export function writeSave(data: SaveData): boolean {
 
 export function clearSave(): boolean {
   try {
-    localStorage.removeItem(SAVE_KEY);
+    // 백업 칸을 먼저 지운다 — 다른 탭이 주 칸 삭제 알림을 받고 다시 읽을 때 백업이 남아 있으면 지운 기록이 되살아난다
     localStorage.removeItem(BACKUP_KEY);
+    localStorage.removeItem(SAVE_KEY);
     return true;
   } catch {
     return false;

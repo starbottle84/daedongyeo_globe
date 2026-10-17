@@ -796,6 +796,7 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
   - **칩:** 색 동그라미 안의 작은 동글이 + 이름 + 작은 구간 글자(유아/저학년/고학년). `aria-pressed`로 표시하고, 누르면 `selectProfile`이다.
   - **배치:** 한 줄이다. 넘치면 가로로 스크롤하고(스크롤 막대는 숨김), 고른 칩은 보이게 스크롤한다.
   - **'+' 칩:** `AdultGate`(label 없이 '+' 그림, ariaLabel '아이 추가 — 길게 누르기')를 쓴다. 풀리면 `Modal` 안의 `ProfileForm`(submit '추가하기')이 열리고, 만들면 그 아이가 활성이 된다.
+    - `profiles.length >= MAX_PROFILES`(storage.ts, 8명)이면 '+' 칩을 숨긴다. `createProfile()`도 이때는 만들지 않고 `null`을 돌려준다(읽을 때 8명으로 자르므로 9번째가 새로고침에 사라지지 않게).
   - **높이:** 지금 `.tiers`와 같다(48px).
 - [ ] **Step 4: App** — `tier` 상태를 지우고 `const save = useSave(); const active = save.profiles.find((p) => p.id === save.activeProfileId) ?? null;`로 바꾼다.
   - `Trip`에 `profileId: string | null`을 더한다. 시작할 때 `{ place, tier: active.tier, profileId: active.id }`로 만든다.
@@ -828,9 +829,12 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
 
 ```tsx
   const [stampOutcome, setStampOutcome] = useState<StampOutcome | null>(null);
+  // 마지막 정답을 빠르게 두 번 눌러도 한 여행에 한 번만 저장한다 (두 번 부르면 방문 횟수가 2가 되고 '또 왔어요'가 뜬다)
+  const stampedRef = useRef(false);
   const handleDone = (result: MissionResult) => {
     const isLast = state.missionIndex + 1 >= missions.length;
-    if (isLast && profileId) {
+    if (isLast && profileId && !stampedRef.current) {
+      stampedRef.current = true;
       const results = [...state.results, result];
       const stars = results.reduce((sum, r) => sum + (r.stars ?? 0), 0);
       setStampOutcome(recordStamp(profileId, place, stars));
@@ -910,7 +914,7 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
      - 색 동글이, 이름, 구간, `도장 n/전체`, 열린 단계.
      - '수정' 버튼은 같은 자리에서 `ProfileForm`(submit '저장')이 펼쳐진다.
      - '삭제' 버튼은 `ConfirmDialog`(title "OO의 여권을 지울까요?", body "도장과 기록이 모두 지워지고 되돌릴 수 없어요.", keep '아니요, 그대로 둘게요', leave '네, 지울게요')를 띄운다.
-     - 아래에 '아이 추가'(바로 `ProfileForm`, 여기는 이미 어른 확인을 지났으므로 게이트 없음)를 둔다.
+     - 아래에 '아이 추가'(바로 `ProfileForm`, 여기는 이미 어른 확인을 지났으므로 게이트 없음)를 둔다. `profiles.length >= MAX_PROFILES`이면 숨긴다(Task 3의 '+' 칩과 같은 규칙).
   3. **장소별 배경지식:**
      - 단계별로 묶은 접기 목록(`<details>`)이다. 장소마다 `parentNote`를 보인다.
      - 펼치면 그 장소의 미션 정답을 나이 구간별로 보인다.

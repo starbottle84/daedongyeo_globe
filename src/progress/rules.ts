@@ -38,10 +38,12 @@ export function applyStamp(
   stars: number,
   today: string,
 ): { progress: ProfileProgress; outcome: StampOutcome } {
+  // 별은 0~99 정수로 맞춘다 (NaN·음수가 메모리에 남지 않게, 읽을 때 정규화와 같은 범위)
+  const starCount = Number.isFinite(stars) ? Math.min(99, Math.max(0, Math.floor(stars))) : 0;
   const before = progress.stamps[placeId];
   const record = before
-    ? { ...before, lastDate: today, visits: before.visits + 1, bestStars: Math.max(before.bestStars, stars) }
-    : { firstDate: today, lastDate: today, visits: 1, bestStars: stars };
+    ? { ...before, lastDate: today, visits: before.visits + 1, bestStars: Math.max(before.bestStars, starCount) }
+    : { firstDate: today, lastDate: today, visits: 1, bestStars: starCount };
   const stamped: ProfileProgress = { ...progress, stamps: { ...progress.stamps, [placeId]: record } };
   const unlockedStages = computeUnlocked(places, stamped);
   const newlyUnlocked = unlockedStages.filter((s) => !progress.unlockedStages.includes(s) && s !== (stagesOf(places)[0] ?? 1));
@@ -54,10 +56,11 @@ export function applyStamp(
 /** 다음에 가 볼 곳: 지금 장소 다음부터(끝에 닿으면 처음부터) 열린 단계에 있고 아직 도장이 없는 첫 장소. 없으면 null */
 export function nextPlaceFor(places: Place[], progress: ProfileProgress, current: Place): Place | null {
   const open = new Set(computeUnlocked(places, progress));
+  // current가 목록에 없으면 start가 -1이라 처음부터 끝까지 본다. 목록에 있으면 마지막 차례가 current 자신이라 id로 건너뛴다
   const start = places.indexOf(current);
-  for (let k = 1; k < places.length; k++) {
+  for (let k = 1; k <= places.length; k++) {
     const p = places[(start + k) % places.length];
-    if (open.has(p.stage) && !progress.stamps[p.id]) return p;
+    if (p.id !== current.id && open.has(p.stage) && !progress.stamps[p.id]) return p;
   }
   return null;
 }
