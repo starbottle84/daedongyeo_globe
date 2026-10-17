@@ -13,11 +13,13 @@ import './family.css';
 interface ProfileChipsProps {
   profiles: Profile[];
   activeId: string;
+  /** 아이를 더한 직후 (시작 카드가 잠깐 누르기를 무시한다 — 빠른 두 번째 누르기가 창 밑 표로 가지 않게) */
+  onAdded: () => void;
 }
 
 // 시작 카드의 아이 칩 줄 (나이 탭 자리): 형제가 번갈아 눌러 자기 여권으로 바꾼다 (어른 확인 없음).
 // 끝의 '+'는 어른 확인 뒤 아이를 더한다. 아이가 많으면 칩 줄만 가로로 스크롤한다
-export function ProfileChips({ profiles, activeId }: ProfileChipsProps) {
+export function ProfileChips({ profiles, activeId, onAdded }: ProfileChipsProps) {
   const [adding, setAdding] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const id = useId();
@@ -32,6 +34,14 @@ export function ProfileChips({ profiles, activeId }: ProfileChipsProps) {
     if (left < list.scrollLeft) list.scrollLeft = left;
     else if (right > list.scrollLeft + list.clientWidth) list.scrollLeft = right - list.clientWidth;
   }, [activeId, profiles.length]);
+  // 8번째 아이를 더하면 '+'가 사라져, 닫힌 창이 초점을 돌려줄 곳이 없어 body로 떨어진다 — 그때는 새 칩에 초점을 준다
+  // (창이 닫힌 뒤에 돌아야 해서 창(자식)의 효과 다음에 도는 이 자리에 둔다. 칩 위치는 위 효과가 이미 맞췄다)
+  const focusNew = useRef(false);
+  useEffect(() => {
+    if (!focusNew.current) return;
+    focusNew.current = false;
+    listRef.current?.querySelector<HTMLElement>('[aria-pressed="true"]')?.focus({ preventScroll: true });
+  });
 
   return (
     <div className="kids">
@@ -71,7 +81,10 @@ export function ProfileChips({ profiles, activeId }: ProfileChipsProps) {
           <ProfileForm
             submitLabel="추가하기"
             onSubmit={(values) => {
-              createProfile(values);
+              if (createProfile(values)) {
+                onAdded();
+                if (profiles.length + 1 >= MAX_PROFILES) focusNew.current = true;
+              }
               setAdding(false);
             }}
             onCancel={() => setAdding(false)}

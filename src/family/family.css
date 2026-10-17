@@ -4,7 +4,8 @@
 .avatar { position: relative; flex: none; display: block; width: 40px; height: 40px; border-radius: 50%; overflow: hidden;
   background: radial-gradient(circle at 34% 26%, rgba(255, 255, 255, .78), rgba(255, 255, 255, 0) 58%), var(--avatar, #BFE3F2);
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .9), inset 0 -4px 7px rgba(90, 65, 20, .12), 0 0 0 1px rgba(150, 110, 40, .3); }
-.avatar .dg { width: 100%; height: 100%; }
+/* 동글이는 작게 아래로 붙여 둘레에 바탕색이 넉넉히 보이게 한다 — 글을 못 읽는 아이가 자기 칩을 색으로 알아본다 */
+.avatar .dg { width: 80%; height: 80%; margin: 12% auto 0; }
 .avatar--sky { --avatar: #BFE3F2; }
 .avatar--leaf { --avatar: #CDE8B5; }
 .avatar--sun { --avatar: #FBE3A6; }
@@ -22,7 +23,8 @@
 .profile-form__name { display: block; width: 100%; height: 52px; margin: 0; padding: 0 16px; border: 0; border-radius: 16px;
   font-family: var(--title); font-size: 22px; color: var(--ink); background: #FFFEF9;
   box-shadow: inset 0 0 0 2px #E2CF9F, inset 0 3px 5px rgba(120, 90, 40, .16); }
-.profile-form__name::placeholder { color: rgba(107, 90, 62, .45); }
+/* 자리 표시 글자는 '비우면 탐험가'라는 뜻이라 읽혀야 한다 — 흰 종이 위 대비 약 4.6:1 */
+.profile-form__name::placeholder { color: rgba(107, 90, 62, .85); }
 .profile-form__name:focus { outline: none; box-shadow: inset 0 0 0 2.5px var(--navy-600), inset 0 3px 5px rgba(120, 90, 40, .16); }
 /* 추천 별명: 말풍선과 같은 흰 알약 (누르면 이름 칸을 채운다) */
 .name-ideas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
@@ -62,6 +64,19 @@
 .kids__list { flex: 0 1 auto; min-width: 0; display: flex; gap: 4px; margin: -4px 0 -9px; padding: 4px 0 9px;
   overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
 .kids__list::-webkit-scrollbar { display: none; }
+/* 칩이 넘칠 때만 더 있는 쪽 가장자리를 흐린다 (줄 스크롤 위치를 따라가는 애니메이션 — 넘치지 않으면 타임라인이 꺼져 흐림도 없다) */
+@property --kids-fade-l { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --kids-fade-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@keyframes kids-fade {
+  0% { --kids-fade-l: 0px; --kids-fade-r: 18px; }
+  8% { --kids-fade-l: 18px; }
+  92% { --kids-fade-r: 18px; }
+  100% { --kids-fade-l: 18px; --kids-fade-r: 0px; }
+}
+@supports (animation-timeline: scroll()) {
+  .kids__list { animation: kids-fade linear both; animation-timeline: scroll(self inline);
+    mask-image: linear-gradient(90deg, transparent, #000 var(--kids-fade-l), #000 calc(100% - var(--kids-fade-r)), transparent); }
+}
 .kid { position: relative; flex: none; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px 14px 4px 5px;
   border: 0; border-radius: 14px; background: none; font: inherit; color: var(--note); text-align: left; cursor: pointer; }
 .kid > * { position: relative; }
@@ -74,6 +89,9 @@
 .kid[aria-pressed="true"]::before { content: ""; position: absolute; inset: 4px; border-radius: 10px; border: 1.2px dashed rgba(233, 196, 106, .6); pointer-events: none; }
 .kid[aria-pressed="true"] .kid__name { color: var(--gold-200); }
 .kid[aria-pressed="true"] .kid__tier { color: var(--gold-400); }
+/* 키보드 초점 테두리는 칩 안쪽에 그린다 — 바깥에 그리면 가로 스크롤 상자에 위·양 끝이 잘린다. 가죽 칩 위에서는 금색으로 */
+.kids__list .kid:focus-visible { outline-offset: -3px; }
+.kids__list .kid[aria-pressed="true"]:focus-visible { outline-color: var(--gold-500); }
 /* '+' (어른 확인 뒤 아이 추가): 가죽 알약 대신 빈 여권 자리처럼 점선 칸 */
 .kids__add { flex: none; }
 .kids__add .adult-gate__btn { width: 48px; padding: 0; border-radius: 14px; color: var(--gold-ink); text-shadow: none;
