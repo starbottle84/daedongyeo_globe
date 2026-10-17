@@ -100,6 +100,10 @@ export function AdultGate({ label, ariaLabel, className, holdMs = 1500, onUnlock
         onPointerUp={end}
         onPointerLeave={cancel}
         onPointerCancel={cancel}
+        // 길게 눌러 창을 연 뒤 손을 떼면 브라우저가 click을 만들어 손가락 아래에 막 나타난 창 안 버튼으로 보낸다
+        // (작은 휴대폰에서는 '+' 아래가 바로 답 보기 줄이라, 문제를 보기도 전에 답이 눌렸다) — 그 click을 만들지 않게 한다.
+        // React의 touchend는 passive가 아니라 preventDefault가 듣는다. 짧게 누른 때는 그대로 둔다
+        onTouchEnd={(e) => { if (done.current) e.preventDefault(); }}
         onContextMenu={(e) => e.preventDefault()}
         onKeyDown={(e) => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); start(); } }}
         onKeyUp={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); end(); } }}

@@ -76,6 +76,11 @@
 @supports (animation-timeline: scroll()) {
   .kids__list { animation: kids-fade linear both; animation-timeline: scroll(self inline);
     mask-image: linear-gradient(90deg, transparent, #000 var(--kids-fade-l), #000 calc(100% - var(--kids-fade-r)), transparent); }
+  /* 움직임 줄이기에서도 흐림은 남긴다 — 스크롤을 따라갈 뿐 저절로 움직이지 않는다 (tokens.css의 공통 규칙이 애니메이션을 모두 끈다).
+     공통 규칙의 !important 단축 속성이 animation-timeline도 되돌려서 둘 다 !important로 다시 건다 */
+  @media (prefers-reduced-motion: reduce) {
+    .kids__list { animation: kids-fade linear both !important; animation-timeline: scroll(self inline) !important; }
+  }
 }
 .kid { position: relative; flex: none; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px 14px 4px 5px;
   border: 0; border-radius: 14px; background: none; font: inherit; color: var(--note); text-align: left; cursor: pointer; }

@@ -28,9 +28,9 @@ export function TripLauncher({ places, profiles, activeProfile, onStart }: TripL
   const moreBelow = useMoreBelow(pageRef, spreadRef);
   const sectionRef = useRef<HTMLElement>(null);
   // 프로필을 만든 시각. '여권 만들기'·'추가하기'를 빠르게 두 번 누르면 두 번째 누르기가 방금 그 자리에 나타난 표·칩으로 가서
-  // 고르지 않은 여행이 바로 시작됐다 — 만든 뒤 잠깐(0.5초)은 시작 카드 안의 누르기를 무시한다.
+  // 고르지 않은 여행이 바로 시작됐다 — 만든 뒤 잠깐(0.7초)은 시작 카드 안의 누르기를 무시한다.
   // 누르기 시각은 처리할 때(performance.now)가 아니라 사건 시각(e.timeStamp)으로 잰다 — 펼친 여권을 그리느라 처리가 늦어지면
-  // 두 번째 탭이 0.5초가 넘어서야 처리되기도 해서, 처리 시각으로 재면 막지 못했다
+  // 두 번째 탭이 막는 시간이 지나서야 처리되기도 해서, 처리 시각으로 재면 막지 못했다
   const madeAt = useRef(-Infinity);
   const justMade = () => { madeAt.current = performance.now(); };
   // 첫 실행에서 만들면 양식이 사라져 초점이 body로 떨어진다 — 펼친 여권을 그린 뒤 고른 아이 칩으로 옮겨 다음 갈 곳을 준다
@@ -46,7 +46,7 @@ export function TripLauncher({ places, profiles, activeProfile, onStart }: TripL
       ref={sectionRef}
       className={`passport launcher${activeProfile ? '' : ' launcher--new'}`}
       aria-label={activeProfile ? '여행 고르기' : '여권 만들기'}
-      onClickCapture={(e) => { if (e.timeStamp - madeAt.current < 500) { e.preventDefault(); e.stopPropagation(); } }}
+      onClickCapture={(e) => { if (e.timeStamp - madeAt.current < 700) { e.preventDefault(); e.stopPropagation(); } }}
     >
       <div className={`page${moreBelow ? ' page--more' : ''}`} ref={pageRef}>
         <svg className="rosette" aria-hidden="true"><use href="#rosette" /></svg>

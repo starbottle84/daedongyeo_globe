@@ -29,8 +29,11 @@ export function ProfileChips({ profiles, activeId, onAdded }: ProfileChipsProps)
     const list = listRef.current;
     const chip = list?.querySelector<HTMLElement>('[aria-pressed="true"]');
     if (!list || !chip) return;
-    const left = chip.offsetLeft - 4;
-    const right = chip.offsetLeft + chip.offsetWidth + 4;
+    // offsetLeft의 기준 상자는 칩 줄이 아니라 펼침(.spread)이라 줄의 offsetLeft를 빼 줄 안 위치로 바꾼다.
+    // 양옆 여유는 가장자리 흐림 폭(18px)보다 넓게 둬 고른 칩이 흐림 밑에 들어가지 않게 한다
+    const x = chip.offsetLeft - list.offsetLeft;
+    const left = x - 20;
+    const right = x + chip.offsetWidth + 20;
     if (left < list.scrollLeft) list.scrollLeft = left;
     else if (right > list.scrollLeft + list.clientWidth) list.scrollLeft = right - list.clientWidth;
   }, [activeId, profiles.length]);

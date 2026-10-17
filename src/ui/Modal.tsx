@@ -21,10 +21,14 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
   // 누르기가 바깥(덮개)에서 시작했는지. 손을 뗀 자리만 보면, 어른 확인 버튼을 길게 눌러 창이 열린 뒤 손을 뗄 때
   // 브라우저가 만든 click이 손가락 아래 덮개로 가서 창이 바로 닫힌다 (카드 안에서 눌러 바깥에서 떼도 그렇다)
   const pressedBackdrop = useRef(false);
+  // 창이 열린 뒤 창 안에서 누르기(pointerdown)가 있었는지. 열기 전에 시작한 누르기를 열린 뒤에 떼면 브라우저가 만든 click이
+  // 손가락 아래의 창 안 버튼으로 간다 — 그런 click(포인터 click, detail > 0)은 한 번 무시한다. 키보드 click은 detail이 0이라 그대로 된다.
+  // 한 번만 무시한다 — pointerdown 없이 click만 보내는 보조 기기가 있어도 창을 못 쓰게 되지는 않게
+  const pressedInside = useRef(false);
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
-    if (open && !d.open) { pressedBackdrop.current = false; d.showModal(); }
+    if (open && !d.open) { pressedBackdrop.current = false; pressedInside.current = false; d.showModal(); }
     if (!open && d.open) d.close();
   }, [open]);
   // body 바로 아래에 그린다 — 연 자리(시작 카드·여행 카드) 안에 두면 '.launcher .page'의 높이 상한(화면 60%)·'.launcher *'의
@@ -40,7 +44,13 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
       // 브라우저가 ESC를 막지 못하고 바로 닫은 경우(사용자 동작 없이 ESC를 거듭 누르면 그렇다)에도 열림 상태를 맞춘다
       onClose={() => { if (open) onClose(); }}
       // pointerdown이어야 한다 — 창이 열린 뒤 따라오는 호환 mousedown은 덮개(dialog)로 가기 때문
-      onPointerDown={(e) => { pressedBackdrop.current = e.target === e.currentTarget; }}
+      onPointerDown={(e) => { pressedBackdrop.current = e.target === e.currentTarget; pressedInside.current = true; }}
+      onClickCapture={(e) => {
+        if (pressedInside.current || e.detail === 0) return;
+        pressedInside.current = true;
+        e.preventDefault();
+        e.stopPropagation();
+      }}
       onClick={(e) => {
         const fromBackdrop = pressedBackdrop.current;
         pressedBackdrop.current = false;
