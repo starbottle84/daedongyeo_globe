@@ -10,7 +10,12 @@ import './styles/tokens.css';
 import './styles/global.css';
 import './ui/ui.css';
 import { App } from './App';
+import { readSeed } from './dev/shotParams';
 import { registerPwa } from './lib/registerPwa';
+import { initProgress } from './progress/store';
+
+// 기기에 저장된 진행을 먼저 읽는다 (개발용 ?seed= 주소면 그 상태로, 저장하지 않음)
+initProgress(readSeed() ?? undefined);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
