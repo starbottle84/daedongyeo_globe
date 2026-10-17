@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   open: boolean;
@@ -26,7 +27,9 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
     if (open && !d.open) { pressedBackdrop.current = false; d.showModal(); }
     if (!open && d.open) d.close();
   }, [open]);
-  return (
+  // body 바로 아래에 그린다 — 연 자리(시작 카드·여행 카드) 안에 두면 '.launcher .page'의 높이 상한(화면 60%)·'.launcher *'의
+  // box-sizing 같은 그 카드의 규칙이 덮개 종이에도 걸려, 아이 추가 양식이 잘리고 연 자리마다 보기 버튼 크기가 달라졌다
+  return createPortal(
     <dialog
       ref={ref}
       className={`modal modal--${size}`}
@@ -48,6 +51,7 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
       onKeyDown={(e) => { if (e.repeat && (e.key === 'Enter' || e.key === ' ')) e.preventDefault(); }}
     >
       <div className="passport modal__card"><div className="page">{children}</div></div>
-    </dialog>
+    </dialog>,
+    document.body,
   );
 }

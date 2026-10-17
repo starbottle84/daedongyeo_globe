@@ -77,7 +77,9 @@ button:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold-5
 .page button:focus-visible, .update-banner button:focus-visible, .satellite-notice button:focus-visible { outline-color: var(--navy-600); }
 
 /* ───────── 왼쪽 위 로고 (기준 시안 61–71줄) ───────── */
-.logo{position:absolute;z-index:2;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:8px;
+/* 로고와 부모님 버튼을 한 줄로 놓는 자리 (둘 다 높이 48 — 지구본 맞추기가 재는 로고 아래 끝은 그대로다) */
+.corner{position:absolute;z-index:2;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:8px}
+.logo{position:relative;display:flex;align-items:center;gap:8px;
   height:48px;padding:0 16px 0 6px;border-radius:24px;background:var(--leather);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 rgba(0,0,0,.35), 0 4px 0 rgba(8,16,32,.55), 0 8px 16px rgba(4,10,24,.35)}
 .logo::before{content:"";position:absolute;inset:3.5px;border-radius:21px;border:1.3px dashed rgba(233,196,106,.55);pointer-events:none}
@@ -87,6 +89,14 @@ button:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold-5
   background:linear-gradient(180deg,#FFF1C2 0%,#EFCF7A 45%,#C99A3F 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 1px 0 rgba(0,0,0,.45))}
 .logo__en{margin-top:3px;font-family:var(--title);font-size:8.5px;letter-spacing:.24em;color:rgba(239,210,131,.78)}
+/* 부모님 버튼을 짧게 눌렀을 때의 안내 말풍선은 버튼 오른쪽 끝에 맞춰 왼쪽으로 펼친다 — 오른쪽으로 펼치면 좁은 화면에서 지도 버튼 아래로 들어간다 */
+.parent-gate .adult-gate__hint{left:auto;right:0}
+.parent-gate .adult-gate__hint::before{left:auto;right:24px}
+/* 좁은 화면(360px 등): 부모님 버튼을 조금 줄여 오른쪽 지도 버튼 줄과 겹치지 않게 한다 */
+@media (max-width: 380px) {
+  .parent-gate .adult-gate__btn { gap: 4px; padding: 0 12px; font-size: 17px; }
+  .parent-gate .adult-gate__btn svg { width: 18px; height: 18px; }
+}
 
 /* ───────── 작은 화면 (360×740, 375×667 등): 높이 740인 화면도 걸리게 760px 기준 ───────── */
 @media (max-height: 760px) {

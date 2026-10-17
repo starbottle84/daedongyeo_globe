@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { GlobeView } from './globe/GlobeView';
 import type { GlobeHandle } from './globe/globeHandle';
 import { loadView, saveView } from './globe/viewStorage';
@@ -7,19 +7,26 @@ import { MapButtons } from './components/MapButtons';
 import { SatelliteNotice } from './components/SatelliteNotice';
 import { UpdateBanner } from './components/UpdateBanner';
 import { PLACES } from './content';
-import type { Place, Tier } from './content/types';
-import { readShotParams } from './dev/shotParams';
+import { TIER_LABELS, type Place, type Tier } from './content/types';
+import { readSeed, readShotParams } from './dev/shotParams';
+import { AdultGate } from './family/AdultGate';
 import { onUpdateReady } from './lib/registerPwa';
+import { getSave, useSave } from './progress/store';
 import { TripLauncher } from './trip/TripLauncher';
 import { TripPanel } from './trip/TripPanel';
 import type { TripStep } from './trip/tripReducer';
+import { Dongle } from './ui/Dongle';
+import { Icon } from './ui/Icon';
 import { LogoBadge } from './ui/LogoBadge';
+import { Modal } from './ui/Modal';
 import { Sky } from './ui/Sky';
 import { Sprite } from './ui/Sprite';
 
 interface Trip {
   place: Place;
   tier: Tier;
+  /** 도장을 남길 아이. null이면 저장하지 않는다 (개발용 ?shot= 주소를 ?seed= 없이 연 때) */
+  profileId: string | null;
   /** 개발용 화면 확인 주소(?shot=)로 바로 연 단계 */
   initialStep?: { step: TripStep; missionIndex: number };
 }
@@ -29,7 +36,9 @@ function initialTrip(): Trip | null {
   const shot = readShotParams();
   const place = shot && PLACES.find((p) => p.id === shot.placeId);
   if (!shot || !place) return null;
-  return { place, tier: shot.tier, initialStep: { step: shot.step, missionIndex: shot.missionIndex } };
+  // ?seed=가 같이 있으면 그 상태의 고른 아이로 연다
+  const profileId = readSeed() ? getSave().activeProfileId : null;
+  return { place, tier: shot.tier, profileId, initialStep: { step: shot.step, missionIndex: shot.missionIndex } };
 }
 
 export function App() {
@@ -37,7 +46,11 @@ export function App() {
   const [satelliteFailed, setSatelliteFailed] = useState(false);
   const [globe, setGlobe] = useState<GlobeHandle | null>(null);
   const [trip, setTrip] = useState<Trip | null>(initialTrip);
-  const [tier, setTier] = useState<Tier>('preschool');
+  // 나이 구간은 고른 아이(프로필)의 것을 쓴다
+  const save = useSave();
+  const active = save.profiles.find((p) => p.id === save.activeProfileId) ?? null;
+  const [parentOpen, setParentOpen] = useState(false);
+  const parentTitleId = useId();
   const [applyUpdate, setApplyUpdate] = useState<(() => void) | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   // 여행을 한 번이라도 했는지 — 여행이 끝나 시작 카드로 돌아올 때만 지구본을 부드럽게 옮긴다
@@ -85,7 +98,12 @@ export function App() {
       <Sprite />
       <Sky />
       <GlobeView view={view} onSatelliteError={handleSatelliteError} onReady={setGlobe} />
-      <LogoBadge />
+      {/* 로고 오른쪽 '부모님' 버튼: 길게 누르고 어른 확인 문제를 풀면 부모님 공간이 열린다 (여행 중에는 숨긴다 — global.css) */}
+      <LogoBadge>
+        <AdultGate label="부모님" ariaLabel="부모님 공간 — 길게 누르기" className="parent-gate" onUnlock={() => setParentOpen(true)}>
+          <Icon name="lock" />
+        </AdultGate>
+      </LogoBadge>
       {globe && !trip && <MapButtons globe={globe} view={view} onViewChange={changeView} />}
       <div className="bottom-stack" ref={stackRef}>
         {showSatelliteNotice && <SatelliteNotice onUseMap={() => changeView('map')} />}
@@ -94,7 +112,7 @@ export function App() {
         {globe &&
           (trip ? (
             <TripPanel
-              key={`${trip.place.id}-${trip.tier}`}
+              key={`${trip.place.id}-${trip.tier}-${trip.profileId}`}
               place={trip.place}
               tier={trip.tier}
               globe={globe}
@@ -105,12 +123,30 @@ export function App() {
           ) : (
             <TripLauncher
               places={PLACES}
-              tier={tier}
-              onTierChange={setTier}
-              onStart={(place, tier) => setTrip({ place, tier })}
+              profiles={save.profiles}
+              activeProfile={active}
+              onStart={(place) => active && setTrip({ place, tier: active.tier, profileId: active.id })}
             />
           ))}
       </div>
+      {/* 부모님 공간 자리 — 작업 6에서 ParentSpace로 바꾼다. 지금은 아이 목록만 보인다 */}
+      <Modal open={parentOpen} size="full" labelledBy={parentTitleId} onClose={() => setParentOpen(false)}>
+        <div className="pass-head">
+          <h2 id={parentTitleId} className="pass-head__title">부모님 공간</h2>
+          <button type="button" className="close" aria-label="닫기" onClick={() => setParentOpen(false)}>
+            <Icon name="close" />
+          </button>
+        </div>
+        <ul className="parent-kids">
+          {save.profiles.map((p) => (
+            <li key={p.id} className="parent-kid">
+              <span className={`avatar avatar--${p.color}`}><Dongle mood="talk" size="xs" decorative /></span>
+              <span className="parent-kid__name">{p.name}</span>
+              <span className="parent-kid__tier">{TIER_LABELS[p.tier]}</span>
+            </li>
+          ))}
+        </ul>
+      </Modal>
     </div>
   );
 }

@@ -1,5 +1,9 @@
 import { useRef } from 'react';
-import { STAGE_NAMES, TIER_LABELS, TIERS, type Place, type Tier } from '../content/types';
+import { STAGE_NAMES, type Place } from '../content/types';
+import { ProfileChips } from '../family/ProfileChips';
+import { ProfileForm } from '../family/ProfileForm';
+import { createProfile } from '../progress/store';
+import type { Profile } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
 import { PlaceArt } from '../ui/PlaceArt';
 import { useMoreBelow } from '../ui/useMoreBelow';
@@ -7,14 +11,15 @@ import './trip.css';
 
 interface TripLauncherProps {
   places: Place[];
-  /** 고른 나이 구간은 App이 보관한다 (여행이 끝나 이 화면이 다시 떠도 그대로 남게) */
-  tier: Tier;
-  onTierChange: (tier: Tier) => void;
-  onStart: (place: Place, tier: Tier) => void;
+  profiles: Profile[];
+  /** 고른 아이 (나이 구간은 이 아이 것을 쓴다). 아이가 없으면 null */
+  activeProfile: Profile | null;
+  onStart: (place: Place) => void;
 }
 
-// 시작 화면: 여권을 펼쳐 나이 구간과 장소를 고른다. 계획 3에서 가족 프로필·여권 기능이 붙는다.
-export function TripLauncher({ places, tier, onTierChange, onStart }: TripLauncherProps) {
+// 시작 화면: 여권을 펼쳐 아이와 장소를 고른다. 아이가 아직 없으면(첫 실행) 같은 여권 안에 '여권 만들기' 양식을 그린다
+// — 부모가 옆에 있는 장면이라 어른 확인 없이 만든다. 가죽·종이·펼침 상자는 두 모습이 같이 써서, 넘침 알림(useMoreBelow)이 그대로 따라온다
+export function TripLauncher({ places, profiles, activeProfile, onStart }: TripLauncherProps) {
   const stages = [...new Set(places.map((p) => p.stage))].sort((a, b) => a - b);
   const pageRef = useRef<HTMLDivElement>(null);
   const spreadRef = useRef<HTMLDivElement>(null);
@@ -23,29 +28,24 @@ export function TripLauncher({ places, tier, onTierChange, onStart }: TripLaunch
   const moreBelow = useMoreBelow(pageRef, spreadRef);
 
   return (
-    <section className="passport launcher" aria-label="여행 고르기">
+    <section className={`passport launcher${activeProfile ? '' : ' launcher--new'}`} aria-label={activeProfile ? '여행 고르기' : '여권 만들기'}>
       <div className={`page${moreBelow ? ' page--more' : ''}`} ref={pageRef}>
         <svg className="rosette" aria-hidden="true"><use href="#rosette" /></svg>
         <div className="spread" ref={spreadRef}>
           <div className="spread__left">
             <div className="greet">
               <span className="photo"><Dongle mood="talk" size="md" /></span>
-              <p className="bubble bubble--title ko">어디로 떠나 볼까?</p>
+              <p className="bubble bubble--title ko">{activeProfile ? '어디로 떠나 볼까?' : '탐험가 여권을 만들어 볼까?'}</p>
             </div>
-            <div className="tiers" role="group" aria-label="나이 구간">
-              {TIERS.map((t) => (
-                <button key={t} type="button" aria-pressed={t === tier} onClick={() => onTierChange(t)}>
-                  {TIER_LABELS[t]}
-                </button>
-              ))}
-            </div>
+            {activeProfile && <ProfileChips profiles={profiles} activeId={activeProfile.id} />}
             <p className="mrz" aria-hidden="true">
               P&lt;KOR&lt;&lt;DONGGEURI&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br />EARTH&lt;PASSPORT&lt;&lt;2026&lt;&lt;&lt;&lt;&lt;&lt;
             </p>
           </div>
           <div className="spread__spine" aria-hidden="true" />
           <div className="spread__right">
-            {stages.map((stage) => {
+            {!activeProfile && <ProfileForm submitLabel="여권 만들기" onSubmit={(values) => { createProfile(values); }} />}
+            {activeProfile && stages.map((stage) => {
               const inStage = places.filter((p) => p.stage === stage);
               return (
                 <div key={stage} className="stage-block">
@@ -55,7 +55,7 @@ export function TripLauncher({ places, tier, onTierChange, onStart }: TripLaunch
                   </h2>
                   <div className={`tickets tickets--${stage % 2 === 1 ? 1 : 2}`}>
                     {inStage.map((p) => (
-                      <button key={p.id} type="button" className="ticket" onClick={() => onStart(p, tier)}>
+                      <button key={p.id} type="button" className="ticket" onClick={() => onStart(p)}>
                         <span className="ticket__body">
                           <span className="ticket__stub"><PlaceArt placeId={p.id} /></span>
                           <span className="ticket__name">{p.name}</span>

@@ -1,0 +1,94 @@
+/* ───────── 가족 프로필: 아이 사진 · 여권 만들기 양식 · 시작 카드의 아이 칩 줄 ───────── */
+
+/* 아이 사진: 고른 바탕색 동그라미 안의 동글이 (칩·여권 만들기 양식이 같이 쓴다) */
+.avatar { position: relative; flex: none; display: block; width: 40px; height: 40px; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(circle at 34% 26%, rgba(255, 255, 255, .78), rgba(255, 255, 255, 0) 58%), var(--avatar, #BFE3F2);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .9), inset 0 -4px 7px rgba(90, 65, 20, .12), 0 0 0 1px rgba(150, 110, 40, .3); }
+.avatar .dg { width: 100%; height: 100%; }
+.avatar--sky { --avatar: #BFE3F2; }
+.avatar--leaf { --avatar: #CDE8B5; }
+.avatar--sun { --avatar: #FBE3A6; }
+.avatar--rose { --avatar: #F6CBD3; }
+
+/* ───────── 여권 만들기·고치기 양식 ───────── */
+.profile-form, .profile-form * { box-sizing: border-box; }
+/* 칸 이름: 시작 카드의 단계 줄(.stage)처럼 금색 글자 + 점선 */
+.profile-form__label { display: flex; align-items: center; gap: 8px; margin: 12px 0 6px; font-family: var(--title); font-size: 17px; line-height: 1.25; color: var(--gold-ink); }
+.profile-form__label::after { content: ""; flex: 1; border-top: 2px dotted rgba(169, 126, 46, .45); }
+.profile-form > .profile-form__label:first-child { margin-top: 0; }
+/* 칸 사이 여백 (나이·바탕색은 칸 이름이 화면에 없어서 묶음 사이를 띄운다) */
+.profile-form .tiers, .avatar-picks { margin-top: 12px; }
+/* 이름 칸: 움푹한 흰 종이 (16px 넘는 글자 — 아이폰이 누를 때 화면을 확대하지 않게) */
+.profile-form__name { display: block; width: 100%; height: 52px; margin: 0; padding: 0 16px; border: 0; border-radius: 16px;
+  font-family: var(--title); font-size: 22px; color: var(--ink); background: #FFFEF9;
+  box-shadow: inset 0 0 0 2px #E2CF9F, inset 0 3px 5px rgba(120, 90, 40, .16); }
+.profile-form__name::placeholder { color: rgba(107, 90, 62, .45); }
+.profile-form__name:focus { outline: none; box-shadow: inset 0 0 0 2.5px var(--navy-600), inset 0 3px 5px rgba(120, 90, 40, .16); }
+/* 추천 별명: 말풍선과 같은 흰 알약 (누르면 이름 칸을 채운다) */
+.name-ideas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.name-idea { min-width: 0; min-height: 48px; padding: 0 4px; border: 0; border-radius: 999px; background: #FFFFFF;
+  font-family: var(--title); font-size: 18px; color: var(--ink); cursor: pointer;
+  box-shadow: inset 0 0 0 2px #EAD9AC, 0 3px 0 #E4D09F; transition: transform .08s ease; }
+.name-idea:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #EAD9AC, 0 1px 0 #E4D09F; }
+/* 나이 구간은 시작 카드 나이 탭(.tiers, trip.css) 모양 그대로 */
+/* 바탕색: 색 동그라미 4개 (추천 별명 4칸과 같은 칸에 맞춰 가운데). 고른 색은 금테 + 남색 체크 */
+.avatar-picks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); justify-items: center; gap: 8px; padding: 5px 0; }
+.avatar-pick { position: relative; width: 56px; height: 56px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; transition: transform .1s ease; }
+.avatar-pick .avatar { width: 100%; height: 100%; }
+.avatar-pick[aria-checked="true"] { box-shadow: 0 0 0 2.5px #FFFDF7, 0 0 0 5px var(--gold-600), 0 4px 10px rgba(90, 65, 20, .22); }
+.avatar-pick:active { transform: scale(.94); }
+.avatar-pick:focus-visible { outline-offset: 7px; border-radius: 50%; }
+.avatar-pick__ok { position: absolute; right: -6px; bottom: -4px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--navy-700); color: var(--gold-200); box-shadow: 0 0 0 2px #FFFDF7; }
+.avatar-pick__ok svg { width: 14px; height: 14px; }
+/* 낮은 화면(360×740 등): 칸 높이·사이 여백을 조금씩 줄여 첫 실행 카드가 화면의 60% 안에 들게 한다 */
+@media (max-height: 760px) {
+  .profile-form__label { margin-bottom: 4px; }
+  .profile-form__name { height: 48px; }
+  .name-ideas { margin-top: 6px; }
+  .profile-form .tiers, .avatar-picks { margin-top: 8px; }
+  .avatar-picks { padding: 4px 0; }
+  .avatar-pick { width: 50px; height: 50px; }
+  .profile-form .btn { margin-top: 10px; }
+}
+/* 덮개(아이 추가) 안: 동글이 말풍선 제목 아래 여백 */
+.profile-form__say { margin-bottom: 16px; }
+
+/* ───────── 시작 카드의 아이 칩 줄 (나이 탭 자리) ───────── */
+/* 나이 탭처럼 움푹한 홈 안에서 고른 아이만 가죽으로 튀어나온다. 칩이 넘치면 칩 줄만 가로로 스크롤하고 '+'는 끝에 남는다 */
+.kids { display: flex; align-items: center; gap: 4px; margin-top: 10px; padding: 4px; border-radius: 18px;
+  background: var(--fiber), #EEE2C6; box-shadow: inset 0 2px 4px rgba(120, 90, 40, .28), inset 0 -1px 0 rgba(255, 255, 255, .7); }
+/* 고른 칩의 아래 턱 그림자가 스크롤 상자에 잘리지 않게 위아래로 여백을 두고 같은 만큼 당긴다. 스크롤 막대는 숨긴다 */
+.kids__list { flex: 0 1 auto; min-width: 0; display: flex; gap: 4px; margin: -4px 0 -9px; padding: 4px 0 9px;
+  overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+.kids__list::-webkit-scrollbar { display: none; }
+.kid { position: relative; flex: none; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px 14px 4px 5px;
+  border: 0; border-radius: 14px; background: none; font: inherit; color: var(--note); text-align: left; cursor: pointer; }
+.kid > * { position: relative; }
+.kid .avatar { width: 38px; height: 38px; }
+.kid__text { display: flex; flex-direction: column; line-height: 1.05; }
+.kid__name { font-family: var(--title); font-size: 19px; white-space: nowrap; color: var(--ink); }
+.kid__tier { margin-top: 2px; font-family: var(--title); font-size: 14px; white-space: nowrap; color: var(--note); }
+.kid[aria-pressed="true"] { background: var(--leather); text-shadow: 0 1px 0 rgba(0, 0, 0, .4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 3px 0 #0E1B30, 0 5px 8px rgba(10, 20, 40, .28); }
+.kid[aria-pressed="true"]::before { content: ""; position: absolute; inset: 4px; border-radius: 10px; border: 1.2px dashed rgba(233, 196, 106, .6); pointer-events: none; }
+.kid[aria-pressed="true"] .kid__name { color: var(--gold-200); }
+.kid[aria-pressed="true"] .kid__tier { color: var(--gold-400); }
+/* '+' (어른 확인 뒤 아이 추가): 가죽 알약 대신 빈 여권 자리처럼 점선 칸 */
+.kids__add { flex: none; }
+.kids__add .adult-gate__btn { width: 48px; padding: 0; border-radius: 14px; color: var(--gold-ink); text-shadow: none;
+  background: rgba(255, 253, 247, .6); box-shadow: 0 1px 0 rgba(255, 255, 255, .7); }
+.kids__add .adult-gate__btn::before { inset: 4px; border-radius: 10px; border: 2px dashed rgba(169, 126, 46, .5); }
+.kids__add .adult-gate__btn::after { inset: 4px; border-radius: 10px; }
+.kids__add .adult-gate__btn svg { width: 22px; height: 22px; }
+/* 짧게 눌렀을 때의 안내 말풍선은 '+' 오른쪽 끝에 맞춰 왼쪽으로 펼친다 (종이 오른쪽 밖으로 잘리지 않게) */
+.kids__add .adult-gate__hint { left: auto; right: -4px; }
+.kids__add .adult-gate__hint::before { left: auto; right: 22px; }
+
+/* ───────── 부모님 공간 자리 (작업 6에서 ParentSpace로 바꾼다): 아이 목록 ───────── */
+.parent-kids { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.parent-kid { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 14px 8px 10px; border-radius: 16px; background: #FFFEF9;
+  box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F; }
+.parent-kid .avatar { width: 44px; height: 44px; }
+.parent-kid__name { font-family: var(--title); font-size: 20px; color: var(--ink); }
+.parent-kid__tier { font-family: var(--title); font-size: 16px; color: var(--note); }

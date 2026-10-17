@@ -1,4 +1,4 @@
-export type IconName = 'plane' | 'close' | 'check' | 'plus' | 'minus' | 'sat' | 'map' | 'globe' | 'north' | 'read';
+export type IconName = 'plane' | 'close' | 'check' | 'plus' | 'minus' | 'lock' | 'sat' | 'map' | 'globe' | 'north' | 'read';
 
 interface IconProps {
   name: IconName;

@@ -242,13 +242,14 @@
 /* 앱 바탕에는 시안의 button 공통 규칙(글꼴·색 물려받기, 손가락 모양)이 없어서 여기서 더한다 */
 .tiers button,.ticket{font:inherit;color:inherit;cursor:pointer}
 .greet{display:flex;align-items:center;gap:10px}
-.greet .bubble{flex:1}
+.greet .bubble{flex:1;text-wrap:balance}
+/* 나이 탭: 시작 카드에서는 아이 칩 줄(.kids, family.css)로 바뀌었고, 지금은 여권 만들기 양식의 나이 고르기(role=radio)가 쓴다 */
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:10px;padding:4px;border-radius:18px;
   background:var(--fiber),#EEE2C6;box-shadow:inset 0 2px 4px rgba(120,90,40,.28), inset 0 -1px 0 rgba(255,255,255,.7)}
 .tiers button{position:relative;min-height:48px;border:0;border-radius:14px;background:none;font-family:var(--title);font-size:19px;color:var(--note)}
-.tiers button[aria-pressed="true"]{background:var(--leather);color:var(--gold-200);text-shadow:0 1px 0 rgba(0,0,0,.4);
+.tiers button[aria-checked="true"]{background:var(--leather);color:var(--gold-200);text-shadow:0 1px 0 rgba(0,0,0,.4);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 3px 0 #0E1B30, 0 5px 8px rgba(10,20,40,.28)}
-.tiers button[aria-pressed="true"]::before{content:"";position:absolute;inset:4px;border-radius:10px;border:1.2px dashed rgba(233,196,106,.6)}
+.tiers button[aria-checked="true"]::before{content:"";position:absolute;inset:4px;border-radius:10px;border:1.2px dashed rgba(233,196,106,.6)}
 .stage{display:flex;align-items:center;gap:7px;margin:10px 0 7px;font-family:var(--title);font-weight:400;font-size:17px;color:var(--gold-ink)}
 .stage svg{width:16px;height:16px;flex:none;color:var(--gold-600)}
 .stage::after{content:"";flex:1;border-top:2px dotted rgba(169,126,46,.45)}
@@ -294,6 +295,8 @@
 /* 시안은 모든 요소가 border-box라서(*{box-sizing:border-box}) 시작 카드 안에서는 같게 맞춘다
    — 아니면 표 이름 칸(min-height+padding)·사진 칸(테두리)이 시안보다 커진다 */
 .launcher, .launcher *, .launcher *::before, .launcher *::after { box-sizing: border-box; }
+/* 첫 실행(아이가 없을 때)의 여권 만들기 양식: 동글이 말풍선 아래에 둔다 (가로 태블릿은 오른쪽 쪽이라 위 여백 없음) */
+.launcher--new .profile-form { margin-top: 14px; }
 
 /* ───────── 넓은 세로 화면(세로 태블릿 등): 표가 넓어진 만큼 위 칸도 높인다 ───────── */
 /* 42px 그대로면 넓은 표(약 122px)에서 장면 그림의 위아래가 반 넘게 잘린다 (이름 칸 36px + 60px) */
@@ -328,6 +331,7 @@
   .mrz{display:block;margin:14px 0 0;font-family:'OCR A Std','Consolas','Courier New',monospace;font-size:12.5px;line-height:1.45;letter-spacing:.16em;color:rgba(35,57,91,.42);white-space:nowrap;overflow:hidden}
   /* 단계마다 .stage-block으로 감쌌으므로 첫 묶음의 제목만 위 여백을 없앤다 */
   .stage-block:first-child .stage{margin-top:0}
+  .launcher--new .profile-form{margin-top:0}
   .ticket__name{min-height:40px;font-size:19px}
   .ticket-slot{min-height:100px}
 }
@@ -335,7 +339,13 @@
 /* 낮은 화면(375×667 등): 시작 카드의 여백을 몇 px 줄여 종이 안 스크롤 없이 들어가게 한다 */
 @media (max-height: 700px) {
   .launcher .stage { margin: 6px 0 5px; }
-  .launcher .tiers { margin-top: 8px; }
+  .launcher .kids { margin-top: 8px; }
+}
+/* 낮은 화면(360×740 등)의 첫 실행 카드: 종이 위아래 여백·말풍선 글자·양식 위 여백을 조금 줄인다 (양식 안은 family.css). 그래도 넘치면 종이 안에서 스크롤 */
+@media (max-height: 760px) {
+  .launcher--new .page { padding-top: 12px; padding-bottom: 12px; }
+  .launcher--new .bubble--title { font-size: 20px; }
+  .launcher--new .profile-form { margin-top: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

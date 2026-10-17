@@ -6,9 +6,9 @@ body {
   font-family: var(--body);
 }
 .app { position: relative; height: 100%; overflow: hidden; }
-/* 여행 중에는 왼쪽 위 '지구 여권' 배지를 숨긴다 — 휴대폰에서 누를 곳·참고 핀을 가리지 않게.
+/* 여행 중에는 왼쪽 위 '지구 여권' 배지와 부모님 버튼을 숨긴다 — 휴대폰에서 누를 곳·참고 핀을 가리지 않게.
    (오른쪽 위 지도 버튼은 App이 여행 중에 아예 그리지 않는다 — 평면 지도로 바뀌면 화면 맞추기가 틀어진다) */
-.app--trip .logo { display: none; }
+.app--trip .logo, .app--trip .parent-gate { display: none; }
 /* 여행 중에는 지도 출처 표시도 숨긴다 — 휴대폰에서 누를 곳·참고 핀을 가린다.
    (자료는 퍼블릭 도메인인 Natural Earth·NASA이고, 여행 밖 평소 화면에서는 로고 아래에 보인다) */
 .app--trip .maplibregl-ctrl-top-left { display: none; }

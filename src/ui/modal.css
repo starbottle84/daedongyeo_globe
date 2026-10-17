@@ -8,7 +8,7 @@ dialog.modal { padding: 0; border: 0; background: transparent; color: var(--ink)
 .modal--sheet .modal__card { max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); }
 .modal--full .modal__card { height: 100%; }
 /* 카드가 화면보다 길면 종이 안에서 스크롤한다.
-   덮개는 여행 카드 안에 놓일 수 있어서(✕ 확인) 선택자를 길게 써 여행 카드의 '.trip-panel .page' 여백 규칙보다 앞서게 한다 */
+   (덮개는 body 바로 아래에 그려서(Modal.tsx) 여행 카드·시작 카드의 '.trip-panel .page'·'.launcher .page' 규칙이 닿지 않는다) */
 .modal > .modal__card > .page { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 20px 18px 18px; }
 .modal button { cursor: pointer; }
 
