@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { GlobeView } from './globe/GlobeView';
 import type { GlobeHandle } from './globe/globeHandle';
 import { loadView, saveView } from './globe/viewStorage';
@@ -7,19 +7,18 @@ import { MapButtons } from './components/MapButtons';
 import { SatelliteNotice } from './components/SatelliteNotice';
 import { UpdateBanner } from './components/UpdateBanner';
 import { PLACES } from './content';
-import { TIER_LABELS, type Place, type Tier } from './content/types';
+import type { Place, Tier } from './content/types';
 import { readSeed, readShotParams } from './dev/shotParams';
 import { AdultGate } from './family/AdultGate';
+import { ParentSpace } from './family/ParentSpace';
 import { onUpdateReady } from './lib/registerPwa';
 import { emptyProgress, nextPlaceFor } from './progress/rules';
 import { getSave, useSave } from './progress/store';
 import { TripLauncher } from './trip/TripLauncher';
 import { TripPanel } from './trip/TripPanel';
 import type { TripStep } from './trip/tripReducer';
-import { Dongle } from './ui/Dongle';
 import { Icon } from './ui/Icon';
 import { LogoBadge } from './ui/LogoBadge';
-import { Modal } from './ui/Modal';
 import { Sky } from './ui/Sky';
 import { Sprite } from './ui/Sprite';
 
@@ -51,8 +50,8 @@ export function App() {
   const save = useSave();
   const active = save.profiles.find((p) => p.id === save.activeProfileId) ?? null;
   const activeProgress = active ? (save.progress[active.id] ?? emptyProgress()) : null;
+  // 부모님 공간: 어른 확인을 풀어야 열린다. 새로고침하면 늘 닫힌 채 시작한다 (게이트를 건너뛸 수 없게)
   const [parentOpen, setParentOpen] = useState(false);
-  const parentTitleId = useId();
   const [applyUpdate, setApplyUpdate] = useState<(() => void) | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   // 여행을 한 번이라도 했는지 — 여행이 끝나 시작 카드로 돌아올 때만 지구본을 부드럽게 옮긴다
@@ -142,24 +141,7 @@ export function App() {
             />
           ))}
       </div>
-      {/* 부모님 공간 자리 — 작업 6에서 ParentSpace로 바꾼다. 지금은 아이 목록만 보인다 */}
-      <Modal open={parentOpen} size="full" labelledBy={parentTitleId} onClose={() => setParentOpen(false)}>
-        <div className="pass-head">
-          <h2 id={parentTitleId} className="pass-head__title">부모님 공간</h2>
-          <button type="button" className="close" aria-label="닫기" onClick={() => setParentOpen(false)}>
-            <Icon name="close" />
-          </button>
-        </div>
-        <ul className="parent-kids">
-          {save.profiles.map((p) => (
-            <li key={p.id} className="parent-kid">
-              <span className={`avatar avatar--${p.color}`}><Dongle mood="talk" size="xs" decorative /></span>
-              <span className="parent-kid__name">{p.name}</span>
-              <span className="parent-kid__tier">{TIER_LABELS[p.tier]}</span>
-            </li>
-          ))}
-        </ul>
-      </Modal>
+      <ParentSpace open={parentOpen} places={PLACES} onClose={() => setParentOpen(false)} />
     </div>
   );
 }

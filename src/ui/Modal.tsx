@@ -40,9 +40,11 @@ export function Modal({ open, labelledBy, label, describedBy, onClose, size = 's
       aria-labelledby={labelledBy}
       aria-label={labelledBy ? undefined : label}
       aria-describedby={describedBy}
-      onCancel={(e) => { e.preventDefault(); onClose(); }}
+      // 이 창 안에서 연 다른 창(부모님 공간의 확인 창 등)의 cancel·close는 포털이라도 React 컴포넌트 트리를 따라 이 창까지 올라온다
+      // — 그대로 받으면 안쪽 확인 창을 닫을 때 바깥 창까지 닫혔다. 이 창에서 난 것만 받는다
+      onCancel={(e) => { if (e.target !== e.currentTarget) return; e.preventDefault(); onClose(); }}
       // 브라우저가 ESC를 막지 못하고 바로 닫은 경우(사용자 동작 없이 ESC를 거듭 누르면 그렇다)에도 열림 상태를 맞춘다
-      onClose={() => { if (open) onClose(); }}
+      onClose={(e) => { if (e.target === e.currentTarget && open) onClose(); }}
       // pointerdown이어야 한다 — 창이 열린 뒤 따라오는 호환 mousedown은 덮개(dialog)로 가기 때문
       onPointerDown={(e) => { pressedBackdrop.current = e.target === e.currentTarget; pressedInside.current = true; }}
       onClickCapture={(e) => {

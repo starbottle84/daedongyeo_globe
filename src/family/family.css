@@ -108,10 +108,131 @@
 .kids__add .adult-gate__hint { left: auto; right: -4px; }
 .kids__add .adult-gate__hint::before { left: auto; right: 22px; }
 
-/* ───────── 부모님 공간 자리 (작업 6에서 ParentSpace로 바꾼다): 아이 목록 ───────── */
-.parent-kids { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
-.parent-kid { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 14px 8px 10px; border-radius: 16px; background: #FFFEF9;
-  box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F; }
-.parent-kid .avatar { width: 44px; height: 44px; }
-.parent-kid__name { font-family: var(--title); font-size: 20px; color: var(--ink); }
-.parent-kid__tier { font-family: var(--title); font-size: 16px; color: var(--note); }
+/* ───────── 부모님 공간 (덮개 화면 'full') : 가죽 머리 띠 + 아이들 · 장소별 배경지식 · 저장 · 기록 지우기 ───────── */
+.ps-head, .ps-head *, .parent-kid, .parent-kid *, .ps-add, .ps-add-form, .ps-place, .ps-place *, .ps-store { box-sizing: border-box; }
+
+/* 머리: 여권 책 머리(.pb-cover, passport.css)와 같은 가죽 띠. 덮개 종이의 안쪽 여백(20/18, modal.css)만큼 당겨 종이 가장자리까지 채우고,
+   스크롤해도 위에 붙어 닫기가 늘 보인다 ('.page > *'의 position: relative보다 앞서게 덮개 선택자를 붙인다) */
+.modal .ps-head { position: sticky; top: -20px; z-index: 3; display: flex; align-items: center; gap: 12px;
+  margin: -20px -18px 0; padding: 14px 14px 16px 18px; background: var(--leather);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 6px 12px -6px rgba(10, 20, 40, .45); }
+.ps-head::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 5px; border-top: 1.4px dashed rgba(233, 196, 106, .55); pointer-events: none; }
+/* 금테 자물쇠 배지 (어른만 들어오는 쪽) */
+.ps-head__badge { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; color: var(--gold-300);
+  background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1.5px rgba(233, 196, 106, .6), 0 0 0 2.5px rgba(10, 20, 40, .25); }
+.ps-head__badge svg { width: 28px; height: 28px; }
+.ps-head__words { flex: 1; min-width: 0; }
+.ps-head__en { margin: 0; font-family: var(--title); font-size: 10px; letter-spacing: .24em; color: rgba(239, 210, 131, .8); }
+/* 제목: 로고·여권 책과 같은 금박 글자 */
+.ps-head__title { margin: 3px 0 0; font-family: var(--title); font-weight: 400; font-size: 24px; line-height: 1.2;
+  background: linear-gradient(180deg, #FFF1C2 0%, #EFCF7A 45%, #C99A3F 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .45)); }
+/* 가죽 머리 위에서는 금색 초점 테두리 (종이용 남색 테두리는 가죽 위에서 거의 안 보인다) */
+.ps-head .close:focus-visible { outline-color: var(--gold-500); }
+/* 초점을 옮기거나 Tab으로 다음 칸에 갈 때 붙어 있는 머리 띠(약 82px) 밑에 가려지지 않게 스크롤 자리를 비워 둔다 */
+.modal .page:has(> .ps-head) { scroll-padding-top: 96px; }
+
+/* 묶음 제목: 시작 카드의 단계 줄(.stage)과 같은 금빛 별 + 점선, 한 단계 크고 남색 글자 */
+.ps-section { margin-top: 22px; }
+.ps-title { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-family: var(--title); font-weight: 400; font-size: 21px; line-height: 1.25; color: var(--ink); }
+.ps-title svg { flex: none; width: 18px; height: 18px; color: var(--gold-600); }
+.ps-title::after { content: ""; flex: 1; border-top: 2px dotted rgba(169, 126, 46, .45); }
+/* 아이를 지운 뒤 초점만 받아 두는 자리라(누르는 곳이 아님) 테두리를 그리지 않는다 */
+.ps-title:focus { outline: none; }
+.ps-empty, .ps-lead { margin: 0 0 10px; font-size: 16px; line-height: 1.5; color: var(--note); text-wrap: balance; }
+
+/* 아이 한 줄: 흰 종이 카드에 사진 · 이름 · 구간 · 진행. 휴대폰에서는 수정·삭제가 점선 아래 한 줄로 내려간다 */
+.parent-kids { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.parent-kid { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 12px; padding: 12px; border-radius: 18px; background: #FFFEF9;
+  box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F, 0 6px 12px rgba(90, 65, 20, .08); }
+.parent-kid .avatar { width: 52px; height: 52px; }
+.parent-kid__name { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 0; font-family: var(--title); font-size: 21px; line-height: 1.2; color: var(--ink); }
+.parent-kid__tier { padding: 1px 9px; border-radius: 999px; font-size: 14px; line-height: 1.35; color: var(--note); box-shadow: inset 0 0 0 1.3px rgba(169, 126, 46, .45); }
+.parent-kid__stats { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+/* 진행 알약: 단계 제목 오른쪽 글자(.stage__count)와 같은 금빛. 도장 수에는 작은 빨간 잉크 고리 (빨강은 도장에만 쓴다) */
+.ps-chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 10px; border-radius: 999px; background: #FFF6DA;
+  box-shadow: inset 0 0 0 1.3px rgba(201, 164, 90, .55); font-family: var(--title); font-size: 14px; line-height: 1.35; color: var(--gold-ink); white-space: nowrap; }
+.ps-chip--stamp::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--red); opacity: .85; }
+.parent-kid__actions { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 10px; border-top: 2px dotted rgba(169, 126, 46, .35); }
+/* 작은 종이 버튼: 닫기(.close)와 같은 크림 판 */
+.ps-mini { min-width: 64px; min-height: 48px; padding: 0 14px; border: 0; border-radius: 14px; font-family: var(--title); font-size: 18px; color: var(--ink);
+  background: linear-gradient(180deg, #FFFEF8, #F2E7CD); box-shadow: inset 0 0 0 1.5px #D9C496, 0 3px 0 #CBB483; }
+.ps-mini:active { transform: translateY(2px); box-shadow: inset 0 0 0 1.5px #D9C496, 0 1px 0 #CBB483; }
+.ps-mini--danger { color: var(--apricot-ink); }
+/* 같은 자리에서 펼친 고치기 양식 */
+.parent-kid__form { grid-column: 1 / -1; padding-top: 10px; border-top: 2px dotted rgba(169, 126, 46, .35); }
+.parent-kid__form:focus, .ps-add-form:focus { outline: none; }
+/* 넓은 화면(세로 태블릿 이상): 수정·삭제를 같은 줄 오른쪽에 */
+@media (min-width: 560px) {
+  .parent-kid { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .parent-kid__actions { grid-column: auto; grid-template-columns: auto auto; padding-top: 0; border-top: 0; }
+}
+/* 아이 추가: 빈 여권 자리 같은 점선 칸 (시작 카드의 '+'와 같은 모양) */
+.ps-add { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 56px; margin-top: 10px;
+  border: 2px dashed rgba(169, 126, 46, .5); border-radius: 18px; background: rgba(255, 253, 247, .6);
+  font-family: var(--title); font-size: 19px; color: var(--gold-ink); }
+.ps-add svg { width: 22px; height: 22px; }
+.ps-add:active { transform: translateY(2px); }
+.ps-add-form { margin-top: 10px; padding: 14px 12px 12px; border-radius: 18px; background: #FFFEF9;
+  box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F, 0 6px 12px rgba(90, 65, 20, .08); }
+.ps-add-form__title { margin: 0 0 10px; font-family: var(--title); font-weight: 400; font-size: 20px; line-height: 1.25; color: var(--ink); }
+
+/* 장소별 배경지식: 단계 줄(.stage) 아래 장소마다 접는 흰 종이 카드 */
+.ps-stage .stage { margin: 14px 0 8px; }
+/* 한 칸 격자(minmax(0, 1fr)): 한 줄 미리 보기(nowrap)가 카드를 종이 밖으로 밀어내지 않게 */
+.ps-places { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.ps-place { min-width: 0; border-radius: 16px; background: #FFFEF9; box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F; }
+.ps-place summary, .ps-tier summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ps-place summary::-webkit-details-marker, .ps-tier summary::-webkit-details-marker { display: none; }
+.ps-place > summary { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 8px 14px 8px 8px; border-radius: 16px; }
+.ps-place summary:focus-visible, .ps-tier summary:focus-visible { outline: 3px solid var(--navy-600); outline-offset: 2px; }
+/* 장소 그림: 여권 책의 빈 도장 자리처럼 동그란 창 */
+.ps-place__art { flex: none; width: 48px; height: 48px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px #FFFDF7, 0 0 0 3.5px rgba(169, 126, 46, .4); }
+.ps-place__art svg { display: block; width: 100%; height: 100%; }
+.ps-place__words { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.ps-place__name { font-family: var(--title); font-size: 19px; line-height: 1.25; color: var(--ink); }
+/* 접힌 줄의 메모 미리 보기 (한 줄, 넘치면 …). 펼치면 아래에 메모 전체가 나오므로 숨긴다 */
+.ps-place__peek { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 15px; line-height: 1.4; color: var(--note); }
+.ps-place[open] .ps-place__peek { display: none; }
+/* 펼침 꺾쇠: 시작 카드의 아래 화살표와 같은 굵은 선 */
+.ps-chev { flex: none; width: 10px; height: 10px; margin: 0 4px 4px auto; border-right: 3px solid var(--gold-700); border-bottom: 3px solid var(--gold-700);
+  transform: rotate(45deg); transition: transform .15s ease; }
+details[open] > summary > .ps-chev { margin-top: 6px; margin-bottom: 0; transform: rotate(225deg); }
+.ps-place__body { padding: 0 14px 14px; }
+.ps-note { margin: 0; padding: 10px 12px; border-radius: 14px; background: var(--cream-200); font-size: 16px; line-height: 1.55; color: var(--note); }
+/* 나이 구간마다 접는 줄: 점선 위에 금빛 글자 */
+.ps-tier { margin-top: 8px; border-top: 2px dotted rgba(169, 126, 46, .35); }
+.ps-tier > summary { display: flex; align-items: center; gap: 8px; min-height: 48px; font-family: var(--title); font-size: 17px; color: var(--gold-ink); }
+/* 미션 정답: 번호 동그라미 + 질문(작게) + 정답(초록, 고르기 정답 칸과 같은 색) */
+.ps-answers { display: grid; gap: 12px; margin: 0 0 6px; padding: 0; list-style: none; counter-reset: ps-q; }
+.ps-answers > li { position: relative; padding-left: 32px; counter-increment: ps-q; }
+.ps-answers > li::before { content: counter(ps-q); position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: #FFF6DA; box-shadow: inset 0 0 0 1.3px rgba(201, 164, 90, .6); font-family: var(--title); font-size: 13px; line-height: 1; color: var(--gold-ink); }
+.ps-q { margin: 0; font-size: 15px; line-height: 1.45; color: var(--ink-soft); }
+.ps-a { display: flex; align-items: flex-start; gap: 6px; margin: 4px 0 0; font-family: var(--title); font-size: 17px; line-height: 1.35; color: var(--green-ink); }
+.ps-a svg { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--green); }
+
+/* 저장과 개인정보: 정상이면 옅은 초록 카드, 저장이 안 되면(D11) 여권 책 안내와 같은 살구색 카드 */
+.ps-store { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; font-size: 16px; line-height: 1.55; color: var(--ink);
+  background: var(--green-50); box-shadow: inset 0 0 0 1.5px rgba(46, 158, 91, .28); }
+.ps-store > svg { flex: none; width: 22px; height: 22px; margin-top: 1px; color: var(--green); }
+/* 문장 사이에서 줄이 바뀌게 고르게 나눈다 ('계정·' 뒤에서 끊기지 않게) */
+.ps-store p { margin: 0; text-wrap: balance; }
+.ps-store p + p { margin-top: 6px; }
+.ps-store--warn { color: var(--apricot-ink); background: var(--fiber), linear-gradient(180deg, #FFF7E8, #FCEBD0); box-shadow: inset 0 0 0 2px rgba(206, 148, 58, .4); }
+.ps-store--warn > svg { color: var(--apricot-ink); }
+
+/* 기록 지우기: 맨 아래 절취선 밑의 작은 살구색 테두리 버튼 (누르면 한 번 더 묻는다) */
+.ps-erase { display: flex; justify-content: center; margin-top: 26px; padding-top: 18px; border-top: 3px dotted #D2BC8B; }
+.ps-erase__btn { min-height: 48px; padding: 0 18px; border: 0; border-radius: 999px; background: none; font-family: var(--title); font-size: 16px; color: var(--apricot-ink);
+  box-shadow: inset 0 0 0 1.5px rgba(138, 79, 18, .35); }
+.ps-erase__btn:active { background: rgba(252, 235, 208, .6); }
+
+/* 좁은 화면(360px 등): 덮개 종이 안쪽 여백이 18/14로 줄어드는 것(modal.css)에 머리 띠를 맞춘다 */
+@media (max-width: 370px) {
+  .modal .ps-head { top: -18px; margin: -18px -14px 0; padding-left: 14px; padding-right: 12px; gap: 10px; }
+  .ps-head__badge { width: 46px; height: 46px; }
+  .ps-head__title { font-size: 22px; }
+  .parent-kid { padding: 10px; }
+  .ps-place__body { padding: 0 10px 12px; }
+}
