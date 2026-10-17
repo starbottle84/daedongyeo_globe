@@ -82,6 +82,8 @@
 
 **Files:** Create `src/progress/types.ts`, `date.ts`, `storage.ts`, `rules.ts`, `store.ts` · Modify `src/dev/shotParams.ts`
 
+> 아래 코드는 처음 계획이다. 구현 뒤 검토로 바뀐 점은 `src/progress/*.ts` 실제 코드가 기준이다.
+
 - [ ] **Step 0: 브랜치**
 
 ```bash

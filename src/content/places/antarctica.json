@@ -16,16 +16,16 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "펭귄이 사는 얼음 땅, 남극을 눌러 봐!", "target": [60, -80], "area": "남극", "explain": "여기가 꽁꽁 언 남극이에요." },
+      { "type": "tap", "prompt": "펭귄이 사는 얼음 땅, 남극을 눌러 봐!", "targetName": "남극", "target": [60, -80], "area": "남극", "explain": "여기가 꽁꽁 언 남극이에요." },
       { "type": "choice", "prompt": "남극에 사는 동물은 누구일까?", "options": [{ "label": "기린", "icon": "🦒" }, { "label": "펭귄", "icon": "🐧" }], "answer": 1, "explain": "남극에는 펭귄이 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "남극은 어떤 곳일까?", "options": [{ "label": "뜨거운 모래사막" }, { "label": "나무가 빽빽한 숲" }, { "label": "얼음으로 덮인 추운 곳" }], "answer": 2, "explain": "남극은 땅 대부분이 두꺼운 얼음으로 덮여 있어요." },
-      { "type": "tap", "prompt": "지구본에서 남극을 찾아 눌러 봐!", "target": [60, -80], "area": "남극" },
+      { "type": "tap", "prompt": "지구본에서 남극을 찾아 눌러 봐!", "targetName": "남극", "target": [60, -80], "area": "남극" },
       { "type": "direction", "prompt": "우리나라에서 보면 남극은 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [127.8, -75], "toName": "남극", "options": 4, "answer": "남", "explain": "남극은 지구의 가장 남쪽에 있어요." }
     ],
     "upper": [
-      { "type": "pin", "prompt": "지명이 사라졌어요! 우리나라의 첫 남극 기지가 있는 킹조지섬을 찍어 보세요.", "target": [-58.787, -62.223], "starsKm": [300, 1000], "view": { "center": [-30, -68], "zoom": 1.8 }, "explain": "킹조지섬은 남아메리카 끝과 가까운 남극반도 북쪽에 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 우리나라의 첫 남극 기지가 있는 킹조지섬을 찍어 보세요.", "targetName": "킹조지섬", "target": [-58.787, -62.223], "starsKm": [300, 1000], "view": { "center": [-30, -68], "zoom": 1.8 }, "explain": "킹조지섬은 남아메리카 끝과 가까운 남극반도 북쪽에 있어요." },
       { "type": "choice", "prompt": "남극 얼음의 평균 두께는 약 얼마일까요?", "options": [{ "label": "약 20m" }, { "label": "약 200m" }, { "label": "약 700m" }, { "label": "약 2km" }], "answer": 3, "explain": "남극 얼음의 평균 두께는 약 2km(2,000m)예요." },
       { "type": "choice", "prompt": "우리나라의 두 번째 남극 기지인 장보고과학기지는 언제 세워졌을까요?", "options": [{ "label": "1988년" }, { "label": "2002년" }, { "label": "2014년" }, { "label": "2020년" }], "answer": 2, "explain": "장보고과학기지는 2014년, 첫 기지인 세종과학기지는 1988년에 세워졌어요." }
     ]

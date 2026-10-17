@@ -211,6 +211,8 @@ details[open] > summary > .ps-chev { margin-top: 6px; margin-bottom: 0; transfor
 .ps-q { margin: 0; font-size: 15px; line-height: 1.45; color: var(--ink-soft); }
 .ps-a { display: flex; align-items: flex-start; gap: 6px; margin: 4px 0 0; font-family: var(--title); font-size: 17px; line-height: 1.35; color: var(--green-ink); }
 .ps-a svg { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--green); }
+/* 찾아 누르기·위치 찍기의 미션 설명: 정답 줄 아래 작은 덧붙임 (정답 글자와 왼쪽을 맞춘다 = 아이콘 18 + 사이 6) */
+.ps-explain { margin: 2px 0 0 24px; font-size: 14px; line-height: 1.45; color: var(--note); }
 
 /* 저장과 개인정보: 정상이면 옅은 초록 카드, 저장이 안 되면(D11) 여권 책 안내와 같은 살구색 카드 */
 .ps-store { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; font-size: 16px; line-height: 1.55; color: var(--ink);

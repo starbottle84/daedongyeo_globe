@@ -29,21 +29,25 @@ interface TripLauncherProps {
 export function TripLauncher({ places, profiles, activeProfile, progress, onStart }: TripLauncherProps) {
   const stages = [...new Set(places.map((p) => p.stage))].sort((a, b) => a - b);
   const unlocked = progress ? computeUnlocked(places, progress) : [];
-  // 잠긴 표를 누르면 동글이 말풍선이 여는 방법을 알려 주고 2초 뒤 되돌아온다.
-  // 누를 때마다 새 객체라 다시 누르면 2초를 새로 센다. 그사이 다른 아이로 바꾸면 그 아이 것이 아니니 보이지 않는다
-  const [lockHint, setLockHint] = useState<{ stage: number; profileId: string } | null>(null);
+  // 잠긴 표를 누르면 동글이 말풍선이 여는 방법을 알려 주고 2초 뒤 되돌아온다. 누른 표의 자물쇠만 흔들린다.
+  // 누를 때마다 새 객체라 다시 누르면 2초를 새로 센다. 그사이 다른 아이로 바꾸면 그 아이 것이 아니니 보이지 않는다.
+  // n은 누른 차례 — 자물쇠의 key로 써서 2초 안에 다시 눌러도 흔들기를 처음부터 다시 한다
+  const [lockHint, setLockHint] = useState<{ stage: number; placeId: string; profileId: string; n: number } | null>(null);
+  const nudges = useRef(0);
   useEffect(() => {
     if (!lockHint) return;
     const timer = setTimeout(() => setLockHint(null), 2000);
     return () => clearTimeout(timer);
   }, [lockHint]);
-  const hintStage = lockHint && lockHint.profileId === activeProfile?.id ? lockHint.stage : null;
-  // 잠긴 단계를 열려면 앞 단계 도장을 몇 개 더 모아야 하는지
+  const hint = lockHint && lockHint.profileId === activeProfile?.id ? lockHint : null;
+  // 잠긴 단계를 열려면 바로 앞의 열린 단계 도장을 몇 개 더 모아야 하는지. 앞 단계도 잠겨 있으면(계획 4에서 단계가 늘면) 그 단계부터 열라고 알린다
   const lockInfo = (kid: ProfileProgress, stage: number) => {
-    const { prev, left } = stageLockLeft(places, kid, stage);
-    return { left, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요!` };
+    const { prev, opens, left } = stageLockLeft(places, kid, stage);
+    return opens === stage
+      ? { badge: `${left}개 더`, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` }
+      : { badge: `${opens}단계 먼저`, text: `먼저 ${opens}단계를 열어요` };
   };
-  const hintText = hintStage !== null && progress ? lockInfo(progress, hintStage).text : null;
+  const hintText = hint && progress ? `${lockInfo(progress, hint.stage).text}!` : null;
   // 여권 책 (아이 칩 줄 오른쪽 끝의 '여권' 버튼으로 연다). 연 아이의 id에 묶어 둔다 — 책이 열린 채 다른 탭에서
   // 그 아이를 지우거나 바꾸면 책이 닫히고, 기록을 지운 뒤 새로 만든 아이(새 id)에서 책이 저절로 열리지 않는다
   const [bookFor, setBookFor] = useState<string | null>(null);
@@ -82,10 +86,13 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
           <div className="spread__left">
             <div className="greet">
               <span className="photo"><Dongle mood={hintText ? 'think' : 'talk'} size="md" /></span>
-              {/* 잠긴 표 안내도 이 말풍선이 한다 (바뀐 말을 화면 읽기 프로그램이 읽게 status) */}
-              <p className={`bubble bubble--title ko${hintText ? ' bubble--hint' : ''}`} role={activeProfile ? 'status' : undefined}>
+              {/* 잠긴 표 안내도 이 말풍선이 보인다 */}
+              <p className={`bubble bubble--title ko${hintText ? ' bubble--hint' : ''}`}>
                 {!activeProfile ? '탐험가 여권을 만들어 볼까?' : (hintText ?? '어디로 떠나 볼까?')}
               </p>
+              {/* 화면 읽기에는 안내만 따로 알린다 — 말풍선을 알림 영역으로 두면 2초 뒤 '어디로 떠나 볼까?'로 돌아갈 때도 한 번 더 읽혔다.
+                  알림 영역은 늘 그려 두고 안의 글만 바꾼다 (새로 생긴 알림 영역은 읽지 않는 화면 읽기 프로그램이 많다) */}
+              {activeProfile && <p className="visually-hidden" role="status">{hintText ?? ''}</p>}
             </div>
             {activeProfile && (
               <div className="kids-row">
@@ -117,8 +124,8 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                     {stage}단계 · {STAGE_NAMES[stage] ?? ''}
                     {lock ? (
                       <>
-                        <span className="stage__count stage__count--locked" aria-hidden="true"><Icon name="lock" />{lock.left}개 더</span>
-                        <span className="visually-hidden">, 잠김. {lock.text}</span>
+                        <span className="stage__count stage__count--locked" aria-hidden="true"><Icon name="lock" />{lock.badge}</span>
+                        <span className="visually-hidden">{`, 잠김. ${lock.text}`}</span>
                       </>
                     ) : (
                       <>
@@ -131,22 +138,28 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                     {inStage.map((p) => {
                       const stamp = progress.stamps[p.id];
                       const stamped = Boolean(stamp);
+                      const nudged = Boolean(lock) && hint?.placeId === p.id;
                       return (
                         <button
                           key={p.id}
                           type="button"
-                          className={`ticket${stamped ? ' ticket--stamped' : ''}${lock ? ' ticket--locked' : ''}${lock && hintStage === stage ? ' ticket--nudge' : ''}`}
-                          aria-label={stamped ? `${p.name}, 도장 받음` : undefined}
+                          className={`ticket${stamped ? ' ticket--stamped' : ''}${lock ? ' ticket--locked' : ''}${nudged ? ' ticket--nudge' : ''}`}
+                          // 도장 받은 표('OO, 도장 받음')와 짝을 맞춰 잠긴 표도 여는 방법까지 읽는다
+                          aria-label={lock ? `${p.name}, 잠김 — ${lock.text}` : stamped ? `${p.name}, 도장 받음` : undefined}
                           aria-disabled={lock ? true : undefined}
-                          onClick={() => (lock ? setLockHint({ stage, profileId: activeProfile.id }) : onStart(p))}
+                          onClick={() => (lock ? setLockHint({ stage, placeId: p.id, profileId: activeProfile.id, n: ++nudges.current }) : onStart(p))}
                         >
                           <span className="ticket__body">
                             <span className="ticket__stub"><PlaceArt placeId={p.id} /></span>
                             <span className="ticket__name">{p.name}</span>
                             {/* 도장 받은 표: 오른쪽 위에 작게 찍힌 빨간 도장 (여권 책과 같은 도장 그림) */}
                             {stamp && <span className="ticket__seal" aria-hidden="true"><StampSeal name={p.name} date={koreanDate(stamp.firstDate)} /></span>}
-                            {/* 잠긴 표: 반투명 종이 덮개 + 자물쇠 */}
-                            {lock && <span className="ticket__lock" aria-hidden="true"><span className="ticket__lock-badge"><Icon name="lock" /></span></span>}
+                            {/* 잠긴 표: 반투명 종이 덮개 + 자물쇠 (누른 차례가 바뀌면 자물쇠를 새로 그려 흔들기를 다시 한다) */}
+                            {lock && (
+                              <span className="ticket__lock" aria-hidden="true">
+                                <span key={nudged ? `n${hint?.n}` : 'still'} className="ticket__lock-badge"><Icon name="lock" /></span>
+                              </span>
+                            )}
                           </span>
                         </button>
                       );

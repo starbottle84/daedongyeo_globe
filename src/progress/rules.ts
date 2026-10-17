@@ -18,12 +18,17 @@ export function stageCounts(places: Place[], progress: ProfileProgress, stage: n
   return { got, total: inStage.length, need: stageThreshold(inStage.length) };
 }
 
-/** 잠긴 단계를 열려면 앞 단계 도장을 몇 개 더 모아야 하는지: 앞 단계 번호와 남은 수 (최소 1). 시작 카드·여권 책이 같이 쓴다 */
-export function stageLockLeft(places: Place[], progress: ProfileProgress, stage: number): { prev: number; left: number } {
+/** 잠긴 단계를 열려면 어느 단계 도장을 몇 개 더 모아야 하는지 (남은 수는 최소 1). 시작 카드·여권 책이 같이 쓴다.
+ *  바로 앞의 열린 단계를 기준으로 한다: prev = 도장을 모을 열린 단계, opens = 그 도장으로 열리는 단계.
+ *  앞 단계도 잠겨 있으면(계획 4에서 단계가 늘면) opens가 stage보다 앞이다 — 그 단계부터 열어야 한다 */
+export function stageLockLeft(places: Place[], progress: ProfileProgress, stage: number): { prev: number; opens: number; left: number } {
   const stages = stagesOf(places);
-  const prev = stages[stages.indexOf(stage) - 1];
+  const open = computeUnlocked(places, progress);
+  let i = stages.indexOf(stage) - 1;
+  while (i > 0 && !open.includes(stages[i])) i--;
+  const prev = stages[i];
   const { got, need } = stageCounts(places, progress, prev);
-  return { prev, left: Math.max(1, need - got) };
+  return { prev, opens: stages[i + 1], left: Math.max(1, need - got) };
 }
 
 /** 저장된 열린 단계 + 지금 도장으로 열리는 단계 (한 번 열린 단계는 그대로 둔다) */
@@ -70,8 +75,9 @@ export function applyStamp(
 /** 다음에 가 볼 곳: 지금 장소 다음부터(끝에 닿으면 처음부터) 열린 단계에 있고 아직 도장이 없는 첫 장소. 없으면 null */
 export function nextPlaceFor(places: Place[], progress: ProfileProgress, current: Place): Place | null {
   const open = new Set(computeUnlocked(places, progress));
-  // current가 목록에 없으면 start가 -1이라 처음부터 끝까지 본다. 목록에 있으면 마지막 차례가 current 자신이라 id로 건너뛴다
-  const start = places.indexOf(current);
+  // 시작 위치는 id로 찾는다 (같은 장소의 다른 객체가 와도 맞게). 목록에 없으면 start가 -1이라 처음부터 끝까지 본다.
+  // 목록에 있으면 마지막 차례가 current 자신이라 id로 건너뛴다
+  const start = places.findIndex((p) => p.id === current.id);
   for (let k = 1; k <= places.length; k++) {
     const p = places[(start + k) % places.length];
     if (p.id !== current.id && open.has(p.stage) && !progress.stamps[p.id]) return p;

@@ -16,16 +16,16 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "한반도에서 제일 높은 산, 백두산을 눌러 봐!", "target": [128.0554, 42.0063], "radiusKm": 40, "explain": "여기가 백두산이에요!" },
+      { "type": "tap", "prompt": "한반도에서 제일 높은 산, 백두산을 눌러 봐!", "targetName": "백두산", "target": [128.0554, 42.0063], "radiusKm": 40, "explain": "여기가 백두산이에요!" },
       { "type": "choice", "prompt": "백두산 꼭대기에 있는 것은 무엇일까?", "options": [{ "label": "사막", "icon": "🏜️" }, { "label": "호수", "icon": "🏞️" }], "answer": 1, "explain": "백두산 꼭대기에는 천지라는 큰 호수가 있어요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "백두산 꼭대기에 있는 호수의 이름은 무엇일까?", "options": [{ "label": "천지" }, { "label": "백록담" }, { "label": "소양호" }], "answer": 0, "explain": "천지는 백두산 꼭대기에 있어요. 백록담은 한라산 꼭대기의 호수예요." },
-      { "type": "tap", "prompt": "한반도에서 가장 높은 산, 백두산을 찾아 눌러 봐!", "target": [128.0554, 42.0063], "radiusKm": 30, "explain": "여기가 백두산이에요. 압록강과 두만강이 백두산에서 시작돼요." },
+      { "type": "tap", "prompt": "한반도에서 가장 높은 산, 백두산을 찾아 눌러 봐!", "targetName": "백두산", "target": [128.0554, 42.0063], "radiusKm": 30, "explain": "여기가 백두산이에요. 압록강과 두만강이 백두산에서 시작돼요." },
       { "type": "direction", "prompt": "서울에서 보면 백두산은 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [128.0554, 42.0063], "toName": "백두산", "options": 4, "answer": "북", "explain": "백두산은 서울에서 북쪽으로 약 500km 떨어져 있어요." }
     ],
     "upper": [
-      { "type": "pin", "prompt": "지명이 사라졌어요! 백두산의 위치를 찍어 보세요.", "target": [128.0554, 42.0063], "starsKm": [25, 80], "view": { "center": [127.6, 39.9], "zoom": 5.3 }, "explain": "백두산은 한반도 북쪽 끝, 압록강과 두만강이 시작되는 곳에 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 백두산의 위치를 찍어 보세요.", "targetName": "백두산", "target": [128.0554, 42.0063], "starsKm": [25, 80], "view": { "center": [127.6, 39.9], "zoom": 5.3 }, "explain": "백두산은 한반도 북쪽 끝, 압록강과 두만강이 시작되는 곳에 있어요." },
       { "type": "choice", "prompt": "백두산 꼭대기의 천지는 어떻게 생겼을까요?", "options": [{ "label": "화산 분화구에 물이 고여서" }, { "label": "빙하가 녹아서" }, { "label": "사람이 땅을 파서" }, { "label": "바닷물이 들어와서" }], "answer": 0, "explain": "천지는 화산이 폭발한 뒤 움푹 꺼진 곳에 물이 고여 생긴 칼데라 호수예요." },
       { "type": "direction", "prompt": "서울에서 보면 백두산은 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [128.0554, 42.0063], "toName": "백두산", "options": 8, "answer": "북", "explain": "백두산은 서울에서 거의 정북쪽으로 약 500km 떨어져 있어요." }
     ]

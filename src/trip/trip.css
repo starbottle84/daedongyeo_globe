@@ -439,6 +439,8 @@
   .stamp-zone { width: 120px; height: 120px; }
   /* 나무 도장도 도장 자리에 맞춰 줄인다 — 그대로면 눌리는 순간 손잡이가 절취선 위로 나가 잘린다 */
   .stamp-tool { width: 106px; margin-left: -53px; bottom: 20px; }
+  /* 단계 열림 띠도 작은 도장에 맞춰 덜 겹친다 — 32px 그대로면 도장 날짜 띠를 가린다 */
+  .visa__unlock { margin-top: -24px; }
   .trip-panel--mission { max-height: 55vh; max-height: 55dvh; }
 }
 @media (max-width: 370px) {

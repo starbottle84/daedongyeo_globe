@@ -93,6 +93,16 @@ function isNewerSave(text: string): boolean {
   }
 }
 
+/** 주 칸이 이 코드보다 새 버전의 저장인지 — 그러면 쓰지 않으므로(writeSave) 처음부터 저장 안 됨 안내를 띄운다 */
+export function storedIsNewer(): boolean {
+  try {
+    const text = localStorage.getItem(SAVE_KEY);
+    return text !== null && isNewerSave(text);
+  } catch {
+    return false;
+  }
+}
+
 /** 저장. 지금 주 칸이 멀쩡하면 백업 칸으로 옮긴 뒤 새 값을 쓴다. 성공 여부를 돌려준다 */
 export function writeSave(data: SaveData): boolean {
   try {

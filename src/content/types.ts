@@ -34,6 +34,8 @@ export type Mission =
   | {
       type: 'tap';
       prompt: string;
+      /** 찾을 곳 이름 (부모님 공간 정답 줄 '지도에서 OO'). 장소와 다를 때가 있다 (독도 여행의 울릉도 등) */
+      targetName?: string;
       /** 힌트·정답 핀을 꽂을 위치 */
       target: LngLat;
       /** 대륙·대양 이름(area-hit 층). 있으면 그 영역 안을 누르면 정답 */
@@ -48,6 +50,8 @@ export type Mission =
   | {
       type: 'pin';
       prompt: string;
+      /** 찾을 곳 이름 (부모님 공간 정답 줄 '지도에서 OO') */
+      targetName?: string;
       target: LngLat;
       /** [별 3개 거리, 별 2개 거리](km). 그보다 멀면 별 1개 */
       starsKm: [number, number];

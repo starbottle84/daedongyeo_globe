@@ -55,6 +55,7 @@ export function parsePlace(raw: unknown): Place {
         }
         return {
           type: 'tap', prompt, explain, area, radiusKm,
+          targetName: optStr(m.targetName, `${path}.targetName`),
           target: lngLat(m.target, `${path}.target`),
           view: optView(m.view, `${path}.view`),
         };
@@ -79,6 +80,7 @@ export function parsePlace(raw: unknown): Place {
         if (starsKm[0] >= starsKm[1]) return fail(`${path}.starsKm`, '별 3개 거리가 별 2개 거리보다 작아야 해요');
         return {
           type: 'pin', prompt, explain, starsKm,
+          targetName: optStr(m.targetName, `${path}.targetName`),
           target: lngLat(m.target, `${path}.target`),
           view: optView(m.view, `${path}.view`),
         };

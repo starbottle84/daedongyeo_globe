@@ -4,20 +4,18 @@ interface StampSealProps {
   name: string;
   /** 도장 날짜 글자 ('10월 16일') */
   date: string;
-  /** 그림 크기(px). 없으면 CSS가 정한다 (도장 카드는 도장 자리를 꽉 채운다) */
-  size?: number;
   className?: string;
 }
 
 // 빨간 잉크 여권 도장: 이중 원 테두리, 둘레 글자, 지구 선 그림, 장소 이름, 날짜 띠.
 // 잉크가 덜 묻은 얼룩과 번진 가장자리는 SVG 필터로 만든다(움직이지 않는다). 도장 카드·여권 책·시작 카드 표가 같이 쓴다
-export function StampSeal({ name, date, size, className }: StampSealProps) {
+export function StampSeal({ name, date, className }: StampSealProps) {
   // 한 화면에 여러 개 그려도(여권 책) 잉크 필터·글자 길 id가 겹치지 않게
   const uid = useId().replace(/:/g, '');
   const inky = `inky-${uid}`;
   const ring = `ring-${uid}`;
   return (
-    <svg className={className} width={size} height={size} viewBox="0 0 200 200" role="img" aria-label={`${name} 도장, ${date}`}>
+    <svg className={className} viewBox="0 0 200 200" role="img" aria-label={`${name} 도장, ${date}`}>
       <defs>
         <filter id={inky} x="-5%" y="-5%" width="110%" height="110%">
           <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="11" result="n" />

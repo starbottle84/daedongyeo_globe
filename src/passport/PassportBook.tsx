@@ -25,22 +25,34 @@ const TILTS = [-6, 5, -2, 8, -8, 3, -4, 6];
 
 // 여권 책: 가죽 표지 띠(이름·사진·구간) 아래에 단계마다 도장판 한 쪽. 받은 칸은 빨간 잉크 도장과 처음 받은 날,
 // 안 받은 칸은 점선 원 안의 흐린 장소 그림이다. 잠긴 단계는 쪽 전체를 흐린 종이로 덮고 여는 방법을 알려 준다.
-// 단계 제목 줄(.stage, .stage__count)은 시작 카드(trip.css)와 같은 모양을 쓴다
+// 단계 제목 줄(.stage, .stage__count)은 시작 카드(trip.css)와 같은 모양을 쓴다.
+// 열려 있을 때만 내용을 그린다 — 닫힌 책의 도장 그림(SVG 필터)이 장소 수만큼 숨어 있지 않게 (계획 4에서 24곳)
 export function PassportBook({ open, profile, progress, places, onClose }: PassportBookProps) {
   const titleId = useId();
+  return (
+    <Modal open={open} size="full" labelledBy={titleId} onClose={onClose}>
+      {open && <PassportBookBody titleId={titleId} profile={profile} progress={progress} places={places} onClose={onClose} />}
+    </Modal>
+  );
+}
+
+function PassportBookBody({ titleId, profile, progress, places, onClose }: Omit<PassportBookProps, 'open'> & { titleId: string }) {
   const storageOk = useStorageOk();
   const stages = stagesOf(places);
   const unlocked = computeUnlocked(places, progress);
-  // 잠긴 단계를 열려면 앞 단계 도장을 몇 개 더 모아야 하는지 (시작 카드의 잠긴 표 안내와 같은 계산)
+  // 잠긴 단계를 열려면 바로 앞의 열린 단계 도장을 몇 개 더 모아야 하는지 (시작 카드의 잠긴 표 안내와 같은 계산).
+  // 앞 단계도 잠겨 있으면(계획 4에서 단계가 늘면) 그 단계부터 열라고 알린다
   const lockInfo = (stage: number) => {
-    const { prev, left } = stageLockLeft(places, progress, stage);
-    return { left, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` };
+    const { prev, opens, left } = stageLockLeft(places, progress, stage);
+    return opens === stage
+      ? { badge: `${left}개 더`, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` }
+      : { badge: `${opens}단계 먼저`, text: `먼저 ${opens}단계를 열어요` };
   };
   // 받은 도장이 '쿵' 하고 나타나는 차례 (단계를 넘어 이어서 센다)
   let order = 0;
 
   return (
-    <Modal open={open} size="full" labelledBy={titleId} onClose={onClose}>
+    <>
       <header className="pb-cover">
         <span className={`avatar avatar--${profile.color} pb-cover__photo`}><Dongle mood="talk" size="xs" decorative /></span>
         <div className="pb-cover__words">
@@ -64,7 +76,7 @@ export function PassportBook({ open, profile, progress, places, onClose }: Passp
               {stage}단계 · {STAGE_NAMES[stage] ?? ''}
               {lock ? (
                 <>
-                  <span className="stage__count stage__count--locked" aria-hidden="true"><Icon name="lock" />{lock.left}개 더</span>
+                  <span className="stage__count stage__count--locked" aria-hidden="true"><Icon name="lock" />{lock.badge}</span>
                   <span className="visually-hidden">, 잠김</span>
                 </>
               ) : (
@@ -86,12 +98,13 @@ export function PassportBook({ open, profile, progress, places, onClose }: Passp
               {inStage.map((p) => {
                 const stamp = progress.stamps[p.id];
                 const tilt = `${TILTS[places.indexOf(p) % TILTS.length]}deg`;
+                // 보이는 이름·날짜는 그대로 읽히게 두고(VoiceOver로 더듬어도 읽힌다) 그림만 숨긴다.
+                // '도장 받음/아직 안 받음'은 이름 뒤에 숨김 글자로 붙인다 — 한 덩어리 글(템플릿 문자열)이라 조각나 읽히지 않는다
                 if (!stamp) {
                   return (
                     <li key={p.id} className="pb-cell">
-                      <span className="visually-hidden">{p.name}, 아직 안 받음</span>
                       <span className="pb-cell__slot" aria-hidden="true"><PlaceArt placeId={p.id} /></span>
-                      <span className="pb-cell__name" aria-hidden="true">{p.name}</span>
+                      <span className="pb-cell__name">{p.name}<span className="visually-hidden">{', 아직 안 받음'}</span></span>
                     </li>
                   );
                 }
@@ -100,10 +113,10 @@ export function PassportBook({ open, profile, progress, places, onClose }: Passp
                 const stars = profile.tier === 'upper' ? stamp.bestStars : 0;
                 return (
                   <li key={p.id} className="pb-cell pb-cell--got" style={{ '--i': order++, '--tilt': tilt } as CSSProperties}>
-                    <span className="visually-hidden">{p.name}, 도장 받음, {date}{stars > 0 && `, 최고 별 ${stars}개`}</span>
                     <span className="pb-cell__slot" aria-hidden="true"><StampSeal className="pb-seal" name={p.name} date={date} /></span>
-                    <span className="pb-cell__name" aria-hidden="true">{p.name}</span>
-                    <span className="pb-cell__date" aria-hidden="true">{date}</span>
+                    <span className="pb-cell__name">{p.name}<span className="visually-hidden">{`, 도장 받음${stars > 0 ? `, 최고 별 ${stars}개` : ''},`}</span></span>
+                    <span className="pb-cell__date">{date}</span>
+                    {/* 별 알약은 위 숨김 글자가 읽어 준다 */}
                     {stars > 0 && <span className="pb-cell__stars" aria-hidden="true">★ {stars}</span>}
                   </li>
                 );
@@ -114,6 +127,6 @@ export function PassportBook({ open, profile, progress, places, onClose }: Passp
       })}
       {/* 기기에 저장이 안 될 때만 (D11) — 놀이는 그대로 하지만 창을 닫으면 도장이 사라질 수 있다 */}
       {!storageOk && <p className="pb-warn ko">이 기기에 진행이 저장되지 않고 있어요. 부모님께 알려 주세요.</p>}
-    </Modal>
+    </>
   );
 }

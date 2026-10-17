@@ -3,7 +3,7 @@ import { PLACES } from '../content';
 import type { Place, Tier } from '../content/types';
 import { localDate } from './date';
 import { applyStamp, emptyProgress } from './rules';
-import { canStore, clearSave, emptySave, loadSave, MAX_PROFILES, readStored, SAVE_KEY, writeSave } from './storage';
+import { canStore, clearSave, emptySave, loadSave, MAX_PROFILES, readStored, SAVE_KEY, storedIsNewer, writeSave } from './storage';
 import type { AvatarColor, Profile, SaveData, StampOutcome } from './types';
 
 // 앱 전체가 같이 보는 진행 상태. 바꿀 때마다 기기에 저장하고, 구독한 화면을 다시 그린다.
@@ -21,7 +21,8 @@ export function initProgress(seed?: SaveData): void {
     storageOk = true;
     return;
   }
-  storageOk = canStore();
+  // 새 버전 코드가 쓴 저장이 있으면 이 탭은 저장하지 않으므로(writeSave) 처음부터 저장 안 됨 안내를 띄운다
+  storageOk = canStore() && !storedIsNewer();
   state = loadSave();
   // 다른 탭(홈 화면 앱과 브라우저 탭 등)이 저장하면 다시 읽는다
   window.addEventListener('storage', (e) => {
@@ -81,7 +82,10 @@ export function updateProfile(id: string, patch: Partial<Pick<Profile, 'name' | 
   commit({
     ...state,
     profiles: state.profiles.map((p) =>
-      p.id === id ? { ...p, ...patch, name: (patch.name ?? p.name).trim().slice(0, 10) || '탐험가' } : p,
+      // 펼치기(...patch) 대신 칸마다 덮는다 — patch에 undefined가 들어 있어도 원래 값이 지워지지 않게
+      p.id === id
+        ? { ...p, name: (patch.name ?? p.name).trim().slice(0, 10) || '탐험가', tier: patch.tier ?? p.tier, color: patch.color ?? p.color }
+        : p,
     ),
   });
 }

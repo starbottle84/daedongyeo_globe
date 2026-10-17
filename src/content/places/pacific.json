@@ -16,16 +16,16 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "제일 큰 바다, 태평양을 눌러 봐!", "target": [-160, 0], "area": "태평양", "explain": "태평양은 지구에서 가장 넓은 바다예요." },
+      { "type": "tap", "prompt": "제일 큰 바다, 태평양을 눌러 봐!", "targetName": "태평양", "target": [-160, 0], "area": "태평양", "explain": "태평양은 지구에서 가장 넓은 바다예요." },
       { "type": "choice", "prompt": "태평양에 사는 동물은 누구일까?", "options": [{ "label": "낙타", "icon": "🐫" }, { "label": "고래", "icon": "🐋" }], "answer": 1, "explain": "넓은 바다 태평양에는 고래가 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "지구에서 가장 넓은 바다는 어디일까?", "options": [{ "label": "대서양" }, { "label": "인도양" }, { "label": "태평양" }], "answer": 2, "explain": "태평양이 다섯 대양 중 가장 넓어요." },
-      { "type": "tap", "prompt": "지구본에서 태평양을 찾아 눌러 봐!", "target": [-160, 0], "area": "태평양" },
+      { "type": "tap", "prompt": "지구본에서 태평양을 찾아 눌러 봐!", "targetName": "태평양", "target": [-160, 0], "area": "태평양" },
       { "type": "direction", "prompt": "우리나라에서 보면 태평양은 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [150, 30], "toName": "태평양", "options": 4, "answer": "동", "explain": "태평양은 우리나라의 동쪽에 넓게 펼쳐져 있어요." }
     ],
     "upper": [
-      { "type": "pin", "prompt": "지명이 사라졌어요! 태평양 한가운데를 찍어 보세요.", "target": [-160, 0], "starsKm": [1500, 4000], "view": { "center": [170, 10], "zoom": 1.3 }, "explain": "태평양 한가운데는 하와이 남쪽, 적도 근처예요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 태평양 한가운데를 찍어 보세요.", "targetName": "태평양 한가운데", "target": [-160, 0], "starsKm": [1500, 4000], "view": { "center": [170, 10], "zoom": 1.3 }, "explain": "태평양 한가운데는 하와이 남쪽, 적도 근처예요." },
       { "type": "choice", "prompt": "태평양에서 가장 깊은 곳의 이름은 무엇일까요?", "options": [{ "label": "통가 해구" }, { "label": "마리아나 해구" }, { "label": "일본 해구" }, { "label": "푸에르토리코 해구" }], "answer": 1, "explain": "마리아나 해구는 깊이가 약 11,000m로, 지구 바다에서 가장 깊은 곳이에요." },
       { "type": "choice", "prompt": "태평양은 지구 표면의 약 얼마를 덮고 있을까요?", "options": [{ "label": "약 10분의 1" }, { "label": "약 5분의 1" }, { "label": "약 3분의 1" }, { "label": "약 2분의 1" }], "answer": 2, "explain": "태평양은 지구 표면의 약 3분의 1을 덮고 있어요." }
     ]

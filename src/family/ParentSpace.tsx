@@ -19,9 +19,9 @@ interface ParentSpaceProps {
 }
 
 // 미션 정답을 부모님이 읽기 쉬운 한 줄로: 고르기는 정답 보기, 방향은 'OO쪽'.
-// 찾아 누르기에 대륙·대양 이름(area)이 있으면 그곳이 찾을 곳이라 '지도에서 OO'.
-// 그 밖에는 찾을 곳이 장소와 다를 때가 있어서(독도 여행의 울릉도, 남극 여행의 킹조지섬) 미션 설명을, 없으면 '지도에서 (장소 이름)'.
-// 아이 말투 설명('여기가 독도예요!' 등)은 찾을 곳 이름 칸(targetName)을 둔 뒤 바꾼다 (계획 3 작업 7 Step 0)
+// 찾아 누르기·위치 찍기는 '지도에서 (찾을 곳)'. 찾을 곳이 장소와 다를 때가 있어서(독도 여행의 울릉도, 남극 여행의 킹조지섬)
+// 찾을 곳 이름 칸(targetName)을 먼저 쓰고, 없으면 대륙·대양 이름(area), 그것도 없으면 장소 이름.
+// 미션 설명(explain)은 아이 말투일 때가 있어서('여기가 독도예요!') 정답 줄이 아니라 그 아래 작은 덧붙임 줄로 보인다
 function answerOf(m: Mission, place: Place): string {
   switch (m.type) {
     case 'choice': {
@@ -32,8 +32,7 @@ function answerOf(m: Mission, place: Place): string {
       return `${m.answer}쪽`;
     case 'tap':
     case 'pin':
-      if (m.type === 'tap' && m.area) return `지도에서 ${m.area}`;
-      return m.explain ?? `지도에서 ${place.name}`;
+      return `지도에서 ${m.targetName ?? (m.type === 'tap' ? m.area : undefined) ?? place.name}`;
   }
 }
 
@@ -243,6 +242,7 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
                                 <Icon name={m.type === 'tap' || m.type === 'pin' ? 'map' : 'check'} />
                                 <span><span className="visually-hidden">정답: </span>{answerOf(m, p)}</span>
                               </p>
+                              {(m.type === 'tap' || m.type === 'pin') && m.explain && <p className="ps-explain ko">{m.explain}</p>}
                             </li>
                           ))}
                         </ol>

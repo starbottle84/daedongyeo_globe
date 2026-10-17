@@ -16,16 +16,16 @@
   },
   "missions": {
     "preschool": [
-      { "type": "tap", "prompt": "갈매기가 사는 섬, 독도를 눌러 봐!", "target": [131.8669, 37.2422], "radiusKm": 80, "explain": "여기가 독도예요!" },
+      { "type": "tap", "prompt": "갈매기가 사는 섬, 독도를 눌러 봐!", "targetName": "독도", "target": [131.8669, 37.2422], "radiusKm": 80, "explain": "여기가 독도예요!" },
       { "type": "choice", "prompt": "독도에 많이 사는 새는 누구일까?", "options": [{ "label": "펭귄", "icon": "🐧" }, { "label": "괭이갈매기", "icon": "🐦" }], "answer": 1, "explain": "독도에는 괭이갈매기가 아주 많이 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "독도는 어느 바다에 있을까?", "options": [{ "label": "서해" }, { "label": "동해" }, { "label": "남해" }], "answer": 1, "explain": "독도는 우리나라 동쪽 바다, 동해에 있어요." },
-      { "type": "tap", "prompt": "독도와 가장 가까운 섬, 울릉도를 찾아 눌러 봐!", "target": [130.8667, 37.4983], "radiusKm": 30, "explain": "울릉도는 독도에서 가장 가까운 우리 섬이에요." },
+      { "type": "tap", "prompt": "독도와 가장 가까운 섬, 울릉도를 찾아 눌러 봐!", "targetName": "울릉도", "target": [130.8667, 37.4983], "radiusKm": 30, "explain": "울릉도는 독도에서 가장 가까운 우리 섬이에요." },
       { "type": "direction", "prompt": "서울에서 보면 독도는 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [131.8669, 37.2422], "toName": "독도", "options": 4, "answer": "동", "explain": "독도는 서울에서 동쪽으로 멀리 떨어져 있어요." }
     ],
     "upper": [
-      { "type": "pin", "prompt": "지명이 사라졌어요! 독도의 위치를 찍어 보세요.", "target": [131.8669, 37.2422], "starsKm": [30, 90], "view": { "center": [128.5, 36], "zoom": 5.2 }, "explain": "독도는 울릉도에서 동남쪽으로 약 87km 떨어져 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 독도의 위치를 찍어 보세요.", "targetName": "독도", "target": [131.8669, 37.2422], "starsKm": [30, 90], "view": { "center": [128.5, 36], "zoom": 5.2 }, "explain": "독도는 울릉도에서 동남쪽으로 약 87km 떨어져 있어요." },
       { "type": "direction", "prompt": "서울에서 보면 독도는 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [131.8669, 37.2422], "toName": "독도", "options": 8, "answer": "동", "explain": "독도는 서울에서 거의 정동쪽으로 약 430km 떨어져 있어요." },
       { "type": "choice", "prompt": "독도에는 동도와 서도 말고도 작은 바위섬이 몇 개 있을까요?", "options": [{ "label": "89개" }, { "label": "9개" }, { "label": "890개" }, { "label": "8,900개" }], "answer": 0, "explain": "독도는 동도·서도와 89개의 작은 바위섬으로 이루어져 있어요." }
     ]

@@ -56,11 +56,12 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
         type="text"
         maxLength={10}
         autoComplete="off"
-        enterKeyHint="next"
+        // '다음'(next)은 안드로이드 크롬이 Enter를 보내지 않아 눌러도 아무 일이 없고 키보드가 남는다 — '완료'(done)여야 아래 처리가 돈다
+        enterKeyHint="done"
         placeholder="탐험가"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        // 이름 칸의 Enter(휴대폰 키보드의 '다음')로는 만들지 않는다 — 바로 만들면 나이·색을 고르기 전에 기본값(유아·하늘색)으로 만들어졌다.
+        // 이름 칸의 Enter(휴대폰 키보드의 '완료')로는 만들지 않는다 — 바로 만들면 나이·색을 고르기 전에 기본값(유아·하늘색)으로 만들어졌다.
         // 키보드를 닫고 나이 구간의 고른 칸으로 초점을 옮긴다. 한글 조합을 끝내는 Enter는 그대로 둔다 (조합만 끝내고 제출은 하지 않는다).
         // 사파리는 조합을 끝내는 Enter에 isComposing을 false로 주므로 keyCode 229(조합 중 키)도 본다
         onKeyDown={(e) => {
