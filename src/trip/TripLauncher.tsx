@@ -5,7 +5,7 @@ import { ProfileForm } from '../family/ProfileForm';
 import { PassportBook } from '../passport/PassportBook';
 import { StampSeal } from '../passport/StampSeal';
 import { koreanDate } from '../progress/date';
-import { computeUnlocked, stageCounts, stageLockLeft } from '../progress/rules';
+import { computeUnlocked, stageCounts, stageLockMessage } from '../progress/rules';
 import { createProfile } from '../progress/store';
 import type { Profile, ProfileProgress } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
@@ -41,12 +41,7 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
   }, [lockHint]);
   const hint = lockHint && lockHint.profileId === activeProfile?.id ? lockHint : null;
   // 잠긴 단계를 열려면 바로 앞의 열린 단계 도장을 몇 개 더 모아야 하는지. 앞 단계도 잠겨 있으면(계획 4에서 단계가 늘면) 그 단계부터 열라고 알린다
-  const lockInfo = (kid: ProfileProgress, stage: number) => {
-    const { prev, opens, left } = stageLockLeft(places, kid, stage);
-    return opens === stage
-      ? { badge: `${left}개 더`, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` }
-      : { badge: `${opens}단계 먼저`, text: `먼저 ${opens}단계를 열어요` };
-  };
+  const lockInfo = (kid: ProfileProgress, stage: number) => stageLockMessage(places, kid, stage);
   const hintText = hint && progress ? `${lockInfo(progress, hint.stage).text}!` : null;
   // 여권 책 (아이 칩 줄 오른쪽 끝의 '여권' 버튼으로 연다). 연 아이의 id에 묶어 둔다 — 책이 열린 채 다른 탭에서
   // 그 아이를 지우거나 바꾸면 책이 닫히고, 기록을 지운 뒤 새로 만든 아이(새 id)에서 책이 저절로 열리지 않는다

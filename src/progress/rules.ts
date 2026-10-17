@@ -31,6 +31,14 @@ export function stageLockLeft(places: Place[], progress: ProfileProgress, stage:
   return { prev, opens: stages[i + 1], left: Math.max(1, need - got) };
 }
 
+/** 잠긴 단계 안내 문구 (시작 카드와 여권 책이 같이 쓴다): 짧은 표시(badge)와 문장(text) */
+export function stageLockMessage(places: Place[], progress: ProfileProgress, stage: number): { badge: string; text: string } {
+  const { prev, opens, left } = stageLockLeft(places, progress, stage);
+  return opens === stage
+    ? { badge: `${left}개 더`, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` }
+    : { badge: `${opens}단계 먼저`, text: `먼저 ${opens}단계를 열어요` };
+}
+
 /** 저장된 열린 단계 + 지금 도장으로 열리는 단계 (한 번 열린 단계는 그대로 둔다) */
 export function computeUnlocked(places: Place[], progress: ProfileProgress): number[] {
   const stages = stagesOf(places);

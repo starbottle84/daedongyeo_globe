@@ -1,7 +1,7 @@
 import { useId, type CSSProperties } from 'react';
 import { STAGE_NAMES, TIER_LABELS, type Place } from '../content/types';
 import { koreanDate } from '../progress/date';
-import { computeUnlocked, stageCounts, stageLockLeft, stagesOf } from '../progress/rules';
+import { computeUnlocked, stageCounts, stageLockMessage, stagesOf } from '../progress/rules';
 import { useStorageOk } from '../progress/store';
 import type { Profile, ProfileProgress } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
@@ -42,12 +42,7 @@ function PassportBookBody({ titleId, profile, progress, places, onClose }: Omit<
   const unlocked = computeUnlocked(places, progress);
   // 잠긴 단계를 열려면 바로 앞의 열린 단계 도장을 몇 개 더 모아야 하는지 (시작 카드의 잠긴 표 안내와 같은 계산).
   // 앞 단계도 잠겨 있으면(계획 4에서 단계가 늘면) 그 단계부터 열라고 알린다
-  const lockInfo = (stage: number) => {
-    const { prev, opens, left } = stageLockLeft(places, progress, stage);
-    return opens === stage
-      ? { badge: `${left}개 더`, text: `${prev}단계 도장을 ${left}개 더 모으면 열려요` }
-      : { badge: `${opens}단계 먼저`, text: `먼저 ${opens}단계를 열어요` };
-  };
+  const lockInfo = (stage: number) => stageLockMessage(places, progress, stage);
   // 받은 도장이 '쿵' 하고 나타나는 차례 (단계를 넘어 이어서 센다)
   let order = 0;
 
