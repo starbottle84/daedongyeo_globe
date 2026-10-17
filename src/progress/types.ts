@@ -46,6 +46,8 @@ export interface StampOutcome {
   isNew: boolean;
   firstDate: string;
   bestStars: number;
+  /** 이번 별이 앞선 최고 기록보다 많은지 (처음 받은 도장이면 별이 1개 이상일 때) — 도장 카드의 '최고 기록!' */
+  newBest: boolean;
   /** 이번 도장으로 새로 열린 단계 */
   newlyUnlocked: number[];
 }

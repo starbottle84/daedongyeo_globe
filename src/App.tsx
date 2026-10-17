@@ -11,6 +11,7 @@ import { TIER_LABELS, type Place, type Tier } from './content/types';
 import { readSeed, readShotParams } from './dev/shotParams';
 import { AdultGate } from './family/AdultGate';
 import { onUpdateReady } from './lib/registerPwa';
+import { emptyProgress, nextPlaceFor } from './progress/rules';
 import { getSave, useSave } from './progress/store';
 import { TripLauncher } from './trip/TripLauncher';
 import { TripPanel } from './trip/TripPanel';
@@ -49,6 +50,7 @@ export function App() {
   // 나이 구간은 고른 아이(프로필)의 것을 쓴다
   const save = useSave();
   const active = save.profiles.find((p) => p.id === save.activeProfileId) ?? null;
+  const activeProgress = active ? (save.progress[active.id] ?? emptyProgress()) : null;
   const [parentOpen, setParentOpen] = useState(false);
   const parentTitleId = useId();
   const [applyUpdate, setApplyUpdate] = useState<(() => void) | null>(null);
@@ -92,7 +94,14 @@ export function App() {
     };
   }, [globe, trip]);
 
-  const nextPlace = trip ? (PLACES[PLACES.indexOf(trip.place) + 1] ?? null) : null;
+  // 다음에 가 볼 곳: 열린 단계에서 아직 도장이 없는 곳. 도장을 저장하면 진행이 바뀌어 다시 그려지므로 '저장 → 단계 열림 → 다음 장소' 순서가 맞는다.
+  // 아이 없이 연 개발용 여행(?shot=)은 예전처럼 목록의 다음 장소
+  const tripProgress = trip?.profileId ? save.progress[trip.profileId] : undefined;
+  const nextPlace = !trip
+    ? null
+    : tripProgress
+      ? nextPlaceFor(PLACES, tripProgress, trip.place)
+      : (PLACES[PLACES.indexOf(trip.place) + 1] ?? null);
   const showSatelliteNotice = view === 'satellite' && satelliteFailed;
 
   return (
@@ -117,6 +126,7 @@ export function App() {
               key={`${trip.place.id}-${trip.tier}-${trip.profileId}`}
               place={trip.place}
               tier={trip.tier}
+              profileId={trip.profileId}
               globe={globe}
               nextPlace={nextPlace}
               initialStep={trip.initialStep}
@@ -127,6 +137,7 @@ export function App() {
               places={PLACES}
               profiles={save.profiles}
               activeProfile={active}
+              progress={activeProgress}
               onStart={(place) => active && setTrip({ place, tier: active.tier, profileId: active.id })}
             />
           ))}

@@ -1,6 +1,8 @@
-import { useId } from 'react';
+import { useId, useRef } from 'react';
 import { PLACES } from '../content';
-import type { Place } from '../content/types';
+import { STAGE_NAMES, type Place } from '../content/types';
+import { koreanDate, localDate } from '../progress/date';
+import type { StampOutcome } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
 import { PlaceArt } from '../ui/PlaceArt';
 
@@ -8,13 +10,29 @@ interface StampCardProps {
   place: Place;
   /** 이번 여행에서 모은 별 (고학년 위치 찍기). 없으면 안 보여 준다 */
   stars?: number;
+  /** 저장한 도장 결과. 없으면(개발용 주소로 도장 단계를 바로 연 때) 오늘 받은 새 도장으로 보인다 */
+  outcome?: StampOutcome | null;
   nextPlace: Place | null;
   onNext: () => void;
 }
 
-// 여권 도장 장면. 도장을 저장하고 여권에 모으는 것은 계획 3에서 붙인다.
-export function StampCard({ place, stars, nextPlace, onNext }: StampCardProps) {
-  const today = new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
+// 받침이 있으면 '이', 없으면 '가' (단계 이름 뒤: '우리나라가', '세계 대륙이')
+const subjectJosa = (word: string) => ((word.charCodeAt(word.length - 1) - 0xac00) % 28 > 0 ? '이' : '가');
+
+// 여권 도장 장면. 도장은 TripPanel이 마지막 미션을 마친 순간 저장하고, 여기서는 그 결과(새 도장·다시 방문·단계 열림·최고 별)를 보여 준다.
+export function StampCard({ place, stars, outcome, nextPlace, onNext }: StampCardProps) {
+  // 도장 날짜: 다시 온 때는 처음 받은 날 그대로다 (도장은 하나뿐이라)
+  const date = koreanDate(outcome?.firstDate ?? localDate());
+  const revisit = outcome?.isNew === false;
+  // 이번 도장으로 열린 단계 (도장 하나로는 한 단계씩 열린다)
+  const opened = outcome?.newlyUnlocked[0];
+  const openedName = opened !== undefined ? (STAGE_NAMES[opened] ?? '') : '';
+  // 고학년 별: 이번 별과 최고 기록 중 큰 값. 이번이 최고 기록보다 적으면 '최고'를 붙여 이번 별로 오해하지 않게 한다
+  const best = stars !== undefined ? Math.max(stars, outcome?.bestStars ?? 0) : 0;
+  const showingBest = stars !== undefined && best > stars;
+  // 마지막 미션의 '다음'을 빠르게 두 번 누르면 두 번째 누르기가 같은 자리에 나타난 '계속'으로 가서 도장 장면(단계 열림 소식)을 건너뛰었다
+  // — 도장 카드가 나타난 뒤 잠깐(0.7초)은 '계속'을 받지 않는다. 누르기 시각은 사건 시각(e.timeStamp)으로 잰다 (TripLauncher와 같다)
+  const shownAt = useRef(performance.now());
   // 잉크 필터·글자 길 id가 겹치지 않게
   const uid = useId().replace(/:/g, '');
   const inky = `inky-${uid}`;
@@ -33,7 +51,7 @@ export function StampCard({ place, stars, nextPlace, onNext }: StampCardProps) {
             <path d="M0-104v-12M74-74l8-8M104 0h12M74 74l8 8M0 104v12M-74 74l-8 8M-104 0h-12M-74-74l-8-8" />
           </g>
         </svg>
-        <svg className="stamp-ink" viewBox="0 0 200 200" role="img" aria-label={`${place.name} 도장, ${today}`}>
+        <svg className="stamp-ink" viewBox="0 0 200 200" role="img" aria-label={`${place.name} 도장, ${date}`}>
           <defs>
             <filter id={inky} x="-5%" y="-5%" width="110%" height="110%">
               <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="11" result="n" />
@@ -63,7 +81,7 @@ export function StampCard({ place, stars, nextPlace, onNext }: StampCardProps) {
             </g>
             {/* 이름이 길면 도장 안쪽 원(지름 122)에 들어가게 글자를 줄인다 — Jua 한 글자 폭 ≈ 0.86em, 이름 폭 104 이하 */}
             <text x="100" y="105" textAnchor="middle" fontFamily="Jua" fontSize={Math.min(34, Math.floor(104 / (place.name.length * 0.86)))}>{place.name}</text>
-            <text x="100" y="135" textAnchor="middle" fontFamily="Jua" fontSize="18.5" letterSpacing=".5">{today}</text>
+            <text x="100" y="135" textAnchor="middle" fontFamily="Jua" fontSize="18.5" letterSpacing=".5">{date}</text>
           </g>
         </svg>
         {/* 내려찍는 나무 도장 (애니메이션 동안만 보임) */}
@@ -93,20 +111,37 @@ export function StampCard({ place, stars, nextPlace, onNext }: StampCardProps) {
           <text x="40" y="41" textAnchor="middle" fontFamily="Jua" fontSize="22" fill="#23395B">쾅!</text>
         </svg>
       </div>
-      <p className="visa__title ko">{place.name} 도장을 받았어요!</p>
-      {/* 쪽 왼쪽 위 모서리에 겹쳐 둔다 — 줄을 따로 쓰면 390×844에서 도장 카드가 52%를 넘는다 */}
-      {stars !== undefined && stars > 0 && (
-        <p className="stamp__stars"><span className="visually-hidden">모은 별 </span><span aria-hidden="true">★</span> {stars}개</p>
+      {/* 단계 열림: 도장 아래쪽에 겹쳐 붙인 금박 띠 스티커 — 도장에 겹쳐 둬야 390×844에서 도장 카드가 52%를 넘지 않는다 */}
+      {opened !== undefined && (
+        <p className="visa__unlock ko">
+          <svg aria-hidden="true"><use href="#spark" /></svg>
+          {opened}단계 · {openedName}{subjectJosa(openedName)} 열렸어요!
+        </p>
       )}
+      <p className="visa__title ko">{revisit ? '또 왔어요! 도장은 그대로예요' : `${place.name} 도장을 받았어요!`}</p>
+      {/* 쪽 왼쪽 위 모서리에 겹쳐 둔다 — 줄을 따로 쓰면 390×844에서 도장 카드가 52%를 넘는다 */}
+      {best > 0 && (
+        <p className="stamp__stars">
+          <span className="visually-hidden">{showingBest ? '최고 기록 별 ' : '모은 별 '}</span>
+          <span aria-hidden="true">{showingBest && '최고 '}★</span> {best}개
+        </p>
+      )}
+      {/* 최고 기록을 넘었으면 별 알약 아래에 작은 빨간 잉크 도장으로 찍는다 */}
+      {outcome?.newBest && <p className="stamp__best">최고 기록!</p>}
       {nextPlace && (
         <div className="visa__next">
           <Dongle mood="happy" size="sm" decorative />
-          {/* 줄을 나눠 둬야 말풍선이 글자 폭에 맞게 줄어든다(저절로 접히면 상자는 남은 폭을 다 차지한다). 넓은 화면에서는 CSS로 줄바꿈을 뺀다 */}
-          <p className="bubble visa__bubble ko">다음엔 {nextPlace.name}에 <br className="visa__br" />가 볼까요?</p>
+          {/* 줄을 나눠 둬야 말풍선이 글자 폭에 맞게 줄어든다(저절로 접히면 상자는 남은 폭을 다 차지한다). 넓은 화면에서는 CSS로 줄바꿈을 뺀다.
+              단계가 열린 때는 금박 띠만큼 높이가 늘어서 '다음엔'을 빼고 한 줄로 줄인다 (그래도 넘치는 좁은 화면만 두 줄) */}
+          {opened !== undefined ? (
+            <p className="bubble visa__bubble ko">{nextPlace.name}에 <br className="visa__br--narrow" />가 볼까요?</p>
+          ) : (
+            <p className="bubble visa__bubble ko">다음엔 {nextPlace.name}에 <br className="visa__br" />가 볼까요?</p>
+          )}
           <span className="next-slot" aria-hidden="true"><PlaceArt placeId={nextPlace.id} /></span>
         </div>
       )}
-      <button type="button" className="btn" onClick={onNext}>계속</button>
+      <button type="button" className="btn" onClick={(e) => { if (e.timeStamp - shownAt.current >= 700) onNext(); }}>계속</button>
     </div>
   );
 }

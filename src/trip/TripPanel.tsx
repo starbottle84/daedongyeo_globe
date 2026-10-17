@@ -2,17 +2,21 @@ import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { TIER_LABELS, type Place, type Tier, type View } from '../content/types';
 import { ConfirmDialog } from '../family/ConfirmDialog';
 import type { GlobeHandle } from '../globe/globeHandle';
+import { recordStamp } from '../progress/store';
+import type { StampOutcome } from '../progress/types';
 import { Icon } from '../ui/Icon';
 import { useMoreBelow } from '../ui/useMoreBelow';
 import { CharacterBubble } from './CharacterBubble';
 import { MissionView } from './missions/MissionView';
 import { StampCard } from './StampCard';
-import { createTripState, tripReducer, type TripStep } from './tripReducer';
+import { createTripState, tripReducer, type MissionResult, type TripStep } from './tripReducer';
 import './trip.css';
 
 interface TripPanelProps {
   place: Place;
   tier: Tier;
+  /** 도장을 남길 아이. null이면 저장하지 않는다 (개발용 ?shot= 주소) */
+  profileId: string | null;
   globe: GlobeHandle;
   nextPlace: Place | null;
   /** 개발용 화면 확인 주소(?shot=)로 열 때 시작할 단계 */
@@ -21,7 +25,7 @@ interface TripPanelProps {
 }
 
 // 여행 한 번: 출발 → 둘러보기 → 미션 → 도장 → 함께 이야기
-export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }: TripPanelProps) {
+export function TripPanel({ place, tier, profileId, globe, nextPlace, initialStep, onExit }: TripPanelProps) {
   const missions = place.missions[tier];
   const [state, dispatch] = useReducer(tripReducer, missions.length, (count) =>
     initialStep
@@ -30,6 +34,10 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
   );
   const [showNote, setShowNote] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
+  // 마지막 미션을 마친 순간 저장한 도장 결과 (새 도장·다시 방문·열린 단계·최고 별). 개발용 주소로 도장 단계를 바로 열었으면 null
+  const [stampOutcome, setStampOutcome] = useState<StampOutcome | null>(null);
+  // 마지막 정답을 빠르게 두 번 눌러도 한 여행에 한 번만 저장한다 (두 번 부르면 방문 횟수가 2가 되고 '또 왔어요'가 뜬다)
+  const stampedRef = useRef(false);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
   const panelRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -85,6 +93,16 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
   }, [state.step, state.missionIndex]);
 
   const next = () => dispatch({ type: 'next' });
+  // 도장은 마지막 미션의 '다음'을 누른 이 처리기에서 저장한다 (리듀서는 순수 함수로 두고, StrictMode에서 두 번 돌지 않게)
+  const handleDone = (result: MissionResult) => {
+    const isLast = state.missionIndex + 1 >= missions.length;
+    if (isLast && profileId && !stampedRef.current) {
+      stampedRef.current = true;
+      const total = [...state.results, result].reduce((sum, r) => sum + (r.stars ?? 0), 0);
+      setStampOutcome(recordStamp(profileId, place, total));
+    }
+    dispatch({ type: 'missionDone', result });
+  };
   // 도장을 받기 전에는 실수로 나가지 않게 한 번 묻는다 (도장 뒤에는 이미 저장했으니 바로 나간다)
   const requestExit = () => (state.step === 'stamp' || state.step === 'talk' ? onExit() : setConfirmExit(true));
   const mission = state.step === 'mission' ? missions[state.missionIndex] : null;
@@ -151,14 +169,20 @@ export function TripPanel({ place, tier, globe, nextPlace, initialStep, onExit }
                   tier={tier}
                   globe={globe}
                   placeView={placeView}
-                  onDone={(result) => dispatch({ type: 'missionDone', result })}
+                  onDone={handleDone}
                 />
                 {readAloud}
               </>
             )}
 
             {state.step === 'stamp' && (
-              <StampCard place={place} stars={tier === 'upper' ? stars : undefined} nextPlace={nextPlace} onNext={next} />
+              <StampCard
+                place={place}
+                stars={tier === 'upper' ? stars : undefined}
+                outcome={stampOutcome}
+                nextPlace={nextPlace}
+                onNext={next}
+              />
             )}
 
             {state.step === 'talk' && (

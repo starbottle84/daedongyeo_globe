@@ -49,7 +49,13 @@ export function applyStamp(
   const newlyUnlocked = unlockedStages.filter((s) => !progress.unlockedStages.includes(s) && s !== (stagesOf(places)[0] ?? 1));
   return {
     progress: { ...stamped, unlockedStages },
-    outcome: { isNew: !before, firstDate: record.firstDate, bestStars: record.bestStars, newlyUnlocked },
+    outcome: {
+      isNew: !before,
+      firstDate: record.firstDate,
+      bestStars: record.bestStars,
+      newBest: starCount > (before?.bestStars ?? 0),
+      newlyUnlocked,
+    },
   };
 }
 
