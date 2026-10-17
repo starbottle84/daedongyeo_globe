@@ -340,15 +340,32 @@ write('rivers', read('ne_10m_rivers_lake_centerlines')
   }));
 
 // ---------- 8. 적도·회귀선·극권·날짜변경선 ----------
-write('geo-lines', read('ne_50m_geographic_lines').map((f) => ({
-  type: 'Feature',
-  properties: {
-    ko: pick(f.properties.name_ko, f.properties.name),
-    en: pick(f.properties.name_en, f.properties.name),
-    cls: f.properties.featurecla,
-  },
-  geometry: { type: f.geometry.type, coordinates: roundCoords(f.geometry.coordinates, 3) },
-})));
+// 적도는 경도 -180~180을 잇는 선 하나라서, 낮은 줌(약 2.5 아래) 타일에서 동반구 쪽(경도 0~180)이 그려지지 않는다.
+// 경도 -90·0·90에서 끊어 네 조각(MultiLineString)으로 나누면 모든 줌에서 그려진다.
+const EQUATOR_CUTS = [-90, 0, 90];
+function splitAtLngs(coords, cuts) {
+  const parts = [[]];
+  for (const c of coords) {
+    const part = parts[parts.length - 1];
+    part.push(c);
+    if (cuts.includes(c[0]) && part.length > 1) parts.push([c]);
+  }
+  return parts.filter((p) => p.length > 1);
+}
+
+write('geo-lines', read('ne_50m_geographic_lines').map((f) => {
+  const en = pick(f.properties.name_en, f.properties.name);
+  let geometry = { type: f.geometry.type, coordinates: roundCoords(f.geometry.coordinates, 3) };
+  if (en.toLowerCase() === 'equator' && geometry.type === 'LineString') {
+    geometry = { type: 'MultiLineString', coordinates: splitAtLngs(geometry.coordinates, EQUATOR_CUTS) };
+    if (geometry.coordinates.length !== EQUATOR_CUTS.length + 1) throw new Error('적도를 네 조각으로 나누지 못했다');
+  }
+  return {
+    type: 'Feature',
+    properties: { ko: pick(f.properties.name_ko, f.properties.name), en, cls: f.properties.featurecla },
+    geometry,
+  };
+}));
 
 // ---------- 9. 대륙·대양 영역 (지도에 그리지 않고 '찾아 누르기' 미션 판정에만 쓴다) ----------
 // queryRenderedFeatures는 위에 그려진(뒤 순서) 영역부터 돌려주므로 바다를 앞에, 땅을 뒤에 둔다

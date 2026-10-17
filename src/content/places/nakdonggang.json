@@ -21,7 +21,7 @@
     ],
     "lower": [
       { "type": "choice", "prompt": "남한에서 가장 긴 강은 어디일까?", "options": [{ "label": "한강" }, { "label": "낙동강" }, { "label": "금강" }], "answer": 1, "explain": "낙동강은 남한에서 가장 긴 강이에요. 경상도를 지나 남해로 흘러가요." },
-      { "type": "tap", "prompt": "낙동강이 지나는 큰 도시, 대구를 찾아 눌러 봐!", "targetName": "대구", "target": [128.605, 35.8687], "radiusKm": 20, "view": { "center": [128.65, 36.1], "zoom": 6.4 }, "explain": "대구 옆으로 낙동강이 흘러요." },
+      { "type": "tap", "prompt": "낙동강이 지나는 큰 도시, 대구를 찾아 눌러 봐!", "targetName": "대구", "target": [128.605, 35.8687], "radiusKm": 30, "view": { "center": [128.65, 36.1], "zoom": 6.7 }, "explain": "대구 옆으로 낙동강이 흘러요." },
       { "type": "direction", "prompt": "황지연못에서 보면 낙동강이 바다와 만나는 곳은 어느 쪽에 있을까?", "from": [128.986, 37.164], "fromName": "황지연못", "to": [128.94, 35.1], "toName": "낙동강 하구", "options": 4, "answer": "남", "explain": "낙동강은 북쪽에서 남쪽으로 흘러 남해와 만나요." }
     ],
     "upper": [

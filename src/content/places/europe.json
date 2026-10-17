@@ -17,7 +17,7 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "성이 많은 땅, 유럽을 눌러 봐!", "targetName": "유럽", "target": [20, 52], "area": "유럽", "explain": "여기가 유럽이에요. 아시아와 붙어 있어요." },
-      { "type": "choice", "prompt": "유럽에 많은 뾰족 지붕의 큰 옛날 집은 무엇일까?", "options": [{ "label": "작은 집", "icon": "🏠" }, { "label": "성", "icon": "🏰" }], "answer": 1, "explain": "유럽에는 지붕이 뾰족한 옛날 성이 많아요." }
+      { "type": "choice", "prompt": "유럽에 많은 아주 큰 옛날 집은 뭘까?", "options": [{ "label": "작은 집", "icon": "🏠" }, { "label": "성", "icon": "🏰" }], "answer": 1, "explain": "유럽에는 지붕이 뾰족한 옛날 성이 많아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "유럽은 어느 대륙과 땅으로 이어져 있을까?", "options": [{ "label": "남아메리카" }, { "label": "오세아니아" }, { "label": "아시아" }], "answer": 2, "explain": "유럽은 동쪽으로 아시아와 땅이 이어져 있어요." },
