@@ -29,5 +29,5 @@ export function useTries<T>(answer: T, tier: Tier) {
   const message =
     outcome !== null ? '' : hint ? '반짝이는 걸 눌러 봐!' : wrong.length > 0 ? '아쉬워요, 한 번 더 골라 볼까요?' : '';
 
-  return { attempts, wrong, outcome, showAnswer: hint || outcome !== null, message, pick };
+  return { attempts, wrong, outcome, hint, showAnswer: hint || outcome !== null, message, pick };
 }

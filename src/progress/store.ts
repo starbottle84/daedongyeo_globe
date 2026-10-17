@@ -118,6 +118,11 @@ export function recordStamp(profileId: string, place: Place, stars: number): Sta
   return outcome;
 }
 
+/** 유아 음성 켜기·끄기 (부모님 공간) */
+export function setVoiceOn(voiceOn: boolean): void {
+  commit({ ...state, settings: { ...state.settings, voiceOn } });
+}
+
 export function eraseAll(): void {
   // 지우지 못했으면 기록이 기기에 남아 있으니 저장 상태 안내(D11)를 띄운다
   if (persistEnabled && !clearSave()) storageOk = false;

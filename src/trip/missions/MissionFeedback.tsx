@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef } from 'react';
 import { Dongle } from '../../ui/Dongle';
 import { Icon } from '../../ui/Icon';
+import { useAutoVoice } from '../../voice/useVoice';
 
 interface MissionFeedbackProps {
   correct: boolean;
@@ -11,6 +12,8 @@ interface MissionFeedbackProps {
   explain?: string;
   /** 위치 찍기에서 받은 별 (1~3) */
   stars?: number;
+  /** 유아 음성: 결과가 나오면 차례로 들려줄 문장 id ('잘했어요!' + 미션 설명) */
+  voice?: (string | null)[] | null;
   onNext: () => void;
 }
 
@@ -32,8 +35,9 @@ const SIDE_CONFETTI = [
   { right: 30, top: 36, c: '#F29A9A', r: -15, fx: -30, fy: 20, d: 0.2 },
 ];
 
-export function MissionFeedback({ correct, answer, detail, explain, stars, onNext }: MissionFeedbackProps) {
+export function MissionFeedback({ correct, answer, detail, explain, stars, voice = null, onNext }: MissionFeedbackProps) {
   const nextRef = useRef<HTMLButtonElement>(null);
+  useAutoVoice(voice);
   // '다음' 버튼으로 초점이 오면 화면 읽기 프로그램은 버튼 이름만 읽으므로, 결과 문장들을 버튼 설명으로 묶어 함께 읽게 한다
   const id = useId();
   const titleId = `${id}-title`;

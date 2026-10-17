@@ -39,7 +39,7 @@ export function readSeed(): SaveData | null {
   const stamp = (bestStars = 0): StampRecord => ({ firstDate: day, lastDate: day, visits: 1, bestStars });
   const kidA: Profile = { id: 'kid-a', name: '하늘', tier: 'preschool', color: 'sky', createdAt: day };
   const kidB: Profile = { id: 'kid-b', name: '바다', tier: 'upper', color: 'sun', createdAt: day };
-  const base = { version: SAVE_VERSION, activeProfileId: 'kid-a', profiles: [kidA, kidB] };
+  const base = { version: SAVE_VERSION, activeProfileId: 'kid-a', profiles: [kidA, kidB], settings: { voiceOn: true } };
   switch (kind) {
     case 'new':
       return emptySave();

@@ -2,12 +2,14 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { STAGE_NAMES, TIER_LABELS, TIERS, type Mission, type Place } from '../content/types';
 import { computeUnlocked, emptyProgress, stagesOf } from '../progress/rules';
 import { MAX_PROFILES } from '../progress/storage';
-import { createProfile, deleteProfile, eraseAll, updateProfile, useSave, useStorageOk } from '../progress/store';
+import { createProfile, deleteProfile, eraseAll, setVoiceOn, updateProfile, useSave, useStorageOk } from '../progress/store';
 import type { Profile } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
 import { Icon } from '../ui/Icon';
 import { Modal } from '../ui/Modal';
 import { PlaceArt } from '../ui/PlaceArt';
+import { useVoiceFileCount } from '../voice/useVoice';
+import { stopVoice } from '../voice/voice';
 import { ConfirmDialog } from './ConfirmDialog';
 import { ProfileForm } from './ProfileForm';
 import './family.css';
@@ -85,6 +87,8 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
   const [firstTier] = useState(() => save.profiles.find((p) => p.id === save.activeProfileId)?.tier ?? 'preschool');
   const tierOrder = [firstTier, ...TIERS.filter((t) => t !== firstTier)];
   const iosHint = isIosBrowser();
+  // 성우 녹음은 나중에 넣는다(계획 4 D9) — 녹음 파일이 하나도 없으면 켜 두어도 글만 보인다고 알린다
+  const voiceFiles = useVoiceFileCount();
 
   return (
     <>
@@ -200,6 +204,33 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
             <Icon name="plus" />아이 추가
           </button>
         ))}
+      </section>
+
+      {/* 소리: 유아 음성 켜기·끄기 (기기 설정 — 아이마다가 아니라 이 기기에 하나) */}
+      <section className="ps-section" aria-labelledby={`${titleId}-sound`}>
+        <h3 id={`${titleId}-sound`} className="ps-title">
+          <svg aria-hidden="true"><use href="#spark" /></svg>소리
+        </h3>
+        <label className="ps-switch">
+          <span className="ps-switch__words">
+            <span className="ps-switch__name">유아 음성</span>
+            <span className="ps-switch__desc ko">
+              {voiceFiles > 0
+                ? '유아 여행에서 동글이가 안내를 읽어 줘요. 끄면 글만 보여요.'
+                : '유아 여행에서 동글이가 안내를 읽어 줘요. 음성은 준비 중이라 지금은 글만 보여요.'}
+            </span>
+          </span>
+          <input
+            type="checkbox"
+            role="switch"
+            checked={save.settings.voiceOn}
+            onChange={(e) => {
+              setVoiceOn(e.target.checked);
+              if (!e.target.checked) stopVoice();
+            }}
+          />
+          <span className="ps-switch__track" aria-hidden="true" />
+        </label>
       </section>
 
       {/* 장소별 배경지식: 단계별로 묶은 접기 목록. 접힌 줄에는 부모님 메모 첫 줄을 미리 보이고, 펼치면 메모 전체와 나이 구간별 미션 정답 */}

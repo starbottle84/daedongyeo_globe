@@ -35,11 +35,26 @@ export default defineConfig({
       },
       workbox: {
         // 지도 데이터·글꼴(지도용 pbf, 화면용 woff2)까지 미리 저장해서 그림 지도는 인터넷 없이도 열리게 한다.
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,geojson,pbf,woff2}'],
+        // 유아 음성은 녹음 파일 목록(manifest.json)만 미리 저장한다 — 목록이 있어야 인터넷 없이도 들었던 문장을 다시 재생한다
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,geojson,pbf,woff2}', 'voice/manifest.json'],
         // 가장 큰 지도 파일(admin1-lines, 약 3.4MB)도 들어가도록 한도를 올린다.
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
+        // 유아 음성 파일은 용량이 커서 미리 저장하지 않고, 처음 들을 때 저장해 두고 다음부터 저장본을 쓴다.
+        // (앱이 fetch로 파일 전체를 받으므로 일부분(206) 응답이 아니라 전체(200) 응답이 저장된다 — src/voice/voice.ts)
+        // 인터넷 없이 처음 듣는 문장은 받지 못해 조용히 자막만 보인다
+        runtimeCaching: [
+          {
+            urlPattern: /\/voice\/[^/]+\.(?:mp3|m4a)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'voice',
+              expiration: { maxEntries: 400 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+        ],
       },
     }),
   ],

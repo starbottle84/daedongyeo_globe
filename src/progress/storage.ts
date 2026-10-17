@@ -1,5 +1,5 @@
 import { TIERS } from '../content/types';
-import { AVATAR_COLORS, SAVE_VERSION, type Profile, type ProfileProgress, type SaveData, type StampRecord } from './types';
+import { AVATAR_COLORS, SAVE_VERSION, type Profile, type ProfileProgress, type SaveData, type Settings, type StampRecord } from './types';
 
 // 같은 GitHub 계정의 다른 앱과 키가 겹치지 않게 앱 이름을 앞에 붙인다
 export const SAVE_KEY = 'daedongyeo-globe:save';
@@ -8,7 +8,7 @@ const BACKUP_KEY = 'daedongyeo-globe:save-backup';
 export const MAX_PROFILES = 8;
 
 export function emptySave(): SaveData {
-  return { version: SAVE_VERSION, activeProfileId: null, profiles: [], progress: {} };
+  return { version: SAVE_VERSION, activeProfileId: null, profiles: [], progress: {}, settings: { voiceOn: true } };
 }
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -28,6 +28,11 @@ function normStamp(v: unknown): StampRecord | null {
   const visits = Number.isSafeInteger(v.visits) && (v.visits as number) > 0 ? (v.visits as number) : 1;
   const bestStars = Number.isSafeInteger(v.bestStars) && (v.bestStars as number) >= 0 ? Math.min(v.bestStars as number, 99) : 0;
   return { firstDate: v.firstDate, lastDate, visits, bestStars };
+}
+
+// 설정은 계획 4에서 더해서 옛 저장에는 없다 — 없거나 이상한 값이면 기본값
+function normSettings(v: unknown): Settings {
+  return { voiceOn: isObj(v) && typeof v.voiceOn === 'boolean' ? v.voiceOn : true };
 }
 
 function normProgress(v: unknown): ProfileProgress {
@@ -61,7 +66,7 @@ export function normalize(raw: unknown): SaveData | null {
   const active = typeof raw.activeProfileId === 'string' && profiles.some((p) => p.id === raw.activeProfileId)
     ? raw.activeProfileId
     : (profiles[0]?.id ?? null);
-  return { version: SAVE_VERSION, activeProfileId: active, profiles, progress };
+  return { version: SAVE_VERSION, activeProfileId: active, profiles, progress, settings: normSettings(raw.settings) };
 }
 
 function readSlot(key: string): SaveData | null {

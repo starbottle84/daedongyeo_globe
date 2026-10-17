@@ -214,6 +214,26 @@ details[open] > summary > .ps-chev { margin-top: 6px; margin-bottom: 0; transfor
 /* 찾아 누르기·위치 찍기의 미션 설명: 정답 줄 아래 작은 덧붙임 (정답 글자와 왼쪽을 맞춘다 = 아이콘 18 + 사이 6) */
 .ps-explain { margin: 2px 0 0 24px; font-size: 14px; line-height: 1.45; color: var(--note); }
 
+/* 소리: 유아 음성 켜기·끄기 — 장소 카드와 같은 흰 종이 한 줄에 오른쪽 스위치. 진짜 체크 상자는 줄 전체에 투명하게 덮어
+   어디를 눌러도 바뀌고, 초점·화면 읽기(스위치 켬/끔)는 체크 상자 그대로 쓴다 */
+.ps-switch { position: relative; box-sizing: border-box; display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 14px; border-radius: 16px;
+  background: #FFFEF9; box-shadow: inset 0 0 0 1.5px rgba(170, 130, 60, .26), 0 3px 0 #E4D09F; }
+.ps-switch__words { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ps-switch__name { font-family: var(--title); font-size: 19px; line-height: 1.25; color: var(--ink); }
+.ps-switch__desc { font-size: 15px; line-height: 1.45; color: var(--note); text-wrap: pretty; }
+.ps-switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+/* 스위치: 꺼지면 옅은 종이색 홈, 켜지면 초록 (저장 카드의 초록과 같다) */
+.ps-switch__track { flex: none; position: relative; width: 58px; height: 34px; border-radius: 999px; background: #E8DBBC;
+  box-shadow: inset 0 1px 3px rgba(120, 90, 40, .35); transition: background .15s ease; }
+.ps-switch__track::after { content: ""; position: absolute; left: 3px; top: 3px; width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(180deg, #FFFEF8, #F2E7CD); box-shadow: inset 0 0 0 1.5px #D9C496, 0 2px 3px rgba(80, 60, 20, .3); transition: transform .15s ease; }
+.ps-switch input:checked + .ps-switch__track { background: var(--green); }
+.ps-switch input:checked + .ps-switch__track::after { transform: translateX(24px); }
+.ps-switch:has(input:focus-visible) { outline: 3px solid var(--navy-600); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .ps-switch__track, .ps-switch__track::after { transition: none; }
+}
+
 /* 저장과 개인정보: 정상이면 옅은 초록 카드, 저장이 안 되면(D11) 여권 책 안내와 같은 살구색 카드 */
 .ps-store { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; font-size: 16px; line-height: 1.55; color: var(--ink);
   background: var(--green-50); box-shadow: inset 0 0 0 1.5px rgba(46, 158, 91, .28); }

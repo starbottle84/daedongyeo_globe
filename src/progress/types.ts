@@ -33,12 +33,20 @@ export interface ProfileProgress {
   unlockedStages: number[];
 }
 
+/** 기기 설정 (아이마다가 아니라 기기에 하나) */
+export interface Settings {
+  /** 유아 음성 재생 (기본 켬). 부모님 공간에서 끈다 */
+  voiceOn: boolean;
+}
+
 export interface SaveData {
   version: number;
   activeProfileId: string | null;
   profiles: Profile[];
   /** 프로필 id → 진행 */
   progress: Record<string, ProfileProgress>;
+  /** 계획 4에서 더했다. 버전은 그대로 두고, 없으면 기본값을 쓴다 (storage.ts normalize) */
+  settings: Settings;
 }
 
 /** 도장을 저장한 결과 — 도장 카드에서 보여 준다 */

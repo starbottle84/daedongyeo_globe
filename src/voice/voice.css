@@ -1,0 +1,8 @@
+/* 다시 듣기: 닫기(.close)와 같은 크림 판 동그라미에 금빛 스피커 (손가락 크기 48px) */
+.replay { flex: none; align-self: center; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%;
+  color: var(--gold-ink); background: linear-gradient(180deg, #FFFEF8, #F2E7CD); cursor: pointer;
+  box-shadow: inset 0 0 0 1.5px #D9C496, 0 3px 0 #CBB483, 0 5px 8px rgba(80, 60, 20, .16); }
+.replay svg { width: 26px; height: 26px; }
+.replay:active { transform: translateY(2px); box-shadow: inset 0 0 0 1.5px #D9C496, 0 1px 0 #CBB483; }
+/* 말풍선(.say): 동글이 아래에 세로로 */
+.say__who { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; }

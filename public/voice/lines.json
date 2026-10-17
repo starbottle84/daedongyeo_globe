@@ -1,0 +1,1334 @@
+[
+  {
+    "id": "asia.intro-3f90bc",
+    "text": "우리나라가 있는 아주 큰 땅으로 가 볼까?",
+    "place": "아시아",
+    "situation": "출발"
+  },
+  {
+    "id": "asia.story-2d5c10",
+    "text": "아시아는 아주아주 큰 땅이에요. 우리나라도 아시아에 있어요. 판다도 아시아에 살아요.",
+    "place": "아시아",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "asia.prompt.1-75d9d1",
+    "text": "우리나라가 있는 큰 땅, 아시아를 눌러 봐!",
+    "place": "아시아",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "asia.explain.1-bffba0",
+    "text": "우리나라도 아시아에 있어요.",
+    "place": "아시아",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "asia.prompt.2-62ad59",
+    "text": "아시아에 사는 동물은 누구일까?",
+    "place": "아시아",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "asia.explain.2-e3868c",
+    "text": "판다는 아시아의 중국에 살아요.",
+    "place": "아시아",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "asia.stamp-a2ca11",
+    "text": "아시아 도장을 받았어요!",
+    "place": "아시아",
+    "situation": "도장"
+  },
+  {
+    "id": "asia.talk-3d3a75",
+    "text": "판다 흉내를 같이 내 볼까? 대나무를 냠냠!",
+    "place": "아시아",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "asia.next-4103d3",
+    "text": "다음엔 아시아에 가 볼까요?",
+    "place": "아시아",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "europe.intro-ae7681",
+    "text": "뾰족한 지붕의 성이 많은 땅으로 가 볼까?",
+    "place": "유럽",
+    "situation": "출발"
+  },
+  {
+    "id": "europe.story-c2da54",
+    "text": "유럽에는 지붕이 뾰족뾰족한 옛날 성이 많아요. 추운 북쪽 숲에는 뿔이 멋진 순록이 살아요.",
+    "place": "유럽",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "europe.prompt.1-6753c6",
+    "text": "성이 많은 땅, 유럽을 눌러 봐!",
+    "place": "유럽",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "europe.explain.1-316b97",
+    "text": "여기가 유럽이에요. 아시아와 붙어 있어요.",
+    "place": "유럽",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "europe.prompt.2-01add2",
+    "text": "유럽에 많은 아주 큰 옛날 집은 뭘까?",
+    "place": "유럽",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "europe.explain.2-99252f",
+    "text": "유럽에는 지붕이 뾰족한 옛날 성이 많아요.",
+    "place": "유럽",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "europe.stamp-a26477",
+    "text": "유럽 도장을 받았어요!",
+    "place": "유럽",
+    "situation": "도장"
+  },
+  {
+    "id": "europe.talk-7c7189",
+    "text": "두 손으로 순록 뿔을 만들어 볼까? 뚜벅뚜벅!",
+    "place": "유럽",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "europe.next-ee3568",
+    "text": "다음엔 유럽에 가 볼까요?",
+    "place": "유럽",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "africa.intro-f8e2b6",
+    "text": "목이 긴 기린이 사는 땅으로 가 볼까?",
+    "place": "아프리카",
+    "situation": "출발"
+  },
+  {
+    "id": "africa.story-416218",
+    "text": "아프리카는 아주아주 큰 땅이에요. 넓은 풀밭에 기린과 코끼리, 사자가 살아요. 어흥!",
+    "place": "아프리카",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "africa.prompt.1-91011b",
+    "text": "사자가 사는 큰 땅, 아프리카를 눌러 봐!",
+    "place": "아프리카",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "africa.explain.1-8901d8",
+    "text": "여기가 아프리카예요.",
+    "place": "아프리카",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "africa.prompt.2-1e60ea",
+    "text": "아프리카 풀밭에 사는 동물은 누구일까?",
+    "place": "아프리카",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "africa.explain.2-674494",
+    "text": "목이 긴 기린은 아프리카에 살아요.",
+    "place": "아프리카",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "africa.stamp-8e1c75",
+    "text": "아프리카 도장을 받았어요!",
+    "place": "아프리카",
+    "situation": "도장"
+  },
+  {
+    "id": "africa.talk-05113e",
+    "text": "기린처럼 목을 쭈욱 늘여 볼까?",
+    "place": "아프리카",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "africa.next-cdc1e0",
+    "text": "다음엔 아프리카에 가 볼까요?",
+    "place": "아프리카",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "north-america.intro-506409",
+    "text": "커다란 곰이 사는 땅으로 가 볼까?",
+    "place": "북아메리카",
+    "situation": "출발"
+  },
+  {
+    "id": "north-america.story-7af324",
+    "text": "바다 건너 넓은 땅, 북아메리카예요. 숲속 곰이 강에서 첨벙첨벙 물고기를 잡아요.",
+    "place": "북아메리카",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "north-america.prompt.1-662e86",
+    "text": "바다 건너 큰 땅, 북아메리카를 눌러 봐!",
+    "place": "북아메리카",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "north-america.explain.1-115aa4",
+    "text": "여기가 북아메리카예요.",
+    "place": "북아메리카",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "north-america.prompt.2-936386",
+    "text": "북아메리카 숲에 사는 동물은 누구일까?",
+    "place": "북아메리카",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "north-america.explain.2-730b4b",
+    "text": "북아메리카 숲에는 커다란 곰이 살아요.",
+    "place": "북아메리카",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "north-america.stamp-c05848",
+    "text": "북아메리카 도장을 받았어요!",
+    "place": "북아메리카",
+    "situation": "도장"
+  },
+  {
+    "id": "north-america.talk-0b6cd0",
+    "text": "곰처럼 엉금엉금 기어 볼까?",
+    "place": "북아메리카",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "north-america.next-47c5c2",
+    "text": "다음엔 북아메리카에 가 볼까요?",
+    "place": "북아메리카",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "south-america.intro-5015d6",
+    "text": "느릿느릿 나무늘보가 사는 땅으로 가 볼까?",
+    "place": "남아메리카",
+    "situation": "출발"
+  },
+  {
+    "id": "south-america.story-bf7f17",
+    "text": "남아메리카에는 아주아주 큰 숲이 있어요. 나무늘보가 나무에 매달려 느릿느릿 움직여요.",
+    "place": "남아메리카",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "south-america.prompt.1-ebe36e",
+    "text": "나무늘보가 사는 땅, 남아메리카를 눌러 봐!",
+    "place": "남아메리카",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "south-america.explain.1-212479",
+    "text": "여기가 남아메리카예요. 아주 큰 숲이 있어요.",
+    "place": "남아메리카",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "south-america.prompt.2-8206eb",
+    "text": "남아메리카 숲에 사는 동물은 누구일까?",
+    "place": "남아메리카",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "south-america.explain.2-8c4c79",
+    "text": "나무늘보는 남아메리카 숲의 나무 위에서 살아요.",
+    "place": "남아메리카",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "south-america.stamp-515687",
+    "text": "남아메리카 도장을 받았어요!",
+    "place": "남아메리카",
+    "situation": "도장"
+  },
+  {
+    "id": "south-america.talk-b386ad",
+    "text": "나무늘보처럼 느릿느릿 움직여 볼까?",
+    "place": "남아메리카",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "south-america.next-8f3ae9",
+    "text": "다음엔 남아메리카에 가 볼까요?",
+    "place": "남아메리카",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "oceania.intro-5a7d0d",
+    "text": "깡충깡충 캥거루가 사는 곳으로 가 볼까?",
+    "place": "오세아니아",
+    "situation": "출발"
+  },
+  {
+    "id": "oceania.story-2757f3",
+    "text": "오세아니아에는 캥거루가 깡충깡충 뛰어요. 나무 위에서는 코알라가 쿨쿨 자요.",
+    "place": "오세아니아",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "oceania.prompt.1-f3d0e9",
+    "text": "캥거루가 사는 곳, 오세아니아를 눌러 봐!",
+    "place": "오세아니아",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "oceania.explain.1-63a533",
+    "text": "여기가 오세아니아예요. 캥거루가 살아요.",
+    "place": "오세아니아",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "oceania.prompt.2-49cddb",
+    "text": "오세아니아에 사는 동물은 누구일까?",
+    "place": "오세아니아",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "oceania.explain.2-3d2fc6",
+    "text": "코알라는 오세아니아의 오스트레일리아에 살아요.",
+    "place": "오세아니아",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "oceania.stamp-1675b0",
+    "text": "오세아니아 도장을 받았어요!",
+    "place": "오세아니아",
+    "situation": "도장"
+  },
+  {
+    "id": "oceania.talk-56e0cf",
+    "text": "캥거루처럼 깡충깡충 뛰어 볼까?",
+    "place": "오세아니아",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "oceania.next-69e284",
+    "text": "다음엔 오세아니아에 가 볼까요?",
+    "place": "오세아니아",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "antarctica.intro-ad8f0f",
+    "text": "펭귄 친구들이 사는 얼음 나라로 가 볼까?",
+    "place": "남극",
+    "situation": "출발"
+  },
+  {
+    "id": "antarctica.story-73190a",
+    "text": "남극은 꽁꽁 언 얼음 나라예요. 뒤뚱뒤뚱 펭귄이 살아요.",
+    "place": "남극",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "antarctica.prompt.1-1b4796",
+    "text": "펭귄이 사는 얼음 땅, 남극을 눌러 봐!",
+    "place": "남극",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "antarctica.explain.1-45d1dc",
+    "text": "여기가 꽁꽁 언 남극이에요.",
+    "place": "남극",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "antarctica.prompt.2-cc1fc4",
+    "text": "남극에 사는 동물은 누구일까?",
+    "place": "남극",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "antarctica.explain.2-bb902e",
+    "text": "남극에는 펭귄이 살아요.",
+    "place": "남극",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "antarctica.stamp-583968",
+    "text": "남극 도장을 받았어요!",
+    "place": "남극",
+    "situation": "도장"
+  },
+  {
+    "id": "antarctica.talk-45b576",
+    "text": "펭귄처럼 뒤뚱뒤뚱 걸어 볼까?",
+    "place": "남극",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "antarctica.next-d5bd39",
+    "text": "다음엔 남극에 가 볼까요?",
+    "place": "남극",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "pacific.intro-b3b702",
+    "text": "세상에서 제일 큰 바다로 가 볼까?",
+    "place": "태평양",
+    "situation": "출발"
+  },
+  {
+    "id": "pacific.story-011146",
+    "text": "태평양은 아주아주 넓은 바다예요. 고래와 거북이가 헤엄쳐요.",
+    "place": "태평양",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "pacific.prompt.1-09abad",
+    "text": "제일 큰 바다, 태평양을 눌러 봐!",
+    "place": "태평양",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "pacific.explain.1-b9020f",
+    "text": "태평양은 지구에서 가장 넓은 바다예요.",
+    "place": "태평양",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "pacific.prompt.2-174aba",
+    "text": "태평양에 사는 동물은 누구일까?",
+    "place": "태평양",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "pacific.explain.2-b5b737",
+    "text": "넓은 바다 태평양에는 고래가 살아요.",
+    "place": "태평양",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "pacific.stamp-270da0",
+    "text": "태평양 도장을 받았어요!",
+    "place": "태평양",
+    "situation": "도장"
+  },
+  {
+    "id": "pacific.talk-bce733",
+    "text": "고래 흉내를 같이 내 볼까? 푸우~",
+    "place": "태평양",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "pacific.next-ce2740",
+    "text": "다음엔 태평양에 가 볼까요?",
+    "place": "태평양",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "atlantic.intro-b3f2cb",
+    "text": "커다란 배들이 건너는 넓은 바다로 가 볼까?",
+    "place": "대서양",
+    "situation": "출발"
+  },
+  {
+    "id": "atlantic.story-efbf38",
+    "text": "대서양은 아주 넓고 긴 바다예요. 커다란 배가 바다를 건너요. 뿌우~",
+    "place": "대서양",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "atlantic.prompt.1-29b2dc",
+    "text": "길쭉한 바다, 대서양을 눌러 봐!",
+    "place": "대서양",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "atlantic.explain.1-90fa9a",
+    "text": "여기가 넓고 긴 바다, 대서양이에요.",
+    "place": "대서양",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "atlantic.prompt.2-066310",
+    "text": "넓은 대서양을 건너려면 무엇을 탈까?",
+    "place": "대서양",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "atlantic.explain.2-84ea9a",
+    "text": "커다란 배를 타면 넓은 바다를 건널 수 있어요.",
+    "place": "대서양",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "atlantic.stamp-e50080",
+    "text": "대서양 도장을 받았어요!",
+    "place": "대서양",
+    "situation": "도장"
+  },
+  {
+    "id": "atlantic.talk-f52ee5",
+    "text": "커다란 배의 뱃고동 소리를 흉내 내 볼까? 뿌우~",
+    "place": "대서양",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "atlantic.next-dd2129",
+    "text": "다음엔 대서양에 가 볼까요?",
+    "place": "대서양",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "indian.intro-0ffd7d",
+    "text": "따뜻한 바다, 인도양으로 가 볼까?",
+    "place": "인도양",
+    "situation": "출발"
+  },
+  {
+    "id": "indian.story-ac9a88",
+    "text": "인도양은 따뜻한 물이 많은 바다예요. 알록달록 물고기가 많고, 바다거북이 느릿느릿 헤엄쳐요.",
+    "place": "인도양",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "indian.prompt.1-9a3958",
+    "text": "따뜻한 바다, 인도양을 눌러 봐!",
+    "place": "인도양",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "indian.explain.1-178852",
+    "text": "여기가 인도양이에요. 물이 따뜻해요.",
+    "place": "인도양",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "indian.prompt.2-564b9b",
+    "text": "인도양은 어떤 바다일까?",
+    "place": "인도양",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "indian.explain.2-730288",
+    "text": "인도양은 물이 따뜻해요. 꽁꽁 언 바다는 북극과 남극에 있어요.",
+    "place": "인도양",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "indian.stamp-83fdeb",
+    "text": "인도양 도장을 받았어요!",
+    "place": "인도양",
+    "situation": "도장"
+  },
+  {
+    "id": "indian.talk-3d0bea",
+    "text": "알록달록 물고기처럼 입을 뻐끔뻐끔 해 볼까?",
+    "place": "인도양",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "indian.next-cb6b74",
+    "text": "다음엔 인도양에 가 볼까요?",
+    "place": "인도양",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "arctic.intro-e72719",
+    "text": "북극곰이 사는 얼음 바다로 가 볼까?",
+    "place": "북극해",
+    "situation": "출발"
+  },
+  {
+    "id": "arctic.story-368325",
+    "text": "북극해는 지구 꼭대기에 있는 차가운 바다예요. 꽁꽁 언 얼음 위를 북극곰이 어슬렁어슬렁 걸어요.",
+    "place": "북극해",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "arctic.prompt.1-800a81",
+    "text": "지구 꼭대기의 얼음 바다, 북극해를 눌러 봐!",
+    "place": "북극해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "arctic.explain.1-305f2d",
+    "text": "여기가 지구 꼭대기의 바다, 북극해예요.",
+    "place": "북극해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "arctic.prompt.2-800d64",
+    "text": "북극해 얼음 위에 사는 동물은 누구일까?",
+    "place": "북극해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "arctic.explain.2-fa2814",
+    "text": "북극에는 북극곰이 살아요. 펭귄은 지구 남쪽에 살아요.",
+    "place": "북극해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "arctic.stamp-63a5fc",
+    "text": "북극해 도장을 받았어요!",
+    "place": "북극해",
+    "situation": "도장"
+  },
+  {
+    "id": "arctic.talk-c7766c",
+    "text": "북극곰처럼 네 발로 어슬렁어슬렁 걸어 볼까?",
+    "place": "북극해",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "arctic.next-483b08",
+    "text": "다음엔 북극해에 가 볼까요?",
+    "place": "북극해",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "southern.intro-4d37ff",
+    "text": "꽁꽁 언 땅을 빙 둘러싼 차가운 바다로 가 볼까?",
+    "place": "남극해",
+    "situation": "출발"
+  },
+  {
+    "id": "southern.story-2025a8",
+    "text": "남극해는 남극 땅을 빙 둘러싼 차가운 바다예요. 작은 새우를 닮은 크릴이 아주 많아요. 고래와 펭귄이 크릴을 냠냠 먹어요.",
+    "place": "남극해",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "southern.prompt.1-30140e",
+    "text": "남극 땅 바로 옆의 차가운 바다, 남극해를 눌러 봐!",
+    "place": "남극해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "southern.explain.1-27f15e",
+    "text": "여기가 남극 땅을 둘러싼 바다, 남극해예요.",
+    "place": "남극해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "southern.prompt.2-4aae4e",
+    "text": "고래와 펭귄이 남극해에서 냠냠 먹는 건 뭘까?",
+    "place": "남극해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "southern.explain.2-8f7946",
+    "text": "새우를 닮은 크릴을 고래와 펭귄이 냠냠 먹어요.",
+    "place": "남극해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "southern.stamp-7331c6",
+    "text": "남극해 도장을 받았어요!",
+    "place": "남극해",
+    "situation": "도장"
+  },
+  {
+    "id": "southern.talk-a1b9c5",
+    "text": "고래처럼 입을 크게 벌려 크릴을 꿀꺽 삼켜 볼까?",
+    "place": "남극해",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "southern.next-dd5883",
+    "text": "다음엔 남극해에 가 볼까요?",
+    "place": "남극해",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "seoul.intro-6eabd5",
+    "text": "우리나라에서 제일 큰 도시로 가 보자!",
+    "place": "서울",
+    "situation": "출발"
+  },
+  {
+    "id": "seoul.story-14c941",
+    "text": "서울에는 높은 건물과 사람이 아주 많아요. 가운데로 커다란 강이 흘러요.",
+    "place": "서울",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "seoul.prompt.1-e8c491",
+    "text": "빨간 별이 있는 큰 도시, 서울을 눌러 봐!",
+    "place": "서울",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "seoul.explain.1-a6a4b5",
+    "text": "빨간 별은 나라의 수도를 알려 줘요.",
+    "place": "서울",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "seoul.prompt.2-cca41d",
+    "text": "서울 한가운데로 흐르는 건 무엇일까?",
+    "place": "서울",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "seoul.explain.2-90320e",
+    "text": "서울 한가운데로 한강이 흘러요.",
+    "place": "서울",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "seoul.stamp-515034",
+    "text": "서울 도장을 받았어요!",
+    "place": "서울",
+    "situation": "도장"
+  },
+  {
+    "id": "seoul.talk-d1b477",
+    "text": "높은 건물을 본 적 있어? 어디서 봤는지 이야기해 보자.",
+    "place": "서울",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "seoul.next-242485",
+    "text": "다음엔 서울에 가 볼까요?",
+    "place": "서울",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "busan.intro-07a0d4",
+    "text": "커다란 배가 오가는 바닷가 도시로 가 볼까?",
+    "place": "부산",
+    "situation": "출발"
+  },
+  {
+    "id": "busan.story-3f3032",
+    "text": "부산은 바닷가에 있는 큰 도시예요. 커다란 배가 뿌우 하고 들어와요. 파도가 철썩철썩! 모래사장도 아주 넓어요.",
+    "place": "부산",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "busan.prompt.1-6f4bb1",
+    "text": "큰 배가 많은 바닷가 도시, 부산을 눌러 봐!",
+    "place": "부산",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "busan.explain.1-e1ebeb",
+    "text": "여기가 부산이에요!",
+    "place": "부산",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "busan.prompt.2-6bf718",
+    "text": "부산 바닷가에 넓게 펼쳐진 것은 무엇일까?",
+    "place": "부산",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "busan.explain.2-288360",
+    "text": "부산 바닷가에는 넓은 모래사장이 있어요.",
+    "place": "부산",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "busan.stamp-7c4245",
+    "text": "부산 도장을 받았어요!",
+    "place": "부산",
+    "situation": "도장"
+  },
+  {
+    "id": "busan.talk-1ca9dd",
+    "text": "두 손으로 모래를 토닥토닥, 모래성을 쌓아 볼까?",
+    "place": "부산",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "busan.next-09af54",
+    "text": "다음엔 부산에 가 볼까요?",
+    "place": "부산",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "jeju.intro-6a9aef",
+    "text": "귤이 주렁주렁 열리는 섬으로 가 볼까?",
+    "place": "제주도",
+    "situation": "출발"
+  },
+  {
+    "id": "jeju.story-352526",
+    "text": "제주도는 바다 위에 있는 큰 섬이에요. 돌하르방 할아버지가 섬을 지켜요.",
+    "place": "제주도",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "jeju.prompt.1-c16ad5",
+    "text": "귤이 많이 나는 섬, 제주도를 눌러 봐!",
+    "place": "제주도",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "jeju.explain.1-d328f2",
+    "text": "여기가 제주도예요!",
+    "place": "제주도",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "jeju.prompt.2-1f907d",
+    "text": "제주도에서 많이 나는 과일은 무엇일까?",
+    "place": "제주도",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "jeju.explain.2-93bf18",
+    "text": "제주도에서는 귤이 많이 나요.",
+    "place": "제주도",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "jeju.stamp-197354",
+    "text": "제주도 도장을 받았어요!",
+    "place": "제주도",
+    "situation": "도장"
+  },
+  {
+    "id": "jeju.talk-0f4503",
+    "text": "돌하르방처럼 두 손을 배에 올려 볼까?",
+    "place": "제주도",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "jeju.next-b50450",
+    "text": "다음엔 제주도에 가 볼까요?",
+    "place": "제주도",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "ulleungdo.intro-892bc2",
+    "text": "동쪽 바다 멀리 있는 섬으로 가 볼까?",
+    "place": "울릉도",
+    "situation": "출발"
+  },
+  {
+    "id": "ulleungdo.story-9fe7bc",
+    "text": "울릉도는 동쪽 바다에 있는 섬이에요. 오징어가 유명해요. 오징어는 다리가 열 개예요!",
+    "place": "울릉도",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "ulleungdo.prompt.1-954b17",
+    "text": "오징어가 유명한 섬, 울릉도를 눌러 봐!",
+    "place": "울릉도",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "ulleungdo.explain.1-d12e8d",
+    "text": "여기가 울릉도예요!",
+    "place": "울릉도",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "ulleungdo.prompt.2-8ff76d",
+    "text": "울릉도에서 유명한 바다 친구는 누구일까?",
+    "place": "울릉도",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "ulleungdo.explain.2-17ac63",
+    "text": "울릉도는 오징어가 유명해요.",
+    "place": "울릉도",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "ulleungdo.stamp-7cb724",
+    "text": "울릉도 도장을 받았어요!",
+    "place": "울릉도",
+    "situation": "도장"
+  },
+  {
+    "id": "ulleungdo.talk-fc771c",
+    "text": "오징어처럼 팔을 흐느적흐느적 흔들어 볼까?",
+    "place": "울릉도",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "ulleungdo.next-105b5f",
+    "text": "다음엔 울릉도에 가 볼까요?",
+    "place": "울릉도",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "dokdo.intro-fa2601",
+    "text": "갈매기 친구들이 사는 섬으로 가 볼까?",
+    "place": "독도",
+    "situation": "출발"
+  },
+  {
+    "id": "dokdo.story-0c6682",
+    "text": "독도는 바다 한가운데 있는 바위섬이에요. 괭이갈매기가 아주 많이 살아요. 끼룩끼룩!",
+    "place": "독도",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "dokdo.prompt.1-7bdc60",
+    "text": "갈매기가 사는 섬, 독도를 눌러 봐!",
+    "place": "독도",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "dokdo.explain.1-f2285d",
+    "text": "여기가 독도예요!",
+    "place": "독도",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "dokdo.prompt.2-d527ef",
+    "text": "독도에 많이 사는 새는 누구일까?",
+    "place": "독도",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "dokdo.explain.2-a0f730",
+    "text": "독도에는 괭이갈매기가 아주 많이 살아요.",
+    "place": "독도",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "dokdo.stamp-85ddb6",
+    "text": "독도 도장을 받았어요!",
+    "place": "독도",
+    "situation": "도장"
+  },
+  {
+    "id": "dokdo.talk-94046a",
+    "text": "갈매기 소리를 같이 흉내 내 볼까? 끼룩끼룩!",
+    "place": "독도",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "dokdo.next-bc8e6a",
+    "text": "다음엔 독도에 가 볼까요?",
+    "place": "독도",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "baekdu.intro-becb99",
+    "text": "한반도에서 제일 높은 산으로 가 볼까?",
+    "place": "백두산",
+    "situation": "출발"
+  },
+  {
+    "id": "baekdu.story-50e987",
+    "text": "백두산은 아주아주 높은 산이에요. 꼭대기에 커다란 호수가 있어요.",
+    "place": "백두산",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "baekdu.prompt.1-61e340",
+    "text": "한반도에서 제일 높은 산, 백두산을 눌러 봐!",
+    "place": "백두산",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "baekdu.explain.1-8218f3",
+    "text": "여기가 백두산이에요!",
+    "place": "백두산",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "baekdu.prompt.2-957565",
+    "text": "백두산 꼭대기에 있는 것은 무엇일까?",
+    "place": "백두산",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "baekdu.explain.2-ed121d",
+    "text": "백두산 꼭대기에는 천지라는 큰 호수가 있어요.",
+    "place": "백두산",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "baekdu.stamp-3cd62b",
+    "text": "백두산 도장을 받았어요!",
+    "place": "백두산",
+    "situation": "도장"
+  },
+  {
+    "id": "baekdu.talk-8a1397",
+    "text": "높은 산에 올라가면 무엇이 보일까? 같이 상상해 보자.",
+    "place": "백두산",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "baekdu.next-90c89e",
+    "text": "다음엔 백두산에 가 볼까요?",
+    "place": "백두산",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "hallasan.intro-c1b836",
+    "text": "섬 한가운데 우뚝 솟은 산으로 가 볼까?",
+    "place": "한라산",
+    "situation": "출발"
+  },
+  {
+    "id": "hallasan.story-8197df",
+    "text": "한라산은 제주도 한가운데 있는 높은 산이에요. 숲에는 노루가 껑충껑충 뛰어요. 겨울에는 꼭대기에 하얀 눈이 쌓여요.",
+    "place": "한라산",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "hallasan.prompt.1-c693bf",
+    "text": "제주도 한가운데 우뚝 솟은 산, 한라산을 눌러 봐!",
+    "place": "한라산",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "hallasan.explain.1-4b3803",
+    "text": "여기가 한라산이에요!",
+    "place": "한라산",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "hallasan.prompt.2-2f082b",
+    "text": "한라산 숲에 사는 동물은 누구일까?",
+    "place": "한라산",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "hallasan.explain.2-c2f531",
+    "text": "한라산 숲에는 노루가 살아요.",
+    "place": "한라산",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "hallasan.stamp-3fea27",
+    "text": "한라산 도장을 받았어요!",
+    "place": "한라산",
+    "situation": "도장"
+  },
+  {
+    "id": "hallasan.talk-c2469b",
+    "text": "산꼭대기에 올라간 것처럼 두 팔 번쩍! 야호~ 외쳐 볼까?",
+    "place": "한라산",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "hallasan.next-601b9c",
+    "text": "다음엔 한라산에 가 볼까요?",
+    "place": "한라산",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "hangang.intro-14fd92",
+    "text": "서울을 지나는 큰 강으로 가 볼까?",
+    "place": "한강",
+    "situation": "출발"
+  },
+  {
+    "id": "hangang.story-7c7578",
+    "text": "한강은 길고 커다란 강이에요. 강물이 출렁출렁 흘러 바다로 가요. 강 위에는 다리가 아주 많아요.",
+    "place": "한강",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "hangang.prompt.1-254456",
+    "text": "서울을 지나는 큰 강, 한강을 눌러 봐!",
+    "place": "한강",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "hangang.explain.1-5e46fd",
+    "text": "여기가 한강이에요! 서울 한가운데로 흘러요.",
+    "place": "한강",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "hangang.prompt.2-cfd437",
+    "text": "한강 위에 많이 놓여 있는 것은 무엇일까?",
+    "place": "한강",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "hangang.explain.2-d48033",
+    "text": "한강에는 다리가 많아요. 자동차가 씽씽 건너요.",
+    "place": "한강",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "hangang.stamp-caf59e",
+    "text": "한강 도장을 받았어요!",
+    "place": "한강",
+    "situation": "도장"
+  },
+  {
+    "id": "hangang.talk-12b4c9",
+    "text": "두 팔을 쭉 펴고 강물처럼 출렁출렁 흘러가 볼까?",
+    "place": "한강",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "hangang.next-eeb943",
+    "text": "다음엔 한강에 가 볼까요?",
+    "place": "한강",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "nakdonggang.intro-0496eb",
+    "text": "철새 친구들이 찾아오는 긴 강으로 가 볼까?",
+    "place": "낙동강",
+    "situation": "출발"
+  },
+  {
+    "id": "nakdonggang.story-084161",
+    "text": "낙동강은 아주아주 긴 강이에요. 강물이 굽이굽이 흘러 바다로 가요. 겨울에는 철새가 훨훨 날아와요.",
+    "place": "낙동강",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "nakdonggang.prompt.1-af0c98",
+    "text": "길고 긴 강, 낙동강을 눌러 봐!",
+    "place": "낙동강",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "nakdonggang.explain.1-e33be9",
+    "text": "여기가 낙동강이에요! 남쪽 바다까지 흘러가요.",
+    "place": "낙동강",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "nakdonggang.prompt.2-9f91ad",
+    "text": "겨울마다 낙동강에 찾아오는 손님은 누구일까?",
+    "place": "낙동강",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "nakdonggang.explain.2-7a38fb",
+    "text": "겨울이면 고니 같은 철새가 훨훨 날아와요.",
+    "place": "낙동강",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "nakdonggang.stamp-3ed0c9",
+    "text": "낙동강 도장을 받았어요!",
+    "place": "낙동강",
+    "situation": "도장"
+  },
+  {
+    "id": "nakdonggang.talk-4b51bc",
+    "text": "새처럼 두 팔을 펴고 훨훨 날아 볼까?",
+    "place": "낙동강",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "nakdonggang.next-5c60dd",
+    "text": "다음엔 낙동강에 가 볼까요?",
+    "place": "낙동강",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "east-sea.intro-1f9c08",
+    "text": "해가 쑥 떠오르는 바다로 가 볼까?",
+    "place": "동해",
+    "situation": "출발"
+  },
+  {
+    "id": "east-sea.story-2ef8d9",
+    "text": "동해는 깊고 파란 바다예요. 아침이면 바다 위로 해가 쑥 떠올라요. 철썩철썩 파도 소리가 들려요.",
+    "place": "동해",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "east-sea.prompt.1-e0353d",
+    "text": "해가 떠오르는 바다, 동해를 눌러 봐!",
+    "place": "동해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "east-sea.explain.1-8ae993",
+    "text": "여기가 깊고 파란 동해예요!",
+    "place": "동해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "east-sea.prompt.2-d7cd85",
+    "text": "아침에 동해 바다 위로 떠오르는 건 뭘까?",
+    "place": "동해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "east-sea.explain.2-4e83f1",
+    "text": "동해에서는 아침에 바다 위로 해가 떠올라요.",
+    "place": "동해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "east-sea.stamp-84748d",
+    "text": "동해 도장을 받았어요!",
+    "place": "동해",
+    "situation": "도장"
+  },
+  {
+    "id": "east-sea.talk-a6706a",
+    "text": "해님처럼 쪼그려 앉았다가 쭉 일어나 볼까?",
+    "place": "동해",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "east-sea.next-443879",
+    "text": "다음엔 동해에 가 볼까요?",
+    "place": "동해",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "west-sea.intro-488c3f",
+    "text": "게 친구들이 사는 갯벌 바다로 가 볼까?",
+    "place": "서해",
+    "situation": "출발"
+  },
+  {
+    "id": "west-sea.story-0cdf11",
+    "text": "서해는 바닷물이 쑥 빠지면 갯벌이 나와요. 갯벌에는 게가 살아요. 옆으로 사사삭!",
+    "place": "서해",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "west-sea.prompt.1-cdc177",
+    "text": "게가 사는 바다, 서해를 눌러 봐!",
+    "place": "서해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "west-sea.explain.1-1f6f04",
+    "text": "여기가 서해예요. 황해라고도 불러요.",
+    "place": "서해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "west-sea.prompt.2-f9e13d",
+    "text": "갯벌에 사는 친구는 누구일까?",
+    "place": "서해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "west-sea.explain.2-07565c",
+    "text": "서해 갯벌에는 게가 많이 살아요.",
+    "place": "서해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "west-sea.stamp-ed0164",
+    "text": "서해 도장을 받았어요!",
+    "place": "서해",
+    "situation": "도장"
+  },
+  {
+    "id": "west-sea.talk-01747f",
+    "text": "게처럼 옆으로 사사삭 걸어 볼까?",
+    "place": "서해",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "west-sea.next-099757",
+    "text": "다음엔 서해에 가 볼까요?",
+    "place": "서해",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "south-sea.intro-57db7e",
+    "text": "작은 섬이 옹기종기 모인 바다로 가 볼까?",
+    "place": "남해",
+    "situation": "출발"
+  },
+  {
+    "id": "south-sea.story-e90e41",
+    "text": "남해에는 작은 섬이 옹기종기 많아요. 배가 섬 사이를 통통통 지나가요. 바다에서 김과 미역을 길러요.",
+    "place": "남해",
+    "situation": "둘러보기"
+  },
+  {
+    "id": "south-sea.prompt.1-5a610d",
+    "text": "작은 섬이 많은 바다, 남해를 눌러 봐!",
+    "place": "남해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "south-sea.explain.1-58fb90",
+    "text": "여기가 우리나라 남쪽 바다, 남해예요.",
+    "place": "남해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "south-sea.prompt.2-85055d",
+    "text": "남해 바다에 아주 많은 것은 무엇일까?",
+    "place": "남해",
+    "situation": "미션 질문"
+  },
+  {
+    "id": "south-sea.explain.2-b268ef",
+    "text": "남해에는 크고 작은 섬이 아주 많아요.",
+    "place": "남해",
+    "situation": "정답 설명"
+  },
+  {
+    "id": "south-sea.stamp-5f1273",
+    "text": "남해 도장을 받았어요!",
+    "place": "남해",
+    "situation": "도장"
+  },
+  {
+    "id": "south-sea.talk-126fce",
+    "text": "배가 되어 섬 사이를 통통통 지나가 볼까?",
+    "place": "남해",
+    "situation": "함께 이야기"
+  },
+  {
+    "id": "south-sea.next-eb0f1c",
+    "text": "다음엔 남해에 가 볼까요?",
+    "place": "남해",
+    "situation": "다음 장소"
+  },
+  {
+    "id": "common.correct-bd08de",
+    "text": "잘했어요!",
+    "place": null,
+    "situation": "결과"
+  },
+  {
+    "id": "common.soft-88991e",
+    "text": "괜찮아요, 같이 알아봐요",
+    "place": null,
+    "situation": "결과"
+  },
+  {
+    "id": "common.hint-69cca2",
+    "text": "반짝이는 걸 눌러 봐!",
+    "place": null,
+    "situation": "힌트"
+  },
+  {
+    "id": "common.hintTap-276a5f",
+    "text": "반짝이는 곳을 눌러 봐!",
+    "place": null,
+    "situation": "힌트"
+  },
+  {
+    "id": "common.revisit-2608a5",
+    "text": "또 왔어요! 도장은 그대로예요",
+    "place": null,
+    "situation": "도장"
+  },
+  {
+    "id": "common.unlock.2-8f1209",
+    "text": "2단계, 우리나라가 열렸어요!",
+    "place": null,
+    "situation": "단계 열림"
+  }
+]

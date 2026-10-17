@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { MissionOf, View } from '../../content/types';
 import { Dongle } from '../../ui/Dongle';
+import { COMMON_VOICE } from '../../voice/lines';
+import { ReplayButton } from '../../voice/ReplayButton';
+import { useAutoVoice } from '../../voice/useVoice';
+import { playVoice } from '../../voice/voice';
 import { afterWrong, judgeTap } from '../judge';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps, Outcome } from './types';
 
-export function TapMission({ mission, tier, globe, placeView, onDone }: MissionProps<MissionOf<'tap'>>) {
+export function TapMission({ mission, tier, globe, placeView, voice, onDone }: MissionProps<MissionOf<'tap'>>) {
   const [outcome, setOutcome] = useState<Outcome>(null);
   const [message, setMessage] = useState('지구본에서 찾아 눌러 보세요.');
   const attempts = useRef(0);
@@ -21,6 +25,9 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
     globe.flyTo(startView.center, startView.zoom);
     return () => globe.clearMarkers();
   }, [globe, startView]);
+
+  // 유아 음성: 미션을 시작하면 질문을 읽는다 (힌트는 틀릴 때마다, 결과는 MissionFeedback)
+  useAutoVoice(voice && [voice.prompt]);
 
   useEffect(() => {
     if (outcome !== null) return undefined;
@@ -42,6 +49,7 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
       if (next === 'hint') {
         globe.showMarker('hint', mission.target);
         setMessage('반짝이는 곳을 눌러 봐!');
+        if (voice) playVoice([COMMON_VOICE.hintTap]);
       } else if (next === 'retry') {
         setMessage('조금 빗나갔어요. 한 번 더 눌러 볼까요?');
       } else {
@@ -49,7 +57,7 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
         setOutcome('revealed');
       }
     });
-  }, [globe, mission, tier, outcome]);
+  }, [globe, mission, tier, outcome, voice]);
 
   // 결과 카드가 그려진 뒤에 초록 핀이 카드 위쪽 보이는 곳 가운데에 오도록 정답 위치로 날아간다.
   // 누르는 순간에 날아가면 결과가 붙기 전의 짧은 카드 높이로 여백을 재서, 카드가 커진 뒤 핀이 카드 밑에 숨는다.
@@ -63,6 +71,7 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
       <div className="ask">
         <Dongle mood="think" size="xs" decorative />
         <p className="ask__prompt ko">{mission.prompt}</p>
+        <ReplayButton ids={voice && [voice.prompt]} />
       </div>
       {outcome === null && (
         <p className="mission__hint" role="status" aria-live="polite">
@@ -74,6 +83,7 @@ export function TapMission({ mission, tier, globe, placeView, onDone }: MissionP
           correct={outcome === 'correct'}
           detail={outcome === 'revealed' ? '초록 핀이 정답 위치예요.' : undefined}
           explain={mission.explain}
+          voice={voice && [outcome === 'correct' ? COMMON_VOICE.correct : COMMON_VOICE.soft, voice.explain]}
           onNext={() => onDone({ type: 'tap', correct: outcome === 'correct', attempts: attempts.current })}
         />
       )}

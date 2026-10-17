@@ -6,11 +6,16 @@ import { recordStamp } from '../progress/store';
 import type { StampOutcome } from '../progress/types';
 import { Icon } from '../ui/Icon';
 import { useMoreBelow } from '../ui/useMoreBelow';
+import { COMMON_VOICE, nextVoice, placeVoice, unlockVoice } from '../voice/lines';
+import { useAutoVoice, useVoiceReady } from '../voice/useVoice';
 import { CharacterBubble } from './CharacterBubble';
 import { MissionView } from './missions/MissionView';
 import { StampCard } from './StampCard';
 import { createTripState, tripReducer, type MissionResult, type TripStep } from './tripReducer';
 import './trip.css';
+
+/** 도장 말은 나무 도장이 종이에 닿은 뒤(trip.css .thud 0.72s)에 시작한다 */
+const STAMP_VOICE_DELAY_MS = 800;
 
 interface TripPanelProps {
   place: Place;
@@ -109,7 +114,29 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
   const stars = state.results.reduce((sum, r) => sum + (r.stars ?? 0), 0);
   // 찾아 누르기·핀 꽂기·방향 미션은 지도를 넓게 보여야 해서 카드를 줄인다
   const compact = mission !== null && mission.type !== 'choice';
-  const readAloud = tier === 'preschool' && (
+  // 유아 음성 (D8): 단계가 바뀌면 동글이가 그 단계의 말을 한다. 미션의 질문·힌트·결과는 미션 화면이 재생한다
+  const voice = useMemo(() => (tier === 'preschool' ? placeVoice(place) : null), [place, tier]);
+  const missionVoice = voice && mission ? voice.missions[state.missionIndex] : null;
+  const opened = stampOutcome?.newlyUnlocked[0];
+  const stepVoice = !voice
+    ? null
+    : state.step === 'depart'
+      ? [voice.intro]
+      : state.step === 'explore'
+        ? [voice.story]
+        : state.step === 'stamp'
+          ? [
+              stampOutcome?.isNew === false ? COMMON_VOICE.revisit : voice.stamp,
+              opened !== undefined ? unlockVoice(opened) : null,
+              nextPlace ? nextVoice(nextPlace) : null,
+            ]
+          : state.step === 'talk'
+            ? [voice.talk]
+            : null;
+  useAutoVoice(stepVoice, state.step === 'stamp' ? STAMP_VOICE_DELAY_MS : 0);
+  // 동글이가 읽어 주는 화면에서는 '부모님이 소리 내어 읽어 주세요'를 빼고, 녹음이 없거나 소리를 끈 때만 보인다
+  const speaking = useVoiceReady(missionVoice ? missionVoice.prompt : stepVoice?.[0]);
+  const readAloud = tier === 'preschool' && !speaking && (
     <p className="note"><Icon name="read" />부모님이 소리 내어 읽어 주세요.</p>
   );
 
@@ -137,7 +164,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
           <div ref={contentRef}>
             {state.step === 'depart' && (
               <>
-                <CharacterBubble text={place.intro[tier]} />
+                <CharacterBubble text={place.intro[tier]} voice={stepVoice} />
                 {readAloud}
                 <button type="button" className="btn" onClick={next}>
                   출발! <Icon name="plane" className="btn__plane" />
@@ -147,7 +174,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
 
             {state.step === 'explore' && (
               <>
-                <CharacterBubble text={place.story[tier]} />
+                <CharacterBubble text={place.story[tier]} voice={stepVoice} />
                 {readAloud}
                 <button type="button" className="btn" onClick={next}>미션 시작</button>
               </>
@@ -169,6 +196,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
                   tier={tier}
                   globe={globe}
                   placeView={placeView}
+                  voice={missionVoice}
                   onDone={handleDone}
                 />
                 {readAloud}
@@ -188,7 +216,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
             {state.step === 'talk' && (
               <div className="talk">
                 <h3 className="talk__label">함께 이야기해요</h3>
-                <CharacterBubble text={place.familyTalk[tier]} />
+                <CharacterBubble text={place.familyTalk[tier]} voice={stepVoice} />
                 <button
                   type="button"
                   className="link-button"
