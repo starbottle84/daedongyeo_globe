@@ -1,4 +1,4 @@
-/* 여행 미션에서 지구본 위에 꽂는 표시 (정답·힌트·내 핀·출발·도착) */
+/* 여행 미션에서 지구본 위에 꽂는 표시 (정답·힌트·내 핀·도착) */
 .trip-marker { position: relative; width: 28px; height: 28px; pointer-events: none; }
 .trip-marker::before {
   content: ''; position: absolute; left: 50%; bottom: 5px; box-sizing: border-box;
@@ -8,7 +8,6 @@
 }
 .trip-marker--answer::before { background: #2fb36b; }
 .trip-marker--pin::before { background: #e03a3a; }
-.trip-marker--from::before { background: #2a6496; }
 .trip-marker--to::before { background: #f0a020; }
 .trip-marker--hint { width: 72px; height: 72px; }
 .trip-marker--hint::before {
@@ -30,3 +29,44 @@
 @media (prefers-reduced-motion: reduce) {
   .trip-marker--hint::before { animation: none; }
 }
+
+/* 방향 미션 방위표 (compass.ts). 크기 0인 묶음 한가운데가 기준 장소이고, 그림은 바깥으로 넘쳐 그린다 */
+.trip-compass { width: 0; height: 0; pointer-events: none; }
+.trip-compass__svg { position: absolute; left: 0; top: 0; overflow: visible; }
+/* 몸통은 지구본 표면 모양대로 눌려 그려지므로(행렬) 테두리 굵기는 그대로 둔다 */
+.trip-compass__back { fill: var(--cream-50); fill-opacity: .8; stroke: rgba(122, 91, 34, .25); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.trip-compass__dial { fill: #ffffff; stroke: var(--gold-600); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.trip-compass__needle { fill: var(--navy-700); }
+.trip-compass__needle.is-north { fill: var(--red); }
+.trip-compass__needle.is-minor { fill: #8a97b5; }
+.trip-compass__hub { fill: var(--gold-600); stroke: #ffffff; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.trip-compass__label {
+  font-family: var(--title); font-size: 17px; fill: var(--navy-800);
+  paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;
+}
+.trip-compass__label.is-north { fill: var(--red); font-size: 19px; }
+.trip-compass__label.is-minor { font-size: 13px; fill: var(--navy-500); }
+.trip-compass__label.is-answer { fill: var(--green-ink); font-size: 19px; }
+.trip-compass__label.is-minor.is-answer { font-size: 15px; }
+/* 방위 칸 경계(대권을 따라 그린 꺾은선): 옅은 점선 (흰 그림자를 깔아 어두운 땅·바다 위에서도 보이게) */
+.trip-compass__ray {
+  fill: none;
+  stroke: var(--navy-800); stroke-opacity: .45; stroke-width: 1.6; stroke-dasharray: 6 6;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, .9));
+}
+/* 기준 → 목표 점선과 화살촉 (도착 핀과 같은 주황) */
+.trip-compass__line {
+  fill: none;
+  stroke: #e8892b; stroke-width: 4; stroke-dasharray: 1 9; stroke-linecap: round;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, .95));
+}
+.trip-compass__head { fill: #e8892b; stroke: #ffffff; stroke-width: 1.5; stroke-linejoin: round; }
+/* 답한 뒤 정답 칸 */
+.trip-compass__wedge { display: none; fill: var(--green); fill-opacity: .18; stroke: var(--green); stroke-opacity: .6; stroke-width: 1.5; }
+.trip-compass__wedge.is-on { display: inline; }
+.trip-compass__tag {
+  position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 5px; white-space: nowrap;
+  padding: 3px 10px 4px; border-radius: 999px; background: var(--navy-700); color: #ffffff;
+  font-family: var(--title); font-size: 16px; box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+}
+.trip-compass__tag small { font-size: 12px; color: var(--gold-300); }

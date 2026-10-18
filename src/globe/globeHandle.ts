@@ -1,17 +1,26 @@
 import * as maplibregl from 'maplibre-gl';
-import type { LngLat } from '../content/types';
+import type { Direction, LngLat } from '../content/types';
 import type { TapInfo } from '../trip/judge';
+import { createCompass, type Compass, type CompassOptions } from './compass';
 import './markers.css';
 
-export type MarkerKind = 'answer' | 'hint' | 'pin' | 'from' | 'to';
+export type MarkerKind = 'answer' | 'hint' | 'pin' | 'to';
+
+/** 화면 맞추기에서 지점 둘레에 큰 그림(방위표)을 둘 때: 가로·세로를 따로 맞추고, 가장자리 여백(marginPx)을 남기며,
+ *  가까운 두 지점을 벌려 보이려고 보통 한계(7)보다 더 확대할 수 있는 한계(zoomLimit) */
+export interface FitFrame {
+  marginPx: number;
+  zoomLimit: number;
+}
 
 // 여행 화면이 MapLibre를 직접 만지지 않도록, 필요한 동작만 모은 손잡이
 export interface GlobeHandle {
   /** 아래쪽 여행 카드에 가려지지 않는 위쪽 영역 한가운데로 날아간다 */
   flyTo(center: LngLat, zoom: number): void;
   /** 여러 지점이 다 보이게 화면을 맞춘다 (날짜변경선을 넘거나 아주 먼 지점도 지구본 기준으로 계산).
-   *  maxZoom을 주면 그보다 더 확대하지 않는다 (넓은 바다 한가운데에 핀을 가까이 꽂아도 주변이 보이게) */
-  fitTo(points: LngLat[], maxZoom?: number): void;
+   *  maxZoom을 주면 그보다 더 확대하지 않는다 (넓은 바다 한가운데에 핀을 가까이 꽂아도 주변이 보이게).
+   *  frame은 방위표처럼 지점 둘레에 큰 그림이 있을 때 쓴다 (FitFrame) */
+  fitTo(points: LngLat[], maxZoom?: number, frame?: FitFrame): void;
   /** 여행 카드 높이가 바뀌었을 때 카메라 여백만 다시 맞춘다 (가운데 지점·확대는 그대로 → 목표가 카드 위쪽 보이는 영역 가운데로 다시 온다).
    *  날아가는 중이면 끊지 않고 그 비행이 끝난 뒤 한 번 맞춘다. 여행이 아닐 때(flyTo·fitTo 전, restore 뒤)는 아무것도 하지 않는다 */
   refitPadding(): void;
@@ -23,6 +32,10 @@ export interface GlobeHandle {
   onTap(listener: (tap: TapInfo) => void): () => void;
   /** 같은 종류의 표시는 하나만 남긴다. 이름표 글자는 textContent로만 넣는다 */
   showMarker(kind: MarkerKind, at: LngLat, label?: string): void;
+  /** 방향 미션: 기준 장소에 지구본 표면에 그린 듯한 방위표를 놓고 목표까지 대권 점선으로 잇는다 (clearMarkers가 함께 지운다) */
+  showCompass(options: Omit<CompassOptions, 'visibleBottom'>): void;
+  /** 답한 뒤 방위표의 정답 칸을 칠한다 */
+  revealCompass(answer: Direction): void;
   clearMarkers(): void;
   /** 여행이 끝나면 지구본을 평소 상태로 되돌린다 (여백·손 조작·표시·지명) */
   restore(): void;
@@ -139,6 +152,27 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     return Math.min(MAX_FIT_ZOOM, Math.max(map.getMinZoom(), zoom));
   };
 
+  // 방위표 화면 맞추기(frame): 가로·세로를 따로 맞춘다. 가로 휴대폰처럼 보이는 띠가 낮고 넓어도 가로 폭을 살려 두 지점을 벌린다.
+  // 세로 여백은 띠 높이의 1/4을 넘지 않게 줄인다 (그때 '기준' 이름표는 방위표 옆으로 간다 — compass.ts)
+  const zoomToFitFrame = (center: LngLat, points: LngLat[], frame: FitFrame) => {
+    const container = map.getContainer();
+    const bandH = container.clientHeight - panelPx();
+    const halfW = Math.max(container.clientWidth / 2 - frame.marginPx, 40);
+    const halfH = Math.max(bandH / 2 - Math.min(frame.marginPx, bandH / 4), 20);
+    // 가운데에서 본 지구본 정사영 위치(반지름 1). 가운데에서 가로·세로로 가장 먼 값이 반쪽 폭·높이에 들어오게 반지름을 고른다
+    let maxX = 0;
+    let maxY = 0;
+    for (const [lng, lat] of points) {
+      const dLng = rad(lng - center[0]);
+      maxX = Math.max(maxX, Math.abs(Math.cos(rad(lat)) * Math.sin(dLng)));
+      maxY = Math.max(maxY, Math.abs(Math.cos(rad(center[1])) * Math.sin(rad(lat)) - Math.sin(rad(center[1])) * Math.cos(rad(lat)) * Math.cos(dLng)));
+    }
+    const radiusPx = Math.min(maxX > 1e-6 ? halfW / maxX : Infinity, maxY > 1e-6 ? halfH / maxY : Infinity);
+    if (!Number.isFinite(radiusPx)) return frame.zoomLimit;
+    const zoom = Math.log2((radiusPx * 2 * Math.PI * Math.cos(rad(center[1]))) / 512);
+    return Math.min(frame.zoomLimit, Math.max(map.getMinZoom(), zoom));
+  };
+
   const setInteractive = (on: boolean) => {
     if (on) {
       map.dragPan.enable();
@@ -181,9 +215,12 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     if (labelsHidden) applyLabels();
   });
 
+  let compass: Compass | null = null;
   const clearMarkers = () => {
     markers.forEach((marker) => marker.remove());
     markers.clear();
+    compass?.remove();
+    compass = null;
   };
 
   // 처음 화면에서 지구본/평면 전환 버튼으로 평면 지도로 바꿔 두었으면 여행 내내 평면으로 남는데,
@@ -215,7 +252,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       });
     },
 
-    fitTo(points, maxZoom) {
+    fitTo(points, maxZoom, frame) {
       if (points.length === 0) return;
       ensureGlobe();
       const { center, spread } = sphericalSpread(points);
@@ -223,7 +260,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       startTripFlight(padding);
       map.flyTo({
         center,
-        zoom: Math.min(zoomToFit(center, spread), maxZoom ?? MAX_FIT_ZOOM),
+        zoom: Math.min(frame ? zoomToFitFrame(center, points, frame) : zoomToFit(center, spread), maxZoom ?? Infinity),
         bearing: 0,
         pitch: 0,
         padding,
@@ -286,6 +323,14 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
         .setLngLat(at)
         .addTo(map);
       markers.set(kind, marker);
+    },
+
+    showCompass(options) {
+      compass?.remove();
+      compass = createCompass(map, { ...options, visibleBottom: () => map.getContainer().clientHeight - panelPx() });
+    },
+    revealCompass(answer) {
+      compass?.reveal(answer);
     },
 
     clearMarkers,
