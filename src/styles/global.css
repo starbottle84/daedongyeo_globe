@@ -69,6 +69,19 @@ body {
   width: min(560px, calc(100vw - 32px));
   display: flex; flex-direction: column; gap: 12px;
 }
+/* 가로 휴대폰(가로이고 높이 500px 이하: 667×375, 844×390 등) 여행 중에는 여행 카드를 오른쪽 옆에 세운다.
+   아래에 두면 카드가 화면 높이의 절반 넘게 덮어 지도가 위쪽 150px 남짓한 띠만 보이고, 방위표·도착 핀이 잘린다.
+   옆에 세우면 지도가 왼쪽을 위아래 다 쓰고, 카드도 화면 높이를 다 써서(trip.css) 방향 버튼 9칸이 스크롤 없이 들어간다.
+   카드는 오른쪽 아래에 붙인다 — 짧은 카드 위로도 지도가 보이게. 카메라 여백도 오른쪽으로 준다 (globeHandle.ts panelPadding).
+   위아래 여백은 8px로 줄인다 — 667×375에서 세 줄 질문 + 방향 버튼 9칸이 10px일 때 1px 넘쳐 스크롤이 생긴다.
+   (여행 중에는 오른쪽 위 지도 버튼을 그리지 않으므로 오른쪽 줄이 비어 있다. 시작 카드는 그대로 아래에 둔다) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .app--trip .bottom-stack {
+    left: auto; right: max(16px, env(safe-area-inset-right)); transform: none;
+    top: max(8px, env(safe-area-inset-top)); bottom: max(8px, env(safe-area-inset-bottom));
+    width: clamp(320px, 44vw, 380px); justify-content: flex-end;
+  }
+}
 /* 여행이 아닐 때 안내 카드(새 버전·위성 오류)가 붙으면 카드 묶음을 오른쪽 위 지도 버튼(z-index 2)보다 위에 둔다 — 낮은 휴대폰에서
    카드가 지도 버튼 줄까지 올라오면 카드 버튼이 지도 버튼에 가려 눌리지 않는다. (묶음에 transform이 있어 카드에 z-index를 줘도 소용없다)
    안내 카드가 없을 때는 그대로 지도 버튼이 위다 — 가로 휴대폰에서 시작 카드가 지도 버튼 가장자리를 덮지 않게 */

@@ -15,7 +15,7 @@ export interface FitFrame {
 
 // 여행 화면이 MapLibre를 직접 만지지 않도록, 필요한 동작만 모은 손잡이
 export interface GlobeHandle {
-  /** 아래쪽 여행 카드에 가려지지 않는 위쪽 영역 한가운데로 날아간다 */
+  /** 여행 카드(아래, 가로 휴대폰은 오른쪽 옆)에 가려지지 않는 영역 한가운데로 날아간다 */
   flyTo(center: LngLat, zoom: number): void;
   /** 여러 지점이 다 보이게 화면을 맞춘다 (날짜변경선을 넘거나 아주 먼 지점도 지구본 기준으로 계산).
    *  maxZoom을 주면 그보다 더 확대하지 않는다 (넓은 바다 한가운데에 핀을 가까이 꽂아도 주변이 보이게).
@@ -33,7 +33,7 @@ export interface GlobeHandle {
   /** 같은 종류의 표시는 하나만 남긴다. 이름표 글자는 textContent로만 넣는다 */
   showMarker(kind: MarkerKind, at: LngLat, label?: string): void;
   /** 방향 미션: 기준 장소에 지구본 표면에 그린 듯한 방위표를 놓고 목표까지 대권 점선으로 잇는다 (clearMarkers가 함께 지운다) */
-  showCompass(options: Omit<CompassOptions, 'visibleBottom'>): void;
+  showCompass(options: Omit<CompassOptions, 'visibleArea'>): void;
   /** 답한 뒤 방위표의 정답 칸을 칠한다 */
   revealCompass(answer: Direction): void;
   clearMarkers(): void;
@@ -56,7 +56,7 @@ export interface GlobeHandle {
 const PANEL_SHARE = 0.45;
 /** 카드 위쪽 끝과 지도 사이에 남길 틈(px) */
 const PANEL_GAP_PX = 12;
-/** 카드 여백이 화면 높이의 이 비율을 넘지 않게 한다 */
+/** 카드 여백이 화면 높이(옆 카드는 폭)의 이 비율을 넘지 않게 한다 */
 const MAX_PANEL_SHARE = 0.7;
 /** 여행 카드 높이가 이만큼(px) 넘게 바뀌어야 여백을 다시 맞춘다 (1~2px 흔들림에 지도가 움찔하지 않게) */
 const REFIT_MIN_PX = 4;
@@ -105,28 +105,34 @@ function sphericalSpread(points: LngLat[]): { center: LngLat; spread: number } {
 
 export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
   const markers = new Map<MarkerKind, maplibregl.Marker>();
-  // 아래쪽 카드에 가려지는 높이(px). 카드 묶음 높이는 단계마다 달라서 어림값(45%)으로는 지점이 카드 밑에 숨곤 한다.
-  // 그래서 일부러 앱의 아래쪽 카드 묶음(.bottom-stack) 요소를 직접 읽어, 지도 아래 끝 ~ 카드 위쪽 끝 + 틈만큼 비운다.
-  const panelPx = () => {
+  // 카메라 여백: 카드에 가려지는 만큼 비워 두면 가운데가 카드 밖 보이는 영역의 한가운데가 된다.
+  // 카드 묶음 높이는 단계마다 달라서 어림값(45%)으로는 지점이 카드 밑에 숨곤 한다.
+  // 그래서 일부러 앱의 카드 묶음(.bottom-stack) 요소를 직접 읽어, 지도 아래 끝 ~ 카드 위쪽 끝 + 틈만큼 비운다.
+  // 가로 휴대폰 여행 중에는 카드 묶음이 오른쪽 옆에 서므로(global.css) — 가운데가 아니라 오른쪽에 붙어 있으면 — 지도 오른쪽 끝 ~ 카드 왼쪽 끝 + 틈만큼 비운다
+  const panelPadding = () => {
     const container = map.getContainer();
     const stack = document.querySelector('.bottom-stack');
-    if (!stack) return Math.round(container.clientHeight * PANEL_SHARE);
-    const covered = container.getBoundingClientRect().bottom - stack.getBoundingClientRect().top + PANEL_GAP_PX;
-    return Math.round(Math.min(Math.max(covered, 0), container.clientHeight * MAX_PANEL_SHARE));
+    if (!stack) return { top: 0, right: 0, bottom: Math.round(container.clientHeight * PANEL_SHARE), left: 0 };
+    const box = container.getBoundingClientRect();
+    const card = stack.getBoundingClientRect();
+    if (card.left + card.width / 2 > box.left + box.width / 2 + 1) {
+      const covered = box.right - card.left + PANEL_GAP_PX;
+      return { top: 0, right: Math.round(Math.min(Math.max(covered, 0), container.clientWidth * MAX_PANEL_SHARE)), bottom: 0, left: 0 };
+    }
+    const covered = box.bottom - card.top + PANEL_GAP_PX;
+    return { top: 0, right: 0, bottom: Math.round(Math.min(Math.max(covered, 0), container.clientHeight * MAX_PANEL_SHARE)), left: 0 };
   };
-  // 카메라 여백: 아래쪽 카드 높이만큼 비워 두면 가운데가 카드 위쪽 영역의 한가운데가 된다
-  const panelPadding = () => ({ top: 0, right: 0, bottom: panelPx(), left: 0 });
 
-  // 여행 중 마지막으로 준 아래 여백(px). 여행이 아니면 null — flyTo·fitTo가 정하고 restore()가 지운다.
+  // 여행 중 마지막으로 준 아래·오른쪽 여백(px). 여행이 아니면 null — flyTo·fitTo가 정하고 restore()가 지운다.
   // 여백은 날아갈 때 한 번만 재므로, 고르기 결과처럼 카메라가 움직이지 않는 단계에서 카드가 커지면 목표가 카드 뒤로 들어간다 → refitPadding
-  let tripBottom: number | null = null;
+  let tripPadding: { bottom: number; right: number } | null = null;
   // 날아가는 중에 refitPadding을 부르면 진행 중인 flyTo·fitTo를 끊지 않고, 그 비행이 끝날 때(moveend) 한 번 맞춘다
   let refitOnMoveEnd = false;
   const refit = () => {
-    if (tripBottom === null) return;
+    if (tripPadding === null) return;
     const padding = panelPadding();
-    if (Math.abs(padding.bottom - tripBottom) <= REFIT_MIN_PX) return;
-    tripBottom = padding.bottom;
+    if (Math.abs(padding.bottom - tripPadding.bottom) <= REFIT_MIN_PX && Math.abs(padding.right - tripPadding.right) <= REFIT_MIN_PX) return;
+    tripPadding = padding;
     map.easeTo({ padding, duration: flightMs(300) });
   };
   map.on('moveend', () => {
@@ -135,16 +141,17 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     refit();
   });
   // 새로 날아갈 때는 그 비행이 지금 카드 높이로 여백을 다시 재므로, 미뤄 둔 맞추기는 버린다
-  const startTripFlight = (padding: { bottom: number }) => {
+  const startTripFlight = (padding: { bottom: number; right: number }) => {
     refitOnMoveEnd = false;
-    tripBottom = padding.bottom;
+    tripPadding = { bottom: padding.bottom, right: padding.right };
   };
 
-  // 지점들이 지구본 위쪽 보이는 영역 안에 다 들어오는 확대 단계.
+  // 지점들이 카드 밖 보이는 영역 안에 다 들어오는 확대 단계.
   // MapLibre 지구본 반지름(px) = 512·2^zoom / (2π) / cos(가운데 위도). 가운데에서 각도 θ인 점은 반지름·sinθ 만큼 떨어져 보인다.
   const zoomToFit = (center: LngLat, spread: number) => {
     const container = map.getContainer();
-    const visibleHalf = Math.min(container.clientWidth, container.clientHeight - panelPx()) / 2 - FIT_MARGIN_PX;
+    const padding = panelPadding();
+    const visibleHalf = Math.min(container.clientWidth - padding.right, container.clientHeight - padding.bottom) / 2 - FIT_MARGIN_PX;
     const reach = Math.sin(Math.min(spread, Math.PI / 2));
     if (reach < 1e-6) return MAX_FIT_ZOOM;
     const radiusPx = Math.max(visibleHalf, 40) / reach;
@@ -152,12 +159,13 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     return Math.min(MAX_FIT_ZOOM, Math.max(map.getMinZoom(), zoom));
   };
 
-  // 방위표 화면 맞추기(frame): 가로·세로를 따로 맞춘다. 가로 휴대폰처럼 보이는 띠가 낮고 넓어도 가로 폭을 살려 두 지점을 벌린다.
+  // 방위표 화면 맞추기(frame): 가로·세로를 따로 맞춘다. 보이는 띠가 낮고 넓어도 가로 폭을 살려 두 지점을 벌린다.
   // 세로 여백은 띠 높이의 1/4을 넘지 않게 줄인다 (그때 '기준' 이름표는 방위표 옆으로 간다 — compass.ts)
   const zoomToFitFrame = (center: LngLat, points: LngLat[], frame: FitFrame) => {
     const container = map.getContainer();
-    const bandH = container.clientHeight - panelPx();
-    const halfW = Math.max(container.clientWidth / 2 - frame.marginPx, 40);
+    const padding = panelPadding();
+    const bandH = container.clientHeight - padding.bottom;
+    const halfW = Math.max((container.clientWidth - padding.right) / 2 - frame.marginPx, 40);
     const halfH = Math.max(bandH / 2 - Math.min(frame.marginPx, bandH / 4), 20);
     // 가운데에서 본 지구본 정사영 위치(반지름 1). 가운데에서 가로·세로로 가장 먼 값이 반쪽 폭·높이에 들어오게 반지름을 고른다
     let maxX = 0;
@@ -270,7 +278,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     },
 
     refitPadding() {
-      if (tripBottom === null) return;
+      if (tripPadding === null) return;
       if (map.isMoving()) refitOnMoveEnd = true;
       else refit();
     },
@@ -327,7 +335,14 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
 
     showCompass(options) {
       compass?.remove();
-      compass = createCompass(map, { ...options, visibleBottom: () => map.getContainer().clientHeight - panelPx() });
+      compass = createCompass(map, {
+        ...options,
+        visibleArea: () => {
+          const container = map.getContainer();
+          const padding = panelPadding();
+          return { right: container.clientWidth - padding.right, bottom: container.clientHeight - padding.bottom };
+        },
+      });
     },
     revealCompass(answer) {
       compass?.reveal(answer);
@@ -337,7 +352,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
 
     restore() {
       // 여행이 끝났으니 미뤄 둔 여백 맞추기도 버린다 — 남아 있으면 아래에서 여백을 0으로 되돌린 뒤 카드 여백을 다시 넣는다
-      tripBottom = null;
+      tripPadding = null;
       refitOnMoveEnd = false;
       // 지도가 이미 지워졌으면(개발 중 새로고침·화면 정리) 되돌릴 것이 없다.
       // Map.remove()는 캔버스 묶음을 문서에서 떼어 낸다. getStyle()은 새 스타일을 불러오는 동안에도 비어 있어서 기준으로 쓰지 않는다.
@@ -357,7 +372,7 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       const container = map.getContainer();
       const logo = document.querySelector('.logo');
       const top = logo ? Math.max(0, logo.getBoundingClientRect().bottom - container.getBoundingClientRect().top) + HOME_GAP_PX : 0;
-      const padding = { top, right: 0, bottom: panelPx(), left: 0 };
+      const padding = { top, right: 0, bottom: panelPadding().bottom, left: 0 };
       // 보이는 영역(로고 아래 ~ 카드 위)에 지구본 지름이 들어가는 확대 단계 — 반지름 계산은 zoomToFit과 같다.
       // 다만 MapLibre는 가운데 지점(지구본 앞면)을 화면 축척에 맞추고 구의 중심은 반지름만큼 더 뒤에 두어서, 화면에 보이는 둘레는
       // 원근 때문에 r = R·D / √(D² + 2DR)로 작아진다(D: 카메라~가운데 거리). 보이는 반지름 r이 영역에 맞도록 R = (r² + r·√(r² + D²)) / D로 푼다.

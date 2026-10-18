@@ -13,8 +13,8 @@ export interface CompassOptions {
   fromName: string;
   /** 저학년 4방위, 고학년 8방위 */
   points: 4 | 8;
-  /** 지도 안에서 아래 카드에 가리지 않는 띠의 아래 끝(px, 지도 위 끝이 0). 방위표 크기와 이름표 자리를 정한다 */
-  visibleBottom: () => number;
+  /** 지도 안에서 여행 카드(아래, 가로 휴대폰은 오른쪽 옆)에 가리지 않는 칸의 오른쪽·아래 끝(px, 지도 왼쪽 위가 0). 방위표 크기와 이름표 자리를 정한다 */
+  visibleArea: () => { right: number; bottom: number };
 }
 
 export interface Compass {
@@ -28,7 +28,7 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 const ROSE_R = 30;
 const LABEL_R = 45;
 const BACK_R = 60;
-/** 보이는 띠 높이가 이보다 낮으면(가로 휴대폰) 방위표를 줄인다. 가장 작게는 MIN_SCALE배, 그보다 작으면 사이 방위 글자는 뺀다 */
+/** 보이는 띠 높이가 이보다 낮으면(아주 낮은 창) 방위표를 줄인다. 가장 작게는 MIN_SCALE배, 그보다 작으면 사이 방위 글자는 뺀다 */
 const FULL_BAND_PX = 300;
 const MIN_SCALE = 0.6;
 const MINOR_LABEL_MIN_SCALE = 0.8;
@@ -107,7 +107,7 @@ function trimEnd(pts: Pt[], len: number): Pt[] {
   return out;
 }
 
-export function createCompass(map: maplibregl.Map, { from, to, fromName, points, visibleBottom }: CompassOptions): Compass {
+export function createCompass(map: maplibregl.Map, { from, to, fromName, points, visibleArea }: CompassOptions): Compass {
   const names = points === 8 ? DIRECTIONS_8 : DIRECTIONS_4;
   const step = 360 / points;
   const totalDist = angularDistance(from, to);
@@ -171,9 +171,7 @@ export function createCompass(map: maplibregl.Map, { from, to, fromName, points,
 
   // 화면이 움직일 때마다 다시 그린다
   const update = () => {
-    const container = map.getContainer();
-    const width = container.clientWidth;
-    const bandBottom = visibleBottom();
+    const { right: bandRight, bottom: bandBottom } = visibleArea();
     const scale = Math.max(MIN_SCALE, Math.min(1, bandBottom / FULL_BAND_PX));
     const back = BACK_R * scale;
     const a = map.project(from);
@@ -308,7 +306,7 @@ export function createCompass(map: maplibregl.Map, { from, to, fromName, points,
     const fits = (c: Pt) => {
       const left = a.x + c.x - tw / 2;
       const top = a.y + c.y - th / 2;
-      return left >= 2 && left + tw <= width - 2 && top >= 2 && top + th <= bandBottom - 2;
+      return left >= 2 && left + tw <= bandRight - 2 && top >= 2 && top + th <= bandBottom - 2;
     };
     const spot = candidates.find(fits) ?? candidates[0];
     tag.style.transform = `translate(-50%, -50%) translate(${f(spot.x)}px, ${f(spot.y)}px)`;

@@ -1,7 +1,7 @@
 // 방향 문제를 실제 화면(개발 서버)에서 열고 정답을 눌러, 지도 위 방위표가 제대로 보이는지 잰다.
 //  - 도착 핀(목표 지점)이 칠해진 정답 칸 안에 있고, 칸 경계 점선에서 몇 px 떨어져 있는지
 //  - 기준→목표 점선·화살촉이 보이는지
-//  - 방위표·'기준' 이름표·도착 핀이 화면 가장자리나 아래 카드에 잘리지 않는지
+//  - 방위표·'기준' 이름표·도착 핀이 화면 가장자리나 여행 카드(아래, 가로 휴대폰은 오른쪽 옆)에 잘리지 않는지
 // 사용: node scripts/measure-directions.mjs [w=1024] [h=768] [장소 id들(쉼표), 비우면 전부] [--base=http://localhost:5180]
 // 예: node scripts/measure-directions.mjs 390 844 europe,oceania
 // 걸린 문제는 끝에 모아 보이고 종료 코드 1
@@ -70,9 +70,12 @@ const measureExpr = (m) => `(async () => {
   const side = Math.min(...[...document.querySelectorAll('.trip-compass__ray')].filter((r) => want.includes(Number(r.dataset.bearing)))
     .map((r) => { const pts = parse(r.getAttribute('points')); let d = Infinity; for (let i = 1; i < pts.length; i++) d = Math.min(d, segDist(P, pts[i - 1], pts[i])); return d; }));
   const stack = document.querySelector('.bottom-stack')?.getBoundingClientRect();
-  const bandBottom = stack ? stack.top : innerHeight;
+  // 가로 휴대폰 여행 카드는 오른쪽 옆에 선다(가운데가 아니라 오른쪽에 붙어 있으면) — 그때는 카드 왼쪽 끝까지가 보이는 칸
+  const besideCard = Boolean(stack) && stack.left + stack.width / 2 > innerWidth / 2 + 1;
+  const bandBottom = stack && !besideCard ? stack.top : innerHeight;
+  const bandRight = besideCard ? stack.left : innerWidth;
   const clipped = (el, name) => { if (!el) return name + ' 없음'; const r = el.getBoundingClientRect(); if (r.width === 0) return null;
-    return r.left < -1 || r.top < -1 || r.right > innerWidth + 1 || r.bottom > bandBottom + 1 ? name + ' 잘림' : null; };
+    return r.left < -1 || r.top < -1 || r.right > bandRight + 1 || r.bottom > bandBottom + 1 ? name + ' 잘림' : null; };
   const problems = [
     clipped(document.querySelector('.trip-compass__back'), '방위표'),
     clipped(document.querySelector('.trip-compass__tag'), '기준 이름표'),
