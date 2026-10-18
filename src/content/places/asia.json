@@ -17,7 +17,7 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "우리나라가 있는 큰 땅, 아시아를 눌러 봐!", "targetName": "아시아", "target": [95, 45], "area": "아시아", "explain": "우리나라도 아시아에 있어요." },
-      { "type": "choice", "prompt": "아시아에 사는 동물은 누구일까?", "options": [{ "label": "판다", "icon": "🐼" }, { "label": "캥거루", "icon": "🦘" }], "answer": 0, "explain": "판다는 아시아의 중국에 살아요." }
+      { "type": "choice", "prompt": "아시아에 사는 동물은 누구일까?", "options": [{ "label": "판다", "icon": "🐼" }, { "label": "얼룩말", "icon": "🦓" }], "answer": 0, "explain": "판다는 아시아의 중국에 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "우리나라는 어느 대륙에 있을까?", "options": [{ "label": "유럽" }, { "label": "아시아" }, { "label": "아프리카" }], "answer": 1, "explain": "우리나라는 아시아 대륙의 동쪽에 있어요." },
