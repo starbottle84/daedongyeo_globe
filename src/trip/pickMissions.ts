@@ -54,7 +54,8 @@ const byOrder = (a: PoolMission, b: PoolMission) => ORDER[a.mission.type] - ORDE
 /**
  * 이번 여행 문제를 고른다 (D3).
  * - 안 푼 문제를 먼저 고른다. 다 풀었으면 오래전에 푼 것부터 다시 돈다 (seenIds는 오래된 것이 앞인 목록, rules.ts addSeen)
- * - 종류별로 꼭 하나씩 넣고(REQUIRED, 그 종류 안에서도 안 푼 것부터), 남은 칸은 종류를 가리지 않고 같은 순서로 채운다
+ * - 종류별로 꼭 하나씩 넣고(REQUIRED, 그 종류 안에서도 안 푼 것부터), 남은 칸은 종류를 가리지 않고 같은 순서로 채운다.
+ *   같은 순위끼리는 안 푼 후보가 많이 남은 종류부터 — 묶음이 한 바퀴 도는 동안 종류 칸에 푼 문제가 다시 나오지 않게
  * - 같은 우선순위 안에서는 무작위다
  * 고른 문제는 D4 순서로 돌려준다. 묶음이 TRIP_MISSION_COUNT보다 작거나 같으면 묶음 전부를 낸다.
  */
@@ -76,9 +77,13 @@ export function pickMissions(pool: PoolMission[], tier: Tier, seenIds: readonly 
     const m = ranked.find((x) => x.mission.type === type);
     if (m) picked.push(m);
   }
-  for (const m of ranked) {
-    if (picked.length >= count) break;
-    if (!picked.includes(m)) picked.push(m);
+  // 남은 칸: 순위가 앞선 것부터. 같은 순위(같은 age — 곧 안 푼 것끼리) 안에서는 아직 안 고른 후보가 가장 많이 남은 종류부터 고른다.
+  // 한 종류의 안 푼 문제를 미리 다 써 버려 다음 여행의 종류 칸에 푼 문제가 다시 나오는 일을 막는다 (정렬은 안정적이라 같은 종류 안은 섞인 순서 그대로)
+  while (picked.length < count) {
+    const rest = ranked.filter((m) => !picked.includes(m));
+    const same = rest.filter((m) => age(m) === age(rest[0]));
+    const left = (type: MissionType) => same.filter((m) => m.mission.type === type).length;
+    picked.push(same.sort((a, b) => left(b.mission.type) - left(a.mission.type))[0]);
   }
   return picked.sort(byOrder);
 }
