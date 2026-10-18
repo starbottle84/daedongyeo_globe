@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { STAGE_NAMES, TIER_LABELS, TIERS, type Mission, type Place } from '../content/types';
+import { STAGE_NAMES, TIER_LABELS, TIERS, type Mission, type Place, type Tier } from '../content/types';
 import { computeUnlocked, emptyProgress, stagesOf } from '../progress/rules';
 import { MAX_PROFILES } from '../progress/storage';
 import { createProfile, deleteProfile, eraseAll, setVoiceOn, updateProfile, useSave, useStorageOk } from '../progress/store';
 import type { Profile } from '../progress/types';
+import { missionId } from '../trip/pickMissions';
 import { Dongle } from '../ui/Dongle';
 import { Icon } from '../ui/Icon';
 import { Modal } from '../ui/Modal';
@@ -84,8 +85,12 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
 
   // 배경지식의 미션 정답은 고른 아이의 나이 구간을 맨 앞에 펼쳐 둔다. 열 때 한 번만 정한다 —
   // 연 채로 그 아이의 구간을 고쳐도 펼쳐 둔 장소의 줄 순서·펼침(부모님이 직접 접고 편 것)이 바뀌지 않게. 다음에 열면 새 구간이 앞이다
-  const [firstTier] = useState(() => save.profiles.find((p) => p.id === save.activeProfileId)?.tier ?? 'preschool');
+  const activeKid = save.profiles.find((p) => p.id === save.activeProfileId);
+  const [firstTier] = useState(() => activeKid?.tier ?? 'preschool');
   const tierOrder = [firstTier, ...TIERS.filter((t) => t !== firstTier)];
+  // 미션 정답은 묶음 전체를 보이고, 고른 아이가 이미 푼 문제에 ✓를 붙인다 (계획 5 D7). 푼 기록은 아이마다 따로다
+  const kidSeen = (activeKid && save.progress[activeKid.id]?.seen) || {};
+  const isSeen = (place: Place, tier: Tier, m: Mission) => kidSeen[place.id]?.includes(missionId(place.id, tier, m)) ?? false;
   const iosHint = isIosBrowser();
   // 성우 녹음은 나중에 넣는다(계획 4 D9) — 녹음 파일이 하나도 없으면 켜 두어도 글만 보인다고 알린다
   const voiceFiles = useVoiceFileCount();
@@ -238,7 +243,9 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
         <h3 id={`${titleId}-know`} className="ps-title">
           <svg aria-hidden="true"><use href="#spark" /></svg>장소별 배경지식
         </h3>
-        <p className="ps-lead ko">장소를 누르면 부모님 메모와 미션 정답이 나와요.</p>
+        <p className="ps-lead ko">
+          장소를 누르면 부모님 메모와 미션 정답이 나와요.{activeKid && ` ✓는 ${activeKid.name}의 여권으로 푼 문제예요.`}
+        </p>
         {stagesOf(places).map((stage) => (
           <div key={stage} className="ps-stage">
             <h4 className="stage">
@@ -267,8 +274,11 @@ function ParentSpaceBody({ titleId, places, onClose }: { titleId: string; places
                         </summary>
                         <ol className="ps-answers">
                           {p.missions[t].map((m, i) => (
-                            <li key={i}>
-                              <p className="ps-q ko">{m.prompt}</p>
+                            <li key={i} className={isSeen(p, t, m) ? 'is-seen' : undefined}>
+                              <p className="ps-q ko">
+                                {isSeen(p, t, m) && <span className="visually-hidden">푼 문제: </span>}
+                                {m.prompt}
+                              </p>
                               <p className="ps-a ko">
                                 <Icon name={m.type === 'tap' || m.type === 'pin' ? 'map' : 'check'} />
                                 <span><span className="visually-hidden">정답: </span>{answerOf(m, p)}</span>

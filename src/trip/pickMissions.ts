@@ -17,12 +17,12 @@ export interface PoolMission {
 /** 여행 한 번에 내는 문제 수 (D2). 묶음이 이보다 작으면 묶음 전부를 낸다 */
 export const TRIP_MISSION_COUNT: Record<Tier, number> = { preschool: 3, lower: 4, upper: 5 };
 
-/** 종류별로 꼭 하나씩 넣을 것(required)과 나머지 칸에 넣을 종류(rest, null이면 아무 종류) (D3).
- *  유아: 누르기 1 + 고르기, 저학년: 누르기 1·방향 1 + 고르기, 고학년: 핀 1·방향 1·고르기 1 + 나머지 무작위 */
-const RECIPE: Record<Tier, { required: MissionType[]; rest: MissionType[] | null }> = {
-  preschool: { required: ['tap'], rest: ['choice'] },
-  lower: { required: ['tap', 'direction'], rest: ['choice'] },
-  upper: { required: ['pin', 'direction', 'choice'], rest: null },
+/** 종류별로 꼭 하나씩 넣을 것 (D3). 남은 칸은 종류를 가리지 않고 안 푼 문제부터 채운다 — 묶음 전체가 고르게 돌아가게.
+ *  유아: 누르기 1·고르기 1, 저학년: 누르기 1·방향 1·고르기 1, 고학년: 핀 1·방향 1·고르기 1 */
+const REQUIRED: Record<Tier, MissionType[]> = {
+  preschool: ['tap', 'choice'],
+  lower: ['tap', 'direction', 'choice'],
+  upper: ['pin', 'direction', 'choice'],
 };
 
 /** 늘어놓는 순서 (D4): 지도 미션(누르기·핀) → 고르기 → 방향 */
@@ -54,7 +54,7 @@ const byOrder = (a: PoolMission, b: PoolMission) => ORDER[a.mission.type] - ORDE
 /**
  * 이번 여행 문제를 고른다 (D3).
  * - 안 푼 문제를 먼저 고른다. 다 풀었으면 오래전에 푼 것부터 다시 돈다 (seenIds는 오래된 것이 앞인 목록, rules.ts addSeen)
- * - 종류별로 꼭 하나씩 넣고(RECIPE.required), 남은 칸은 RECIPE.rest 종류에서 채운다. 그 종류가 모자라면 아무 종류로 채운다
+ * - 종류별로 꼭 하나씩 넣고(REQUIRED, 그 종류 안에서도 안 푼 것부터), 남은 칸은 종류를 가리지 않고 같은 순서로 채운다
  * - 같은 우선순위 안에서는 무작위다
  * 고른 문제는 D4 순서로 돌려준다. 묶음이 TRIP_MISSION_COUNT보다 작거나 같으면 묶음 전부를 낸다.
  */
@@ -71,19 +71,14 @@ export function pickMissions(pool: PoolMission[], tier: Tier, seenIds: readonly 
   const age = (m: PoolMission) => seenIds.lastIndexOf(m.id);
   const ranked = shuffled.sort((a, b) => age(a) - age(b));
 
-  const { required, rest } = RECIPE[tier];
   const picked: PoolMission[] = [];
-  const take = (ok: (m: PoolMission) => boolean) => {
-    for (const m of ranked) {
-      if (picked.length >= count) return;
-      if (!picked.includes(m) && ok(m)) picked.push(m);
-    }
-  };
-  for (const type of required) {
-    const m = ranked.find((x) => x.mission.type === type && !picked.includes(x));
+  for (const type of REQUIRED[tier]) {
+    const m = ranked.find((x) => x.mission.type === type);
     if (m) picked.push(m);
   }
-  take((m) => rest === null || rest.includes(m.mission.type));
-  take(() => true);
+  for (const m of ranked) {
+    if (picked.length >= count) break;
+    if (!picked.includes(m)) picked.push(m);
+  }
   return picked.sort(byOrder);
 }

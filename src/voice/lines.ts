@@ -61,7 +61,8 @@ const nextText = (place: Place, short = false) => `${short ? '' : '다음엔 '}$
 export const nextVoice = (place: Place, short = false) =>
   lineId(`${place.id}.next${short ? '-short' : ''}`, nextText(place, short));
 
-/** 장소 하나의 유아 문장 id. 미션 설명이 없는 미션은 explain이 null이다 */
+/** 장소 하나의 유아 문장 id. 미션 설명이 없는 미션은 explain이 null이다.
+ *  missions는 유아 문제 묶음 전체다 (계획 5 D8). 번호는 묶음 안 번호(PoolMission.index) + 1이고, TripPanel이 고른 문제의 index로 찾는다 */
 export interface PlaceVoice {
   intro: string;
   story: string;

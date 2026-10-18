@@ -1,5 +1,5 @@
-// 콘텐츠 검사 (계획 4 작업 1)
-// src/content/places/*.json을 앱과 같은 parsePlace로 형식 검사하고, 그 위에 내용(구성·보기·정답 분포·영역·방위·좌표)을 확인한다.
+// 콘텐츠 검사 (계획 4 작업 1, 계획 5 작업 2에서 문제 묶음 검사로 바꿈)
+// src/content/places/*.json을 앱과 같은 parsePlace로 형식 검사하고, 그 위에 내용(묶음 크기·종류·겹침·보기·정답 분포·영역·방위·좌표)을 확인한다.
 // 막아야 하는 것은 '오류'(종료 코드 1), 기준 밖이지만 막지 않는 것은 '알림'으로 나눠 표로 보여 준다.
 // 실행: npm run check:content                      (모든 장소 + index.ts의 PLACES 목록)
 //       npm run check:content -- --only europe,africa (그 파일들만. 아직 index.ts에 넣지 않은 새 파일도 된다)
@@ -30,6 +30,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PLACES_DIR = join(ROOT, 'src/content/places');
 
 type Level = '오류' | '알림';
+type MissionType = Mission['type'];
 interface Finding { level: Level; place: string; where: string; message: string }
 const findings: Finding[] = [];
 const report = (level: Level, place: string, where: string, message: string) => findings.push({ level, place, where, message });
@@ -41,6 +42,15 @@ const len = (s: string) => [...s].length;
 const PRESCHOOL_SENTENCE_MAX = 40;
 /** 저학년·고학년 이야기(story) 글자 수 기준 (넘으면 알림) */
 const STORY_MAX = 120;
+/** 문제 묶음 크기: 장소·구간마다 (계획 5 D1) */
+const POOL_SIZE: Record<Tier, number> = { preschool: 8, lower: 12, upper: 12 };
+/** 묶음 안 종류별 최소 개수 (계획 5 D5). 여기 없는 종류는 그 구간에 넣지 않는다 */
+const POOL_MIN: Record<Tier, Partial<Record<MissionType, number>>> = {
+  preschool: { tap: 2, choice: 4 },
+  lower: { tap: 3, direction: 3, choice: 4 },
+  upper: { pin: 3, direction: 3, choice: 4 },
+};
+const TYPE_LABELS: Record<MissionType, string> = { tap: '찾아 누르기', choice: '고르기', pin: '위치 찍기', direction: '방향' };
 /** 고르기 보기 수 (계획 4 D2) */
 const CHOICE_OPTIONS: Record<Tier, number> = { preschool: 2, lower: 3, upper: 4 };
 /** 방향 문제 방위 수: 저학년 4방위, 고학년 8방위 (계획 4 D2) */
@@ -119,11 +129,32 @@ function areasAt(pt: LngLat): string[] {
 // ── 장소 하나 검사 ───────────────────────────────────────────
 const sentences = (text: string) => text.split(/(?<=[.!?~])\s+/).map((s) => s.trim()).filter(Boolean);
 const countTypes = (missions: Mission[]) => {
-  const n = { tap: 0, choice: 0, pin: 0, direction: 0 };
+  const n: Record<MissionType, number> = { tap: 0, choice: 0, pin: 0, direction: 0 };
   for (const m of missions) n[m.type]++;
   return n;
 };
-const typesText = (missions: Mission[]) => missions.map((m) => m.type).join(', ') || '없음';
+const countText = (n: Record<MissionType, number>) =>
+  (Object.keys(n) as MissionType[]).filter((t) => n[t]).map((t) => `${TYPE_LABELS[t]} ${n[t]}`).join(' · ') || '없음';
+
+// 겹침을 볼 열쇠. 띄어쓰기·문장 부호만 다른 같은 질문도 잡는다.
+// 같은 장소·구간 안에서 질문, 고르기의 정답+보기 묶음, 방향의 출발·도착이 같으면 오류(여행에서 같은 문제가 두 번 나온다),
+// 찾아 누르기·위치 찍기의 찾을 곳이 같으면 알림(질문이 다르면 괜찮을 수 있다). cross는 다른 장소(같은 구간)와도 비교할지
+interface DupKey { key: string; level: Level; what: string; cross: boolean }
+const promptKey = (text: string) => text.replace(/[\s\p{P}\p{S}]/gu, '');
+function dupKeys(m: Mission, p: Place): DupKey[] {
+  const keys: DupKey[] = [{ key: `질문:${promptKey(m.prompt)}`, level: '오류', what: '질문', cross: true }];
+  if (m.type === 'choice') {
+    const set = m.options.map((o) => o.label).sort().join('/');
+    keys.push({ key: `고르기:${m.options[m.answer].label}|${set}`, level: '오류', what: '정답과 보기 묶음', cross: true });
+  }
+  if (m.type === 'direction') keys.push({ key: `방향:${m.fromName}→${m.toName}`, level: '오류', what: '방향 출발·도착', cross: true });
+  if (m.type === 'tap' || m.type === 'pin') {
+    keys.push({ key: `${m.type}:${m.targetName ?? (m.type === 'tap' ? m.area : undefined) ?? p.name}`, level: '알림', what: '찾을 곳', cross: false });
+  }
+  return keys;
+}
+/** 다른 장소와 겹침: 구간·열쇠 → 처음 나온 장소·칸 (같은 구간끼리만 본다 — 아이는 자기 구간 문제만 푼다) */
+const crossSeen = new Map<string, { place: string; where: string }>();
 
 /** 구간별 고르기 정답 번호 세기 (번호 → 개수) */
 const answerTally: Record<Tier, number[]> = { preschool: [], lower: [], upper: [] };
@@ -155,16 +186,37 @@ function checkPlace(p: Place) {
     const missions = p.missions[tier];
     const n = countTypes(missions);
 
-    // 3. 미션 구성 (계획 4 D2)
-    if (tier === 'preschool' && !(missions.length === 2 && n.tap === 1 && n.choice === 1)) {
-      add('오류', `missions.${tier}`, `유아는 찾아 누르기(tap) 1 + 고르기(choice) 1이어야 해요 (지금: ${typesText(missions)})`);
+    // 3. 문제 묶음 (계획 5 D1·D5): 크기, 종류별 최소, 그 구간에 넣지 않는 종류
+    const size = POOL_SIZE[tier];
+    if (missions.length !== size) {
+      add('오류', `missions.${tier}`, `${TIER_LABELS[tier]} 문제 묶음은 ${size}개여야 해요 (지금 ${missions.length}개: ${countText(n)})`);
     }
-    if (tier === 'lower' && !(missions.length === 3 && n.choice === 1 && n.tap === 1 && n.direction === 1)) {
-      add('오류', `missions.${tier}`, `저학년은 고르기·찾아 누르기·방향(choice·tap·direction) 각 1이어야 해요 (지금: ${typesText(missions)})`);
+    const mins = POOL_MIN[tier];
+    const allowed = Object.keys(mins) as MissionType[];
+    const short = allowed.filter((t) => n[t] < (mins[t] ?? 0));
+    if (short.length) {
+      const want = short.map((t) => `${TYPE_LABELS[t]} ${mins[t]}개 이상`).join(' · ');
+      add('오류', `missions.${tier}`, `${TIER_LABELS[tier]} 묶음에는 ${want}이 있어야 해요 (지금: ${countText(n)})`);
     }
-    if (tier === 'upper' && !(missions.length === 3 && n.pin === 1 && n.choice + n.direction === 2)) {
-      add('오류', `missions.${tier}`, `고학년은 위치 찍기(pin) 1 + 고르기·방향(choice·direction) 중 2여야 해요 (지금: ${typesText(missions)})`);
+    const stray = (Object.keys(n) as MissionType[]).filter((t) => n[t] && !allowed.includes(t));
+    if (stray.length) {
+      add('오류', `missions.${tier}`, `${TIER_LABELS[tier]}에는 ${allowed.map((t) => TYPE_LABELS[t]).join('·')}만 넣어요 (넣은 다른 종류: ${stray.map((t) => TYPE_LABELS[t]).join('·')})`);
     }
+
+    // 11. 겹침: 같은 장소·구간 안, 그리고 다른 장소의 같은 구간과
+    const firstAt = new Map<string, number>();
+    missions.forEach((m, i) => {
+      const where = `missions.${tier}[${i}]`;
+      for (const { key, level, what, cross } of dupKeys(m, p)) {
+        const j = firstAt.get(key);
+        if (j === undefined) firstAt.set(key, i);
+        else add(level, where, `${what}이 missions.${tier}[${j}]와 같아요: "${m.prompt}"`);
+        if (!cross) continue;
+        const other = crossSeen.get(`${tier}|${key}`);
+        if (!other) crossSeen.set(`${tier}|${key}`, { place: p.id, where });
+        else if (other.place !== p.id) add('알림', where, `다른 장소와 ${what}이 같아요 (${other.place} ${other.where}): "${m.prompt}"`);
+      }
+    });
 
     missions.forEach((m, i) => {
       const where = `missions.${tier}[${i}]`;
