@@ -59,8 +59,8 @@ const DIRECTION_OPTIONS: Partial<Record<Tier, 4 | 8>> = { lower: 4, upper: 8 };
 const ANSWER_SHARE_MAX = 0.6;
 /** 찾아 누르기 반경(radiusKm) 최솟값. 장소 화면(place.zoom) 기준이다 */
 const RADIUS_MIN_KM: Partial<Record<Tier, number>> = { preschool: 50, lower: 20 };
-/** 방위 경계에서 이만큼(°) 안이면 알림 */
-const DIRECTION_EDGE_DEG = 5;
+/** 방위 경계에서 이만큼(°) 안이면 알림. 대권과 평면 지도 둘 다 본다 — 경계 가까운 문제는 어른도 헷갈린다 */
+const DIRECTION_EDGE_DEG = 10;
 /** 위치 찍기 view: 폰(390×844)에서 아래 카드(50%)에 가리지 않는 지도 영역의 반폭·반높이(px), 가장자리로 볼 폭(px) */
 const PHONE_HALF_W = 195;
 const PHONE_HALF_H = 211;
@@ -78,6 +78,14 @@ function bearingDeg([lng1, lat1]: LngLat, [lng2, lat2]: LngLat): number {
   const y = Math.sin(dLng) * Math.cos(rad(lat2));
   const x = Math.cos(rad(lat1)) * Math.sin(rad(lat2)) - Math.sin(rad(lat1)) * Math.cos(rad(lat2)) * Math.cos(dLng);
   return (deg(Math.atan2(y, x)) + 360) % 360;
+}
+
+// 평면 지도(메르카토르)에서 from과 to를 곧게 이은 선의 방위각. 북 0°, 동 90°.
+// 우리나라처럼 가까이 확대한 화면은 평면 지도처럼 보여서, 아이는 이 각도로 방향을 읽는다
+function flatBearingDeg([lng1, lat1]: LngLat, [lng2, lat2]: LngLat): number {
+  const dLng = ((lng2 - lng1 + 540) % 360) - 180;
+  const psi = (lat: number) => Math.log(Math.tan(Math.PI / 4 + rad(lat) / 2));
+  return (deg(Math.atan2(rad(dLng), psi(lat2) - psi(lat1))) + 360) % 360;
 }
 
 // 방위각을 4방위·8방위로 나눈 이름과, 가장 가까운 경계까지 남은 각도
@@ -286,6 +294,12 @@ function checkPlace(p: Place) {
           const angle = `${m.fromName}→${m.toName} 방위각 ${bearing.toFixed(1)}°`;
           if (dir !== m.answer) add('오류', where, `계산한 방위와 정답이 달라요 (계산: ${dir}, 정답: ${m.answer}, ${angle})`);
           else if (toEdge < DIRECTION_EDGE_DEG) add('알림', where, `방위 경계에 가까워요 (${angle}, 경계까지 ${toEdge.toFixed(1)}°)`);
+          // 평면 지도에서 곧게 이은 선도 같은 칸이어야 한다 (가까운 장소는 화면이 평면 지도처럼 보인다)
+          const flat = flatBearingDeg(m.from, m.to);
+          const { dir: flatDir, toEdge: flatEdge } = toDirection(flat, m.options);
+          const flatAngle = `${m.fromName}→${m.toName} 평면 지도 방위각 ${flat.toFixed(1)}°`;
+          if (flatDir !== m.answer) add('오류', where, `평면 지도에서 본 방위가 정답과 달라요 (평면: ${flatDir}, 정답: ${m.answer}, ${flatAngle})`);
+          else if (flatEdge < DIRECTION_EDGE_DEG) add('알림', where, `평면 지도에서 방위 경계에 가까워요 (${flatAngle}, 경계까지 ${flatEdge.toFixed(1)}°)`);
           break;
         }
       }
