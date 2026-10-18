@@ -3,7 +3,7 @@ import { TIER_LABELS, type Place, type Tier, type View } from '../content/types'
 import { ConfirmDialog } from '../family/ConfirmDialog';
 import type { GlobeHandle } from '../globe/globeHandle';
 import { shotMissions } from '../dev/shotParams';
-import { getSave, recordStamp } from '../progress/store';
+import { getSave, recordExtraRound, recordStamp } from '../progress/store';
 import type { StampOutcome } from '../progress/types';
 import { Icon } from '../ui/Icon';
 import { useMoreBelow } from '../ui/useMoreBelow';
@@ -35,7 +35,7 @@ interface TripPanelProps {
 export function TripPanel({ place, tier, profileId, globe, nextPlace, initialStep, onExit }: TripPanelProps) {
   // 이번 여행 문제: 시작할 때 묶음에서 한 번 고른다 (아이가 안 푼 문제 먼저). useState 초기값이라 StrictMode에서 두 번 불려도 첫 값을 계속 쓴다.
   // 개발용 주소(?shot=)로 연 여행은 고정 시드로 고른다 (D10)
-  const [picked] = useState(() => {
+  const [picked, setPicked] = useState(() => {
     const pool = missionPool(place, tier);
     const seen = (profileId && getSave().progress[profileId]?.seen[place.id]) || [];
     return initialStep ? shotMissions(pool, tier, seen) : pickMissions(pool, tier, seen, Math.random);
@@ -52,6 +52,8 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
   const [stampOutcome, setStampOutcome] = useState<StampOutcome | null>(null);
   // 마지막 정답을 빠르게 두 번 눌러도 한 여행에 한 번만 저장한다 (두 번 부르면 방문 횟수가 2가 되고 '또 왔어요'가 뜬다)
   const stampedRef = useRef(false);
+  // '문제 더 풀기' 차례도 한 차례에 한 번만 기록한다 (기록한 차례 번호)
+  const recordedRoundRef = useRef(0);
   const placeView = useMemo<View>(() => ({ center: place.center, zoom: place.zoom }), [place]);
   const panelRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -111,15 +113,29 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
   // 이번에 푼 문제 id도 같은 저장에 넣는다 — 다음 여행에서 안 푼 문제를 먼저 고르게
   const handleDone = (result: MissionResult) => {
     const isLast = state.missionIndex + 1 >= missions.length;
-    if (isLast && profileId && !stampedRef.current) {
+    const total = [...state.results, result].reduce((sum, r) => sum + (r.stars ?? 0), 0);
+    if (isLast && profileId && state.round === 0 && !stampedRef.current) {
       stampedRef.current = true;
-      const total = [...state.results, result].reduce((sum, r) => sum + (r.stars ?? 0), 0);
       setStampOutcome(recordStamp(profileId, place, total, picked.map((p) => p.id)));
+    }
+    if (isLast && profileId && state.round > 0 && recordedRoundRef.current !== state.round) {
+      recordedRoundRef.current = state.round;
+      recordExtraRound(profileId, place, total, picked.map((p) => p.id));
     }
     dispatch({ type: 'missionDone', result });
   };
-  // 도장을 받기 전에는 실수로 나가지 않게 한 번 묻는다 (도장 뒤에는 이미 저장했으니 바로 나간다)
-  const requestExit = () => (state.step === 'stamp' || state.step === 'talk' ? onExit() : setConfirmExit(true));
+  // 도장 뒤 '문제 더 풀기': 같은 장소 묶음에서 안 푼 문제를 한 번 더 고른다 (방금 푼 문제까지 기록된 seen으로)
+  const startMore = () => {
+    const pool = missionPool(place, tier);
+    const seen = (profileId && getSave().progress[profileId]?.seen[place.id]) || [];
+    const nextPick = pickMissions(pool, tier, seen, Math.random);
+    setShowNote(false);
+    setPicked(nextPick);
+    dispatch({ type: 'more', count: nextPick.length });
+  };
+  // 도장을 받기 전에는 실수로 나가지 않게 한 번 묻는다 (도장 뒤·더 풀기 중에는 이미 저장했으니 바로 나간다)
+  const requestExit = () =>
+    state.step === 'stamp' || state.step === 'talk' || state.round > 0 ? onExit() : setConfirmExit(true);
   const mission = state.step === 'mission' ? missions[state.missionIndex] : null;
   const stars = state.results.reduce((sum, r) => sum + (r.stars ?? 0), 0);
   // 찾아 누르기·핀 꽂기·방향 미션은 지도를 넓게 보여야 해서 카드를 줄인다
@@ -194,7 +210,9 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
             {mission && (
               <>
                 <div className="progress">
-                  <span className="progress__label">미션 {state.missionIndex + 1} / {missions.length}</span>
+                  <span className="progress__label">
+                    {state.round > 0 ? '더 풀기' : '미션'} {state.missionIndex + 1} / {missions.length}
+                  </span>
                   <span className="pips" aria-hidden="true">
                     {missions.map((_, i) => (
                       <i key={i} className={`${i <= state.missionIndex ? 'on' : ''}${i === state.missionIndex ? ' now' : ''}`} />
@@ -226,6 +244,9 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
 
             {state.step === 'talk' && (
               <div className="talk">
+                {state.round > 0 && (
+                  <p className="talk__done"><Icon name="check" />{state.missionCount}문제 더 풀었어요!</p>
+                )}
                 <h3 className="talk__label">함께 이야기해요</h3>
                 <CharacterBubble text={place.familyTalk[tier]} voice={stepVoice} />
                 {/* 밑줄 글자는 누르는 곳으로 보이지 않아서, 책 그림과 펼침 표시가 있는 종이 버튼으로 둔다 */}
@@ -239,9 +260,15 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
                   <span>부모님 메모 {showNote ? '닫기' : '보기'}</span>
                 </button>
                 {showNote && <p ref={noteRef} className="talk__note ko">{place.parentNote}</p>}
-                <button type="button" className="btn" onClick={onExit}>
-                  여행 마치기
-                </button>
+                {/* 매일 하는 앱이 아니라서, 도장 뒤에도 같은 장소 문제를 이어 풀 수 있게 두 갈래로 둔다 */}
+                <div className="talk__actions">
+                  <button type="button" className="btn btn--paper" onClick={startMore}>
+                    <Icon name="plus" />문제 더 풀기
+                  </button>
+                  <button type="button" className="btn" onClick={onExit}>
+                    여행 마치기
+                  </button>
+                </div>
               </div>
             )}
           </div>

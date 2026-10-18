@@ -120,6 +120,21 @@ export function recordStamp(profileId: string, place: Place, stars: number, miss
   return outcome;
 }
 
+/** 도장 뒤 '문제 더 풀기' 한 차례를 마친 순간 부른다. 도장·방문 횟수는 그대로 두고, 푼 문제와 고학년 별 최고 기록만 남긴다 */
+export function recordExtraRound(profileId: string, place: Place, stars: number, missionIds: string[]): void {
+  const fresh = persistEnabled ? readStored() : null;
+  const base = fresh ? mergeStamps(state, fresh) : state;
+  const progress = base.progress[profileId];
+  if (!progress) return;
+  const starCount = Number.isFinite(stars) ? Math.min(99, Math.max(0, Math.floor(stars))) : 0;
+  const stamp = progress.stamps[place.id];
+  const withStars = stamp && starCount > stamp.bestStars
+    ? { ...progress, stamps: { ...progress.stamps, [place.id]: { ...stamp, bestStars: starCount } } }
+    : progress;
+  const next = addSeen(withStars, place.id, missionIds, seenLimit(PLACES));
+  commit({ ...base, progress: { ...base.progress, [profileId]: next } });
+}
+
 /** 유아 음성 켜기·끄기 (부모님 공간) */
 export function setVoiceOn(voiceOn: boolean): void {
   commit({ ...state, settings: { ...state.settings, voiceOn } });

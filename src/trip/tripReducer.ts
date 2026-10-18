@@ -16,12 +16,18 @@ export interface TripState {
   missionIndex: number;
   missionCount: number;
   results: MissionResult[];
+  /** 0 = 도장을 받는 첫 미션 묶음, 1부터 = 도장 뒤 '문제 더 풀기'로 이어 푼 차례 */
+  round: number;
 }
 
-export type TripAction = { type: 'next' } | { type: 'missionDone'; result: MissionResult };
+export type TripAction =
+  | { type: 'next' }
+  | { type: 'missionDone'; result: MissionResult }
+  /** '함께 이야기해요'에서 문제를 한 번 더 푼다 (count = 이번에 고른 문제 수) */
+  | { type: 'more'; count: number };
 
 export function createTripState(missionCount: number): TripState {
-  return { step: 'depart', missionIndex: 0, missionCount, results: [] };
+  return { step: 'depart', missionIndex: 0, missionCount, results: [], round: 0 };
 }
 
 export function tripReducer(state: TripState, action: TripAction): TripState {
@@ -35,9 +41,12 @@ export function tripReducer(state: TripState, action: TripAction): TripState {
       if (state.step !== 'mission') return state;
       const results = [...state.results, action.result];
       const isLast = state.missionIndex + 1 >= state.missionCount;
-      return isLast
-        ? { ...state, results, step: 'stamp' }
-        : { ...state, results, missionIndex: state.missionIndex + 1 };
+      // 더 풀기 차례는 도장을 이미 받았으니 끝나면 '함께 이야기해요'로 돌아간다
+      if (isLast) return { ...state, results, step: state.round > 0 ? 'talk' : 'stamp' };
+      return { ...state, results, missionIndex: state.missionIndex + 1 };
     }
+    case 'more':
+      if (state.step !== 'talk' || action.count < 1) return state;
+      return { ...state, step: 'mission', missionIndex: 0, missionCount: action.count, results: [], round: state.round + 1 };
   }
 }
