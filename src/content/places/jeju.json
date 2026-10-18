@@ -17,17 +17,41 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "귤이 많이 나는 섬, 제주도를 눌러 봐!", "targetName": "제주도", "target": [126.55, 33.38], "radiusKm": 50, "explain": "여기가 제주도예요!" },
-      { "type": "choice", "prompt": "제주도에서 많이 나는 과일은 무엇일까?", "options": [{ "label": "귤", "icon": "🍊" }, { "label": "코코넛", "icon": "🥥" }], "answer": 0, "explain": "제주도에서는 귤이 많이 나요." }
+      { "type": "choice", "prompt": "제주도에서 많이 나는 과일은 무엇일까?", "options": [{ "label": "귤", "icon": "🍊" }, { "label": "코코넛", "icon": "🥥" }], "answer": 0, "explain": "제주도에서는 귤이 많이 나요." },
+      { "type": "tap", "prompt": "제주도에서 제일 큰 도시, 제주시를 눌러 봐! 섬 위쪽 까만 점이에요.", "targetName": "제주시", "target": [126.52, 33.5], "radiusKm": 9, "view": { "center": [126.55, 33.42], "zoom": 9 }, "explain": "제주시에는 비행기가 뜨고 내리는 공항이 있어요." },
+      { "type": "choice", "prompt": "제주도를 지키는 할아버지 조각은 무엇으로 만들었을까?", "options": [{ "label": "눈", "icon": "⛄" }, { "label": "돌", "icon": "🪨" }], "answer": 1, "explain": "돌하르방은 제주도의 돌로 만든 할아버지예요. 제주도를 지켜 줘요." },
+      { "type": "choice", "prompt": "제주도를 빙 둘러싼 건 무엇일까?", "options": [{ "label": "바다", "icon": "🌊" }, { "label": "높은 빌딩", "icon": "🏙️" }], "answer": 0, "explain": "제주도는 바다로 둘러싸인 섬이에요." },
+      { "type": "choice", "prompt": "봄에 제주도 들판을 노랗게 덮은 건 뭘까?", "options": [{ "label": "버섯", "icon": "🍄" }, { "label": "유채꽃", "icon": "🌼" }], "answer": 1, "explain": "봄이 되면 제주도 들판에 노란 유채꽃이 활짝 피어요." },
+      { "type": "choice", "prompt": "구멍이 송송 난 제주도 돌은 무슨 색일까?", "options": [{ "label": "까만색", "icon": "⚫" }, { "label": "무지개색", "icon": "🌈" }], "answer": 0, "explain": "제주도에는 화산이 만든 까만 돌이 많아요. 구멍이 송송 나 있어요." },
+      { "type": "choice", "prompt": "제주도 들판에서 히힝 우는 동물은 누구일까?", "options": [{ "label": "펭귄", "icon": "🐧" }, { "label": "말", "icon": "🐴" }], "answer": 1, "explain": "제주도에는 작고 튼튼한 조랑말이 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "제주도는 우리나라 섬 가운데 어떤 섬일까?", "options": [{ "label": "가장 작은 섬" }, { "label": "가장 북쪽 섬" }, { "label": "가장 큰 섬" }], "answer": 2, "explain": "제주도는 우리나라에서 가장 큰 섬이에요." },
       { "type": "tap", "prompt": "제주도 한가운데 있는 한라산을 찾아 눌러 봐!", "targetName": "한라산", "target": [126.5312, 33.3617], "radiusKm": 12, "view": { "center": [126.55, 33.38], "zoom": 8 }, "explain": "한라산은 제주도 한가운데에 있는 산이에요." },
-      { "type": "direction", "prompt": "한반도에서 보면 제주도는 어느 쪽 바다에 있을까?", "from": [127.3, 38.3], "fromName": "한반도", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 한반도 남쪽 바다에 있어요." }
+      { "type": "direction", "prompt": "한반도에서 보면 제주도는 어느 쪽 바다에 있을까?", "from": [127.3, 38.3], "fromName": "한반도", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 한반도 남쪽 바다에 있어요." },
+      { "type": "tap", "prompt": "지구본에서 제주도를 찾아 눌러 봐!", "targetName": "제주도", "target": [126.55, 33.38], "radiusKm": 40, "view": { "center": [127.4, 35.3], "zoom": 5.8 }, "explain": "여기가 제주도예요! 섬 한가운데에 한라산이 있어요." },
+      { "type": "tap", "prompt": "제주도와 배로 오가는 항구 도시, 목포를 찾아 눌러 봐!", "targetName": "목포", "target": [126.39, 34.81], "radiusKm": 20, "view": { "center": [126.9, 34.2], "zoom": 6.3 }, "explain": "목포에서 배를 타면 바다를 건너 제주도에 갈 수 있어요." },
+      { "type": "direction", "prompt": "한라산에서 보면 성산일출봉은 어느 쪽에 있을까?", "from": [126.5312, 33.3617], "fromName": "한라산", "to": [126.9425, 33.4581], "toName": "성산일출봉", "options": 4, "answer": "동", "explain": "성산일출봉은 한라산에서 동쪽, 제주도 동쪽 끝 바닷가에 있어요. 해돋이로 유명해요." },
+      { "type": "direction", "prompt": "제주도에서 보면 중국의 상하이는 어느 쪽에 있을까?", "from": [126.53, 33.38], "fromName": "제주도", "to": [121.4737, 31.2304], "toName": "상하이", "options": 4, "answer": "서", "explain": "중국의 큰 도시 상하이는 제주도에서 서쪽으로 바다 건너 약 530km 떨어져 있어요." },
+      { "type": "choice", "prompt": "제주도 곳곳에 서 있는, 돌로 만든 할아버지 모양의 조각은 무엇일까?", "options": [{ "label": "허수아비" }, { "label": "돌하르방" }, { "label": "눈사람" }], "answer": 1, "explain": "돌하르방은 '돌 할아버지'라는 뜻이에요. 제주도의 돌로 만들었어요." },
+      { "type": "choice", "prompt": "제주도에서 오래전부터 길러 온 작고 튼튼한 말은 무엇일까?", "options": [{ "label": "조랑말" }, { "label": "얼룩말" }, { "label": "낙타" }], "answer": 0, "explain": "제주도의 조랑말(제주마)은 작지만 튼튼해요. 천연기념물로 지키고 있어요." },
+      { "type": "choice", "prompt": "한라산이 있는 제주도 한가운데는 바닷가보다 어떨까?", "options": [{ "label": "더 낮아요" }, { "label": "높이가 같아요" }, { "label": "더 높아요" }], "answer": 2, "explain": "제주도는 한가운데 한라산이 가장 높고, 바닷가로 갈수록 낮아져요." },
+      { "type": "choice", "prompt": "제주도 바닷속에 들어가 소라와 전복을 따는 사람을 무엇이라고 할까?", "options": [{ "label": "농부" }, { "label": "해녀" }, { "label": "광부" }], "answer": 1, "explain": "해녀는 숨을 참고 바닷속에 들어가 해산물을 따요. 제주 해녀 문화는 유네스코 인류무형문화유산이에요." },
+      { "type": "choice", "prompt": "바람이 센 제주도에서 밭 둘레에 쌓아 바람을 막는 것은 무엇일까?", "options": [{ "label": "돌담" }, { "label": "얼음 벽" }, { "label": "종이 벽" }], "answer": 0, "explain": "제주도 사람들은 흔한 까만 돌로 밭 둘레에 돌담을 쌓아 바람을 막았어요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 한라산 꼭대기를 찍어 보세요.", "targetName": "한라산 꼭대기", "target": [126.5312, 33.3617], "starsKm": [5, 15], "view": { "center": [126.55, 33.38], "zoom": 8 }, "explain": "한라산은 제주도 한가운데 있는, 남한에서 가장 높은 산이에요." },
       { "type": "choice", "prompt": "한라산 꼭대기에 있는 호수의 이름은 무엇일까요?", "options": [{ "label": "천지" }, { "label": "백록담" }, { "label": "소양호" }, { "label": "경포호" }], "answer": 1, "explain": "한라산 꼭대기의 호수는 백록담이에요. 천지는 백두산 꼭대기에 있어요." },
-      { "type": "direction", "prompt": "서울에서 보면 제주도는 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.53, 33.38], "toName": "제주도", "options": 8, "answer": "남", "explain": "제주도는 서울에서 남쪽으로 약 470km 떨어져 있어요." }
+      { "type": "direction", "prompt": "서울에서 보면 제주도는 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.53, 33.38], "toName": "제주도", "options": 8, "answer": "남", "explain": "제주도는 서울에서 남쪽으로 약 470km 떨어져 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 해돋이로 유명한 화산, 성산일출봉을 찍어 보세요.", "targetName": "성산일출봉", "target": [126.9425, 33.4581], "starsKm": [4, 12], "view": { "center": [126.55, 33.38], "zoom": 8 }, "explain": "성산일출봉은 제주도 동쪽 끝 바닷가에 있어요. 바닷속에서 화산이 터져 생겼어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 한라산 남쪽 바닷가의 도시, 서귀포를 찍어 보세요.", "targetName": "서귀포", "target": [126.5601, 33.2541], "starsKm": [4, 12], "view": { "center": [126.55, 33.38], "zoom": 8 }, "explain": "서귀포는 제주도 남쪽 바닷가에 있어요. 제주시는 섬의 북쪽 바닷가에 있어요." },
+      { "type": "direction", "prompt": "제주도에서 보면 대구는 어느 방향에 있을까요?", "from": [126.53, 33.38], "fromName": "제주도", "to": [128.6014, 35.8714], "toName": "대구", "options": 8, "answer": "북동", "explain": "대구는 제주도에서 북동쪽으로 약 340km 떨어져 있어요." },
+      { "type": "direction", "prompt": "제주도에서 보면 일본의 오사카는 어느 방향에 있을까요?", "from": [126.53, 33.38], "fromName": "제주도", "to": [135.5023, 34.6937], "toName": "오사카", "options": 8, "answer": "동", "explain": "오사카는 제주도에서 동쪽으로 약 840km 떨어져 있어요." },
+      { "type": "choice", "prompt": "한라산·성산일출봉 같은 제주의 화산 지형은 유네스코의 어떤 유산일까요?", "options": [{ "label": "세계자연유산" }, { "label": "세계기록유산" }, { "label": "인류무형문화유산" }, { "label": "세계문화유산" }], "answer": 0, "explain": "'제주 화산섬과 용암 동굴'은 2007년 우리나라의 첫 유네스코 세계자연유산이 되었어요." },
+      { "type": "choice", "prompt": "제주도 현무암에 구멍이 송송 뚫린 까닭은 무엇일까요?", "options": [{ "label": "사람들이 일부러 뚫어서" }, { "label": "용암 속 가스가 빠져나가서" }, { "label": "벌레가 갉아 먹어서" }, { "label": "물고기가 파 놓아서" }], "answer": 1, "explain": "현무암은 용암이 식어 굳은 돌이에요. 식을 때 가스가 빠져나간 자리가 구멍으로 남았어요." },
+      { "type": "choice", "prompt": "제주도에 물이 늘 흐르는 하천이 드문 까닭은 무엇일까요?", "options": [{ "label": "빗물이 땅속으로 스며들어서" }, { "label": "하천이 늘 꽁꽁 얼어서" }, { "label": "사람들이 하천을 메워서" }, { "label": "바닷물이 넘쳐 들어와서" }], "answer": 0, "explain": "제주도는 비가 많이 오지만, 땅이 화산 돌과 흙으로 되어 있어 빗물이 금방 땅속으로 스며들어요. 그래서 평소에는 말라 있는 하천이 많아요." },
+      { "type": "choice", "prompt": "제주도 곳곳에 있는 '오름'은 무엇일까요?", "options": [{ "label": "사람이 쌓은 돌탑" }, { "label": "바닷가 모래 언덕" }, { "label": "한라산 둘레에 생긴 작은 화산" }, { "label": "커다란 호수" }], "answer": 2, "explain": "오름은 한라산 둘레에 생긴 작은 화산이에요. 제주도에는 오름이 360개가 넘어요." },
+      { "type": "choice", "prompt": "제주도의 만장굴은 어떻게 만들어진 동굴일까요?", "options": [{ "label": "석회암이 빗물에 녹아서" }, { "label": "파도가 바위를 깎아서" }, { "label": "사람들이 땅을 파서" }, { "label": "용암이 흘러 지나가서" }], "answer": 3, "explain": "만장굴은 용암이 흘러 지나가며 만든 용암 동굴이에요. 길이가 약 7.4km나 돼요." }
     ]
   },
   "familyTalk": {

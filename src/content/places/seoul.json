@@ -17,17 +17,41 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "빨간 별이 있는 큰 도시, 서울을 눌러 봐!", "targetName": "서울", "target": [126.978, 37.566], "radiusKm": 50, "explain": "빨간 별은 나라의 수도를 알려 줘요." },
-      { "type": "choice", "prompt": "서울 한가운데로 흐르는 건 무엇일까?", "options": [{ "label": "강", "icon": "🏞️" }, { "label": "사막", "icon": "🏜️" }], "answer": 0, "explain": "서울 한가운데로 한강이 흘러요." }
+      { "type": "choice", "prompt": "서울 한가운데로 흐르는 건 무엇일까?", "options": [{ "label": "강", "icon": "🏞️" }, { "label": "사막", "icon": "🏜️" }], "answer": 0, "explain": "서울 한가운데로 한강이 흘러요." },
+      { "type": "tap", "prompt": "서울 옆 바다에 동동 뜬 섬을 눌러 봐!", "targetName": "강화도", "target": [126.45, 37.72], "radiusKm": 25, "view": { "center": [126.75, 37.55], "zoom": 8 }, "explain": "이 섬은 강화도예요. 서울에서 가까운 큰 섬이에요." },
+      { "type": "choice", "prompt": "서울에 아주 많은 건 무엇일까?", "options": [{ "label": "공룡", "icon": "🦖" }, { "label": "높은 건물", "icon": "🏢" }], "answer": 1, "explain": "서울에는 높은 건물이 아주 많아요." },
+      { "type": "choice", "prompt": "서울 땅속으로 쌩쌩 달리는 건 뭘까?", "options": [{ "label": "지하철", "icon": "🚇" }, { "label": "배", "icon": "🚢" }], "answer": 0, "explain": "서울 땅속으로 지하철이 쌩쌩 달려요." },
+      { "type": "choice", "prompt": "옛날 임금님은 서울 어디에 살았을까?", "options": [{ "label": "텐트", "icon": "⛺" }, { "label": "궁궐", "icon": "👑" }], "answer": 1, "explain": "임금님은 서울의 궁궐에 살았어요. 경복궁이 유명해요." },
+      { "type": "choice", "prompt": "서울 강가 공원에서 탈 수 있는 건 뭘까?", "options": [{ "label": "자전거", "icon": "🚲" }, { "label": "낙타", "icon": "🐫" }], "answer": 0, "explain": "서울 한강 공원에서는 자전거를 신나게 탈 수 있어요." },
+      { "type": "choice", "prompt": "서울 둘레에 많은 건 무엇일까?", "options": [{ "label": "선인장", "icon": "🌵" }, { "label": "산", "icon": "⛰️" }], "answer": 1, "explain": "서울 둘레에는 북한산, 관악산 같은 산이 많아요." }
     ],
     "lower": [
-      { "type": "choice", "prompt": "우리나라의 수도는 어디일까?", "options": [{ "label": "서울" }, { "label": "부산" }, { "label": "제주" }], "answer": 0, "explain": "우리나라의 수도는 서울이에요." },
+      { "type": "choice", "prompt": "서울처럼 나라의 중요한 일을 하는 곳이 모인 도시를 무엇이라고 할까?", "options": [{ "label": "수도" }, { "label": "항구" }, { "label": "섬" }], "answer": 0, "explain": "나라의 중요한 일을 하는 곳이 모인 도시를 수도라고 해요. 우리나라의 수도는 서울이에요." },
       { "type": "tap", "prompt": "지구본에서 서울을 찾아 눌러 봐!", "targetName": "서울", "target": [126.978, 37.566], "radiusKm": 25, "explain": "빨간 별은 나라의 수도를 알려 줘요." },
-      { "type": "direction", "prompt": "서울에서 보면 제주도는 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 서울에서 남쪽 바다에 있어요." }
+      { "type": "direction", "prompt": "서울에서 보면 제주도는 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.53, 33.38], "toName": "제주도", "options": 4, "answer": "남", "explain": "제주도는 서울에서 남쪽 바다에 있어요." },
+      { "type": "tap", "prompt": "서울에서 KTX를 타고 1시간쯤 가면 닿는 큰 도시, 대전을 찾아 눌러 봐!", "targetName": "대전", "target": [127.3845, 36.3504], "radiusKm": 20, "view": { "center": [127.15, 36.95], "zoom": 7 }, "explain": "대전은 우리나라 한가운데쯤에 있어서 기찻길과 고속도로가 많이 지나요." },
+      { "type": "tap", "prompt": "세계유산 수원 화성이 있는 도시, 수원을 찾아 눌러 봐!", "targetName": "수원", "target": [127.02, 37.27], "radiusKm": 11, "view": { "center": [126.95, 37.45], "zoom": 8 }, "explain": "수원에는 조선 시대에 쌓은 성, 수원 화성이 있어요." },
+      { "type": "direction", "prompt": "전주에서 보면 서울은 어느 쪽에 있을까?", "from": [127.148, 35.824], "fromName": "전주", "to": [126.978, 37.566], "toName": "서울", "options": 4, "answer": "북", "explain": "서울은 전주에서 북쪽으로 약 190km 떨어져 있어요. 전주는 한옥 마을과 비빔밥으로 이름난 도시예요." },
+      { "type": "direction", "prompt": "서울에서 보면 중국의 베이징은 어느 쪽에 있을까?", "from": [126.978, 37.566], "fromName": "서울", "to": [116.4074, 39.9042], "toName": "베이징", "options": 4, "answer": "서", "explain": "중국의 수도 베이징은 서울에서 서쪽으로 약 950km 떨어져 있어요." },
+      { "type": "choice", "prompt": "서울 한가운데를 흐르는 강은 무엇일까?", "options": [{ "label": "금강" }, { "label": "한강" }, { "label": "영산강" }], "answer": 1, "explain": "서울 한가운데로 한강이 흘러요. 한강은 서울을 남쪽과 북쪽으로 나눠요." },
+      { "type": "choice", "prompt": "조선의 임금님이 살던 서울의 궁궐은 어디일까?", "options": [{ "label": "불국사" }, { "label": "첨성대" }, { "label": "경복궁" }], "answer": 2, "explain": "경복궁은 조선의 임금님이 살던 궁궐이에요. 불국사와 첨성대는 경주에 있어요." },
+      { "type": "choice", "prompt": "서울 한가운데에 있고, 꼭대기에 높은 탑이 서 있는 산은 무엇일까?", "options": [{ "label": "남산" }, { "label": "한라산" }, { "label": "설악산" }], "answer": 0, "explain": "남산 꼭대기에는 서울을 내려다보는 서울타워가 있어요." },
+      { "type": "choice", "prompt": "서울 같은 큰 도시에 많은 것은 무엇일까?", "options": [{ "label": "넓은 갯벌" }, { "label": "높은 건물과 아파트" }, { "label": "넓은 논과 밭" }], "answer": 1, "explain": "큰 도시에는 사람이 많이 살아서 높은 건물과 아파트가 많아요." },
+      { "type": "choice", "prompt": "서울에 사람이 많이 모여 사는 까닭은 무엇일까?", "options": [{ "label": "1년 내내 따뜻해서" }, { "label": "땅이 아주 넓어서" }, { "label": "일자리와 학교가 많아서" }], "answer": 2, "explain": "서울에는 회사와 학교, 병원이 많아서 사람이 많이 모여 살아요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 서울의 위치를 찍어 보세요.", "targetName": "서울", "target": [126.978, 37.566], "starsKm": [15, 60], "view": { "center": [127.8, 36.2], "zoom": 6 }, "explain": "서울은 한반도 서쪽 가운데, 한강 하류에 있어요." },
       { "type": "direction", "prompt": "서울에서 보면 부산은 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [129.075, 35.18], "toName": "부산", "options": 8, "answer": "남동", "explain": "부산은 서울에서 남동쪽으로 약 320km 떨어져 있어요." },
-      { "type": "choice", "prompt": "서울은 몇 년 전부터 우리나라의 중심이었을까요?", "options": [{ "label": "약 60년 전" }, { "label": "약 300년 전" }, { "label": "약 600년 전" }, { "label": "약 6,000년 전" }], "answer": 2, "explain": "서울은 1394년 조선의 도읍이 된 뒤 600년 넘게 나라의 중심이었어요." }
+      { "type": "choice", "prompt": "서울은 몇 년 전부터 우리나라의 중심이었을까요?", "options": [{ "label": "약 60년 전" }, { "label": "약 300년 전" }, { "label": "약 600년 전" }, { "label": "약 6,000년 전" }], "answer": 2, "explain": "서울은 1394년 조선의 도읍이 된 뒤 600년 넘게 나라의 중심이었어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 정부 기관이 많이 옮겨 간 행정 중심 도시, 세종을 찍어 보세요.", "targetName": "세종", "target": [127.289, 36.48], "starsKm": [10, 30], "view": { "center": [127.4, 36.95], "zoom": 7 }, "explain": "세종은 서울에 몰린 나라의 일을 나누어 맡으려고 만든 도시예요. 대전 바로 옆에 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 한강 하구 앞에 있어 옛날부터 서울로 가는 바닷길을 지키던 큰 섬, 강화도를 찍어 보세요.", "targetName": "강화도", "target": [126.45, 37.7], "starsKm": [8, 25], "view": { "center": [126.9, 37.5], "zoom": 7.5 }, "explain": "강화도는 한강이 바다와 만나는 곳 앞에 있는 큰 섬이에요. 고인돌 유적으로도 유명해요." },
+      { "type": "direction", "prompt": "서울에서 보면 북한의 평양은 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [125.7625, 39.0392], "toName": "평양", "options": 8, "answer": "북서", "explain": "평양은 서울에서 북서쪽으로 약 200km 떨어져 있어요." },
+      { "type": "direction", "prompt": "서울에서 보면 광주광역시는 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [126.8526, 35.1601], "toName": "광주광역시", "options": 8, "answer": "남", "explain": "광주광역시는 서울에서 바로 남쪽으로 약 270km 떨어져 있어요." },
+      { "type": "choice", "prompt": "조선이 한양(지금의 서울)을 도읍으로 정한 까닭은 무엇일까요?", "options": [{ "label": "나라의 북쪽 끝이라서" }, { "label": "큰 강이 흐르고 산이 둘러싸서" }, { "label": "바다 한가운데 섬이라서" }, { "label": "높은 산꼭대기라서" }], "answer": 1, "explain": "한양은 한강 물길로 오가기 좋고, 둘레의 산이 막아 주어 나라를 지키기 좋았어요." },
+      { "type": "choice", "prompt": "서울·인천·경기도를 함께 부르는 이름은 무엇일까요?", "options": [{ "label": "수도권" }, { "label": "강원권" }, { "label": "충청권" }, { "label": "제주권" }], "answer": 0, "explain": "서울과 둘레의 인천, 경기도를 수도권이라고 해요. 우리나라 사람의 절반쯤이 수도권에 살아요." },
+      { "type": "choice", "prompt": "서울에 사람과 회사가 너무 많이 모이면 생기는 문제는 무엇일까요?", "options": [{ "label": "농사짓는 땅이 넓어져요" }, { "label": "버스와 지하철이 텅 비어요" }, { "label": "공기가 아주 맑아져요" }, { "label": "집값이 오르고 길이 자주 막혀요" }], "answer": 3, "explain": "사람이 몰리면 집이 모자라 집값이 오르고, 차가 많아 길이 자주 막혀요." },
+      { "type": "choice", "prompt": "서울에 사는 사람은 약 몇 명일까요?", "options": [{ "label": "약 90만 명" }, { "label": "약 900만 명" }, { "label": "약 9,000만 명" }, { "label": "약 9억 명" }], "answer": 1, "explain": "서울에는 900만 명이 넘는 사람이 살아요. 우리나라에서 사람이 가장 많이 사는 도시예요." },
+      { "type": "choice", "prompt": "서울의 여름과 겨울 날씨로 알맞은 것은 무엇일까요?", "options": [{ "label": "1년 내내 덥고 비가 많아요" }, { "label": "여름엔 서늘하고, 겨울엔 따뜻해요" }, { "label": "여름엔 덥고 비가 많고, 겨울엔 추워요" }, { "label": "1년 내내 춥고 눈이 많아요" }], "answer": 2, "explain": "서울은 여름에 덥고 장맛비가 많이 오고, 겨울에는 춥고 메말라요." }
     ]
   },
   "familyTalk": {

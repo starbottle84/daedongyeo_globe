@@ -17,17 +17,41 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "오징어가 유명한 섬, 울릉도를 눌러 봐!", "targetName": "울릉도", "target": [130.8667, 37.4983], "radiusKm": 50, "view": { "center": [130.1, 37.1], "zoom": 6.5 }, "explain": "여기가 울릉도예요!" },
-      { "type": "choice", "prompt": "울릉도에서 유명한 바다 친구는 누구일까?", "options": [{ "label": "코끼리", "icon": "🐘" }, { "label": "오징어", "icon": "🦑" }], "answer": 1, "explain": "울릉도는 오징어가 유명해요." }
+      { "type": "choice", "prompt": "울릉도에서 유명한 바다 친구는 누구일까?", "options": [{ "label": "코끼리", "icon": "🐘" }, { "label": "오징어", "icon": "🦑" }], "answer": 1, "explain": "울릉도는 오징어가 유명해요." },
+      { "type": "tap", "prompt": "울릉도 가는 배가 떠나는 곳, 포항을 눌러 봐!", "targetName": "포항", "target": [129.36, 36.02], "radiusKm": 50, "explain": "포항에서 배를 타고 울릉도에 가요." },
+      { "type": "choice", "prompt": "오징어 다리는 몇 개일까?", "options": [{ "label": "열 개", "icon": "🔟" }, { "label": "세 개", "icon": "3️⃣" }], "answer": 0, "explain": "오징어 다리는 열 개예요. 문어는 여덟 개, 오징어는 열 개!" },
+      { "type": "choice", "prompt": "깜짝 놀란 오징어가 뿜는 건 뭘까?", "options": [{ "label": "풍선", "icon": "🎈" }, { "label": "까만 먹물", "icon": "⚫" }], "answer": 1, "explain": "오징어는 까만 먹물을 뿜고 쏙 숨어요." },
+      { "type": "choice", "prompt": "밤바다에서 오징어잡이 배가 켜는 건 뭘까?", "options": [{ "label": "환한 불빛", "icon": "💡" }, { "label": "막대 사탕", "icon": "🍭" }], "answer": 0, "explain": "오징어는 환한 불빛을 보고 모여들어요." },
+      { "type": "choice", "prompt": "울릉도 가운데에 높이 솟은 건 뭘까?", "options": [{ "label": "관람차", "icon": "🎡" }, { "label": "산", "icon": "⛰️" }], "answer": 1, "explain": "울릉도 가운데에는 성인봉이라는 높은 산이 있어요." },
+      { "type": "choice", "prompt": "울릉도 겨울엔 눈이 펑펑! 눈으로 무엇을 만들까?", "options": [{ "label": "눈사람", "icon": "⛄" }, { "label": "모래성", "icon": "🏰" }], "answer": 0, "explain": "울릉도는 겨울에 눈이 아주 많이 와요. 눈사람을 만들 수 있어요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "울릉도에서 가장 높은 산은 무엇일까?", "options": [{ "label": "한라산" }, { "label": "백두산" }, { "label": "성인봉" }], "answer": 2, "explain": "성인봉은 울릉도, 한라산은 제주도에서 가장 높은 산이에요." },
       { "type": "tap", "prompt": "울릉도에 가는 배를 탈 수 있는 도시, 포항을 찾아 눌러 봐!", "targetName": "포항", "target": [129.36, 36.02], "radiusKm": 30, "view": { "center": [130.1, 36.8], "zoom": 6.6 }, "explain": "포항에서 배를 타면 울릉도에 갈 수 있어요." },
-      { "type": "direction", "prompt": "강릉에서 보면 울릉도는 어느 쪽에 있을까?", "from": [128.876, 37.7519], "fromName": "강릉", "to": [130.8667, 37.4983], "toName": "울릉도", "options": 4, "answer": "동", "explain": "울릉도는 강릉에서 동쪽 바다로 약 180km 떨어져 있어요." }
+      { "type": "direction", "prompt": "강릉에서 보면 울릉도는 어느 쪽에 있을까?", "from": [128.876, 37.7519], "fromName": "강릉", "to": [130.8667, 37.4983], "toName": "울릉도", "options": 4, "answer": "동", "explain": "울릉도는 강릉에서 동쪽 바다로 약 180km 떨어져 있어요." },
+      { "type": "tap", "prompt": "동해에 있는 섬, 울릉도를 찾아 눌러 봐!", "targetName": "울릉도", "target": [130.8667, 37.4983], "radiusKm": 25, "view": { "center": [129.9, 37.2], "zoom": 6.3 }, "explain": "여기가 울릉도예요. 육지에서 멀리 떨어진 바다 위의 섬이에요." },
+      { "type": "tap", "prompt": "울릉도와 동해를 사이에 둔 바닷가 도시, 강릉을 찾아 눌러 봐!", "targetName": "강릉", "target": [128.876, 37.7519], "radiusKm": 40, "view": { "center": [129.6, 37.4], "zoom": 6.3 }, "explain": "여기가 강릉이에요. 강릉에서 울릉도까지는 약 180km예요." },
+      { "type": "direction", "prompt": "울릉도에서 보면 서울은 어느 쪽에 있을까?", "from": [130.8667, 37.4983], "fromName": "울릉도", "to": [126.978, 37.566], "toName": "서울", "options": 4, "answer": "서", "explain": "서울은 울릉도에서 서쪽으로 약 340km 떨어져 있어요." },
+      { "type": "direction", "prompt": "울릉도에서 보면 러시아의 블라디보스토크는 어느 쪽에 있을까?", "from": [130.8667, 37.4983], "fromName": "울릉도", "to": [131.8854, 43.1155], "toName": "블라디보스토크", "options": 4, "answer": "북", "explain": "블라디보스토크는 울릉도에서 동해를 건너 북쪽으로 약 630km 떨어진 러시아의 항구 도시예요." },
+      { "type": "choice", "prompt": "울릉도 밤바다에서 오징어잡이 배가 환하게 불을 켜는 까닭은 무엇일까?", "options": [{ "label": "바닷물을 데우려고" }, { "label": "오징어를 불빛으로 모으려고" }, { "label": "갈매기를 쫓으려고" }], "answer": 1, "explain": "오징어는 밝은 불빛을 보고 모여들어요. 그래서 밤에 불을 환하게 켜고 오징어를 잡아요." },
+      { "type": "choice", "prompt": "울릉도처럼 둘레가 모두 바다로 둘러싸인 땅을 무엇이라고 할까?", "options": [{ "label": "섬" }, { "label": "반도" }, { "label": "평야" }], "answer": 0, "explain": "둘레가 모두 바다인 땅은 섬이에요. 반도는 세 면만 바다와 닿아 있어요." },
+      { "type": "choice", "prompt": "바람이 세고 파도가 높은 날, 울릉도를 오가는 배는 어떻게 될까?", "options": [{ "label": "더 빨리 달려요" }, { "label": "하늘을 날아가요" }, { "label": "다니지 않고 쉬어요" }], "answer": 2, "explain": "파도가 높으면 위험해서 배가 다니지 않아요. 그래서 섬을 오갈 때는 날씨를 꼭 살펴요." },
+      { "type": "choice", "prompt": "오징어·미역·홍합처럼 울릉도 바다에서 얻는 먹을거리를 무엇이라고 할까?", "options": [{ "label": "농산물" }, { "label": "해산물" }, { "label": "과일" }], "answer": 1, "explain": "바다에서 얻는 먹을거리를 해산물이라고 해요. 논밭에서 얻는 것은 농산물이에요." },
+      { "type": "choice", "prompt": "울릉도는 겨울에 무엇이 아주 많이 내리는 곳일까?", "options": [{ "label": "눈" }, { "label": "우박" }, { "label": "황사" }], "answer": 0, "explain": "울릉도는 우리나라에서 눈이 아주 많이 내리는 곳이에요. 며칠 만에 1m 넘게 쌓이기도 해요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 울릉도의 위치를 찍어 보세요.", "targetName": "울릉도", "target": [130.8667, 37.4983], "starsKm": [20, 60], "view": { "center": [129, 36.7], "zoom": 5.6 }, "explain": "울릉도는 한반도 동쪽 해안에서 멀리 떨어진 동해 바다에 있어요." },
       { "type": "choice", "prompt": "울릉도는 어떻게 만들어진 섬일까요?", "options": [{ "label": "화산이 터져서" }, { "label": "산호가 쌓여서" }, { "label": "빙하가 땅을 깎아서" }, { "label": "강물이 흙을 쌓아서" }], "answer": 0, "explain": "울릉도와 독도는 바다 밑 화산이 터져 솟아오른 화산섬이에요." },
-      { "type": "direction", "prompt": "포항에서 보면 울릉도는 어느 방향에 있을까요?", "from": [129.36, 36.02], "fromName": "포항", "to": [130.8667, 37.4983], "toName": "울릉도", "options": 8, "answer": "북동", "explain": "울릉도는 포항에서 북동쪽으로 약 210km 떨어져 있어요." }
+      { "type": "direction", "prompt": "포항에서 보면 울릉도는 어느 방향에 있을까요?", "from": [129.36, 36.02], "fromName": "포항", "to": [130.8667, 37.4983], "toName": "울릉도", "options": 8, "answer": "북동", "explain": "울릉도는 포항에서 북동쪽으로 약 210km 떨어져 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 울릉도로 가는 배가 떠나는 경상북도의 항구 도시, 포항을 찍어 보세요.", "targetName": "포항", "target": [129.36, 36.02], "starsKm": [15, 50], "view": { "center": [128.6, 36.6], "zoom": 6 }, "explain": "포항은 경상북도 동해 바닷가의 항구 도시예요. 포항에서 울릉도까지는 약 210km예요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 우리나라 육지에서 울릉도와 가장 가까운 곳을 찍어 보세요.", "targetName": "울진 죽변", "target": [129.423, 37.057], "starsKm": [25, 60], "view": { "center": [130.0, 36.8], "zoom": 6 }, "explain": "울릉도와 가장 가까운 육지는 경상북도 울진의 죽변이에요. 약 130km 떨어져 있어요." },
+      { "type": "direction", "prompt": "울릉도에서 보면 북한의 항구 도시 청진은 어느 방향에 있을까요?", "from": [130.8667, 37.4983], "fromName": "울릉도", "to": [129.7758, 41.7956], "toName": "청진", "options": 8, "answer": "북", "explain": "청진은 울릉도에서 동해를 건너 북쪽으로 약 490km 떨어진 북한의 항구 도시예요." },
+      { "type": "direction", "prompt": "울릉도에서 보면 북한의 함흥은 어느 방향에 있을까요?", "from": [130.8667, 37.4983], "fromName": "울릉도", "to": [127.5364, 39.9183], "toName": "함흥", "options": 8, "answer": "북서", "explain": "함흥은 울릉도에서 북서쪽으로 약 400km 떨어진 북한의 도시예요." },
+      { "type": "choice", "prompt": "울릉도 성인봉 북쪽에 있는, 화산 꼭대기가 무너져 생긴 평평한 땅은 무엇일까요?", "options": [{ "label": "백록담" }, { "label": "나리분지" }, { "label": "김해평야" }, { "label": "호남평야" }], "answer": 1, "explain": "나리분지는 화산 꼭대기가 무너져 생긴 분지로, 울릉도에서 가장 넓은 평지예요." },
+      { "type": "choice", "prompt": "울릉도에서 독도까지는 약 얼마나 떨어져 있을까요?", "options": [{ "label": "약 9km" }, { "label": "약 500km" }, { "label": "약 87km" }, { "label": "약 2,000km" }], "answer": 2, "explain": "독도는 울릉도에서 약 87km 떨어져 있어요. 독도와 가장 가까운 우리 섬이 울릉도예요." },
+      { "type": "choice", "prompt": "512년 신라의 이사부가 신라 땅으로 만든, 울릉도에 있던 옛 나라는 무엇일까요?", "options": [{ "label": "탐라국" }, { "label": "가야" }, { "label": "부여" }, { "label": "우산국" }], "answer": 3, "explain": "삼국사기에는 512년 이사부가 우산국을 신라 땅으로 만들었다고 적혀 있어요." },
+      { "type": "choice", "prompt": "겨울에 울릉도에 눈이 아주 많이 내리는 까닭은 무엇일까요?", "options": [{ "label": "섬이 적도와 가까운 곳에 있어서" }, { "label": "찬 바람이 바다의 수증기를 머금어서" }, { "label": "화산에서 하얀 연기가 많이 나와서" }, { "label": "남쪽에서 뜨거운 바람이 불어와서" }], "answer": 1, "explain": "겨울에는 차가운 바람이 비교적 따뜻한 동해를 건너며 수증기를 머금어요. 이 공기가 울릉도의 높은 산에 부딪혀 눈을 많이 내려요." },
+      { "type": "choice", "prompt": "울릉도 바닷가에 가파른 바위 절벽이 많은 까닭은 무엇일까요?", "options": [{ "label": "사람들이 돌을 캐 가서" }, { "label": "모래가 바람에 날려 쌓여서" }, { "label": "파도가 오랫동안 바위를 깎아 내서" }, { "label": "바닷물이 빠져 갯벌이 드러나서" }], "answer": 2, "explain": "화산섬인 울릉도의 바위를 파도가 오랫동안 깎아 내어 가파른 절벽이 많아요. 코끼리바위 같은 독특한 바위도 이렇게 생겼어요." }
     ]
   },
   "familyTalk": {

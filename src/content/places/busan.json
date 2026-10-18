@@ -17,17 +17,41 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "큰 배가 많은 바닷가 도시, 부산을 눌러 봐!", "targetName": "부산", "target": [129.075, 35.18], "radiusKm": 50, "explain": "여기가 부산이에요!" },
-      { "type": "choice", "prompt": "부산 바닷가에 넓게 펼쳐진 것은 무엇일까?", "options": [{ "label": "얼음", "icon": "🧊" }, { "label": "모래사장", "icon": "🏖️" }], "answer": 1, "explain": "부산 바닷가에는 넓은 모래사장이 있어요." }
+      { "type": "choice", "prompt": "부산 바닷가에 넓게 펼쳐진 것은 무엇일까?", "options": [{ "label": "얼음", "icon": "🧊" }, { "label": "모래사장", "icon": "🏖️" }], "answer": 1, "explain": "부산 바닷가에는 넓은 모래사장이 있어요." },
+      { "type": "tap", "prompt": "큰 배가 오가는 부산 옆 넓은 바다를 눌러 봐!", "targetName": "부산 옆 바다", "target": [129.1, 34.85], "radiusKm": 30, "view": { "center": [129.1, 34.95], "zoom": 9 }, "explain": "부산은 넓은 바다와 맞닿아 있어요. 이 바다로 큰 배들이 오가요." },
+      { "type": "choice", "prompt": "부산 바다 위 밤하늘에 팡팡 피어나는 건 뭘까?", "options": [{ "label": "불꽃", "icon": "🎆" }, { "label": "수박", "icon": "🍉" }], "answer": 0, "explain": "가을이면 부산 바닷가에서 큰 불꽃 축제가 열려요. 밤하늘에 불꽃이 팡팡!" },
+      { "type": "choice", "prompt": "산이 많은 부산! 산에 다닥다닥 붙은 건 뭘까?", "options": [{ "label": "상어", "icon": "🦈" }, { "label": "알록달록 집", "icon": "🏘️" }], "answer": 1, "explain": "부산은 산이 많아요. 산비탈에도 알록달록한 집이 다닥다닥 붙어 있어요." },
+      { "type": "choice", "prompt": "부산 바닷가 시장에 가득한 건 뭘까?", "options": [{ "label": "물고기", "icon": "🐟" }, { "label": "곰 인형", "icon": "🧸" }], "answer": 0, "explain": "부산 자갈치 시장에는 바다에서 잡은 물고기가 가득해요." },
+      { "type": "choice", "prompt": "부산 바다 위 긴 다리를 달리는 건 뭘까?", "options": [{ "label": "고래", "icon": "🐋" }, { "label": "자동차", "icon": "🚗" }], "answer": 1, "explain": "부산 바다 위에는 광안대교 같은 긴 다리가 있어요. 자동차가 쌩쌩 달려요." },
+      { "type": "choice", "prompt": "부산에서 서울까지 무엇을 타고 갈까?", "options": [{ "label": "빠른 기차", "icon": "🚄" }, { "label": "썰매", "icon": "🛷" }], "answer": 0, "explain": "부산과 서울 사이를 빠른 기차가 쌩쌩 달려요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "부산 바닷가에서 큰 배가 드나드는 곳을 무엇이라고 할까?", "options": [{ "label": "공항" }, { "label": "항구" }, { "label": "기차역" }], "answer": 1, "explain": "부산항은 우리나라에서 가장 큰 항구예요." },
       { "type": "tap", "prompt": "지구본에서 부산을 찾아 눌러 봐!", "targetName": "부산", "target": [129.075, 35.18], "radiusKm": 25, "explain": "부산은 한반도 남동쪽 끝 바닷가에 있어요." },
-      { "type": "direction", "prompt": "광주에서 보면 부산은 어느 쪽에 있을까?", "from": [126.8526, 35.1601], "fromName": "광주", "to": [129.075, 35.18], "toName": "부산", "options": 4, "answer": "동", "explain": "부산은 광주에서 동쪽으로 약 200km 떨어져 있어요." }
+      { "type": "direction", "prompt": "광주광역시에서 보면 부산은 어느 쪽에 있을까?", "from": [126.8526, 35.1601], "fromName": "광주광역시", "to": [129.075, 35.18], "toName": "부산", "options": 4, "answer": "동", "explain": "부산은 광주광역시에서 동쪽으로 약 200km 떨어져 있어요." },
+      { "type": "tap", "prompt": "부산과 이웃한 큰 도시, 창원을 찾아 눌러 봐!", "targetName": "창원", "target": [128.62, 35.23], "radiusKm": 20, "view": { "center": [129.0, 35.45], "zoom": 7 }, "explain": "창원은 부산 바로 옆에 있는 큰 도시예요. 기계를 만드는 공장이 많아요." },
+      { "type": "tap", "prompt": "불국사와 석굴암이 있는 신라의 옛 도읍, 경주를 찾아 눌러 봐!", "targetName": "경주", "target": [129.22, 35.85], "radiusKm": 15, "view": { "center": [129.0, 35.45], "zoom": 7.5 }, "explain": "경주는 부산에서 가까운 신라의 옛 도읍이에요. 불국사와 석굴암이 있어요." },
+      { "type": "direction", "prompt": "부산에서 보면 포항은 어느 쪽에 있을까?", "from": [129.075, 35.18], "fromName": "부산", "to": [129.3435, 36.019], "toName": "포항", "options": 4, "answer": "북", "explain": "포항은 부산에서 북쪽으로 약 100km, 동해 바닷가에 있어요." },
+      { "type": "direction", "prompt": "부산에서 보면 목포는 어느 쪽에 있을까?", "from": [129.075, 35.18], "fromName": "부산", "to": [126.3922, 34.8118], "toName": "목포", "options": 4, "answer": "서", "explain": "목포는 부산에서 서쪽으로 약 250km 떨어진 바닷가 도시예요." },
+      { "type": "choice", "prompt": "부산에 있는 해수욕장은 어디일까?", "options": [{ "label": "경포 해수욕장" }, { "label": "대천 해수욕장" }, { "label": "해운대 해수욕장" }], "answer": 2, "explain": "해운대 해수욕장은 모래사장이 넓은 부산의 바닷가예요. 경포는 강릉, 대천은 보령에 있어요." },
+      { "type": "choice", "prompt": "부산은 우리나라에서 어떤 도시일까?", "options": [{ "label": "서울 다음으로 사람이 많은 도시" }, { "label": "우리나라의 수도" }, { "label": "우리나라에서 가장 작은 도시" }], "answer": 0, "explain": "부산은 서울 다음으로 사람이 많이 사는 도시예요." },
+      { "type": "choice", "prompt": "부산 자갈치 시장에 가면 많이 볼 수 있는 것은?", "options": [{ "label": "옷과 신발" }, { "label": "생선과 조개" }, { "label": "책과 공책" }], "answer": 1, "explain": "자갈치 시장은 부산 바닷가의 큰 수산 시장이에요. 바다에서 잡은 생선과 조개가 가득해요." },
+      { "type": "choice", "prompt": "부산에서 바다를 건너면 가장 가까운 이웃 나라는 어디일까?", "options": [{ "label": "일본" }, { "label": "몽골" }, { "label": "인도" }], "answer": 0, "explain": "부산에서 바다를 건너면 가까이에 이웃 나라 일본이 있어요." },
+      { "type": "choice", "prompt": "큰 배에 물건을 실을 때 쓰는 커다란 쇠 상자를 무엇이라고 할까?", "options": [{ "label": "캐리어" }, { "label": "우체통" }, { "label": "컨테이너" }], "answer": 2, "explain": "부산항에서는 날마다 수많은 컨테이너를 큰 배에 싣고 내려요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 부산의 위치를 찍어 보세요.", "targetName": "부산", "target": [129.075, 35.18], "starsKm": [15, 50], "view": { "center": [127.9, 36], "zoom": 6 }, "explain": "부산은 한반도 남동쪽 끝, 바다와 맞닿은 곳에 있어요." },
       { "type": "choice", "prompt": "부산에 큰 항구가 발달한 까닭으로 알맞은 것은 무엇일까요?", "options": [{ "label": "갯벌이 아주 넓어서" }, { "label": "밀물과 썰물 차이가 커서" }, { "label": "넓은 평야가 있어서" }, { "label": "큰 바다로 나가기 쉬워서" }], "answer": 3, "explain": "부산은 일본과 태평양으로 가는 뱃길이 가까워요." },
-      { "type": "direction", "prompt": "부산에서 보면 인천은 어느 방향에 있을까요?", "from": [129.075, 35.18], "fromName": "부산", "to": [126.7052, 37.4563], "toName": "인천", "options": 8, "answer": "북서", "explain": "인천은 부산에서 북서쪽으로 약 330km 떨어져 있어요. 인천에도 큰 항구가 있어요." }
+      { "type": "direction", "prompt": "부산에서 보면 인천은 어느 방향에 있을까요?", "from": [129.075, 35.18], "fromName": "부산", "to": [126.7052, 37.4563], "toName": "인천", "options": 8, "answer": "북서", "explain": "인천은 부산에서 북서쪽으로 약 330km 떨어져 있어요. 인천에도 큰 항구가 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 부산과 바닷속 터널·다리로 이어진 큰 섬, 거제도를 찍어 보세요.", "targetName": "거제도", "target": [128.62, 34.88], "starsKm": [10, 30], "view": { "center": [128.9, 35.3], "zoom": 7.3 }, "explain": "거제도는 부산 남서쪽 바다에 있는 큰 섬이에요. 부산과 거제도를 잇는 길을 거가대교라고 해요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 자동차와 큰 배를 만드는 공장이 모인 공업 도시, 울산을 찍어 보세요.", "targetName": "울산", "target": [129.3114, 35.5384], "starsKm": [10, 30], "view": { "center": [128.9, 35.3], "zoom": 7.3 }, "explain": "울산은 부산과 맞닿은 동해 바닷가 도시예요. 자동차·배·석유 화학 공장이 많아요." },
+      { "type": "direction", "prompt": "부산에서 보면 일본의 후쿠오카는 어느 방향에 있을까요?", "from": [129.075, 35.18], "fromName": "부산", "to": [130.4017, 33.5904], "toName": "후쿠오카", "options": 8, "answer": "남동", "explain": "후쿠오카는 부산에서 남동쪽으로 바다 건너 약 210km 떨어져 있어요." },
+      { "type": "direction", "prompt": "부산에서 보면 진주는 어느 방향에 있을까요?", "from": [129.075, 35.18], "fromName": "부산", "to": [128.108, 35.18], "toName": "진주", "options": 8, "answer": "서", "explain": "진주는 부산에서 서쪽으로 약 90km 떨어져 있어요. 임진왜란 때 김시민 장군이 진주성에서 왜군을 크게 물리쳤어요." },
+      { "type": "choice", "prompt": "6·25 전쟁 때 부산은 어떤 곳이었을까요?", "options": [{ "label": "나라의 임시 수도" }, { "label": "전쟁이 처음 시작된 곳" }, { "label": "휴전 회담을 한 곳" }, { "label": "전쟁 내내 북한군이 차지한 곳" }], "answer": 0, "explain": "6·25 전쟁 때 부산은 피란민이 모여든 임시 수도였어요." },
+      { "type": "choice", "prompt": "부산의 겨울이 서울보다 따뜻한 까닭은 무엇일까요?", "options": [{ "label": "서울보다 북쪽에 있어서" }, { "label": "서울보다 높은 곳에 있어서" }, { "label": "서울보다 남쪽이고 바다와 가까워서" }, { "label": "서울보다 바다에서 멀어서" }], "answer": 2, "explain": "부산은 서울보다 남쪽에 있고 바다가 가까워서 겨울에 덜 추워요." },
+      { "type": "choice", "prompt": "경부고속도로와 경부선 철도는 어느 두 도시를 이을까요?", "options": [{ "label": "광주와 부산" }, { "label": "서울과 부산" }, { "label": "강릉과 부산" }, { "label": "목포와 부산" }], "answer": 1, "explain": "'경부'는 서울(경성)과 부산의 앞 글자를 딴 이름이에요. 두 길은 서울과 부산을 이어요." },
+      { "type": "choice", "prompt": "부산에 터널과 다리가 많은 까닭은 무엇일까요?", "options": [{ "label": "땅이 넓고 평평해서" }, { "label": "비가 거의 오지 않아서" }, { "label": "사람이 아주 적게 살아서" }, { "label": "산과 바다 사이 땅이 좁아서" }], "answer": 3, "explain": "부산은 산이 바다 가까이까지 이어져 평평한 땅이 좁아요. 그래서 터널과 다리로 길을 냈어요." },
+      { "type": "choice", "prompt": "부산항은 우리나라 항구 컨테이너의 약 몇 %를 맡고 있을까요?", "options": [{ "label": "약 75%" }, { "label": "약 50%" }, { "label": "약 30%" }, { "label": "약 10%" }], "answer": 0, "explain": "부산항은 우리나라 항구에서 싣고 내리는 컨테이너의 약 4분의 3(약 75%)을 맡아요. 우리나라에서 가장 큰 항구예요." }
     ]
   },
   "familyTalk": {
