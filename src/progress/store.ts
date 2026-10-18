@@ -2,9 +2,9 @@ import { useSyncExternalStore } from 'react';
 import { PLACES } from '../content';
 import type { Place, Tier } from '../content/types';
 import { localDate } from './date';
-import { applyStamp, emptyProgress } from './rules';
+import { addSeen, applyStamp, emptyProgress, seenLimit } from './rules';
 import { canStore, clearSave, emptySave, loadSave, MAX_PROFILES, readStored, SAVE_KEY, storedIsNewer, writeSave } from './storage';
-import type { AvatarColor, Profile, SaveData, StampOutcome } from './types';
+import type { AvatarColor, Profile, ProfileProgress, SaveData, StampOutcome } from './types';
 
 // 앱 전체가 같이 보는 진행 상태. 바꿀 때마다 기기에 저장하고, 구독한 화면을 다시 그린다.
 let state: SaveData = emptySave();
@@ -106,14 +106,16 @@ export function selectProfile(id: string): void {
   if (state.activeProfileId !== id && state.profiles.some((p) => p.id === id)) commit({ ...state, activeProfileId: id });
 }
 
-/** 마지막 미션을 마친 순간 한 번 부른다 (이벤트 처리기에서). 다른 탭이 그사이 저장한 도장도 잃지 않게 저장소를 다시 읽어 합친다 */
-export function recordStamp(profileId: string, place: Place, stars: number): StampOutcome | null {
+/** 마지막 미션을 마친 순간 한 번 부른다 (이벤트 처리기에서). 도장과 이번 여행에 푼 문제 id(missionIds)를 한 번에 저장한다.
+ *  다른 탭이 그사이 저장한 도장도 잃지 않게 저장소를 다시 읽어 합친다 */
+export function recordStamp(profileId: string, place: Place, stars: number, missionIds: string[]): StampOutcome | null {
   const fresh = persistEnabled ? readStored() : null;
   // 합친 값은 프로필이 있을 때만 commit으로 넣는다 (구독한 화면이 모르게 state만 바뀌지 않게)
   const base = fresh ? mergeStamps(state, fresh) : state;
   const progress = base.progress[profileId];
   if (!progress) return null;
-  const { progress: next, outcome } = applyStamp(PLACES, progress, place.id, stars, localDate());
+  const { progress: stamped, outcome } = applyStamp(PLACES, progress, place.id, stars, localDate());
+  const next = addSeen(stamped, place.id, missionIds, seenLimit(PLACES));
   commit({ ...base, progress: { ...base.progress, [profileId]: next } });
   return outcome;
 }
@@ -130,9 +132,10 @@ export function eraseAll(): void {
   notify();
 }
 
-/** 도장·열린 단계만 합친다 (늘어나기만 하는 값이라 합쳐도 안전). 프로필 목록은 이 탭 것을 쓴다 */
+/** 도장·열린 단계·푼 문제만 합친다 (늘어나기만 하는 값이라 합쳐도 안전). 프로필 목록은 이 탭 것을 쓴다 */
 function mergeStamps(mine: SaveData, other: SaveData): SaveData {
   const progress = { ...mine.progress };
+  const limit = seenLimit(PLACES);
   for (const id of Object.keys(progress)) {
     const o = other.progress[id];
     if (!o) continue;
@@ -147,7 +150,10 @@ function mergeStamps(mine: SaveData, other: SaveData): SaveData {
       };
     }
     const unlockedStages = [...new Set([...progress[id].unlockedStages, ...o.unlockedStages])].sort((a, b) => a - b);
-    progress[id] = { stamps, unlockedStages };
+    // 푼 문제는 다른 탭 기록 뒤에 이 탭 기록을 이어 붙인다 (겹치면 이 탭 쪽 순서)
+    let merged: ProfileProgress = { stamps, unlockedStages, seen: o.seen };
+    for (const [pid, ids] of Object.entries(progress[id].seen)) merged = addSeen(merged, pid, ids, limit);
+    progress[id] = merged;
   }
   return { ...mine, progress };
 }

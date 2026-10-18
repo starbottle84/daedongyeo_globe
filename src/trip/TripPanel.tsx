@@ -2,7 +2,8 @@ import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { TIER_LABELS, type Place, type Tier, type View } from '../content/types';
 import { ConfirmDialog } from '../family/ConfirmDialog';
 import type { GlobeHandle } from '../globe/globeHandle';
-import { recordStamp } from '../progress/store';
+import { shotMissions } from '../dev/shotParams';
+import { getSave, recordStamp } from '../progress/store';
 import type { StampOutcome } from '../progress/types';
 import { Icon } from '../ui/Icon';
 import { useMoreBelow } from '../ui/useMoreBelow';
@@ -10,6 +11,7 @@ import { COMMON_VOICE, nextVoice, placeVoice, unlockVoice } from '../voice/lines
 import { useAutoVoice, useVoiceReady } from '../voice/useVoice';
 import { CharacterBubble } from './CharacterBubble';
 import { MissionView } from './missions/MissionView';
+import { missionPool, pickMissions } from './pickMissions';
 import { StampCard } from './StampCard';
 import { createTripState, tripReducer, type MissionResult, type TripStep } from './tripReducer';
 import './trip.css';
@@ -31,7 +33,14 @@ interface TripPanelProps {
 
 // 여행 한 번: 출발 → 둘러보기 → 미션 → 도장 → 함께 이야기
 export function TripPanel({ place, tier, profileId, globe, nextPlace, initialStep, onExit }: TripPanelProps) {
-  const missions = place.missions[tier];
+  // 이번 여행 문제: 시작할 때 묶음에서 한 번 고른다 (아이가 안 푼 문제 먼저). useState 초기값이라 StrictMode에서 두 번 불려도 첫 값을 계속 쓴다.
+  // 개발용 주소(?shot=)로 연 여행은 고정 시드로 고른다 (D10)
+  const [picked] = useState(() => {
+    const pool = missionPool(place, tier);
+    const seen = (profileId && getSave().progress[profileId]?.seen[place.id]) || [];
+    return initialStep ? shotMissions(pool, tier, seen) : pickMissions(pool, tier, seen, Math.random);
+  });
+  const missions = picked.map((p) => p.mission);
   const [state, dispatch] = useReducer(tripReducer, missions.length, (count) =>
     initialStep
       ? { ...createTripState(count), step: initialStep.step, missionIndex: Math.min(initialStep.missionIndex, count - 1) }
@@ -98,13 +107,14 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
   }, [state.step, state.missionIndex]);
 
   const next = () => dispatch({ type: 'next' });
-  // 도장은 마지막 미션의 '다음'을 누른 이 처리기에서 저장한다 (리듀서는 순수 함수로 두고, StrictMode에서 두 번 돌지 않게)
+  // 도장은 마지막 미션의 '다음'을 누른 이 처리기에서 저장한다 (리듀서는 순수 함수로 두고, StrictMode에서 두 번 돌지 않게).
+  // 이번에 푼 문제 id도 같은 저장에 넣는다 — 다음 여행에서 안 푼 문제를 먼저 고르게
   const handleDone = (result: MissionResult) => {
     const isLast = state.missionIndex + 1 >= missions.length;
     if (isLast && profileId && !stampedRef.current) {
       stampedRef.current = true;
       const total = [...state.results, result].reduce((sum, r) => sum + (r.stars ?? 0), 0);
-      setStampOutcome(recordStamp(profileId, place, total));
+      setStampOutcome(recordStamp(profileId, place, total, picked.map((p) => p.id)));
     }
     dispatch({ type: 'missionDone', result });
   };
@@ -116,7 +126,8 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
   const compact = mission !== null && mission.type !== 'choice';
   // 유아 음성 (D8): 단계가 바뀌면 동글이가 그 단계의 말을 한다. 미션의 질문·힌트·결과는 미션 화면이 재생한다
   const voice = useMemo(() => (tier === 'preschool' ? placeVoice(place) : null), [place, tier]);
-  const missionVoice = voice && mission ? voice.missions[state.missionIndex] : null;
+  // 음성 id는 콘텐츠 묶음 안 번호로 만들어서, 고른 순서가 아니라 그 문제의 묶음 번호로 찾는다
+  const missionVoice = voice && mission ? voice.missions[picked[state.missionIndex].index] : null;
   const opened = stampOutcome?.newlyUnlocked[0];
   const stepVoice = !voice
     ? null

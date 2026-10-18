@@ -1,4 +1,4 @@
-import type { Place } from '../content/types';
+import { TIERS, type Place } from '../content/types';
 import type { ProfileProgress, StampOutcome } from './types';
 
 /** 다음 단계를 여는 데 필요한 도장 수: 그 단계 장소 수의 2/3 (올림). 3곳→2, 4곳→3, 12곳→8 */
@@ -93,6 +93,18 @@ export function nextPlaceFor(places: Place[], progress: ProfileProgress, current
   return null;
 }
 
+/** 장소마다 기억하는 푼 문제 수의 한도: 가장 큰 문제 묶음 크기. 넘치면 오래전에 푼 것부터 뺀다 */
+export function seenLimit(places: Place[]): number {
+  return Math.max(1, ...places.flatMap((p) => TIERS.map((t) => p.missions[t].length)));
+}
+
+/** 이번 여행에 푼 문제 id를 그 장소 기록 끝에 더한다 (새 객체). 이미 있던 id는 끝으로 옮겨서, 앞에는 오래전에 푼 문제가 남는다 */
+export function addSeen(progress: ProfileProgress, placeId: string, ids: string[], limit: number): ProfileProgress {
+  const added = new Set(ids);
+  const list = [...(progress.seen[placeId] ?? []).filter((id) => !added.has(id)), ...added].slice(-limit);
+  return { ...progress, seen: { ...progress.seen, [placeId]: list } };
+}
+
 export function emptyProgress(): ProfileProgress {
-  return { stamps: {}, unlockedStages: [1] };
+  return { stamps: {}, unlockedStages: [1], seen: {} };
 }

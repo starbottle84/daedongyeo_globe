@@ -31,6 +31,9 @@ export interface ProfileProgress {
   stamps: Record<string, StampRecord>;
   /** 열린 단계 (오름차순, 1은 늘 들어 있음). 한 번 열리면 지우지 않는다 */
   unlockedStages: number[];
+  /** 장소 id → 푼 문제 id (오래전에 푼 것이 앞). 다음 여행에서 안 푼 문제를 먼저 고른다 (trip/pickMissions.ts).
+   *  장소마다 가장 큰 문제 묶음 크기만큼만 남긴다 (rules.ts addSeen). 계획 5에서 더했다 — 버전은 그대로 두고, 없으면 빈 기록 */
+  seen: Record<string, string[]>;
 }
 
 /** 기기 설정 (아이마다가 아니라 기기에 하나) */

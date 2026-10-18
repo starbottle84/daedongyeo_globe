@@ -1,4 +1,6 @@
+import { PLACES } from '../content';
 import { TIERS } from '../content/types';
+import { seenLimit } from './rules';
 import { AVATAR_COLORS, SAVE_VERSION, type Profile, type ProfileProgress, type SaveData, type Settings, type StampRecord } from './types';
 
 // 같은 GitHub 계정의 다른 앱과 키가 겹치지 않게 앱 이름을 앞에 붙인다
@@ -47,7 +49,21 @@ function normProgress(v: unknown): ProfileProgress {
   const stages = isObj(v) && Array.isArray(v.unlockedStages)
     ? v.unlockedStages.filter((s): s is number => Number.isInteger(s) && s >= 1 && s <= 5)
     : [];
-  return { stamps, unlockedStages: [...new Set([1, ...stages])].sort((a, b) => a - b) };
+  return { stamps, unlockedStages: [...new Set([1, ...stages])].sort((a, b) => a - b), seen: normSeen(isObj(v) ? v.seen : undefined) };
+}
+
+// 푼 문제 기록은 계획 5에서 더해서 옛 저장에는 없다. 글자 id만 남기고, 겹치면 최근 것(뒤)만, 장소마다 한도만큼 최근 것만 남긴다
+function normSeen(v: unknown): Record<string, string[]> {
+  const seen: Record<string, string[]> = {};
+  if (!isObj(v)) return seen;
+  const limit = seenLimit(PLACES);
+  for (const [placeId, list] of Object.entries(v)) {
+    if (!Array.isArray(list)) continue;
+    const ids = list.filter((id): id is string => typeof id === 'string' && id !== '');
+    const recent = ids.filter((id, i) => ids.lastIndexOf(id) === i).slice(-limit);
+    if (recent.length) seen[placeId] = recent;
+  }
+  return seen;
 }
 
 /** 읽은 값을 믿지 않고 검사해서 맞는 형식으로 만든다. 못 쓰는 값이면 null */
