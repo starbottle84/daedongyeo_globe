@@ -1,4 +1,4 @@
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import type { LngLat } from '../content/types';
 import type { TapInfo } from '../trip/judge';
 import './markers.css';

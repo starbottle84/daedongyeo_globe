@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { buildStyle } from './buildStyle';
 import { ICONS } from './icons';
 import { createGlobeHandle, type GlobeHandle } from './globeHandle';
 import type { MapView } from './themes';
+
+// MapLibre 6은 지도 계산용 일꾼(worker) 파일 주소를 번들러(Vite)가 알려 줘야 한다. 빌드 때 일꾼도 함께 묶여 미리 저장(PWA) 목록에 들어간다
+maplibregl.setWorkerUrl(workerUrl);
 
 declare global {
   interface Window {
@@ -59,9 +63,10 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
     collapseAttrib();
     map.on('resize', collapseAttrib); // 출처 컨트롤이 먼저 단 'resize' 처리기(접기/펼치기 바꿈) 다음에 돈다
 
-    map.on('styleimagemissing', (e) => {
-      const make = ICONS[e.id];
-      if (make && !map.hasImage(e.id)) map.addImage(e.id, make(), { pixelRatio: 2 });
+    // 스타일이 쓰는 아이콘(도시 점·별표·봉우리 등)은 처음 필요할 때 그려 넣는다
+    map.setMissingStyleImageResolver((id) => {
+      const make = ICONS[id];
+      if (make && !map.hasImage(id)) map.addImage(id, make(), { pixelRatio: 2 });
     });
     // 'error' 듣는 쪽이 생기면 MapLibre가 콘솔에 오류를 남기지 않으므로 위성 외 오류는 직접 남긴다
     map.on('error', (e) => {
