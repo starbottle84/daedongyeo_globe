@@ -17,17 +17,41 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "우리나라가 있는 큰 땅, 아시아를 눌러 봐!", "targetName": "아시아", "target": [95, 45], "area": "아시아", "explain": "우리나라도 아시아에 있어요." },
-      { "type": "choice", "prompt": "아시아에 사는 동물은 누구일까?", "options": [{ "label": "판다", "icon": "🐼" }, { "label": "얼룩말", "icon": "🦓" }], "answer": 0, "explain": "판다는 아시아의 중국에 살아요." }
+      { "type": "choice", "prompt": "아시아에 사는 동물은 누구일까?", "options": [{ "label": "판다", "icon": "🐼" }, { "label": "얼룩말", "icon": "🦓" }], "answer": 0, "explain": "판다는 아시아의 중국에 살아요." },
+      { "type": "tap", "prompt": "우리나라 옆의 섬나라, 일본을 눌러 봐!", "targetName": "일본", "target": [139.8, 38.5], "radiusKm": 600, "explain": "여기가 일본이에요. 바다 건너 우리나라 동쪽에 있어요." },
+      { "type": "choice", "prompt": "아시아는 얼마나 큰 땅일까?", "options": [{ "label": "아주 작아요", "icon": "🐞" }, { "label": "아주아주 커요", "icon": "🌏" }], "answer": 1, "explain": "아시아는 세계에서 제일 큰 땅이에요." },
+      { "type": "choice", "prompt": "판다가 냠냠 먹는 것은 무엇일까?", "options": [{ "label": "선인장", "icon": "🌵" }, { "label": "대나무", "icon": "🎋" }], "answer": 1, "explain": "판다는 대나무를 아주 좋아해요." },
+      { "type": "choice", "prompt": "아시아 사막을 건너는, 등에 혹이 두 개인 동물은?", "options": [{ "label": "낙타", "icon": "🐫" }, { "label": "돌고래", "icon": "🐬" }], "answer": 0, "explain": "혹이 두 개인 낙타는 아시아의 고비 사막 같은 곳에 살아요." },
+      { "type": "choice", "prompt": "아시아에서는 쌀밥을 많이 먹어요. 쌀은 어디에서 자랄까?", "options": [{ "label": "물이 찰랑한 논", "icon": "🌾" }, { "label": "꽁꽁 언 얼음", "icon": "🧊" }], "answer": 0, "explain": "쌀은 물을 채운 논에서 자라요." },
+      { "type": "choice", "prompt": "아시아의 덥고 큰 숲에 사는 친구는 누구일까?", "options": [{ "label": "펭귄", "icon": "🐧" }, { "label": "오랑우탄", "icon": "🦧" }], "answer": 1, "explain": "오랑우탄은 아시아의 덥고 비가 많은 숲에 살아요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "우리나라는 어느 대륙에 있을까?", "options": [{ "label": "유럽" }, { "label": "아시아" }, { "label": "아프리카" }], "answer": 1, "explain": "우리나라는 아시아 대륙의 동쪽에 있어요." },
       { "type": "tap", "prompt": "지구본에서 아시아를 찾아 눌러 봐!", "targetName": "아시아", "target": [95, 45], "area": "아시아" },
-      { "type": "direction", "prompt": "우리나라에서 보면 인도는 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [78.96, 20.59], "toName": "인도", "options": 4, "answer": "서", "explain": "인도는 우리나라의 서쪽에 있어요." }
+      { "type": "direction", "prompt": "우리나라에서 보면 인도는 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [78.96, 20.59], "toName": "인도", "options": 4, "answer": "서", "explain": "인도는 우리나라의 서쪽에 있어요." },
+      { "type": "tap", "prompt": "세계에서 가장 높은 산들이 모인 히말라야산맥을 찾아 눌러 봐!", "targetName": "히말라야산맥", "target": [84, 28.6], "radiusKm": 650, "explain": "히말라야산맥에는 세계에서 가장 높은 에베레스트산이 있어요." },
+      { "type": "tap", "prompt": "중국의 수도, 베이징을 찾아 눌러 봐!", "targetName": "베이징", "target": [116.4074, 39.9042], "radiusKm": 250, "explain": "빨간 별은 그 나라의 수도라는 표시예요. 베이징은 중국의 수도예요." },
+      { "type": "direction", "prompt": "우리나라에서 보면 일본은 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [139.6917, 35.6895], "toName": "일본", "options": 4, "answer": "동", "explain": "일본은 바다 건너 우리나라의 동쪽에 있어요." },
+      { "type": "direction", "prompt": "우리나라에서 보면 필리핀은 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [120.9842, 14.5995], "toName": "필리핀", "options": 4, "answer": "남", "explain": "필리핀은 우리나라의 남쪽 바다에 있는 섬나라예요." },
+      { "type": "direction", "prompt": "인도에서 보면 히말라야산맥은 어느 쪽에 있을까?", "from": [78.96, 20.59], "fromName": "인도", "to": [84, 28.6], "toName": "히말라야산맥", "options": 4, "answer": "북", "explain": "히말라야산맥은 인도의 북쪽을 길게 가로막고 있어요." },
+      { "type": "choice", "prompt": "아시아의 많은 나라 사람들이 밥을 지어 먹는 곡식은 무엇일까?", "options": [{ "label": "쌀" }, { "label": "밀" }, { "label": "옥수수" }], "answer": 0, "explain": "아시아에서는 쌀을 많이 길러 밥을 지어 먹어요. 세계 쌀의 약 90%가 아시아에서 나요." },
+      { "type": "choice", "prompt": "중국의 만리장성은 무엇일까?", "options": [{ "label": "아주 높은 탑" }, { "label": "아주 큰 다리" }, { "label": "아주 긴 성벽" }], "answer": 2, "explain": "만리장성은 옛날 중국 사람들이 북쪽에서 쳐들어오는 적을 막으려고 쌓은 아주 긴 성벽이에요." },
+      { "type": "choice", "prompt": "옛이야기에 자주 나오고, 아시아 숲에 사는 줄무늬 동물은 무엇일까?", "options": [{ "label": "얼룩말" }, { "label": "호랑이" }, { "label": "기린" }], "answer": 1, "explain": "야생 호랑이는 아시아에만 살아요. '해님 달님' 같은 옛이야기에도 나와요." },
+      { "type": "choice", "prompt": "대나무를 먹는 판다의 고향은 어느 나라일까?", "options": [{ "label": "일본" }, { "label": "베트남" }, { "label": "중국" }], "answer": 2, "explain": "판다는 중국의 산속 대나무 숲에 살아요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 세계에서 가장 높은 산, 에베레스트산을 찍어 보세요.", "targetName": "에베레스트산", "target": [86.925, 27.988], "starsKm": [300, 1000], "view": { "center": [100, 35], "zoom": 2 }, "explain": "에베레스트산은 네팔과 중국 사이, 히말라야산맥에 있어요." },
       { "type": "direction", "prompt": "우리나라에서 보면 에베레스트산은 어느 방향에 있을까요?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [86.925, 27.988], "toName": "에베레스트산", "options": 8, "answer": "서", "explain": "에베레스트산은 우리나라에서 서쪽으로 약 3,900km 떨어져 있어요." },
-      { "type": "choice", "prompt": "세계 사람 가운데 아시아에 사는 사람은 얼마쯤일까요?", "options": [{ "label": "10명 중 1명쯤" }, { "label": "10명 중 3명쯤" }, { "label": "10명 중 4명쯤" }, { "label": "10명 중 6명쯤" }], "answer": 3, "explain": "세계 사람 10명 중 6명쯤이 아시아에 살아요." }
+      { "type": "choice", "prompt": "세계 사람 가운데 아시아에 사는 사람은 얼마쯤일까요?", "options": [{ "label": "10명 중 1명쯤" }, { "label": "10명 중 3명쯤" }, { "label": "10명 중 4명쯤" }, { "label": "10명 중 6명쯤" }], "answer": 3, "explain": "세계 사람 10명 중 6명쯤이 아시아에 살아요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 아시아 서남쪽에 있는 세계에서 가장 큰 반도, 아라비아반도를 찍어 보세요.", "targetName": "아라비아반도", "target": [46.5, 23], "starsKm": [400, 900], "view": { "center": [68, 28], "zoom": 2 }, "explain": "아라비아반도는 세계에서 가장 큰 반도예요. 땅의 대부분이 사막이고, 사우디아라비아가 가장 넓게 차지해요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 러시아 시베리아에 있는, 세계에서 가장 깊은 호수인 바이칼호를 찍어 보세요.", "targetName": "바이칼호", "target": [108, 53.6], "starsKm": [250, 600], "view": { "center": [100, 35], "zoom": 2 }, "explain": "바이칼호는 가장 깊은 곳이 1,600m가 넘어요. 몽골의 북쪽에 있어요." },
+      { "type": "direction", "prompt": "서울에서 보면 몽골의 울란바토르는 어느 방향에 있을까요?", "from": [126.978, 37.566], "fromName": "서울", "to": [106.9057, 47.8864], "toName": "울란바토르", "options": 8, "answer": "북서", "explain": "몽골의 수도 울란바토르는 서울에서 북서쪽으로 약 2,000km 떨어져 있어요." },
+      { "type": "direction", "prompt": "태국 방콕에서 보면 일본 도쿄는 어느 방향에 있을까요?", "from": [100.5018, 13.7563], "fromName": "방콕", "to": [139.6917, 35.6895], "toName": "도쿄", "options": 8, "answer": "북동", "explain": "도쿄는 방콕에서 북동쪽으로 약 4,600km 떨어져 있어요." },
+      { "type": "direction", "prompt": "우리나라에서 보면 베트남의 하노이는 어느 방향에 있을까요?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [105.8342, 21.0278], "toName": "하노이", "options": 8, "answer": "남서", "explain": "베트남의 수도 하노이는 우리나라에서 남서쪽으로 약 2,700km 떨어져 있어요." },
+      { "type": "choice", "prompt": "우리나라·중국·일본이 오래전부터 함께 써 온 글자는 무엇일까요?", "options": [{ "label": "한자" }, { "label": "알파벳" }, { "label": "아랍 문자" }, { "label": "키릴 문자" }], "answer": 0, "explain": "세 나라는 오래전부터 한자를 함께 써 왔어요. 그래서 '학교(學校)'처럼 뜻과 소리가 비슷한 낱말이 많아요." },
+      { "type": "choice", "prompt": "서남아시아에서 많이 나서 세계 여러 나라로 팔려 나가는 자원은 무엇일까요?", "options": [{ "label": "고무" }, { "label": "석유" }, { "label": "목재" }, { "label": "쌀" }], "answer": 1, "explain": "서남아시아에는 석유가 많이 묻혀 있어요. 우리나라도 이곳에서 석유를 많이 사 와요." },
+      { "type": "choice", "prompt": "덥고 습한 동남아시아에서 집을 기둥 위에 짓는 까닭은 무엇일까요?", "options": [{ "label": "눈이 많이 쌓여서" }, { "label": "모래바람을 막으려고" }, { "label": "땅의 습기와 물을 피하려고" }, { "label": "추위를 막으려고" }], "answer": 2, "explain": "집을 땅에서 띄우면 습기와 빗물, 벌레를 피하고 바람도 잘 통해요. 이런 집을 고상 가옥이라고 해요." },
+      { "type": "choice", "prompt": "몽골 초원 사람들이 쉽게 옮길 수 있는 집(게르)에서 살아온 까닭은 무엇일까요?", "options": [{ "label": "가축과 풀을 찾아다녀서" }, { "label": "바닷가에서 고기를 잡아서" }, { "label": "강가에서 벼농사를 지어서" }, { "label": "1년 내내 덥고 비가 많아서" }], "answer": 0, "explain": "몽골 사람들은 양과 말 같은 가축을 기르며 풀과 물이 있는 곳을 찾아 옮겨 다녔어요." }
     ]
   },
   "familyTalk": {

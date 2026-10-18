@@ -17,17 +17,41 @@
   "missions": {
     "preschool": [
       { "type": "tap", "prompt": "바다 건너 큰 땅, 북아메리카를 눌러 봐!", "targetName": "북아메리카", "target": [-100, 45], "area": "북아메리카", "explain": "여기가 북아메리카예요." },
-      { "type": "choice", "prompt": "북아메리카 숲에 사는 동물은 누구일까?", "options": [{ "label": "곰", "icon": "🐻" }, { "label": "펭귄", "icon": "🐧" }], "answer": 0, "explain": "북아메리카 숲에는 커다란 곰이 살아요." }
+      { "type": "choice", "prompt": "북아메리카 숲에 사는 동물은 누구일까?", "options": [{ "label": "곰", "icon": "🐻" }, { "label": "펭귄", "icon": "🐧" }], "answer": 0, "explain": "북아메리카 숲에는 커다란 곰이 살아요." },
+      { "type": "tap", "prompt": "북아메리카 왼쪽 위, 추운 알래스카를 눌러 봐!", "targetName": "알래스카", "target": [-152, 64], "radiusKm": 700, "explain": "알래스카는 미국 땅이에요. 겨울이 아주 길고 추워요." },
+      { "type": "tap", "prompt": "큰 호수 다섯 개가 모인 곳을 눌러 봐!", "targetName": "오대호", "target": [-84.5, 45.5], "radiusKm": 900, "explain": "여기가 오대호예요. 커다란 호수 다섯 개가 모여 있어요." },
+      { "type": "choice", "prompt": "곰이 강에서 첨벙첨벙 잡는 건 뭘까?", "options": [{ "label": "풍선", "icon": "🎈" }, { "label": "연어", "icon": "🐟" }], "answer": 1, "explain": "곰은 강을 거슬러 오르는 물고기, 연어를 잡아 먹어요." },
+      { "type": "choice", "prompt": "나뭇가지로 강에 집을 짓는 동물은 누구일까?", "options": [{ "label": "비버", "icon": "🦫" }, { "label": "원숭이", "icon": "🐒" }], "answer": 0, "explain": "비버는 나뭇가지를 쌓아 물 위에 집을 지어요." },
+      { "type": "choice", "prompt": "북아메리카 풀밭에 사는 큰 소는 누구일까?", "options": [{ "label": "상어", "icon": "🦈" }, { "label": "들소", "icon": "🦬" }], "answer": 1, "explain": "들소는 넓은 풀밭에서 풀을 뜯어 먹어요." },
+      { "type": "choice", "prompt": "북아메리카 숲의 단풍잎은 가을에 무슨 색일까?", "options": [{ "label": "파란색", "icon": "🔵" }, { "label": "빨간색", "icon": "🔴" }], "answer": 1, "explain": "가을이 되면 단풍잎이 빨갛게 물들어요." }
     ],
     "lower": [
       { "type": "choice", "prompt": "우리나라에서 북아메리카로 갈 때 건너는 큰 바다는 어디일까?", "options": [{ "label": "태평양" }, { "label": "인도양" }, { "label": "남극해" }], "answer": 0, "explain": "우리나라 동쪽의 태평양을 건너면 북아메리카에 닿아요." },
-      { "type": "tap", "prompt": "지구본에서 북아메리카를 찾아 눌러 봐!", "targetName": "북아메리카", "target": [-100, 45], "area": "북아메리카", "explain": "북아메리카 양쪽에 넓은 바다가 있어요. 왼쪽(서쪽)은 태평양, 오른쪽(동쪽)은 대서양이에요." },
-      { "type": "direction", "prompt": "미국에서 보면 캐나다는 어느 쪽에 있을까?", "from": [-99, 39], "fromName": "미국", "to": [-99, 57], "toName": "캐나다", "options": 4, "answer": "북", "explain": "캐나다는 미국의 북쪽에 있어요." }
+      { "type": "tap", "prompt": "지구본에서 북아메리카를 찾아 눌러 봐!", "targetName": "북아메리카", "target": [-100, 45], "area": "북아메리카", "explain": "북아메리카는 아시아, 아프리카 다음으로 넓은 대륙이에요." },
+      { "type": "direction", "prompt": "미국에서 보면 캐나다는 어느 쪽에 있을까?", "from": [-99, 39], "fromName": "미국", "to": [-99, 57], "toName": "캐나다", "options": 4, "answer": "북", "explain": "캐나다는 미국의 북쪽에 있어요." },
+      { "type": "tap", "prompt": "북아메리카 위쪽의 큰 나라, 캐나다를 찾아 눌러 봐!", "targetName": "캐나다", "target": [-100, 60], "radiusKm": 1000, "explain": "캐나다 국기에는 빨간 단풍잎이 그려져 있어요." },
+      { "type": "tap", "prompt": "북아메리카에 있는 나라, 멕시코를 찾아 눌러 봐!", "targetName": "멕시코", "target": [-101.5, 22], "radiusKm": 550, "view": { "center": [-101.5, 22], "zoom": 2.2 }, "explain": "멕시코 사람들은 옥수수 가루로 만든 얇은 빵, 토르티야를 즐겨 먹어요." },
+      { "type": "tap", "prompt": "북아메리카와 남아메리카를 잇는 좁고 긴 땅을 찾아 눌러 봐!", "targetName": "중앙아메리카", "target": [-85.5, 12.5], "radiusKm": 800, "view": { "center": [-86, 13], "zoom": 2.2 }, "explain": "이 좁고 긴 땅을 중앙아메리카라고 해요. 북아메리카에 속해요." },
+      { "type": "direction", "prompt": "알래스카에서 보면 캐나다는 어느 쪽에 있을까?", "from": [-152, 64], "fromName": "알래스카", "to": [-99, 57], "toName": "캐나다", "options": 4, "answer": "동", "explain": "캐나다는 알래스카의 동쪽에 있어요. 알래스카는 미국 땅이지만, 캐나다를 사이에 두고 미국의 다른 땅과 떨어져 있어요." },
+      { "type": "direction", "prompt": "멕시코에서 보면 카리브해는 어느 쪽에 있을까?", "from": [-102.29, 23.92], "fromName": "멕시코", "to": [-77, 15], "toName": "카리브해", "options": 4, "answer": "동", "explain": "카리브해는 멕시코의 동쪽에 있는 바다예요. 작은 섬이 많아요." },
+      { "type": "choice", "prompt": "미국과 캐나다 국경 부근에 모여 있는 큰 호수 다섯 개를 무엇이라고 부를까?", "options": [{ "label": "천지" }, { "label": "오대호" }, { "label": "카리브해" }], "answer": 1, "explain": "다섯(오) 개의 큰(대) 호수(호)라서 오대호라고 불러요." },
+      { "type": "choice", "prompt": "북아메리카에 있는 나라가 아닌 것은 무엇일까?", "options": [{ "label": "캐나다" }, { "label": "미국" }, { "label": "인도" }], "answer": 2, "explain": "인도는 아시아에 있는 나라예요. 캐나다와 미국은 북아메리카에 있어요." },
+      { "type": "choice", "prompt": "캐나다 땅은 우리나라와 비교하면 얼마나 넓을까?", "options": [{ "label": "훨씬 좁아요" }, { "label": "훨씬 넓어요" }, { "label": "거의 같아요" }], "answer": 1, "explain": "캐나다 땅은 우리나라(남한)보다 약 100배 넓어요." },
+      { "type": "choice", "prompt": "캐나다와 미국 사람들이 주로 쓰는 말은 무엇일까?", "options": [{ "label": "영어" }, { "label": "중국어" }, { "label": "아랍어" }], "answer": 0, "explain": "캐나다와 미국에서는 주로 영어를 써요. 캐나다에서는 프랑스어도 함께 써요." }
     ],
     "upper": [
       { "type": "pin", "prompt": "지명이 사라졌어요! 미국과 캐나다 국경 부근의 큰 호수 다섯 개, 오대호를 찍어 보세요.", "targetName": "오대호", "target": [-82.5, 44.8], "starsKm": [550, 1100], "view": { "center": [-98, 42], "zoom": 2 }, "explain": "오대호는 슈피리어호·미시간호·휴런호·이리호·온타리오호, 다섯 호수예요." },
       { "type": "choice", "prompt": "파나마 운하는 어느 두 바다를 이어 줄까요?", "options": [{ "label": "대서양과 인도양" }, { "label": "태평양과 인도양" }, { "label": "북극해와 대서양" }, { "label": "태평양과 대서양" }], "answer": 3, "explain": "운하 덕분에 배가 남아메리카를 빙 돌아가지 않아도 돼요." },
-      { "type": "direction", "prompt": "미국 뉴욕에서 보면 로스앤젤레스는 어느 방향에 있을까요?", "from": [-74.006, 40.7128], "fromName": "뉴욕", "to": [-118.2437, 34.0522], "toName": "로스앤젤레스", "options": 8, "answer": "서", "explain": "로스앤젤레스는 뉴욕에서 서쪽으로 약 3,900km 떨어져 있어요." }
+      { "type": "direction", "prompt": "미국 뉴욕에서 보면 로스앤젤레스는 어느 방향에 있을까요?", "from": [-74.006, 40.7128], "fromName": "뉴욕", "to": [-118.2437, 34.0522], "toName": "로스앤젤레스", "options": 8, "answer": "서", "explain": "로스앤젤레스는 뉴욕에서 서쪽으로 약 3,900km 떨어져 있어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 북아메리카와 남아메리카를 잇는 좁은 땅에 있는 파나마 운하를 찍어 보세요.", "targetName": "파나마 운하", "target": [-79.8, 9.1], "starsKm": [250, 700], "view": { "center": [-85, 18], "zoom": 2.2 }, "explain": "파나마의 좁은 땅을 가로질러 뚫은 뱃길로, 1914년에 문을 열었어요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 미국과 멕시코에 둘러싸인 둥근 바다, 멕시코만을 찍어 보세요.", "targetName": "멕시코만", "target": [-90.5, 25.5], "starsKm": [300, 700], "view": { "center": [-97, 35], "zoom": 2 }, "explain": "멕시코만 바다 밑에서는 석유를 많이 뽑아 올려요." },
+      { "type": "pin", "prompt": "지명이 사라졌어요! 캐나다 땅 안쪽으로 깊숙이 들어온 큰 바다, 허드슨만을 찍어 보세요.", "targetName": "허드슨만", "target": [-86, 59.5], "starsKm": [400, 900], "view": { "center": [-98, 50], "zoom": 1.9 }, "explain": "허드슨만은 겨울이면 꽁꽁 얼어서, 북극곰이 얼음 위에서 물범을 사냥해요." },
+      { "type": "direction", "prompt": "미국 시카고에서 보면 뉴올리언스는 어느 방향에 있을까요?", "from": [-87.6298, 41.8781], "fromName": "시카고", "to": [-90.0715, 29.9511], "toName": "뉴올리언스", "options": 8, "answer": "남", "explain": "뉴올리언스는 시카고에서 남쪽으로 약 1,300km, 미시시피강이 바다로 흘러드는 곳 가까이에 있어요." },
+      { "type": "direction", "prompt": "캐나다 밴쿠버에서 보면 토론토는 어느 방향에 있을까요?", "from": [-123.1207, 49.2827], "fromName": "밴쿠버", "to": [-79.3832, 43.6532], "toName": "토론토", "options": 8, "answer": "동", "explain": "토론토는 밴쿠버에서 동쪽으로 약 3,400km 떨어져 있어요." },
+      { "type": "direction", "prompt": "멕시코의 수도 멕시코시티에서 보면 미국의 로스앤젤레스는 어느 방향에 있을까요?", "from": [-99.1332, 19.4326], "fromName": "멕시코시티", "to": [-118.2437, 34.0522], "toName": "로스앤젤레스", "options": 8, "answer": "북서", "explain": "로스앤젤레스는 멕시코시티에서 북서쪽으로 약 2,500km 떨어져 있어요." },
+      { "type": "choice", "prompt": "세계에서 캐나다보다 넓은 나라는 어디일까요?", "options": [{ "label": "브라질" }, { "label": "인도" }, { "label": "러시아" }, { "label": "오스트레일리아" }], "answer": 2, "explain": "세계에서 가장 넓은 나라는 러시아이고, 캐나다는 두 번째로 넓어요." },
+      { "type": "choice", "prompt": "적도와 본초 자오선으로 지구를 나누면, 북아메리카 대륙은 대부분 어디에 있을까요?", "options": [{ "label": "북반구·동반구" }, { "label": "북반구·서반구" }, { "label": "남반구·서반구" }, { "label": "남반구·동반구" }], "answer": 1, "explain": "북아메리카는 적도의 북쪽, 본초 자오선의 서쪽에 있어서 북반구이면서 서반구예요." },
+      { "type": "choice", "prompt": "북아메리카 가운데의 넓은 평원에서 많이 기르는 것은 무엇일까요?", "options": [{ "label": "밀과 옥수수" }, { "label": "카카오와 커피" }, { "label": "바나나와 망고" }, { "label": "고무나무" }], "answer": 0, "explain": "이 넓은 평원에서는 밀과 옥수수를 많이 길러서 '세계의 곡창 지대'라고 불러요." }
     ]
   },
   "familyTalk": {
