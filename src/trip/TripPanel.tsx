@@ -228,13 +228,15 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
               <div className="talk">
                 <h3 className="talk__label">함께 이야기해요</h3>
                 <CharacterBubble text={place.familyTalk[tier]} voice={stepVoice} />
+                {/* 밑줄 글자는 누르는 곳으로 보이지 않아서, 책 그림과 펼침 표시가 있는 종이 버튼으로 둔다 */}
                 <button
                   type="button"
-                  className="link-button"
+                  className={`memo-btn${showNote ? ' is-open' : ''}`}
                   aria-expanded={showNote}
                   onClick={() => setShowNote((v) => !v)}
                 >
-                  부모님 메모 {showNote ? '닫기' : '보기'}
+                  <Icon name="read" className="memo-btn__icon" />
+                  <span>부모님 메모 {showNote ? '닫기' : '보기'}</span>
                 </button>
                 {showNote && <p ref={noteRef} className="talk__note ko">{place.parentNote}</p>}
                 <button type="button" className="btn" onClick={onExit}>

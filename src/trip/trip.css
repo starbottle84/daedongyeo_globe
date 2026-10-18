@@ -34,6 +34,18 @@
 .talk__note { margin: 8px 0 0; padding: 10px 12px; border-radius: 14px; background: var(--cream-200); font-size: 17px; line-height: 1.55; color: var(--note); }
 .link-button { margin-top: 10px; min-height: 48px; padding: 0 4px; border: 0; background: none; font-family: var(--title);
   font-size: 18px; color: var(--gold-ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+/* 부모님 메모 펼치기: 종이 버튼 + 책 그림 + 오른쪽 펼침 표시(열리면 위로 뒤집힘). 아래 금박 '여행 마치기'보다 한 단계 조용하게 */
+.memo-btn { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; margin-top: 12px; padding: 8px 16px 8px 12px;
+  border: 2px solid #D8C49A; border-radius: 16px; background: linear-gradient(180deg, #FFFEF8, #F6EEDC);
+  box-shadow: 0 3px 0 #D2BC8B, 0 5px 8px rgba(90,65,20,.10); font-family: var(--title); font-size: 19px; color: var(--gold-ink);
+  text-align: left; cursor: pointer; transition: transform .08s ease, box-shadow .08s ease; }
+.memo-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #D2BC8B; }
+.memo-btn__icon { flex: none; width: 26px; height: 26px; color: var(--gold-700); }
+.memo-btn::after { content: ""; flex: none; margin-left: auto; width: 9px; height: 9px; border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .15s ease; }
+.memo-btn.is-open::after { transform: translateY(2px) rotate(-135deg); }
+.memo-btn.is-open { border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
+.memo-btn.is-open + .talk__note { margin-top: 4px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
 
 /* 미션 진행 표시·질문 줄 (기준 시안 186–193줄) */
 .progress{display:flex;align-items:center;gap:10px;margin:0 0 10px}
@@ -154,6 +166,18 @@
 .result--soft + .explain { margin-top: 10px; }
 /* 저학년·고학년 설명은 길어서(30~50자) 카드를 늘린다 → 글자·줄 간격을 조금 줄여 덜 늘어나게 한다 (유아는 19px 그대로) */
 .trip-panel--lower .explain, .trip-panel--upper .explain { font-size: 18px; line-height: 1.45; }
+/* 저학년·고학년은 문제 묶음의 설명이 길어(두세 문장) 고르기 결과 카드가 화면 절반을 넘기 쉽다 — 결과 머리(동글이)·제목·간격을 줄인다.
+   고학년 질문도 길어서 글자를 한 단계 줄인다 (유아는 그대로) */
+.trip-panel--lower:not(.trip-panel--compact) .result,
+.trip-panel--upper:not(.trip-panel--compact) .result { gap: 10px; padding: 8px 14px 8px 8px; }
+.trip-panel--lower:not(.trip-panel--compact) .result__hero,
+.trip-panel--upper:not(.trip-panel--compact) .result__hero { width: 68px; height: 68px; }
+.trip-panel--lower:not(.trip-panel--compact) .result__hero .dg,
+.trip-panel--upper:not(.trip-panel--compact) .result__hero .dg { width: 62px; height: 62px; }
+.trip-panel--lower .result__title, .trip-panel--upper .result__title { font-size: 26px; }
+.trip-panel--lower .explain, .trip-panel--upper .explain { font-size: 17px; line-height: 1.42; margin-top: 8px; }
+.trip-panel--lower .feedback .btn, .trip-panel--upper .feedback .btn { margin-top: 10px; min-height: 56px; font-size: 23px; }
+.trip-panel--upper .ask__prompt { font-size: 20px; }
 /* 결과 카드 반짝이: 몇 번 깜빡이고 밝은 끝모습에서 멈춘다 (alternate라 홀수 번) */
 .result .spark { animation-iteration-count: 3; }
 /* 압축 카드의 결과: 동글이·제목을 줄여 지도(목표·정답 핀)를 덜 가린다 */
