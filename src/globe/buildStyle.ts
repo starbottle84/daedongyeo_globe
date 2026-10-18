@@ -228,8 +228,11 @@ export function buildStyle(view: MapView): StyleSpecification {
         },
         paint: labelPaint(t.water, 1),
       },
-      {
-        id: 'capital-label', type: 'symbol', source: 'places',
+      // 수도 이름은 모양이 같은 두 층으로 확대 3에서 나눈다. MapLibre는 같은 층 안에서 이름을 처음 놓은 쪽(별표 오른쪽·아래…)을 계속 쓰는데,
+      // 한 층이면 첫 화면(확대 약 1.6)의 '대한민국'·'일본' 옆 비좁은 자리에서 고른 쪽이 한반도를 확대해도 남는다.
+      // 데이터가 늦게 오면 '서울특별시'가 별표 아래로 정해져 '성남시'·'경기도'(확대 5에서는 '수원시')를 가렸다 — 층을 나누면 확대해서 새로 고른다
+      ...[{ id: 'capital-label-far', maxzoom: 3 }, { id: 'capital-label', minzoom: 3 }].map((zoomRange) => ({
+        ...zoomRange, type: 'symbol', source: 'places',
         filter: ['all', ['==', ['get', 'cls'], 'capital'], visibleFrom()],
         layout: {
           'icon-image': 'capital',
@@ -240,7 +243,7 @@ export function buildStyle(view: MapView): StyleSpecification {
           'symbol-sort-key': ['get', 'rank'],
         },
         paint: labelPaint(),
-      },
+      })),
       {
         id: 'country-label', type: 'symbol', source: 'countryLabels', filter: visibleFrom(),
         layout: {
