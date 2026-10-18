@@ -21,6 +21,9 @@ export interface GlobeHandle {
    *  maxZoom을 주면 그보다 더 확대하지 않는다 (넓은 바다 한가운데에 핀을 가까이 꽂아도 주변이 보이게).
    *  frame은 방위표처럼 지점 둘레에 큰 그림이 있을 때 쓴다 (FitFrame) */
   fitTo(points: LngLat[], maxZoom?: number, frame?: FitFrame): void;
+  /** center를 보이는 영역 한가운데에 두고, reach 지점이 그 둘레 어느 쪽에 있어도 화면에 들어오는 확대로 날아간다.
+   *  방향 미션 첫 화면용: 두 지점을 함께 맞추면 기준 장소가 한쪽 끝에 붙어 목표가 반대쪽에 있다는 것이 드러난다 */
+  centerOn(center: LngLat, reach: LngLat, frame: FitFrame): void;
   /** 여행 카드 높이가 바뀌었을 때 카메라 여백만 다시 맞춘다 (가운데 지점·확대는 그대로 → 목표가 카드 위쪽 보이는 영역 가운데로 다시 온다).
    *  날아가는 중이면 끊지 않고 그 비행이 끝난 뒤 한 번 맞춘다. 여행이 아닐 때(flyTo·fitTo 전, restore 뒤)는 아무것도 하지 않는다 */
   refitPadding(): void;
@@ -34,7 +37,9 @@ export interface GlobeHandle {
   showMarker(kind: MarkerKind, at: LngLat, label?: string): void;
   /** 방향 미션: 기준 장소에 지구본 표면에 그린 듯한 방위표를 놓고 목표까지 대권 점선으로 잇는다 (clearMarkers가 함께 지운다) */
   showCompass(options: Omit<CompassOptions, 'visibleArea'>): void;
-  /** 답한 뒤 방위표의 정답 칸을 칠한다 */
+  /** 힌트(한 번 틀린 뒤): 방위표의 칸 경계와 기준→목표 점선을 보여 준다 */
+  showCompassGuides(): void;
+  /** 답한 뒤 방위표의 정답 칸을 칠한다 (칸 경계·점선도 함께) */
   revealCompass(answer: Direction): void;
   clearMarkers(): void;
   /** 여행이 끝나면 지구본을 평소 상태로 되돌린다 (여백·손 조작·표시·지명) */
@@ -161,12 +166,21 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
 
   // 방위표 화면 맞추기(frame): 가로·세로를 따로 맞춘다. 보이는 띠가 낮고 넓어도 가로 폭을 살려 두 지점을 벌린다.
   // 세로 여백은 띠 높이의 1/4을 넘지 않게 줄인다 (그때 '기준' 이름표는 방위표 옆으로 간다 — compass.ts)
-  const zoomToFitFrame = (center: LngLat, points: LngLat[], frame: FitFrame) => {
+  const frameHalves = (frame: FitFrame) => {
     const container = map.getContainer();
     const padding = panelPadding();
     const bandH = container.clientHeight - padding.bottom;
-    const halfW = Math.max((container.clientWidth - padding.right) / 2 - frame.marginPx, 40);
-    const halfH = Math.max(bandH / 2 - Math.min(frame.marginPx, bandH / 4), 20);
+    return {
+      halfW: Math.max((container.clientWidth - padding.right) / 2 - frame.marginPx, 40),
+      halfH: Math.max(bandH / 2 - Math.min(frame.marginPx, bandH / 4), 20),
+    };
+  };
+  const zoomForRadius = (radiusPx: number, center: LngLat, zoomLimit: number) => {
+    const zoom = Math.log2((radiusPx * 2 * Math.PI * Math.cos(rad(center[1]))) / 512);
+    return Math.min(zoomLimit, Math.max(map.getMinZoom(), zoom));
+  };
+  const zoomToFitFrame = (center: LngLat, points: LngLat[], frame: FitFrame) => {
+    const { halfW, halfH } = frameHalves(frame);
     // 가운데에서 본 지구본 정사영 위치(반지름 1). 가운데에서 가로·세로로 가장 먼 값이 반쪽 폭·높이에 들어오게 반지름을 고른다
     let maxX = 0;
     let maxY = 0;
@@ -177,8 +191,14 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     }
     const radiusPx = Math.min(maxX > 1e-6 ? halfW / maxX : Infinity, maxY > 1e-6 ? halfH / maxY : Infinity);
     if (!Number.isFinite(radiusPx)) return frame.zoomLimit;
-    const zoom = Math.log2((radiusPx * 2 * Math.PI * Math.cos(rad(center[1]))) / 512);
-    return Math.min(frame.zoomLimit, Math.max(map.getMinZoom(), zoom));
+    return zoomForRadius(radiusPx, center, frame.zoomLimit);
+  };
+  // 가운데에서 reach까지의 각도만큼 어느 방향으로 떨어져 있어도 보이게: 반쪽 폭·높이 중 작은 쪽에 맞춘다 (90°보다 멀면 지구본 전체)
+  const zoomToReach = (center: LngLat, reach: LngLat, frame: FitFrame) => {
+    const { halfW, halfH } = frameHalves(frame);
+    const along = Math.sin(Math.min(angleBetween(toVec(center), toVec(reach)), Math.PI / 2));
+    if (along < 1e-6) return frame.zoomLimit;
+    return zoomForRadius(Math.min(halfW, halfH) / along, center, frame.zoomLimit);
   };
 
   const setInteractive = (on: boolean) => {
@@ -277,6 +297,21 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       });
     },
 
+    centerOn(center, reach, frame) {
+      ensureGlobe();
+      const padding = panelPadding();
+      startTripFlight(padding);
+      map.flyTo({
+        center,
+        zoom: zoomToReach(center, reach, frame),
+        bearing: 0,
+        pitch: 0,
+        padding,
+        duration: flightMs(2000),
+        essential: true,
+      });
+    },
+
     refitPadding() {
       if (tripPadding === null) return;
       if (map.isMoving()) refitOnMoveEnd = true;
@@ -343,6 +378,9 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
           return { right: container.clientWidth - padding.right, bottom: container.clientHeight - padding.bottom };
         },
       });
+    },
+    showCompassGuides() {
+      compass?.showGuides();
     },
     revealCompass(answer) {
       compass?.reveal(answer);

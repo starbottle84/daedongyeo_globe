@@ -1,4 +1,7 @@
-// 방향 문제를 실제 화면(개발 서버)에서 열고 정답을 눌러, 지도 위 방위표가 제대로 보이는지 잰다.
+// 방향 문제를 실제 화면(개발 서버)에서 열어 세 단계를 확인한다.
+//  1) 답하기 전: 목표 핀·점선·칸 경계가 없고 기준 장소(방위표)가 보이는 칸 한가운데에 있는지 (목표 쪽을 드러내지 않게)
+//  2) 한 번 틀린 뒤(힌트): 도착 핀과 점선이 나오는지
+//  3) 정답을 누른 뒤 지도 위 방위표가 제대로 보이는지:
 //  - 도착 핀(목표 지점)이 칠해진 정답 칸 안에 있고, 칸 경계 점선에서 몇 px 떨어져 있는지
 //  - 기준→목표 점선·화살촉이 보이는지
 //  - 방위표·'기준' 이름표·도착 핀이 화면 가장자리나 여행 카드(아래, 가로 휴대폰은 오른쪽 옆)에 잘리지 않는지
@@ -38,15 +41,38 @@ const proc = spawn(chrome, ['--headless=new', '--disable-gpu', '--hide-scrollbar
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const cleanup = () => { try { proc.kill(); } catch {} setTimeout(() => { try { fs.rmSync(profile, { recursive: true, force: true }); } catch {} }, 500); };
 
-// 페이지 안에서: 지도가 멈추면 정답을 누르고, 다시 멈춘 뒤 방위표 그림(DOM)을 잰다
+// 페이지 안에서: 지도가 멈출 때마다 답 전·오답 뒤·정답 뒤 방위표 그림(DOM)을 잰다
 const measureExpr = (m) => `(async () => {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const settle = async () => { let still = 0; for (let i = 0; i < 150 && still < 4; i++) { await sleep(100); still = window.__map.isMoving() ? 0 : still + 1; } };
   for (let i = 0; i < 80 && !(window.__map && document.querySelector('.trip-compass')); i++) await sleep(100);
   if (!window.__map || !document.querySelector('.trip-compass')) return { error: '방위표 없음' };
   await sleep(400); await settle();
-  const btn = [...document.querySelectorAll('.compass__dir')].find((b) => b.textContent === ${JSON.stringify(m.answer)});
-  if (!btn) return { error: '정답 버튼 없음' };
+  const shown = (sel) => { const el = document.querySelector(sel); return Boolean(el) && getComputedStyle(el).display !== 'none'; };
+  const stageProblems = [];
+  // 1) 답하기 전: 목표 핀·점선·칸 경계가 없고, 기준 장소(방위표)가 보이는 칸 한가운데에 있어야 한다 (목표 쪽을 드러내지 않게)
+  if (document.querySelector('.trip-marker--to')) stageProblems.push('답 전 도착 핀 보임');
+  if (shown('.trip-compass__line')) stageProblems.push('답 전 점선 보임');
+  if ([...document.querySelectorAll('.trip-compass__ray')].some((r) => getComputedStyle(r).display !== 'none')) stageProblems.push('답 전 칸 경계 보임');
+  {
+    const card = document.querySelector('.bottom-stack')?.getBoundingClientRect();
+    const box = window.__map.getContainer().getBoundingClientRect();
+    const beside = Boolean(card) && card.left + card.width / 2 > box.left + box.width / 2 + 1;
+    const right = beside ? card.left - 12 : box.right;
+    const bottom = card && !beside ? card.top - 12 : box.bottom;
+    const c = document.querySelector('.trip-compass').getBoundingClientRect();
+    if (Math.abs(c.left - (box.left + right) / 2) > 8 || Math.abs(c.top - (box.top + bottom) / 2) > 8) stageProblems.push('답 전 기준이 가운데 아님');
+  }
+  // 2) 한 번 틀리면 힌트: 도착 핀·점선이 나온다
+  const dirs = [...document.querySelectorAll('.compass__dir')];
+  const wrongBtn = dirs.find((b) => b.textContent !== ${JSON.stringify(m.answer)});
+  const btn = dirs.find((b) => b.textContent === ${JSON.stringify(m.answer)});
+  if (!btn || !wrongBtn) return { error: '방향 버튼 없음' };
+  wrongBtn.click();
+  await sleep(500); await settle(); await sleep(200);
+  if (!document.querySelector('.trip-marker--to')) stageProblems.push('힌트 때 도착 핀 없음');
+  if (!shown('.trip-compass__line')) stageProblems.push('힌트 때 점선 없음');
+  // 3) 정답을 누른 뒤의 그림을 잰다
   btn.click();
   await sleep(500); await settle(); await sleep(200);
   const root = document.querySelector('.trip-compass');
@@ -77,6 +103,7 @@ const measureExpr = (m) => `(async () => {
   const clipped = (el, name) => { if (!el) return name + ' 없음'; const r = el.getBoundingClientRect(); if (r.width === 0) return null;
     return r.left < -1 || r.top < -1 || r.right > bandRight + 1 || r.bottom > bandBottom + 1 ? name + ' 잘림' : null; };
   const problems = [
+    ...stageProblems,
     clipped(document.querySelector('.trip-compass__back'), '방위표'),
     clipped(document.querySelector('.trip-compass__tag'), '기준 이름표'),
     clipped(document.querySelector('.trip-marker--to'), '도착 핀'),

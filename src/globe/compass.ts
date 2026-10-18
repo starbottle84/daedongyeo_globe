@@ -5,7 +5,8 @@ import { DIRECTIONS_4, DIRECTIONS_8, type Direction, type LngLat } from '../cont
 // 지구본은 둥글어서 화면 위쪽이 북쪽이 아닐 때가 많고(모스크바 근처는 약 15° 기욺), 가장자리로 갈수록 방위 사이 각도도 찌그러진다.
 // 그래서 방위표는 기준 장소에서 동·북으로 조금 간 지점을 화면에 비춰 그 모양대로 기울이고 눌러 그리며,
 // 방위 칸 경계와 기준→목표 선은 지구 위의 대권(가장 짧은 길)을 따라 그린다. 같은 점에서 나간 대권끼리는 다시 만나지 않으므로
-// 목표는 화면을 어떻게 돌리거나 옮겨도 늘 '처음 방향'(정답 계산과 같은 대권 방위각)의 칸 안에 보인다. 답한 뒤에는 정답 칸을 칠한다.
+// 목표는 화면을 어떻게 돌리거나 옮겨도 늘 '처음 방향'(정답 계산과 같은 대권 방위각)의 칸 안에 보인다.
+// 처음에는 방위표만 보이고, 칸 경계와 점선은 한 번 틀린 뒤(힌트)에, 정답 칸 칠은 답한 뒤에 보인다.
 
 export interface CompassOptions {
   from: LngLat;
@@ -18,7 +19,9 @@ export interface CompassOptions {
 }
 
 export interface Compass {
-  /** 답한 뒤 정답 칸을 칠한다 */
+  /** 힌트(한 번 틀린 뒤): 칸 경계와 기준→목표 점선을 보여 준다 */
+  showGuides(): void;
+  /** 답한 뒤 칸 경계·점선과 함께 정답 칸을 칠한다 */
   reveal(answer: Direction): void;
   remove(): void;
 }
@@ -167,6 +170,8 @@ export function createCompass(map: maplibregl.Map, { from, to, fromName, points,
   tag.append(tagWord, document.createTextNode(` ${fromName}`));
   root.append(art, tag);
 
+  // 칸 경계·기준→목표 점선은 힌트(한 번 틀린 뒤)나 답한 뒤에만 그린다 — 처음부터 보이면 점선이 들어간 칸만 보고 답을 고를 수 있다
+  let guides = false;
   let revealed: Direction | null = null;
 
   // 화면이 움직일 때마다 다시 그린다
@@ -204,104 +209,112 @@ export function createCompass(map: maplibregl.Map, { from, to, fromName, points,
     }
 
     const t = screen(to);
-    const tPlain = map.project(to);
-    const dist = Math.hypot(tPlain.x - a.x, tPlain.y - a.y);
-    const rayLen = Math.max(RAY_MIN_PX * scale, dist + RAY_EXTRA_PX * scale);
-    // 기준 장소에서 bearing 방향 대권을 화면에서 rayLen까지(또는 지구 가장자리까지) 그린 점들(뒤판 밖부터)과, 마지막 점까지의 대권 각도
-    const rayStep = Math.max(totalDist, 0.002) / RAY_STEPS;
-    const rayPoints = (bearing: number): { pts: Pt[]; reach: number } => {
-      const pts: Pt[] = [];
-      let reach = 0;
-      for (let i = 1; i <= RAY_MAX_SAMPLES; i++) {
-        const p = screen(destination(from, bearing, rayStep * i));
-        if (!p) break;
-        reach = rayStep * i;
-        const r = Math.hypot(p.x, p.y);
-        if (r >= back + 2) pts.push(p);
-        if (r >= rayLen) break;
+    for (const ray of rays) ray.style.display = guides ? '' : 'none';
+    if (!guides) line.style.display = head.style.display = 'none';
+    // 힌트나 답한 뒤에만: 칸 경계 대권, 기준→목표 대권 점선, 정답 칸
+    if (guides) {
+      const tPlain = map.project(to);
+      const dist = Math.hypot(tPlain.x - a.x, tPlain.y - a.y);
+      const rayLen = Math.max(RAY_MIN_PX * scale, dist + RAY_EXTRA_PX * scale);
+      // 기준 장소에서 bearing 방향 대권을 화면에서 rayLen까지(또는 지구 가장자리까지) 그린 점들(뒤판 밖부터)과, 마지막 점까지의 대권 각도
+      const rayStep = Math.max(totalDist, 0.002) / RAY_STEPS;
+      const rayPoints = (bearing: number): { pts: Pt[]; reach: number } => {
+        const pts: Pt[] = [];
+        let reach = 0;
+        for (let i = 1; i <= RAY_MAX_SAMPLES; i++) {
+          const p = screen(destination(from, bearing, rayStep * i));
+          if (!p) break;
+          reach = rayStep * i;
+          const r = Math.hypot(p.x, p.y);
+          if (r >= back + 2) pts.push(p);
+          if (r >= rayLen) break;
+        }
+        return { pts, reach };
+      };
+      const rayCache = new Map<number, { pts: Pt[]; reach: number }>();
+      for (const ray of rays) {
+        const traced = rayPoints(Number(ray.dataset.bearing));
+        rayCache.set(Number(ray.dataset.bearing), traced);
+        ray.setAttribute('points', pointsAttr(traced.pts));
       }
-      return { pts, reach };
-    };
-    const rayCache = new Map<number, { pts: Pt[]; reach: number }>();
-    for (const ray of rays) {
-      const traced = rayPoints(Number(ray.dataset.bearing));
-      rayCache.set(Number(ray.dataset.bearing), traced);
-      ray.setAttribute('points', pointsAttr(traced.pts));
+
+      // 기준→목표 대권. 목표가 지구 뒤쪽이면 보이는 데까지만 그리고 화살촉은 뺀다
+      let path: Pt[] = [];
+      let reached = true;
+      for (let i = 1; i <= LINE_SAMPLES; i++) {
+        const p = screen(along(from, to, i / LINE_SAMPLES, totalDist));
+        if (!p) {
+          reached = false;
+          break;
+        }
+        if (Math.hypot(p.x, p.y) >= back + 2) path.push(p);
+      }
+      // 끝은 도착 핀 몸통과 이름표 상자에 닿지 않게 줄인다 (목표가 바로 아래면 이름표 위에서 멈춘다)
+      if (reached && t && path.length >= 2) {
+        const last = path[path.length - 2];
+        const dx = t.x - last.x;
+        const dy = t.y - last.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len;
+        const uy = dy / len;
+        const pinLabel = map.getContainer().querySelector<HTMLElement>('.trip-marker--to .trip-marker__label');
+        const labelHalf = (pinLabel?.offsetWidth ?? 80) / 2;
+        const inPin = (x: number, y: number) =>
+          (Math.abs(x) <= PIN_HALF_W && y <= 0 && y >= -PIN_H) || (Math.abs(x) <= labelHalf && y <= -PIN_LABEL_BOTTOM && y >= -PIN_LABEL_TOP);
+        let gap = 8;
+        for (let s = 0; s <= PIN_LABEL_TOP + labelHalf; s += 2) if (inPin(-ux * s, -uy * s)) gap = s + PIN_GAP_PX;
+        path = trimEnd(path, gap);
+      }
+      const showLine = path.length >= 2 && Math.hypot(path[path.length - 1].x, path[path.length - 1].y) > back + 16;
+      line.style.display = showLine ? '' : 'none';
+      head.style.display = showLine && reached ? '' : 'none';
+      if (showLine) {
+        line.setAttribute('points', pointsAttr(trimEnd(path, 6)));
+        const tip = path[path.length - 1];
+        const prev = path[path.length - 2];
+        const len = Math.hypot(tip.x - prev.x, tip.y - prev.y) || 1;
+        const ux = (tip.x - prev.x) / len;
+        const uy = (tip.y - prev.y) / len;
+        // 화살촉: 끝점에서 뒤로 12px, 양옆 7px
+        const bx = tip.x - ux * 12;
+        const by = tip.y - uy * 12;
+        head.setAttribute('d', `M${f(tip.x)},${f(tip.y)} L${f(bx - uy * 7)},${f(by + ux * 7)} L${f(bx + uy * 7)},${f(by - ux * 7)} Z`);
+      }
+
+      // 정답 칸: 양쪽 경계 대권과, 그 끝을 잇는 바깥 테두리
+      if (revealed) {
+        const mid = names.indexOf(revealed) * step;
+        const left = rayCache.get((mid - step / 2 + 360) % 360) ?? rayPoints(mid - step / 2);
+        const right = rayCache.get(mid + step / 2) ?? rayPoints(mid + step / 2);
+        const reach = Math.max(left.reach, right.reach, rayStep);
+        const outer: Pt[] = [];
+        for (let i = 1; i < WEDGE_EDGE_SAMPLES; i++) {
+          const b = mid - step / 2 + (step * i) / WEDGE_EDGE_SAMPLES;
+          let p: Pt | null = null;
+          // 지구 가장자리에 걸리면 조금씩 안으로 당긴다
+          for (let k = 1; k >= 0.2 && !p; k -= 0.2) p = screen(destination(from, b, reach * k));
+          if (p) outer.push(p);
+        }
+        const poly = [{ x: 0, y: 0 }, ...left.pts, ...outer, ...right.pts.slice().reverse()];
+        wedge.setAttribute('d', `M${poly.map((p) => `${f(p.x)},${f(p.y)}`).join(' L')} Z`);
+        wedge.classList.add('is-on');
+      }
     }
 
-    // 기준→목표 대권. 목표가 지구 뒤쪽이면 보이는 데까지만 그리고 화살촉은 뺀다
-    let path: Pt[] = [];
-    let reached = true;
-    for (let i = 1; i <= LINE_SAMPLES; i++) {
-      const p = screen(along(from, to, i / LINE_SAMPLES, totalDist));
-      if (!p) {
-        reached = false;
-        break;
-      }
-      if (Math.hypot(p.x, p.y) >= back + 2) path.push(p);
-    }
-    // 끝은 도착 핀 몸통과 이름표 상자에 닿지 않게 줄인다 (목표가 바로 아래면 이름표 위에서 멈춘다)
-    if (reached && t && path.length >= 2) {
-      const last = path[path.length - 2];
-      const dx = t.x - last.x;
-      const dy = t.y - last.y;
-      const len = Math.hypot(dx, dy) || 1;
-      const ux = dx / len;
-      const uy = dy / len;
-      const pinLabel = map.getContainer().querySelector<HTMLElement>('.trip-marker--to .trip-marker__label');
-      const labelHalf = (pinLabel?.offsetWidth ?? 80) / 2;
-      const inPin = (x: number, y: number) =>
-        (Math.abs(x) <= PIN_HALF_W && y <= 0 && y >= -PIN_H) || (Math.abs(x) <= labelHalf && y <= -PIN_LABEL_BOTTOM && y >= -PIN_LABEL_TOP);
-      let gap = 8;
-      for (let s = 0; s <= PIN_LABEL_TOP + labelHalf; s += 2) if (inPin(-ux * s, -uy * s)) gap = s + PIN_GAP_PX;
-      path = trimEnd(path, gap);
-    }
-    const showLine = path.length >= 2 && Math.hypot(path[path.length - 1].x, path[path.length - 1].y) > back + 16;
-    line.style.display = showLine ? '' : 'none';
-    head.style.display = showLine && reached ? '' : 'none';
-    if (showLine) {
-      line.setAttribute('points', pointsAttr(trimEnd(path, 6)));
-      const tip = path[path.length - 1];
-      const prev = path[path.length - 2];
-      const len = Math.hypot(tip.x - prev.x, tip.y - prev.y) || 1;
-      const ux = (tip.x - prev.x) / len;
-      const uy = (tip.y - prev.y) / len;
-      // 화살촉: 끝점에서 뒤로 12px, 양옆 7px
-      const bx = tip.x - ux * 12;
-      const by = tip.y - uy * 12;
-      head.setAttribute('d', `M${f(tip.x)},${f(tip.y)} L${f(bx - uy * 7)},${f(by + ux * 7)} L${f(bx + uy * 7)},${f(by - ux * 7)} Z`);
-    }
-
-    // 정답 칸: 양쪽 경계 대권과, 그 끝을 잇는 바깥 테두리
-    if (revealed) {
-      const mid = names.indexOf(revealed) * step;
-      const left = rayCache.get((mid - step / 2 + 360) % 360) ?? rayPoints(mid - step / 2);
-      const right = rayCache.get(mid + step / 2) ?? rayPoints(mid + step / 2);
-      const reach = Math.max(left.reach, right.reach, rayStep);
-      const outer: Pt[] = [];
-      for (let i = 1; i < WEDGE_EDGE_SAMPLES; i++) {
-        const b = mid - step / 2 + (step * i) / WEDGE_EDGE_SAMPLES;
-        let p: Pt | null = null;
-        // 지구 가장자리에 걸리면 조금씩 안으로 당긴다
-        for (let k = 1; k >= 0.2 && !p; k -= 0.2) p = screen(destination(from, b, reach * k));
-        if (p) outer.push(p);
-      }
-      const poly = [{ x: 0, y: 0 }, ...left.pts, ...outer, ...right.pts.slice().reverse()];
-      wedge.setAttribute('d', `M${poly.map((p) => `${f(p.x)},${f(p.y)}`).join(' L')} Z`);
-      wedge.classList.add('is-on');
-    }
-
-    // 기준 이름표: 보이는 띠 안에 다 들어가는 첫 자리 — 목표 반대쪽 위/아래, 다른 쪽 위/아래, 목표 반대쪽 옆
+    // 기준 이름표: 보이는 띠 안에 다 들어가는 첫 자리.
+    // 점선이 보일 때는 점선과 겹치지 않게 목표 반대쪽 위/아래, 다른 쪽 위/아래, 목표 반대쪽 옆 순서로 고른다.
+    // 점선이 없을 때는 목표 방향을 드러내지 않게 목표와 상관없이 아래, 위, 화면 가운데 쪽 옆 순서로 고른다
     const tw = tag.offsetWidth;
     const th = tag.offsetHeight;
     const vy = back + TAG_GAP_PX - 6;
-    const tdx = t ? t.x : 0;
-    const tdy = t ? t.y : 0;
+    const tdx = guides && t ? t.x : 0;
+    const tdy = guides && t ? t.y : 0;
     const vertical = tdy > 0 ? [-vy, vy] : [vy, -vy];
+    const sideSign = guides && t ? (tdx > 0 ? -1 : 1) : a.x > bandRight / 2 ? -1 : 1;
     const candidates: Pt[] = [
       { x: 0, y: vertical[0] },
       { x: 0, y: vertical[1] },
-      { x: (tdx > 0 ? -1 : 1) * (back + 8 + tw / 2), y: 0 },
+      { x: sideSign * (back + 8 + tw / 2), y: 0 },
     ];
     const fits = (c: Pt) => {
       const left = a.x + c.x - tw / 2;
@@ -319,7 +332,12 @@ export function createCompass(map: maplibregl.Map, { from, to, fromName, points,
   update();
 
   return {
+    showGuides() {
+      guides = true;
+      update();
+    },
     reveal(answer) {
+      guides = true;
       revealed = answer;
       labels.find((l) => l.textContent === answer)?.classList.add('is-answer');
       update();
