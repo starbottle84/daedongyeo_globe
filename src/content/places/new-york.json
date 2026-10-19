@@ -36,7 +36,7 @@
       { "type": "choice", "prompt": "뉴욕 거리에서 펄럭이는 미국 국기를 골라 봐!", "options": [{ "label": "영국", "flag": "gb" }, { "label": "미국", "flag": "us" }, { "label": "일본", "flag": "jp" }], "answer": 1, "explain": "별과 빨간색·흰색 줄무늬가 그려진 국기가 미국 국기예요." },
       { "type": "choice", "prompt": "빨간 단풍잎이 그려진 이 국기는 어느 나라 국기일까?", "flag": "ca", "options": [{ "label": "멕시코" }, { "label": "브라질" }, { "label": "캐나다" }], "answer": 2, "explain": "캐나다 국기예요. 캐나다에는 단풍나무가 많아서, 단풍나무 수액으로 메이플 시럽을 만들어요." },
       { "type": "choice", "prompt": "뉴욕 바닷가 섬에서 횃불을 높이 든 큰 동상의 이름은 무엇일까?", "options": [{ "label": "자유의 여신상" }, { "label": "다비드상" }, { "label": "모아이 석상" }], "answer": 0, "explain": "자유의 여신상은 프랑스가 미국에 선물한 동상이에요." },
-      { "type": "choice", "prompt": "미국 국기에 그려진 별은 몇 개일까?", "options": [{ "label": "13개" }, { "label": "50개" }, { "label": "100개" }], "answer": 1, "explain": "별 50개는 미국의 50개 주를 뜻해요. 줄무늬 13개는 처음 미국을 세운 13개 주를 뜻해요." },
+      { "type": "choice", "prompt": "미국 국기에 그려진 별은 몇 개일까?", "options": [{ "label": "13개" }, { "label": "50개" }, { "label": "100개" }], "answer": 1, "explain": "미국 국기의 별 50개는 미국의 50개 주를 뜻해요. 줄무늬 13개는 처음 미국을 세운 13개 주를 뜻해요." },
       { "type": "choice", "prompt": "미국에서 쓰는 돈의 이름은 무엇일까?", "options": [{ "label": "엔" }, { "label": "유로" }, { "label": "달러" }], "answer": 2, "explain": "미국에서는 달러라는 돈을 써요. 엔은 일본, 유로는 유럽 여러 나라의 돈이에요." }
     ],
     "upper": [
