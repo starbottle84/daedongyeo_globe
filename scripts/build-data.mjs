@@ -170,6 +170,18 @@ for (const f of countries) {
   const short = COUNTRY_KO_SHORT[f.properties.ADM0_A3];
   if (short) f.properties.NAME_KO = short;
 }
+// 남극 고리는 극점 가까이(위도 -89.999)를 경도 1.40625°마다 찍은 점으로 닫혀 있다. 이 점들은 낮은 확대 타일의 자르는 선(경도 ±90°, ±11.25° 등)과
+// 딱 겹치는데, MapLibre 6.14에 든 geojson-vt는 자르는 선 위의 점을 새 교차점 대신 원래 점(단순화 중요도 0)으로 남겼다가 지워 버린다.
+// 그러면 타일의 극점 쪽 모서리가 빠져 남극 위에 하늘색 쐐기가 생긴다. 메르카토르에서 극점 줄은 곧은 한 줄이라 양 끝 점만 남긴다.
+// 로스 빙붕 안쪽 만 끝(경도 -157°)처럼 해안이 메르카토르 남쪽 끝(-85.0511°)을 넘는 점은 그 끝에 붙어 극점까지 가는 틈을 내므로 끝 바로 위로 올린다.
+const MERCATOR_SOUTH = -85.0511287798;
+const POLE_RUN = -89.99;
+const fixPoleRing = (ring) => ring
+  .filter((c, i) => !(c[1] <= POLE_RUN && ring[i - 1]?.[1] <= POLE_RUN && ring[i + 1]?.[1] <= POLE_RUN))
+  .map(([x, y]) => (y < MERCATOR_SOUTH && y > POLE_RUN && Math.abs(x) < 180 ? [x, -85.05] : [x, y]));
+const fixPoles = (geom) => (geom.type === 'Polygon'
+  ? geom.coordinates.map(fixPoleRing)
+  : geom.coordinates.map((p) => p.map(fixPoleRing)));
 write('countries', countries.map((f) => ({
   type: 'Feature',
   properties: {
@@ -179,7 +191,7 @@ write('countries', countries.map((f) => ({
     color: f.properties.MAPCOLOR7,
     continent: f.properties.CONTINENT,
   },
-  geometry: { type: f.geometry.type, coordinates: roundCoords(f.geometry.coordinates, 3) },
+  geometry: { type: f.geometry.type, coordinates: roundCoords(fixPoles(f.geometry), 3) },
 })));
 write('country-labels', countries.map((f) => point(f.properties.LABEL_X, f.properties.LABEL_Y, {
   id: f.properties.ADM0_A3,
