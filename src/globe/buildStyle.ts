@@ -4,6 +4,10 @@ import { LAND_COLORS, OCEAN_COLOR, THEMES, type MapView } from './themes';
 // 지명은 Natural Earth가 정한 "보이기 시작하는 확대 단계(minz)"보다 LABEL_BOOST만큼 일찍 보여준다.
 const LABEL_BOOST = 1;
 
+/** 이 확대 단계 아래는 지구본 전체를 작게 보는 넓은 화면(첫 화면, 먼 두 점 여행 화면)이다 — 대양 이름을 빼고, 지구본 둘레 울타리(edgeGuard.ts)를 두른다.
+ *  여행 장소 화면(1.5)과 지명 수 기준 장면(1.6)은 이보다 크다 */
+export const OVERVIEW_MAX_ZOOM = 1.45;
+
 const FONT = {
   regular: ['Noto Sans Regular'],
   medium: ['Noto Sans Medium'],
@@ -54,6 +58,8 @@ export function buildStyle(view: MapView): StyleSpecification {
       rivers: source('rivers'),
       geoLines: source('geo-lines'),
       areas: source('areas'),
+      // 지구본 둘레 울타리 자리 — edgeGuard.ts가 화면이 멈출 때마다 채우고, 움직이기 시작하면 비운다
+      edgeGuard: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
     },
     layers: [
       // ---------- 바탕: 바다 · 땅 · 물 ----------
@@ -259,7 +265,7 @@ export function buildStyle(view: MapView): StyleSpecification {
       // 여행 장소 화면(1.5)과 지명 수 기준 장면(1.6)에서는 그대로 보인다.
       // 확대 1.45 아래로 넓게 보는 여행 화면(먼 두 점 방향 미션 등)에서도 대양 이름은 빠진다 — 그때도 이름이 가장자리에 걸리기 쉬워 같은 이유로 둔다
       {
-        id: 'ocean-label', type: 'symbol', source: 'marineLabels', minzoom: 1.45,
+        id: 'ocean-label', type: 'symbol', source: 'marineLabels', minzoom: OVERVIEW_MAX_ZOOM,
         filter: ['==', ['get', 'cls'], 'ocean'],
         layout: {
           'text-field': koName, 'text-font': FONT.italic,
@@ -281,6 +287,12 @@ export function buildStyle(view: MapView): StyleSpecification {
           'text-color': '#ffffff', 'text-halo-color': 'rgba(29, 36, 51, 0.7)', 'text-halo-width': 2,
           'text-opacity': ['interpolate', ['linear'], ['zoom'], 2, 1, 3, 0],
         },
+      },
+      // 지구본 둘레 울타리: 보이지 않는 작은 칸. MapLibre는 맨 위 기호 층부터 자리를 잡으므로 이 칸들이 먼저 자리를 차지해,
+      // 둘레에 걸치는 지명은 자리를 못 잡는다 (edgeGuard.ts). 맨 위에 둔다
+      {
+        id: 'edge-guard', type: 'symbol', source: 'edgeGuard',
+        layout: { 'icon-image': 'edge-guard', 'icon-allow-overlap': true },
       },
     ],
   };

@@ -61,4 +61,6 @@ export const ICONS: Record<string, () => ImageData> = {
     ctx.stroke();
     ctx.fill();
   }),
+  // 지구본 둘레 울타리 칸: 아무것도 그리지 않은 투명한 12px 칸 (edgeGuard.ts가 둘레에 두른다)
+  'edge-guard': () => drawIcon(24, () => {}),
 };

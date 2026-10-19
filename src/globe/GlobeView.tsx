@@ -5,6 +5,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { buildStyle } from './buildStyle';
 import { ICONS } from './icons';
 import { createGlobeHandle, type GlobeHandle } from './globeHandle';
+import { installEdgeGuard, type EdgeGuard } from './edgeGuard';
 import type { MapView } from './themes';
 
 // MapLibre 6은 지도 계산용 일꾼(worker) 파일 주소를 번들러(Vite)가 알려 줘야 한다. 빌드 때 일꾼도 함께 묶여 미리 저장(PWA) 목록에 들어간다
@@ -27,6 +28,7 @@ interface GlobeViewProps {
 export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
+  const guardRef = useRef<EdgeGuard | null>(null);
   const appliedView = useRef(view);
   const callbacks = useRef({ onSatelliteError, onReady });
 
@@ -73,6 +75,8 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
       if ('sourceId' in e && e.sourceId === 'satellite') callbacks.current.onSatelliteError();
       else console.error(e.error);
     });
+    // 지구본 전체가 작게 보일 때 둘레에 걸치는 지명을 막는다 (edgeGuard.ts)
+    guardRef.current = installEdgeGuard(map);
     // 여행 손잡이는 스타일(층)이 준비되자마자 만든다. 'load'는 위성 타일을 다 받을 때까지 기다려 여행 시작이 늦어진다.
     // ('style.load'는 처음 넘긴 스타일에도 오고, 언제나 'load'보다 먼저 온다)
     const giveHandle = () => callbacks.current.onReady(createGlobeHandle(map));
@@ -84,6 +88,7 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
     return () => {
       map.remove();
       mapRef.current = null;
+      guardRef.current = null;
     };
   }, []);
 
@@ -92,6 +97,7 @@ export function GlobeView({ view, onSatelliteError, onReady }: GlobeViewProps) {
     if (!map || appliedView.current === view) return;
     appliedView.current = view;
     map.setStyle(buildStyle(view)); // 바뀐 색·레이어만 골라서 적용됨
+    guardRef.current?.refresh(); // 새 스타일의 빈 울타리로 바뀌었으니 지금 화면에 맞춰 다시 두른다
   }, [view]);
 
   return <div ref={containerRef} className="globe" />;
