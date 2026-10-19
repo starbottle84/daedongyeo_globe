@@ -10,6 +10,8 @@ import { useMoreBelow } from '../ui/useMoreBelow';
 import { COMMON_VOICE, nextVoice, placeVoice, unlockVoice } from '../voice/lines';
 import { useAutoVoice, useVoiceReady } from '../voice/useVoice';
 import { CharacterBubble } from './CharacterBubble';
+import { lessonScenes } from './lesson';
+import { LessonView } from './LessonView';
 import { MissionView } from './missions/MissionView';
 import { missionPool, pickMissions } from './pickMissions';
 import { StampCard } from './StampCard';
@@ -41,11 +43,17 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
     return initialStep ? shotMissions(pool, tier, seen) : pickMissions(pool, tier, seen, Math.random);
   });
   const missions = picked.map((p) => p.mission);
-  const [state, dispatch] = useReducer(tripReducer, missions.length, (count) =>
-    initialStep
-      ? { ...createTripState(count), step: initialStep.step, missionIndex: Math.min(initialStep.missionIndex, count - 1) }
-      : createTripState(count),
-  );
+  const [state, dispatch] = useReducer(tripReducer, missions.length, (count) => {
+    const sceneCount = lessonScenes(place, tier, picked, true).length;
+    const start = createTripState(count, sceneCount);
+    if (!initialStep) return start;
+    // 개발용 주소의 explore 뒤 숫자는 여행 수업 몇째 장, mission 뒤 숫자는 몇째 미션이다
+    return initialStep.step === 'explore'
+      ? { ...start, step: initialStep.step, sceneIndex: Math.min(initialStep.missionIndex, sceneCount - 1) }
+      : { ...start, step: initialStep.step, missionIndex: Math.min(initialStep.missionIndex, count - 1) };
+  });
+  // 둘러보기 장면: 첫 차례는 이야기 장부터, 문제 더 풀기 차례는 새로 고른 문제의 수업만 (lesson.ts)
+  const scenes = useMemo(() => lessonScenes(place, tier, picked, state.round === 0), [place, tier, picked, state.round]);
   const [showNote, setShowNote] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
   // 마지막 미션을 마친 순간 저장한 도장 결과 (새 도장·다시 방문·열린 단계·최고 별). 개발용 주소로 도장 단계를 바로 열었으면 null
@@ -59,17 +67,19 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
   const bodyRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const noteRef = useRef<HTMLParagraphElement>(null);
-  // 개발용 화면 확인 주소로 지도 미션(찾아 누르기·핀 꽂기·방향)을 바로 열 때는 그 미션이 카메라를 맞춘다.
-  // (부모 효과가 자식보다 나중에 돌아서, 장소로 날아가면 미션이 맞춘 화면을 덮는다. 고르기 미션은 카메라를 옮기지 않으니 장소로 날아간다)
-  const openedAtMapMission =
-    initialStep?.step === 'mission' && missions[Math.min(initialStep.missionIndex, missions.length - 1)].type !== 'choice';
+  // 개발용 화면 확인 주소로 지도 미션(찾아 누르기·핀 꽂기·방향)이나 저학년·고학년 여행 수업을 바로 열 때는 그 화면이 카메라를 맞춘다.
+  // (부모 효과가 자식보다 나중에 돌아서, 장소로 날아가면 미션이 맞춘 화면을 덮는다. 고르기 미션은 카메라를 옮기지 않으니 장소로 날아간다.
+  //  여행 수업은 이야기·고르기 장도 LessonView가 장소로 날아간다)
+  const openedWithCamera =
+    (initialStep?.step === 'mission' && missions[Math.min(initialStep.missionIndex, missions.length - 1)].type !== 'choice') ||
+    (initialStep?.step === 'explore' && tier !== 'preschool');
 
   // 출발: 지구본이 목적지로 날아간다. 유아는 길을 잃지 않게 손 조작을 잠근다(누르기는 된다).
   useEffect(() => {
-    if (!openedAtMapMission) globe.flyTo(place.center, place.zoom);
+    if (!openedWithCamera) globe.flyTo(place.center, place.zoom);
     globe.setInteractive(tier !== 'preschool');
     return () => globe.restore();
-  }, [globe, place, tier, openedAtMapMission]);
+  }, [globe, place, tier, openedWithCamera]);
 
   // 카메라 여백은 날아갈 때 한 번만 재므로, 카드 높이가 바뀌면(고르기 결과 카드가 붙는 등) 여백만 다시 맞춘다 — 목표가 카드 뒤로 들어가지 않게.
   // 한 그리기에서 여러 번 알려 와도 한 번만 맞추게 다음 그림 틀(requestAnimationFrame)로 묶는다. 날아가는 중이면 globe가 비행 뒤로 미룬다
@@ -97,7 +107,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
     if (showNote) noteRef.current?.scrollIntoView({ block: 'nearest' });
   }, [showNote]);
 
-  // 단계나 미션이 바뀌면 패널로 초점을 옮겨 화면 읽기 프로그램이 새 내용부터 읽게 한다.
+  // 단계나 미션(여행 수업은 장)이 바뀌면 패널로 초점을 옮겨 화면 읽기 프로그램이 새 내용부터 읽게 한다.
   // (미션 결과가 나오면 나중에 나타나는 MissionFeedback이 '다음' 버튼으로 초점을 옮긴다)
   // 같은 패널을 계속 쓰므로, 앞 미션 결과에서 '다음' 버튼까지 내려 둔 본문 스크롤을 맨 위로 되돌린다.
   // (머리말과 절취선은 고정이고 그 아래 본문만 종이 안에서 스크롤한다)
@@ -106,7 +116,7 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
     if (!panel) return;
     if (bodyRef.current) bodyRef.current.scrollTop = 0;
     panel.focus({ preventScroll: true });
-  }, [state.step, state.missionIndex]);
+  }, [state.step, state.missionIndex, state.sceneIndex]);
 
   const next = () => dispatch({ type: 'next' });
   // 도장은 마지막 미션의 '다음'을 누른 이 처리기에서 저장한다 (리듀서는 순수 함수로 두고, StrictMode에서 두 번 돌지 않게).
@@ -124,14 +134,15 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
     }
     dispatch({ type: 'missionDone', result });
   };
-  // 도장 뒤 '문제 더 풀기': 같은 장소 묶음에서 안 푼 문제를 한 번 더 고른다 (방금 푼 문제까지 기록된 seen으로)
+  // 도장 뒤 '문제 더 풀기': 같은 장소 묶음에서 안 푼 문제를 한 번 더 고른다 (방금 푼 문제까지 기록된 seen으로).
+  // 저학년·고학년은 새로 고른 문제로 여행 수업부터 한다
   const startMore = () => {
     const pool = missionPool(place, tier);
     const seen = (profileId && getSave().progress[profileId]?.seen[place.id]) || [];
     const nextPick = pickMissions(pool, tier, seen, Math.random);
     setShowNote(false);
     setPicked(nextPick);
-    dispatch({ type: 'more', count: nextPick.length });
+    dispatch({ type: 'more', count: nextPick.length, sceneCount: lessonScenes(place, tier, nextPick, false).length });
   };
   // 도장을 받기 전에는 실수로 나가지 않게 한 번 묻는다 (도장 뒤·더 풀기 중에는 이미 저장했으니 바로 나간다)
   const requestExit = () =>
@@ -199,12 +210,27 @@ export function TripPanel({ place, tier, profileId, globe, nextPlace, initialSte
               </>
             )}
 
-            {state.step === 'explore' && (
+            {state.step === 'explore' && tier === 'preschool' && (
               <>
                 <CharacterBubble text={place.story[tier]} voice={stepVoice} />
                 {readAloud}
                 <button type="button" className="btn" onClick={next}>미션 시작</button>
               </>
+            )}
+
+            {/* 저학년·고학년: 이야기 1장 + 고른 문제마다 해설 1장을 훑은 뒤 미션으로 (설계 2026-10-19-trip-lesson-design) */}
+            {state.step === 'explore' && tier !== 'preschool' && (
+              <LessonView
+                scene={scenes[state.sceneIndex]}
+                index={state.sceneIndex}
+                count={scenes.length}
+                place={place}
+                placeView={placeView}
+                globe={globe}
+                onPrev={() => dispatch({ type: 'prev' })}
+                onNext={next}
+                onSkip={() => dispatch({ type: 'skip' })}
+              />
             )}
 
             {mission && (

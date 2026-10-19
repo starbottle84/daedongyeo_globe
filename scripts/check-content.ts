@@ -257,6 +257,8 @@ function checkPlace(p: Place) {
 
     missions.forEach((m, i) => {
       const where = `missions.${tier}[${i}]`;
+      // 12. 해설: 저학년·고학년 여행 수업은 고른 문제의 해설로 장면을 만든다 (설계 2026-10-19-trip-lesson-design L9)
+      if (tier !== 'preschool' && !m.explain) add('오류', where, `${TIER_LABELS[tier]} 문제에는 해설(explain)이 있어야 해요 — 여행 수업 장면에 써요`);
       switch (m.type) {
         case 'choice': {
           // 4. 보기 수·그림·겹침

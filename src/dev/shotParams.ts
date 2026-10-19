@@ -6,12 +6,14 @@ import { SAVE_VERSION, type Profile, type SaveData, type StampRecord } from '../
 import { pickMissions, type PoolMission } from '../trip/pickMissions';
 
 /** 개발 중 화면 확인용: ?shot=장소id:단계:화면  (예: jeju:preschool:mission)
- *  화면: depart | explore | mission | stamp | talk  (mission 뒤에 숫자를 붙이면 그 번호 미션: mission2)
+ *  화면: depart | explore | mission | stamp | talk  (mission 뒤에 숫자를 붙이면 그 번호 미션: mission2,
+ *  explore 뒤에 숫자를 붙이면 저학년·고학년 여행 수업의 그 번호 장: explore3)
  *  미션 번호는 고정 시드로 고른 이번 여행 문제 중 몇 번째인지다. &pool=all을 붙이면 묶음 전체를 콘텐츠 순서대로 연다 (shotMissions) */
 export interface ShotParams {
   placeId: string;
   tier: Tier;
   step: 'depart' | 'explore' | 'mission' | 'stamp' | 'talk';
+  /** 화면 뒤 숫자 − 1: mission은 몇째 미션, explore는 여행 수업 몇째 장 */
   missionIndex: number;
 }
 

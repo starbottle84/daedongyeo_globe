@@ -27,7 +27,7 @@
     ],
     "lower": [
       { "type": "choice", "prompt": "우리나라는 어느 대륙에 있을까?", "options": [{ "label": "유럽" }, { "label": "아시아" }, { "label": "아프리카" }], "answer": 1, "explain": "우리나라는 아시아 대륙의 동쪽에 있어요." },
-      { "type": "tap", "prompt": "지구본에서 아시아를 찾아 눌러 봐!", "targetName": "아시아", "target": [95, 45], "area": "아시아" },
+      { "type": "tap", "prompt": "지구본에서 아시아를 찾아 눌러 봐!", "targetName": "아시아", "target": [95, 45], "area": "아시아", "explain": "아시아는 우리나라가 있는 대륙이에요. 서쪽으로 유럽과 땅이 이어져 있어요." },
       { "type": "direction", "prompt": "우리나라에서 보면 인도는 어느 쪽에 있을까?", "from": [127.8, 36.3], "fromName": "대한민국", "to": [78.96, 20.59], "toName": "인도", "options": 4, "answer": "서", "explain": "인도는 우리나라의 서쪽에 있어요." },
       { "type": "tap", "prompt": "세계에서 가장 높은 산들이 모인 히말라야산맥을 찾아 눌러 봐!", "targetName": "히말라야산맥", "target": [84, 28.6], "radiusKm": 650, "explain": "히말라야산맥에는 세계에서 가장 높은 에베레스트산이 있어요." },
       { "type": "tap", "prompt": "중국의 수도, 베이징을 찾아 눌러 봐!", "targetName": "베이징", "target": [116.4074, 39.9042], "radiusKm": 250, "explain": "빨간 별은 그 나라의 수도라는 표시예요. 베이징은 중국의 수도예요." },

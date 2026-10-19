@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
 import { DIRECTIONS_4, DIRECTIONS_8, type Direction, type MissionOf } from '../../content/types';
-import type { FitFrame } from '../../globe/globeHandle';
 import { Dongle } from '../../ui/Dongle';
 import { MissionFeedback } from './MissionFeedback';
-import type { MissionProps } from './types';
+import { COMPASS_FRAME, type MissionProps } from './types';
 import { useTries } from './useTries';
 
 // 나침반처럼 3×3으로 놓는다. 가운데는 기준 장소 이름.
 const COMPASS_SLOTS: (Direction | 'center')[] = ['북서', '북', '북동', '서', 'center', '동', '남서', '남', '남동'];
-/** 화면 맞추기: 지도 위 방위표(뒤판 반지름 60px + 기준 이름표)가 화면 가장자리·카드에 잘리지 않게 지점 둘레에 100px을 남기고,
- *  우리나라 안처럼 가까운 두 지점은 방위표와 도착 핀이 붙지 않게 확대 9까지 벌려 보인다 (보통 화면 맞추기는 7까지) */
-const COMPASS_FRAME: FitFrame = { marginPx: 100, zoomLimit: 9 };
 
 export function DirectionMission({ mission, tier, globe, onDone }: MissionProps<MissionOf<'direction'>>) {
   const { attempts, wrong, outcome, showAnswer, message, pick } = useTries<Direction>(mission.answer, tier);
