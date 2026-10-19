@@ -193,6 +193,37 @@ write('countries', countries.map((f) => ({
   },
   geometry: { type: f.geometry.type, coordinates: roundCoords(fixPoles(f.geometry), 3) },
 })));
+// 나라 면의 고리는 남극의 극점 줄(위도 -89.999)과 날짜변경선(경도 ±180°)에서 닫힌다. 면을 그대로 선으로 그리면 이 닫는 변도 그려져서
+// 극점 줄은 메르카토르 남쪽 끝(-85.05°)에 눌려 남극 둘레의 회색 원이 되고, 날짜변경선 변은 추코트카·피지를 가르는 가짜 경계가 된다.
+// 이런 변이 있는 나라(남극·러시아·피지)만 그 변을 뺀 선으로 따로 만든다 — buildStyle.ts의 country-line은 이 나라들을 이 선으로 그린다.
+// 날짜변경선 위 점은 ±180 말고 179.9992(소수 셋째 자리로 179.999)로 찍힌 것도 있다 (피지 타베우니섬)
+const onDateLine = (x) => Math.abs(x) >= 179.999;
+const isClosingEdge = (a, b) => (a[1] <= POLE_RUN && b[1] <= POLE_RUN)
+  || (onDateLine(a[0]) && onDateLine(b[0]) && Math.sign(a[0]) === Math.sign(b[0]));
+const ringLines = (ring) => {
+  const n = ring.length - 1; // 고리의 마지막 점은 첫 점과 같다
+  const start = ring.findIndex((c, i) => i < n && isClosingEdge(c, ring[i + 1]));
+  if (start < 0) return [ring];
+  const lines = [];
+  let line = [];
+  for (let k = 1; k <= n; k++) {
+    const i = (start + k) % n;
+    if (isClosingEdge(ring[i], ring[i + 1])) {
+      if (line.length) lines.push(line);
+      line = [];
+    } else {
+      if (!line.length) line.push(ring[i]);
+      line.push(ring[i + 1]);
+    }
+  }
+  return lines;
+};
+write('split-country-lines', countries.flatMap((f) => {
+  const coords = roundCoords(fixPoles(f.geometry), 3);
+  const rings = f.geometry.type === 'Polygon' ? coords : coords.flat();
+  if (!rings.some((r) => r.some((c, i) => i > 0 && isClosingEdge(r[i - 1], c)))) return [];
+  return [{ type: 'Feature', properties: { id: f.properties.ADM0_A3 }, geometry: { type: 'MultiLineString', coordinates: rings.flatMap(ringLines) } }];
+}));
 write('country-labels', countries.map((f) => point(f.properties.LABEL_X, f.properties.LABEL_Y, {
   id: f.properties.ADM0_A3,
   ko: pick(f.properties.NAME_KO, f.properties.NAME),

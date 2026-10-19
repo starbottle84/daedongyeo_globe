@@ -21,6 +21,8 @@ const ASSET_ROOT = `${window.location.origin}${import.meta.env.BASE_URL}`;
 const source = (file: string) => ({ type: 'geojson', data: `${ASSET_ROOT}data/${file}.geojson` });
 const visibleFrom = (offset = LABEL_BOOST) => ['>=', ['zoom'], ['-', ['get', 'minz'], offset]];
 const koName = ['get', 'ko'];
+// split-country-lines.geojson에 든 나라 (build-data.mjs가 극점 줄·날짜변경선 변이 있는 나라를 골라 쓴다)
+const SPLIT_COUNTRIES = ['ATA', 'FJI', 'RUS'];
 
 export function buildStyle(view: MapView): StyleSpecification {
   const t = THEMES[view];
@@ -30,6 +32,11 @@ export function buildStyle(view: MapView): StyleSpecification {
     'text-halo-color': t.halo,
     'text-halo-width': haloWidth,
   });
+  const countryLinePaint = {
+    'line-color': t.border,
+    'line-opacity': t.borderOpacity,
+    'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.6, 6, 1.6],
+  };
 
   const style = {
     version: 8,
@@ -46,6 +53,7 @@ export function buildStyle(view: MapView): StyleSpecification {
         attribution: 'NASA Blue Marble (GIBS)',
       },
       countries: source('countries'),
+      splitCountryLines: source('split-country-lines'),
       countryLabels: source('country-labels'),
       places: source('places'),
       admin1Labels: source('admin1-labels'),
@@ -111,14 +119,9 @@ export function buildStyle(view: MapView): StyleSpecification {
         id: 'admin1-line', type: 'line', source: 'admin1Lines', minzoom: 3, filter: visibleFrom(1.5),
         paint: { 'line-color': t.border, 'line-opacity': 0.45, 'line-width': 0.8, 'line-dasharray': [3, 2] },
       },
-      {
-        id: 'country-line', type: 'line', source: 'countries',
-        paint: {
-          'line-color': t.border,
-          'line-opacity': t.borderOpacity,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.6, 6, 1.6],
-        },
-      },
+      // 남극·러시아·피지는 면 고리를 닫는 극점 줄·날짜변경선 변(남극 둘레 회색 원, 추코트카를 가르는 세로줄)을 뺀 선으로 따로 그린다 (build-data.mjs)
+      { id: 'country-line', type: 'line', source: 'countries', filter: ['!', ['in', ['get', 'id'], ['literal', SPLIT_COUNTRIES]]], paint: countryLinePaint },
+      { id: 'country-line-split', type: 'line', source: 'splitCountryLines', paint: countryLinePaint },
       {
         id: 'geo-line', type: 'line', source: 'geoLines',
         paint: {
