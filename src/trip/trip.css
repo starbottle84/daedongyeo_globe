@@ -121,6 +121,16 @@
 .choices[data-count="4"] .choice{flex-direction:row;justify-content:flex-start;gap:10px;min-height:66px;padding:8px 12px;font-size:20px}
 .choices[data-count="4"] .choice__medal{width:46px;height:46px;font-size:28px}
 .choices[data-count="4"] .choice__medal::after{inset:4px}
+/* 국기 (Flag.tsx). 보기 국기는 그림만 크게, 질문 국기는 질문 아래 가운데, 결과 칩 국기는 작게. 흰 바탕 국기(일본 등)도 테두리가 보이게 옅은 선을 두른다 */
+.flag{display:block;aspect-ratio:4/3;object-fit:cover;border-radius:6px;box-shadow:0 0 0 1px rgba(30,40,70,.18), 0 2px 5px rgba(60,45,15,.18)}
+.ask__flag{display:flex;justify-content:center;margin:-4px 0 14px}
+.ask__flag .flag{width:132px;border-radius:8px}
+.choices--flags .choice,.choices--flags[data-count="4"] .choice{flex-direction:column;justify-content:center;min-height:0;padding:12px}
+.choices--flags .choice__flag{width:min(100%,128px)}
+.choices--flags[data-count="3"] .choice__flag{width:min(100%,104px)}
+.choices--flags[data-count="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.choices--flags[data-count="4"] .choice__flag{width:min(100%,92px)}
+.chip__flag{flex:none;width:28px;border-radius:3px}
 
 .result{position:relative;display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;border-radius:22px;
   background:var(--fiber),linear-gradient(180deg,#F2FAF3,#E2F2E5);box-shadow:inset 0 0 0 2px rgba(46,158,91,.38), 0 3px 0 rgba(46,158,91,.22)}
@@ -341,10 +351,12 @@
 .ticket-slot { border: 2px dashed rgba(169,126,46,.35); border-radius: 14px; min-height: 78px; }
 /* 키보드 초점 테두리가 둥근 표 둘레를 따라 그려지게 */
 .ticket { border-radius: 14px; }
-/* 다섯 글자 이름(북아메리카·남아메리카·오세아니아)은 390·360px 너비의 좁은 표에서 끝 글자가 잘려 '북아메리키'처럼 다른 낱말로 읽힌다.
-   표 너비의 21%로 줄이되 화면별 이름 글자 크기를 넘지 않는다(넓은 표에서는 그대로). 컨테이너 단위를 모르는 브라우저는 15px */
+/* 다섯 글자 넘는 이름(북아메리카·그레이트배리어리프 등)은 좁은 표에서 끝 글자가 잘려 '북아메리키'처럼 다른 낱말로 읽힌다.
+   표 너비를 글자 수로 나눈 만큼(다섯 글자면 21%)으로 줄이되 18px을 넘지 않는다(넓은 표에서는 그대로).
+   가로 태블릿의 이름 크기(19px) 규칙보다 앞서게 두 단계로 쓴다. 컨테이너 단위를 모르는 브라우저는 15px */
 .ticket { container-type: inline-size; }
-.ticket__name--long { font-size: 15px; font-size: min(18px, 21cqi); letter-spacing: -.02em; }
+.ticket .ticket__name--long { font-size: 15px; font-size: min(18px, calc(105cqi / var(--chars, 5))); letter-spacing: -.02em; }
+.ticket .ticket__name--wrap { white-space: normal; text-align: center; line-height: 1.05; word-break: keep-all; }
 /* 넘치면 가죽 표지가 아니라 크림 종이 안에서 스크롤한다 (가죽 패딩 7px×2를 뺀 높이)
    — 바느질 점선이 내용과 같이 움직이지 않고, 잘린 곳도 종이의 둥근 모서리 안에 든다 */
 .launcher .page { max-height: calc(60vh - 14px); max-height: calc(60dvh - 14px); overflow-y: auto; }

@@ -28,6 +28,9 @@ export interface ChoiceOption {
   label: string;
   /** 글을 못 읽는 유아용 그림 대신 쓰는 이모지 */
   icon?: string;
+  /** 국기 그림 나라 코드(ISO 3166-1 두 글자 소문자, src/assets/flags). 있으면 보기를 국기 그림만으로 보여 주고
+   *  글자(label)는 화면 읽기와 결과 칩에만 쓴다 — "일본 국기를 골라 봐"에서 보기 글자가 답을 알려 주지 않게 */
+  flag?: string;
 }
 
 export type Mission =
@@ -40,13 +43,23 @@ export type Mission =
       target: LngLat;
       /** 대륙·대양 이름(area-hit 층). 있으면 그 영역 안을 누르면 정답 */
       area?: string;
-      /** area가 없을 때: target에서 이 거리(km) 안을 누르면 정답 */
+      /** 나라 이름(countries 층의 ko). 있으면 그 나라 땅 안을 누르면 정답 */
+      country?: string;
+      /** area·country가 없을 때: target에서 이 거리(km) 안을 누르면 정답 */
       radiusKm?: number;
       /** 미션 시작 때 보여 줄 화면 (없으면 장소 화면) */
       view?: View;
       explain?: string;
     }
-  | { type: 'choice'; prompt: string; options: ChoiceOption[]; answer: number; explain?: string }
+  | {
+      type: 'choice';
+      prompt: string;
+      /** 질문 아래에 크게 보여 줄 국기 나라 코드 ("이 국기는 어느 나라 국기일까요?") */
+      flag?: string;
+      options: ChoiceOption[];
+      answer: number;
+      explain?: string;
+    }
   | {
       type: 'pin';
       prompt: string;

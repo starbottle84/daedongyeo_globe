@@ -337,14 +337,16 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
         last = { time: now, x: e.point.x, y: e.point.y };
         const hit = map.queryRenderedFeatures(e.point, { layers: ['area-hit'] })[0];
         const ko: unknown = hit?.properties.ko;
+        const countryKo: unknown = map.queryRenderedFeatures(e.point, { layers: ['country-hit'] })[0]?.properties.ko;
         const lat = e.lngLat.lat;
         // 지도 타일은 위도 ±85.05°까지만 있어서 극지방 끝에는 영역 층이 없다 → 남극·북극해로 본다
         const area = typeof ko === 'string' ? ko : lat <= -85.05 ? '남극' : lat >= 85.05 ? '북극해' : null;
         // 영역 층은 처음 내려받는 동안(areas.geojson)과 화면을 옮긴 뒤 새 타일을 만드는 동안 준비가 덜 돼 있다.
         // 그때의 area는 믿을 수 없으므로 함께 알려 주고, 영역이 필요한 미션만 그 누르기를 건너뛴다(핀 꽂기는 그대로 받는다).
         // (isSourceLoaded는 그런 소스가 없으면 오류 이벤트를 내므로, 소스가 있는지부터 본다)
-        const areaReady = Boolean(map.getSource('areas')) && map.isSourceLoaded('areas');
-        listener({ at: [e.lngLat.lng, lat], area, areaReady });
+        const ready = (id: string) => Boolean(map.getSource(id)) && map.isSourceLoaded(id);
+        const areaReady = ready('areas') && ready('countries');
+        listener({ at: [e.lngLat.lng, lat], area, country: typeof countryKo === 'string' ? countryKo : null, areaReady });
       };
       map.on('click', handler);
       return () => {

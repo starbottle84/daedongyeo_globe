@@ -1,5 +1,7 @@
 import type { MissionOf } from '../../content/types';
 import { Dongle } from '../../ui/Dongle';
+import { Flag } from '../../ui/Flag';
+import { flagUrl } from '../../ui/flags';
 import { COMMON_VOICE } from '../../voice/lines';
 import { ReplayButton } from '../../voice/ReplayButton';
 import { useAutoVoice } from '../../voice/useVoice';
@@ -20,8 +22,17 @@ export function ChoiceMission({ mission, tier, voice, onDone }: MissionProps<Mis
         <p className="ask__prompt ko">{mission.prompt}</p>
         <ReplayButton ids={voice && [voice.prompt]} />
       </div>
-      {/* 답한 뒤에는 보기 묶음을 숨기고 결과 카드의 정답 칩만 남긴다 (trip.css .choices--done) */}
-      <div className={`choices${outcome ? ' choices--done' : ''}`} data-count={mission.options.length}>
+      {mission.flag && !outcome && (
+        <div className="ask__flag">
+          <Flag code={mission.flag} />
+        </div>
+      )}
+      {/* 답한 뒤에는 보기 묶음을 숨기고 결과 카드의 정답 칩만 남긴다 (trip.css .choices--done).
+          국기 보기는 그림만 보여 준다 — 나라 이름을 쓰면 "일본 국기를 골라 봐"의 답이 보인다 (이름은 화면 읽기와 결과 칩에) */}
+      <div
+        className={`choices${outcome ? ' choices--done' : ''}${mission.options[0].flag ? ' choices--flags' : ''}`}
+        data-count={mission.options.length}
+      >
         {mission.options.map((option, i) => {
           const classes = ['choice'];
           if (showAnswer && i === mission.answer) classes.push('is-answer');
@@ -32,14 +43,22 @@ export function ChoiceMission({ mission, tier, voice, onDone }: MissionProps<Mis
               type="button"
               className={classes.join(' ')}
               aria-disabled={wrong.includes(i) || outcome !== null}
+              aria-label={option.flag ? `${option.label} 국기` : undefined}
               onClick={() => pick(i)}
             >
-              {option.icon && (
-                <span className="choice__medal" aria-hidden="true">
-                  {option.icon}
-                </span>
+              {/* 국기 그림 파일이 없으면(코드 오타 등) 빈 버튼이 되지 않게 글자로 대신한다 */}
+              {option.flag && flagUrl(option.flag) ? (
+                <Flag code={option.flag} className="choice__flag" />
+              ) : (
+                <>
+                  {option.icon && (
+                    <span className="choice__medal" aria-hidden="true">
+                      {option.icon}
+                    </span>
+                  )}
+                  <span className="choice__label">{option.label}</span>
+                </>
               )}
-              <span className="choice__label">{option.label}</span>
             </button>
           );
         })}

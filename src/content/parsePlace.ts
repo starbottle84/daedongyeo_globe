@@ -17,6 +17,11 @@ export function parsePlace(raw: unknown): Place {
   const num = (v: unknown, path: string): number =>
     typeof v === 'number' && Number.isFinite(v) ? v : fail(path, '숫자여야 해요');
   const optStr = (v: unknown, path: string): string | undefined => (v === undefined ? undefined : str(v, path));
+  // 국기 코드는 두 글자 소문자 (그림이 있는지는 check:content가 본다 — 앱은 없으면 그림만 비운다)
+  const optFlag = (v: unknown, path: string): string | undefined => {
+    const code = optStr(v, path);
+    return code === undefined || /^[a-z]{2}$/.test(code) ? code : fail(path, '국기 코드는 두 글자 소문자여야 해요 (예: jp)');
+  };
 
   const lngLat = (v: unknown, path: string): LngLat => {
     if (!Array.isArray(v) || v.length !== 2) return fail(path, '[경도, 위도] 두 숫자여야 해요');
@@ -49,12 +54,13 @@ export function parsePlace(raw: unknown): Place {
     switch (m.type) {
       case 'tap': {
         const area = optStr(m.area, `${path}.area`);
+        const country = optStr(m.country, `${path}.country`);
         const radiusKm = m.radiusKm === undefined ? undefined : num(m.radiusKm, `${path}.radiusKm`);
-        if (area === undefined && radiusKm === undefined) {
-          return fail(path, 'area(대륙·대양 이름)나 radiusKm(정답 반경) 중 하나는 있어야 해요');
+        if ([area, country, radiusKm].filter((v) => v !== undefined).length !== 1) {
+          return fail(path, 'area(대륙·대양 이름)·country(나라 이름)·radiusKm(정답 반경) 중 꼭 하나만 있어야 해요');
         }
         return {
-          type: 'tap', prompt, explain, area, radiusKm,
+          type: 'tap', prompt, explain, area, country, radiusKm,
           targetName: optStr(m.targetName, `${path}.targetName`),
           target: lngLat(m.target, `${path}.target`),
           view: optView(m.view, `${path}.view`),
@@ -65,13 +71,20 @@ export function parsePlace(raw: unknown): Place {
         if (!Array.isArray(rawOptions) || rawOptions.length < 2) return fail(`${path}.options`, '보기가 2개 이상이어야 해요');
         const options: ChoiceOption[] = rawOptions.map((o, i) => {
           const oo = obj(o, `${path}.options[${i}]`);
-          return { label: str(oo.label, `${path}.options[${i}].label`), icon: optStr(oo.icon, `${path}.options[${i}].icon`) };
+          return {
+            label: str(oo.label, `${path}.options[${i}].label`),
+            icon: optStr(oo.icon, `${path}.options[${i}].icon`),
+            flag: optFlag(oo.flag, `${path}.options[${i}].flag`),
+          };
         });
+        if (options.some((o) => o.flag) && !options.every((o) => o.flag)) {
+          return fail(`${path}.options`, '국기(flag) 보기는 모든 보기에 있거나 하나도 없어야 해요');
+        }
         const answer = num(m.answer, `${path}.answer`);
         if (!Number.isInteger(answer) || answer < 0 || answer >= options.length) {
           return fail(`${path}.answer`, '보기 번호(0부터 시작)가 범위를 벗어났어요');
         }
-        return { type: 'choice', prompt, explain, options, answer };
+        return { type: 'choice', prompt, explain, flag: optFlag(m.flag, `${path}.flag`), options, answer };
       }
       case 'pin': {
         const rawStars = m.starsKm;

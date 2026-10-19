@@ -13,10 +13,10 @@ export function TapMission({ mission, tier, globe, placeView, voice, onDone }: M
   const [outcome, setOutcome] = useState<Outcome>(null);
   const [message, setMessage] = useState('지구본에서 찾아 눌러 보세요.');
   const attempts = useRef(0);
-  // 시작 화면: 미션에 view가 없으면 영역 미션은 장소 화면, 반경 미션은 target을 가운데에 둔 화면.
+  // 시작 화면: 미션에 view가 없으면 영역·나라 미션은 장소 화면, 반경 미션은 target을 가운데에 둔 화면.
   // (장소 화면 그대로면 target이 화면 가장자리·패널 밑에 갈 수 있는데, 유아는 지도를 움직일 수 없다)
   const startView = useMemo<View>(
-    () => mission.view ?? (mission.area ? placeView : { center: mission.target, zoom: placeView.zoom }),
+    () => mission.view ?? (mission.area || mission.country ? placeView : { center: mission.target, zoom: placeView.zoom }),
     [mission, placeView],
   );
 
@@ -37,8 +37,8 @@ export function TapMission({ mission, tier, globe, placeView, voice, onDone }: M
       globe.showMarker('answer', mission.target, '정답');
     };
     return globe.onTap((tap) => {
-      // 영역 층이 아직 준비 중이면(처음 받는 중·화면 이동 직후) 대륙·대양 판정을 믿을 수 없으니 기회를 쓰지 않고 넘긴다
-      if (mission.area && !tap.areaReady) return;
+      // 영역·나라 층이 아직 준비 중이면(처음 받는 중·화면 이동 직후) 대륙·대양·나라 판정을 믿을 수 없으니 기회를 쓰지 않고 넘긴다
+      if ((mission.area || mission.country) && !tap.areaReady) return;
       attempts.current += 1;
       if (judgeTap(mission, tap)) {
         showAnswer();

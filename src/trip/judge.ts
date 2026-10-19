@@ -1,17 +1,19 @@
 import type { LngLat, MissionOf, Tier } from '../content/types';
 import { distanceKm } from './geo';
 
-/** 지구본을 누른 곳: 좌표와, 그 자리에 있는 대륙·대양 이름(없으면 null) */
+/** 지구본을 누른 곳: 좌표와, 그 자리에 있는 대륙·대양 이름과 나라 이름(없으면 null) */
 export interface TapInfo {
   at: LngLat;
   area: string | null;
-  /** 영역 층(area-hit)이 다 준비돼서 area를 믿을 수 있는지. 화면이 움직이는 동안이나 처음 받는 중에는 false */
+  country: string | null;
+  /** 영역 층(area-hit)과 나라 층이 다 준비돼서 area·country를 믿을 수 있는지. 화면이 움직이는 동안이나 처음 받는 중에는 false */
   areaReady: boolean;
 }
 
-// 찾아 누르기: 영역 이름이 있으면 그 영역 안을, 없으면 target에서 radiusKm 안을 눌러야 정답
+// 찾아 누르기: 영역 이름이 있으면 그 영역 안을, 나라 이름이 있으면 그 나라 땅 안을, 없으면 target에서 radiusKm 안을 눌러야 정답
 export function judgeTap(mission: MissionOf<'tap'>, tap: TapInfo): boolean {
   if (mission.area) return tap.area === mission.area;
+  if (mission.country) return tap.country === mission.country;
   return distanceKm(tap.at, mission.target) <= (mission.radiusKm ?? 0);
 }
 

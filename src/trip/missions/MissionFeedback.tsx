@@ -1,12 +1,13 @@
 import { useEffect, useId, useRef } from 'react';
 import { Dongle } from '../../ui/Dongle';
+import { Flag } from '../../ui/Flag';
 import { Icon } from '../../ui/Icon';
 import { useAutoVoice } from '../../voice/useVoice';
 
 interface MissionFeedbackProps {
   correct: boolean;
   /** 정답 보기 (고르기·방향). 칩으로 보여 준다 */
-  answer?: { icon?: string; label: string };
+  answer?: { icon?: string; flag?: string; label: string };
   /** 정답 안내나 거리처럼 결과에 붙는 한 줄 */
   detail?: string;
   explain?: string;
@@ -94,9 +95,10 @@ export function MissionFeedback({ correct, answer, detail, explain, stars, voice
             )}
           </p>
           {answer && (
-            <span id={answerId} className={`chip${answer.icon ? '' : ' chip--plain'}`}>
+            <span id={answerId} className={`chip${answer.icon || answer.flag ? '' : ' chip--plain'}`}>
               {!correct && <span className="chip__prefix">정답:</span>}
-              {answer.icon && (
+              {answer.flag && <Flag code={answer.flag} className="chip__flag" />}
+              {!answer.flag && answer.icon && (
                 <span className="chip__emoji" aria-hidden="true">
                   {answer.icon}
                 </span>

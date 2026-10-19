@@ -93,6 +93,8 @@ export function buildStyle(view: MapView): StyleSpecification {
       // 보이지 않는 대륙·대양 영역. '찾아 누르기' 미션에서 어느 영역을 눌렀는지 알아내는 데만 쓴다.
       // visibility를 none으로 하면 판정에서도 빠지므로 투명도 0으로 숨긴다.
       { id: 'area-hit', type: 'fill', source: 'areas', paint: { 'fill-color': '#000000', 'fill-opacity': 0 } },
+      // 보이지 않는 나라 영역. '찾아 누르기'의 나라 판정에만 쓴다 — country-fill은 위성 지도에서 숨겨져 판정에서 빠지므로 따로 둔다
+      { id: 'country-hit', type: 'fill', source: 'countries', paint: { 'fill-color': '#000000', 'fill-opacity': 0 } },
       {
         id: 'river-line', type: 'line', source: 'rivers', filter: visibleFrom(),
         layout: { 'line-cap': 'round', 'line-join': 'round' },

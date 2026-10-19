@@ -126,6 +126,35 @@ function inRing([x, y]: LngLat, ring: number[][]): boolean {
 }
 const inPolygon = (pt: LngLat, polygon: number[][][]) => inRing(pt, polygon[0]) && !polygon.slice(1).some((hole) => inRing(pt, hole));
 
+// ── 나라 (지도의 country-fill 층과 같은 파일) ─────────────────────
+interface CountryFeature { properties: { ko: string }; geometry: { type: 'Polygon'; coordinates: number[][][] } | { type: 'MultiPolygon'; coordinates: number[][][][] } }
+const countryFeatures = (JSON.parse(readFileSync(join(ROOT, 'public/data/countries.geojson'), 'utf8')) as { features: CountryFeature[] }).features;
+const countryNames = new Set(countryFeatures.map((f) => f.properties.ko));
+const countryPolygons = (f: CountryFeature) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates);
+// 그 자리를 누르면 나올 수 있는 나라 이름들 (지도 타일은 위도 ±85.05°까지라 그 너머는 나라 판정이 없다)
+function countriesAt(pt: LngLat): string[] {
+  if (Math.abs(pt[1]) >= TILE_MAX_LAT) return [];
+  return countryFeatures.filter((f) => countryPolygons(f).some((polygon) => inPolygon(pt, polygon))).map((f) => f.properties.ko);
+}
+// 나라 넓이를 같은 넓이 원의 반지름(km)으로. 고리마다 평균 위도에서 경도를 줄여 잰 어림값이다 (작은 나라를 거르는 데만 쓴다)
+function countryRadiusKm(name: string): number {
+  const ringArea = (ring: number[][]) => {
+    const lat0 = rad(ring.reduce((s, [, y]) => s + y, 0) / ring.length);
+    let a = 0;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      a += ring[j][0] * 111.32 * Math.cos(lat0) * ring[i][1] * 110.57 - ring[i][0] * 111.32 * Math.cos(lat0) * ring[j][1] * 110.57;
+    }
+    return Math.abs(a) / 2;
+  };
+  const area = countryFeatures.filter((f) => f.properties.ko === name)
+    .flatMap(countryPolygons)
+    .reduce((s, [outer, ...holes]) => s + ringArea(outer) - holes.reduce((h, ring) => h + ringArea(ring), 0), 0);
+  return Math.sqrt(area / Math.PI);
+}
+
+// ── 국기 그림 (src/assets/flags, Flag.tsx) ──────────────────────
+const flagCodes = new Set(readdirSync(join(ROOT, 'src/assets/flags')).filter((f) => f.endsWith('.svg')).map((f) => f.slice(0, -4)));
+
 // 그 자리를 누르면 나올 수 있는 영역 이름들
 function areasAt(pt: LngLat): string[] {
   if (pt[1] <= -TILE_MAX_LAT) return ['남극'];
@@ -157,7 +186,7 @@ function dupKeys(m: Mission, p: Place): DupKey[] {
   }
   if (m.type === 'direction') keys.push({ key: `방향:${m.fromName}→${m.toName}`, level: '오류', what: '방향 출발·도착', cross: true });
   if (m.type === 'tap' || m.type === 'pin') {
-    keys.push({ key: `${m.type}:${m.targetName ?? (m.type === 'tap' ? m.area : undefined) ?? p.name}`, level: '알림', what: '찾을 곳', cross: false });
+    keys.push({ key: `${m.type}:${m.targetName ?? (m.type === 'tap' ? m.area ?? m.country : undefined) ?? p.name}`, level: '알림', what: '찾을 곳', cross: false });
   }
   return keys;
 }
@@ -233,16 +262,23 @@ function checkPlace(p: Place) {
           // 4. 보기 수·그림·겹침
           const want = CHOICE_OPTIONS[tier];
           if (m.options.length !== want) add('오류', where, `${TIER_LABELS[tier]} 고르기 보기는 ${want}개여야 해요 (지금 ${m.options.length}개)`);
-          if (tier === 'preschool' && m.options.some((o) => !o.icon)) add('오류', where, '유아 고르기 보기에는 모두 그림(icon)이 있어야 해요');
+          if (tier === 'preschool' && m.options.some((o) => !o.icon && !o.flag)) add('오류', where, '유아 고르기 보기에는 모두 그림(icon 또는 flag)이 있어야 해요');
+          // 국기: 그림 파일이 있어야 하고, 보기끼리 겹치면 안 된다
+          for (const code of [m.flag, ...m.options.map((o) => o.flag)]) {
+            if (code && !flagCodes.has(code)) add('오류', where, `국기 "${code}" 그림이 src/assets/flags에 없어요 (있는 것: ${[...flagCodes].join(', ')})`);
+          }
+          const flags = m.options.flatMap((o) => (o.flag ? [o.flag] : []));
+          if (new Set(flags).size !== flags.length) add('오류', where, `보기 국기가 겹쳐요: ${flags.join(' ')}`);
+          if (m.flag && flags.length) add('오류', where, '질문 국기(flag)와 국기 보기를 함께 쓰지 않아요');
           const labels = m.options.map((o) => o.label);
           if (new Set(labels).size !== labels.length) add('오류', where, `보기 글자가 겹쳐요: ${labels.join(' / ')}`);
           const icons = m.options.flatMap((o) => (o.icon ? [o.icon] : []));
           if (new Set(icons).size !== icons.length) add('오류', where, `보기 그림이 겹쳐요: ${icons.join(' ')}`);
           // 5. 정답 번호 세기 (분포는 마지막에 본다)
           answerTally[tier][m.answer] = (answerTally[tier][m.answer] ?? 0) + 1;
-          // 10. 질문에 정답이 그대로 있으면 알림
+          // 10. 질문에 정답이 그대로 있으면 알림 (국기 보기는 글자가 안 보이고 "일본 국기를 골라 봐"처럼 이름을 묻는 게 맞다)
           const answer = m.options[m.answer].label;
-          if (m.prompt.includes(answer)) add('알림', where, `질문에 정답 글자가 그대로 들어 있어요: "${answer}"`);
+          if (!flags.length && m.prompt.includes(answer)) add('알림', where, `질문에 정답 글자가 그대로 들어 있어요: "${answer}"`);
           break;
         }
         case 'tap': {
@@ -258,6 +294,23 @@ function checkPlace(p: Place) {
               add('오류', where, `target ${JSON.stringify(m.target)}이 "${m.area}" 영역 밖이에요 (그 자리: ${here.join(', ') || '영역 없음'})`);
             } else if (here.length > 1) {
               add('알림', where, `target 자리가 다른 영역(${here.filter((a) => a !== m.area).join(', ')})과 겹쳐서 판정이 흔들릴 수 있어요`);
+            }
+          } else if (m.country !== undefined) {
+            if (!countryNames.has(m.country)) {
+              add('오류', where, `country "${m.country}"가 countries.geojson에 없는 나라 이름이에요`);
+              break;
+            }
+            const here = countriesAt(m.target);
+            if (!here.includes(m.country)) {
+              add('오류', where, `target ${JSON.stringify(m.target)}이 "${m.country}" 땅 밖이에요 (그 자리: ${here.join(', ') || '나라 없음'})`);
+            }
+            // 반경 문제와 같은 크기 하한: 장소 화면에서 너무 작은 나라는 (지도를 못 움직이는) 유아가 누르기 어렵다
+            const base = RADIUS_MIN_KM[tier];
+            const zoomGain = Math.max(0, (m.view?.zoom ?? p.zoom) - p.zoom);
+            const min = base === undefined ? undefined : base / 2 ** zoomGain;
+            const size = countryRadiusKm(m.country);
+            if (min !== undefined && size < min) {
+              add('오류', where, `"${m.country}"가 ${TIER_LABELS[tier]}에게 너무 작아요 (같은 넓이 원 반지름 약 ${Math.round(size)}km < ${Math.round(min * 10) / 10}km)`);
             }
           } else {
             const base = RADIUS_MIN_KM[tier];

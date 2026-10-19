@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { STAGE_NAMES, type Place } from '../content/types';
 import { ProfileChips } from '../family/ProfileChips';
 import { ProfileForm } from '../family/ProfileForm';
@@ -146,8 +146,7 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
                         >
                           <span className="ticket__body">
                             <span className="ticket__stub"><PlaceArt placeId={p.id} /></span>
-                            {/* 다섯 글자 이름(북아메리카 등)은 좁은 표에서 끝 글자가 잘리지 않게 글자를 줄인다 (trip.css .ticket__name--long) */}
-                            <span className={`ticket__name${[...p.name].length >= 5 ? ' ticket__name--long' : ''}`}>{p.name}</span>
+                            <TicketName name={p.name} />
                             {/* 도장 받은 표: 오른쪽 위에 작게 찍힌 빨간 도장 (여권 책과 같은 도장 그림) */}
                             {stamp && <span className="ticket__seal" aria-hidden="true"><StampSeal name={p.name} date={koreanDate(stamp.firstDate)} /></span>}
                             {/* 잠긴 표: 반투명 종이 덮개 + 자물쇠 (누른 차례가 바뀌면 자물쇠를 새로 그려 흔들기를 다시 한다) */}
@@ -175,5 +174,22 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
         <PassportBook open={bookFor === activeProfile.id} profile={activeProfile} progress={progress} places={places} onClose={() => setBookFor(null)} />
       )}
     </section>
+  );
+}
+
+// 표 이름: 다섯 글자 넘는 이름(북아메리카, 그레이트배리어리프 등)은 좁은 표에서 끝 글자가 잘리지 않게 글자 수만큼 줄이고,
+// 띄어 쓴 긴 이름(그랜드 캐니언, 본초 자오선 등)은 두 줄로 나눠 가장 긴 낱말 기준으로 줄인다 — 한 줄로 줄이면 폰에서 너무 작다 (trip.css)
+function TicketName({ name }: { name: string }) {
+  const chars = [...name].length;
+  const words = name.split(' ');
+  const wrap = words.length > 1 && chars >= 6;
+  const size = wrap ? Math.max(...words.map((w) => [...w].length)) : chars;
+  return (
+    <span
+      className={`ticket__name${chars >= 5 ? ' ticket__name--long' : ''}${wrap ? ' ticket__name--wrap' : ''}`}
+      style={{ '--chars': size } as CSSProperties}
+    >
+      {name}
+    </span>
   );
 }
