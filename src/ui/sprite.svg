@@ -701,5 +701,1360 @@
         <ellipse cx="38" cy="54" rx="9" ry="5" transform="rotate(-38 38 54)" fill="#fff" opacity=".55"/>
       </g>
     </symbol>
+    <!-- 3~5단계 장면 그림 (계획 6) -->
+    <linearGradient id="gChina" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4DE"/><stop offset="1" stop-color="#FFE0BC"/></linearGradient>
+    <!-- 중국: 흰 돌 단 위의 둥근 3층 파란 지붕 집(베이징 천단)과 빨간 등 -->
+    <symbol id="pl-china" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gChina)"/>
+      <path d="M17 8 a2.4 2.4 0 0 1 4.2 -1 a3 3 0 0 1 5.4 1 a1.8 1.8 0 0 1 0 3.6 h-8.8 a1.8 1.8 0 0 1 -.8 -3.6z" fill="#fff"/>
+      <path d="M41 7 a2 2 0 0 1 3.6 -.9 a2.6 2.6 0 0 1 4.6 .9 a1.6 1.6 0 0 1 0 3.2 h-7.6 a1.6 1.6 0 0 1 -.6 -3.2z" fill="#fff"/>
+      <path d="M12.5 0 V10 M51.5 0 V10" stroke="#9A6A3A" stroke-width=".7"/>
+      <g fill="#F2B640"><rect x="11.2" y="9.6" width="2.6" height=".9" rx=".3"/><rect x="50.2" y="9.6" width="2.6" height=".9" rx=".3"/><rect x="11.2" y="15.6" width="2.6" height=".9" rx=".3"/><rect x="50.2" y="15.6" width="2.6" height=".9" rx=".3"/></g>
+      <g fill="#E8483A"><ellipse cx="12.5" cy="13" rx="3.3" ry="2.9"/><ellipse cx="51.5" cy="13" rx="3.3" ry="2.9"/></g>
+      <g fill="none" stroke="#C7362C" stroke-width=".6"><ellipse cx="12.5" cy="13" rx="1.5" ry="2.9"/><ellipse cx="51.5" cy="13" rx="1.5" ry="2.9"/></g>
+      <path d="M12.5 16.5 V19 M51.5 16.5 V19" stroke="#E8483A" stroke-width="1.1" stroke-linecap="round"/>
+      <g fill="#fff" opacity=".4"><ellipse cx="11.2" cy="11.9" rx="1" ry=".6"/><ellipse cx="50.2" cy="11.9" rx="1" ry=".6"/></g>
+      <path d="M0 41 C16 39.6 48 39.6 64 41 V50 H0Z" fill="#8ACB69"/>
+      <g fill="#4E9F66"><ellipse cx="5" cy="36.6" rx="3.6" ry="5"/><ellipse cx="59" cy="36.6" rx="3.6" ry="5"/></g>
+      <g fill="#3F8F5A"><ellipse cx="9.6" cy="38.4" rx="2.6" ry="3.6"/><ellipse cx="54.4" cy="38.4" rx="2.6" ry="3.6"/></g>
+      <path d="M0 45 C14 43.6 30 45 40 45.3 C50 45.6 58 44.6 64 45 V50 H0Z" fill="#74B85A"/>
+      <rect x="12" y="36.6" width="40" height="5" fill="#F6F3EC"/><rect x="12" y="39.8" width="40" height="1.8" fill="#DED7C8"/>
+      <rect x="16.5" y="33.2" width="31" height="3.6" fill="#FBF9F4"/><rect x="16.5" y="35.6" width="31" height="1.2" fill="#E2DCCE"/>
+      <path d="M12 36.8 H52 M16.5 33.4 H47.5" stroke="#CFC6B4" stroke-width=".5"/>
+      <path d="M29.6 41.6 L30.4 33.2 H33.6 L34.4 41.6Z" fill="#ECE6D9"/>
+      <path d="M30 39.6 H34 M30.2 37.6 H33.8 M30.4 35.4 H33.6" stroke="#D3CABB" stroke-width=".45"/>
+      <rect x="20.5" y="29.4" width="23" height="3.9" fill="#D84B3B"/>
+      <rect x="20.5" y="29.4" width="23" height=".9" fill="#F2C14E"/>
+      <path d="M23.4 30.3 V33.3 M26.3 30.3 V33.3 M37.7 30.3 V33.3 M40.6 30.3 V33.3" stroke="#B4382C" stroke-width=".7"/>
+      <rect x="29.4" y="30.6" width="5.2" height="2.7" fill="#F0A93C"/>
+      <path d="M32 30.6 V33.3 M29.4 31.95 H34.6" stroke="#C47D25" stroke-width=".4"/>
+      <path d="M15.4 30 C18.6 29.6 21 27.6 22.6 24.8 H41.4 C43 27.6 45.4 29.6 48.6 30Z" fill="#3E70C4"/>
+      <path d="M32 24.8 H41.4 C43 27.6 45.4 29.6 48.6 30 H32Z" fill="#335FAE"/>
+      <rect x="23.6" y="22.9" width="16.8" height="2.2" fill="#D84B3B"/><rect x="23.6" y="22.9" width="16.8" height=".7" fill="#F2C14E"/>
+      <path d="M26.4 23.6 V25.1 M29.2 23.6 V25.1 M34.8 23.6 V25.1 M37.6 23.6 V25.1" stroke="#B4382C" stroke-width=".6"/>
+      <path d="M19.6 23.2 C22.2 22.8 24 21 25.1 18.6 H38.9 C40 21 41.8 22.8 44.4 23.2Z" fill="#3E70C4"/>
+      <path d="M32 18.6 H38.9 C40 21 41.8 22.8 44.4 23.2 H32Z" fill="#335FAE"/>
+      <rect x="26.6" y="16.8" width="10.8" height="2" fill="#D84B3B"/><rect x="26.6" y="16.8" width="10.8" height=".6" fill="#F2C14E"/>
+      <path d="M23 17 C26 16.6 29.4 14.6 30.7 11.9 Q32 10.5 33.3 11.9 C34.6 14.6 38 16.6 41 17Z" fill="#3E70C4"/>
+      <path d="M32 11 Q32.7 11.2 33.3 11.9 C34.6 14.6 38 16.6 41 17 H32Z" fill="#335FAE"/>
+      <path d="M17 29.4 C19.4 28.6 21 27 22.4 25.4 M21 22.7 C22.6 22 24 20.6 25 19.2 M24.8 16.4 C26.8 15.6 28.6 14.2 29.8 12.8" stroke="#7FA6E2" stroke-width=".8" fill="none" stroke-linecap="round"/>
+      <path d="M15.4 30 H48.6 M19.6 23.2 H44.4 M23 17 H41" stroke="#F2C14E" stroke-width=".7" stroke-linecap="round"/>
+      <path d="M32 7.6 V10.4" stroke="#E0A93A" stroke-width=".7"/>
+      <circle cx="32" cy="10.6" r="1.3" fill="#F4C84E"/><circle cx="32" cy="7.4" r=".55" fill="#F4C84E"/>
+    </symbol>
+    <linearGradient id="gJapan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CBEAFA"/><stop offset="1" stop-color="#ECF7FC"/></linearGradient>
+    <!-- 일본: 벚꽃 핀 철길 위를 달리는 고속 열차(신칸센) -->
+    <symbol id="pl-japan" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gJapan)"/>
+      <path d="M36 9 a2.4 2.4 0 0 1 4.2 -1 a3 3 0 0 1 5.4 1 a1.8 1.8 0 0 1 0 3.6 h-8.8 a1.8 1.8 0 0 1 -.8 -3.6z" fill="#fff"/>
+      <path d="M16.4 34 C16.6 28 16.8 24 17.4 19 M17.2 24 C14.6 21.6 12.6 19.6 11 17 M17.3 21.6 C19.6 19.4 21.6 17.6 23.6 15" stroke="#8A5A3B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M58.6 34 C58.4 29 58.2 25 57.8 20.6 M58 24.4 C60 22.6 61.4 20.8 62.6 18.6" stroke="#8A5A3B" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <g fill="#F7AFC6"><circle cx="9" cy="14.6" r="5.6"/><circle cx="16.6" cy="10.4" r="6.6"/><circle cx="24.4" cy="13.6" r="5.6"/><circle cx="13" cy="19.4" r="4.6"/><circle cx="21" cy="19.4" r="4.6"/><circle cx="54" cy="16.2" r="4.6"/><circle cx="60" cy="12.8" r="5.6"/><circle cx="62.4" cy="18.8" r="4.4"/></g>
+      <g fill="#FCCFDC"><circle cx="14.6" cy="8.6" r="3.4"/><circle cx="8" cy="13" r="2.6"/><circle cx="23" cy="11.6" r="2.8"/><circle cx="58.4" cy="11.2" r="2.8"/><circle cx="53" cy="14.8" r="2"/></g>
+      <g fill="#EE93B0"><circle cx="18.6" cy="15.6" r="1"/><circle cx="11.6" cy="17.4" r=".9"/><circle cx="24.6" cy="17" r=".9"/><circle cx="60.8" cy="16.4" r=".9"/><circle cx="55.4" cy="18.8" r=".8"/></g>
+      <path d="M0 39 C16 37.6 48 37.6 64 39 V50 H0Z" fill="#8ACB69"/>
+      <path d="M0 44 C14 42.6 30 44 40 44.3 C50 44.6 58 43.6 64 44 V50 H0Z" fill="#74B85A"/>
+      <g fill="#D6DDEA"><rect x="8" y="34.6" width="3.2" height="5.4"/><rect x="30.4" y="34.6" width="3.2" height="5.4"/><rect x="52.8" y="34.6" width="3.2" height="5.4"/></g>
+      <rect y="32.2" width="64" height="2.6" fill="#EEF1F6"/><rect y="34.4" width="64" height=".9" fill="#AEB9CF"/>
+      <g transform="translate(-2.5 0)">
+      <path d="M-2 21.4 H40 C47.4 21.4 52.8 24.8 55.9 29.2 C56.7 30.4 56 31.4 54.4 31.4 H-2Z" fill="#FCFDFF"/>
+      <path d="M-2 21.4 H40 C44 21.4 47.4 22.4 50.2 24.2" stroke="#fff" stroke-width=".8" fill="none"/>
+      <path d="M-2 27.6 H45 C49.2 27.6 52.4 28.3 55.1 29.5 L55.8 30.5 C53.4 29.9 49.4 29.3 45 29.3 H-2Z" fill="#2F64BE"/>
+      <path d="M42 23 C45.2 23 47.8 24.2 49.8 25.8 H42Z" fill="#2F4C78"/>
+      <g fill="#2F4C78"><rect x="1" y="23.6" width="2" height="1.8" rx=".5"/><rect x="4.2" y="23.6" width="2" height="1.8" rx=".5"/><rect x="7.4" y="23.6" width="2" height="1.8" rx=".5"/><rect x="10.6" y="23.6" width="2" height="1.8" rx=".5"/><rect x="16" y="23.6" width="2" height="1.8" rx=".5"/><rect x="19.2" y="23.6" width="2" height="1.8" rx=".5"/><rect x="22.4" y="23.6" width="2" height="1.8" rx=".5"/><rect x="25.6" y="23.6" width="2" height="1.8" rx=".5"/><rect x="31" y="23.6" width="2" height="1.8" rx=".5"/><rect x="34.2" y="23.6" width="2" height="1.8" rx=".5"/><rect x="37.4" y="23.6" width="2" height="1.8" rx=".5"/></g>
+      <path d="M14.3 21.4 V31.4 M29.3 21.4 V31.4" stroke="#C9D3E4" stroke-width=".6"/>
+      <rect x="-2" y="31" width="55" height="1.2" fill="#AEB9CF"/>
+      <ellipse cx="54.2" cy="30.3" rx=".9" ry=".6" fill="#FFE39A"/>
+      </g>
+      <g fill="#F7AFC6"><ellipse cx="30" cy="16" rx=".9" ry=".55" transform="rotate(30 30 16)"/><ellipse cx="36" cy="19" rx=".9" ry=".55" transform="rotate(-20 36 19)"/><ellipse cx="44" cy="15" rx=".9" ry=".55" transform="rotate(40 44 15)"/><ellipse cx="27" cy="37" rx=".9" ry=".55" transform="rotate(-30 27 37)"/><ellipse cx="42" cy="38" rx=".9" ry=".55" transform="rotate(20 42 38)"/><ellipse cx="6" cy="41.6" rx=".9" ry=".55"/><ellipse cx="48" cy="11" rx=".8" ry=".5" transform="rotate(-40 48 11)"/></g>
+    </symbol>
+    <linearGradient id="gRussia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CCDDF3"/><stop offset="1" stop-color="#EEF4FB"/></linearGradient>
+    <!-- 러시아: 눈 내린 날, 양파 모양 알록달록 둥근 지붕(모스크바 성 바실리 성당) -->
+    <symbol id="pl-russia" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gRussia)"/>
+      <g fill="#fff"><circle cx="6" cy="8" r="1"/><circle cx="14" cy="4" r=".8"/><circle cx="4" cy="20" r=".9"/><circle cx="58" cy="6" r="1"/><circle cx="50" cy="12" r=".8"/><circle cx="60" cy="18" r=".9"/><circle cx="27" cy="5" r=".7"/><circle cx="39" cy="4.4" r=".8"/><circle cx="8" cy="29" r=".7"/><circle cx="57" cy="30" r=".7"/></g>
+      <path d="M0 41 C16 39.6 48 39.6 64 41 V50 H0Z" fill="#fff"/>
+      <path d="M0 45.4 C14 44 30 45.4 40 45.6 C50 45.8 58 44.8 64 45.2 V50 H0Z" fill="#D8E7F5"/>
+      <g fill="#3F8F5A"><path d="M4 30 L.6 38 H2.4 L-.4 42 H8.4 L5.6 38 H7.4Z"/><path d="M60 30 L56.6 38 H58.4 L55.6 42 H64.4 L61.6 38 H63.4Z"/></g>
+      <g fill="#fff"><path d="M4 30 L2.6 33.4 Q4 32.6 5.4 33.4Z"/><path d="M60 30 L58.6 33.4 Q60 32.6 61.4 33.4Z"/></g>
+      <rect x="8" y="30.6" width="48" height="11" fill="#C9553F"/>
+      <rect x="8" y="30.6" width="48" height="1.6" fill="#DE735C"/>
+      <path d="M10 37.6 v-2.2 a1.3 1.3 0 0 1 2.6 0 v2.2 M15 37.6 v-2.2 a1.3 1.3 0 0 1 2.6 0 v2.2 M20 37.6 v-2.2 a1.3 1.3 0 0 1 2.6 0 v2.2 M41.4 37.6 v-2.2 a1.3 1.3 0 0 1 2.6 0 v2.2 M46.4 37.6 v-2.2 a1.3 1.3 0 0 1 2.6 0 v2.2 M51.4 37.6 v-2.2 a1.3 1.3 0 0 1 2.6 0 v2.2" stroke="#F6E6CF" stroke-width=".8" fill="none"/>
+      <path d="M29.4 41.6 V37.6 a2.6 2.6 0 0 1 5.2 0 V41.6Z" fill="#6B3A2E"/>
+      <path d="M28.6 41.6 V37.6 a3.4 3.4 0 0 1 6.8 0 V41.6" stroke="#F6E6CF" stroke-width=".8" fill="none"/>
+      <rect x="10.2" y="27.2" width="4.8" height="3.6" fill="#F5E7CE"/><rect x="49" y="27.2" width="4.8" height="3.6" fill="#F5E7CE"/>
+      <rect x="17.4" y="21.2" width="7.2" height="9.6" fill="#F5E7CE"/><rect x="22.6" y="21.2" width="2" height="9.6" fill="#E6D2B0"/>
+      <rect x="39.4" y="21.2" width="7.2" height="9.6" fill="#F5E7CE"/><rect x="44.6" y="21.2" width="2" height="9.6" fill="#E6D2B0"/>
+      <rect x="27.6" y="20.8" width="8.8" height="10" fill="#F8ECD6"/><rect x="34" y="20.8" width="2.4" height="10" fill="#E9D6B4"/>
+      <g fill="#C9553F"><rect x="17.4" y="21.2" width="7.2" height="1.1"/><rect x="39.4" y="21.2" width="7.2" height="1.1"/><rect x="27.6" y="20.8" width="8.8" height="1.1"/><rect x="10.2" y="27.2" width="4.8" height=".9"/><rect x="49" y="27.2" width="4.8" height=".9"/></g>
+      <g fill="#8A4B3A"><path d="M19.4 27.4 v-2.2 a.6 .6 0 0 1 1.2 0 v2.2z"/><path d="M21.6 27.4 v-2.2 a.6 .6 0 0 1 1.2 0 v2.2z"/><path d="M41.4 27.4 v-2.2 a.6 .6 0 0 1 1.2 0 v2.2z"/><path d="M43.6 27.4 v-2.2 a.6 .6 0 0 1 1.2 0 v2.2z"/><path d="M30.6 27.6 v-2.4 a.7 .7 0 0 1 1.4 0 v2.4z"/><path d="M32.8 27.6 v-2.4 a.7 .7 0 0 1 1.4 0 v2.4z"/></g>
+      <path d="M27.4 21 L32 10.4 L36.6 21Z" fill="#F0C25A"/><path d="M32 10.4 L36.6 21 H32Z" fill="#DDA53F"/>
+      <g fill="#E07850"><circle cx="30.6" cy="17" r=".45"/><circle cx="32" cy="14" r=".45"/><circle cx="33.4" cy="17" r=".45"/><circle cx="32" cy="19.4" r=".45"/><circle cx="29.6" cy="19.6" r=".4"/><circle cx="34.4" cy="19.6" r=".4"/></g>
+      <path d="M27.4 21.2 a1.15 1.15 0 0 1 2.3 0 a1.15 1.15 0 0 1 2.3 0 a1.15 1.15 0 0 1 2.3 0 a1.15 1.15 0 0 1 2.3 0Z" fill="#F8ECD6"/>
+      <g transform="translate(32 10.9) scale(.32)"><path d="M0 -12 C1 -10 5 -8.2 5 -4.6 C5 -1.6 3 0 0 0 C-3 0 -5 -1.6 -5 -4.6 C-5 -8.2 -1 -10 0 -12Z" fill="#F4C84E"/></g>
+      <g transform="translate(21 21.6) scale(1.1 1.04)">
+      <path d="M0 -12 C1 -10 5 -8.2 5 -4.6 C5 -1.6 3 0 0 0 C-3 0 -5 -1.6 -5 -4.6 C-5 -8.2 -1 -10 0 -12Z" fill="#E25544"/>
+      <path d="M.4 -.02 Q2.8 -1.2 4.64 -2.62 L4.98 -4.3 Q1.5 -2 -2.05 -.3Z M-3.63 -1.18 Q1 -2.6 4.36 -7 L2.88 -8.9 Q-.6 -5.6 -4.64 -2.62Z M-4.36 -7 Q-1 -8 1.2 -10.5 L.45 -11.5 Q-1.4 -9.6 -2.88 -8.9Z" fill="#F6EBD8"/>
+      </g>
+      <g transform="translate(43 21.6) scale(1.1 1.04)">
+      <path d="M0 -12 C1 -10 5 -8.2 5 -4.6 C5 -1.6 3 0 0 0 C-3 0 -5 -1.6 -5 -4.6 C-5 -8.2 -1 -10 0 -12Z" fill="#4C80D2"/>
+      <path d="M.4 -.02 Q2.8 -1.2 4.64 -2.62 L4.98 -4.3 Q1.5 -2 -2.05 -.3Z M-3.63 -1.18 Q1 -2.6 4.36 -7 L2.88 -8.9 Q-.6 -5.6 -4.64 -2.62Z M-4.36 -7 Q-1 -8 1.2 -10.5 L.45 -11.5 Q-1.4 -9.6 -2.88 -8.9Z" fill="#F2F6FC"/>
+      </g>
+      <g transform="translate(12.6 27.6) scale(.74 .72)">
+      <path d="M0 -12 C1 -10 5 -8.2 5 -4.6 C5 -1.6 3 0 0 0 C-3 0 -5 -1.6 -5 -4.6 C-5 -8.2 -1 -10 0 -12Z" fill="#4CA66B"/>
+      <path d="M.4 -.02 Q2.8 -1.2 4.64 -2.62 L4.98 -4.3 Q1.5 -2 -2.05 -.3Z M-3.63 -1.18 Q1 -2.6 4.36 -7 L2.88 -8.9 Q-.6 -5.6 -4.64 -2.62Z M-4.36 -7 Q-1 -8 1.2 -10.5 L.45 -11.5 Q-1.4 -9.6 -2.88 -8.9Z" fill="#F4C84E"/>
+      </g>
+      <g transform="translate(51.4 27.6) scale(.74 .72)">
+      <path d="M0 -12 C1 -10 5 -8.2 5 -4.6 C5 -1.6 3 0 0 0 C-3 0 -5 -1.6 -5 -4.6 C-5 -8.2 -1 -10 0 -12Z" fill="#F29A3E"/>
+      <path d="M.4 -.02 Q2.8 -1.2 4.64 -2.62 L4.98 -4.3 Q1.5 -2 -2.05 -.3Z M-3.63 -1.18 Q1 -2.6 4.36 -7 L2.88 -8.9 Q-.6 -5.6 -4.64 -2.62Z M-4.36 -7 Q-1 -8 1.2 -10.5 L.45 -11.5 Q-1.4 -9.6 -2.88 -8.9Z" fill="#57A86E"/>
+      </g>
+      <g fill="#fff" opacity=".45"><ellipse cx="18.4" cy="15.4" rx="1.1" ry="1.8" transform="rotate(20 18.4 15.4)"/><ellipse cx="40.4" cy="15.4" rx="1.1" ry="1.8" transform="rotate(20 40.4 15.4)"/></g>
+      <path d="M21 9.2 V7 M43 9.2 V7 M12.6 19 V17.4 M51.4 19 V17.4 M32 7.1 V5.4" stroke="#E0A93A" stroke-width=".7" stroke-linecap="round"/>
+      <g fill="#F4C84E"><circle cx="21" cy="6.8" r=".6"/><circle cx="43" cy="6.8" r=".6"/><circle cx="12.6" cy="17.2" r=".5"/><circle cx="51.4" cy="17.2" r=".5"/><circle cx="32" cy="5.2" r=".5"/></g>
+      <path d="M8 30.8 C9 29.8 10 30.4 11 29.9 C13 29.4 15 30.4 17 29.9 C19 29.5 22 30.4 25 29.9 C28 29.5 30 30.4 33 29.9 C36 29.5 39 30.4 42 29.9 C45 29.5 48 30.4 51 29.9 C53 29.5 55 30 56 30.8 V31.4 H8Z" fill="#fff"/>
+    </symbol>
+    <linearGradient id="gMongolia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86CBEF"/><stop offset="1" stop-color="#D4F0FB"/></linearGradient>
+    <!-- 몽골: 파란 하늘 아래 넓은 초원의 하얀 천막집(게르)과 말 -->
+    <symbol id="pl-mongolia" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gMongolia)"/>
+      <circle cx="54" cy="9" r="4.5" fill="#FFE39A"/>
+      <path d="M4 10 a2.4 2.4 0 0 1 4.2 -1 a3 3 0 0 1 5.4 1 a1.8 1.8 0 0 1 0 3.6 h-8.8 a1.8 1.8 0 0 1 -.8 -3.6z" fill="#fff"/>
+      <path d="M0 31 C8 26 16 25.6 24 28 C32 30.4 38 25 46 24.6 C54 24.2 59 27 64 28.6 V40 H0Z" fill="#B6DE97"/>
+      <path d="M0 35.6 C14 33.4 40 33.6 64 35 V50 H0Z" fill="#8CCB6A"/>
+      <path d="M0 43 C16 41 40 42.6 64 41.6 V50 H0Z" fill="#7BBA5C"/>
+      <g fill="#3A3A44"><path d="M5.4 32.6 v1.2 M7.2 32.6 v1.2 M9.8 33.2 v1.2 M11.6 33.2 v1.2" stroke="#3A3A44" stroke-width=".5"/><ellipse cx="4.6" cy="31.4" rx=".75" ry=".6"/><ellipse cx="9" cy="32" rx=".75" ry=".6"/></g>
+      <g fill="#fff"><circle cx="5.8" cy="31.6" r="1"/><circle cx="7" cy="31.4" r="1.1"/><circle cx="6.4" cy="32.2" r=".9"/><circle cx="10.2" cy="32.2" r="1"/><circle cx="11.4" cy="32" r="1.1"/><circle cx="10.8" cy="32.8" r=".9"/></g>
+      <path d="M4 46 l.8 -2.2 M6 46.6 l.6 -2.4 M56 46 l.8 -2.2 M58 46.6 l.6 -2.4 M30 47.6 l.8 -2.2" stroke="#5FA24D" stroke-width=".9" stroke-linecap="round"/>
+      <ellipse cx="25" cy="38.8" rx="13" ry="1.3" fill="#4E8A3C" opacity=".25"/>
+      <rect x="13.6" y="27.6" width="22.8" height="11" fill="#FBF8F1"/>
+      <rect x="31" y="27.6" width="5.4" height="11" fill="#E7E0D1"/>
+      <path d="M13.6 31.8 H36.4 M13.6 35.8 H36.4" stroke="#A9B4C8" stroke-width=".7"/>
+      <path d="M12.2 28.6 C16 25.4 20.6 21.8 23.4 20 H26.6 C29.4 21.8 34 25.4 37.8 28.6Z" fill="#F7F3E9"/>
+      <path d="M25 20 H26.6 C29.4 21.8 34 25.4 37.8 28.6 H25Z" fill="#E4DDCC"/>
+      <path d="M20.2 23.4 L17.6 28.4 M23.8 21 L22.6 28.4 M26.2 21 L27.4 28.4 M29.8 23.4 L32.4 28.4" stroke="#C9C0AC" stroke-width=".5"/>
+      <rect x="12.6" y="27.4" width="24.8" height="1.8" fill="#3F6FC0"/>
+      <path d="M13.6 28.3 h1.2 M16.2 28.3 h1.2 M18.8 28.3 h1.2 M21.4 28.3 h1.2 M24 28.3 h1.2 M26.6 28.3 h1.2 M29.2 28.3 h1.2 M31.8 28.3 h1.2 M34.4 28.3 h1.2" stroke="#fff" stroke-width=".6" stroke-linecap="round"/>
+      <rect x="23" y="19" width="4" height="1.4" rx=".4" fill="#D7B985"/>
+      <rect x="27.6" y="15.4" width="1.1" height="4.4" fill="#8D9DBD"/>
+      <g fill="#fff" opacity=".85"><circle cx="29.4" cy="13.4" r="1.1"/><circle cx="30.8" cy="11.4" r="1.4"/><circle cx="32.8" cy="9.6" r="1.7"/></g>
+      <rect x="22" y="31" width="6" height="7.6" fill="#E2643F"/>
+      <rect x="22" y="31" width="6" height="7.6" fill="none" stroke="#F4C84E" stroke-width=".8"/>
+      <path d="M25 31.4 V38.2 M22.8 34.6 H27.2" stroke="#F4C84E" stroke-width=".55"/>
+      <path d="M53.6 30 C55.4 31.6 55.8 34 55.2 36.6" stroke="#5A3820" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <g fill="#8C5530"><rect x="44.6" y="32.4" width="1.3" height="7" rx=".5"/><rect x="51" y="32.4" width="1.3" height="7" rx=".5"/></g>
+      <g fill="#A86C3E"><rect x="42.8" y="32.4" width="1.4" height="7.2" rx=".5"/><rect x="49.2" y="32.4" width="1.4" height="7.2" rx=".5"/></g>
+      <g fill="#3A2416"><rect x="42.8" y="38.9" width="1.4" height=".9"/><rect x="44.6" y="38.7" width="1.3" height=".8"/><rect x="49.2" y="38.9" width="1.4" height=".9"/><rect x="51" y="38.7" width="1.3" height=".8"/></g>
+      <ellipse cx="47.6" cy="31.2" rx="6.4" ry="3.4" fill="#A86C3E"/>
+      <path d="M41.8 31.8 C41 28.6 40.8 26.2 41.2 23.8 L44.6 23.4 C44.6 26.2 45.4 28.4 46.6 30.2Z" fill="#A86C3E"/>
+      <path d="M44.4 22.8 C42.8 21.8 40.8 22.2 39.6 23.4 L37.6 25.8 C37.1 26.7 37.9 27.6 38.9 27.2 L42 25.6Z" fill="#A86C3E"/>
+      <ellipse cx="38.2" cy="26.6" rx="1.3" ry="1" fill="#C98A56"/>
+      <path d="M43 22.6 L43.2 20.6 L44.4 22.4Z" fill="#8C5530"/>
+      <path d="M44.2 22.6 C44.6 25 45.4 27.4 47 29.4" stroke="#5A3820" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="41.4" cy="23.9" r=".55" fill="#14223F"/>
+    </symbol>
+    <linearGradient id="gGreatWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C6E6F7"/><stop offset="1" stop-color="#EAF5EC"/></linearGradient>
+    <!-- 만리장성: 산등성이를 따라 이어진 굵은 성벽(밝은 윗면 + 진한 성가퀴)과 가운데 기와지붕 망루. 먼 산의 성벽은 옅게 -->
+    <symbol id="pl-great-wall" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gGreatWall)"/>
+      <circle cx="54" cy="10" r="4.5" fill="#FFE39A"/>
+      <path d="M4 14 a3.5 3.5 0 0 1 6 -1.6 a4.5 4.5 0 0 1 8 1.6 a2.6 2.6 0 0 1 0 5.2 h-13 a2.6 2.6 0 0 1 -1 -5.2z" fill="#fff"/>
+      <path d="M0 26 C5 22 9 20 13 20.6 C17 21.2 19 23.4 23 23 C28 22.6 30 18.6 35 18.2 C40 17.8 43 21.4 47 21.4 C51 21.4 53 17.4 57 17.4 C60 17.4 62 19 64 20.4 V40 H0Z" fill="#BCDBCE"/>
+      <path d="M44 21.2 C48 21 51 17.4 55.4 17.2 C58 17.2 60 18.2 62.6 19.6" stroke="#D3CDAE" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".8"/>
+      <rect x="54.5" y="15.6" width="1.8" height="1.9" fill="#D3CDAE" opacity=".8"/>
+      <path d="M-6 44.3C-5.2 43.9 -3 43 -1 41.9C1 40.9 3.7 39.2 6 37.9C8.3 36.7 10.7 35.3 13 34.6C15.3 33.8 17.7 34.3 20 33.6C22.3 32.8 24.7 31 27 30C29.3 29 31.7 27.8 34 27.8C36.3 27.8 38.8 29 41 30C43.2 31.1 45.2 33.3 47 34C48.8 34.8 50.3 34.8 52 34.4C53.7 34.1 55.3 32.4 57 31.7C58.7 30.9 59.8 30.5 62 30.1C64.2 29.6 68.7 29.3 70 29.1V50H-6Z" fill="#74B159"/>
+      <path d="M0 50 V44.6 C9 43 17 43.6 26 44.8 C36 46 45 44 53 43 C58 42.4 61 42.7 64 43.3 V50Z" fill="#5E9C48"/>
+      <path d="M-6 45C-5.2 44.6 -3 43.7 -1 42.6C1 41.5 3.7 39.8 6 38.6C8.3 37.4 10.7 35.9 13 35.2C15.3 34.5 17.7 35 20 34.2C22.3 33.4 24.7 31.6 27 30.6C29.3 29.6 31.7 28.4 34 28.4C36.3 28.4 38.8 29.6 41 30.6C43.2 31.6 45.2 33.9 47 34.6C48.8 35.3 50.3 35.4 52 35C53.7 34.6 55.3 32.9 57 32.2C58.7 31.5 59.8 31 62 30.6C64.2 30.2 68.7 29.8 70 29.6L70 28.7C68.7 28.9 64.2 29.2 62 29.7C59.8 30.1 58.7 30.5 57 31.3C55.3 32 53.7 33.6 52 34C50.3 34.4 48.8 34.4 47 33.6C45.2 32.9 43.2 30.6 41 29.6C38.8 28.5 36.3 27.4 34 27.4C31.7 27.4 29.3 28.6 27 29.5C24.7 30.5 22.3 32.3 20 33.1C17.7 33.9 15.3 33.4 13 34.1C10.7 34.8 8.3 36.2 6 37.4C3.7 38.7 1 40.4 -1 41.4C-3 42.5 -5.2 43.4 -6 43.8Z" fill="#9C7C54"/>
+      <path d="M-6 43.9C-5.2 43.5 -3 42.5 -1 41.5C1 40.4 3.7 38.7 6 37.5C8.3 36.3 10.7 34.9 13 34.1C15.3 33.4 17.7 33.9 20 33.2C22.3 32.4 24.7 30.5 27 29.6C29.3 28.6 31.7 27.4 34 27.4C36.3 27.4 38.8 28.6 41 29.6C43.2 30.7 45.2 32.9 47 33.7C48.8 34.4 50.3 34.5 52 34.1C53.7 33.7 55.3 32 57 31.3C58.7 30.6 59.8 30.1 62 29.7C64.2 29.3 68.7 28.9 70 28.7L70 27C68.7 27.1 64.2 27.5 62 27.9C59.8 28.3 58.7 28.7 57 29.4C55.3 30.1 53.7 31.8 52 32.1C50.3 32.5 48.8 32.4 47 31.7C45.2 30.9 43.2 28.7 41 27.6C38.8 26.6 36.3 25.4 34 25.3C31.7 25.3 29.3 26.5 27 27.4C24.7 28.4 22.3 30.2 20 31C17.7 31.7 15.3 31.2 13 31.9C10.7 32.6 8.3 34 6 35.2C3.7 36.4 1 38.1 -1 39.1C-3 40.2 -5.2 41.1 -6 41.5Z" fill="#B8976A"/>
+      <path d="M-6 41.5C-5.2 41.1 -3 40.2 -1 39.2C1 38.1 3.7 36.5 6 35.3C8.3 34 10.7 32.6 13 31.9C15.3 31.2 17.7 31.8 20 31C22.3 30.3 24.7 28.4 27 27.5C29.3 26.6 31.7 25.4 34 25.4C36.3 25.4 38.8 26.6 41 27.7C43.2 28.7 45.2 31 47 31.7C48.8 32.5 50.3 32.6 52 32.2C53.7 31.8 55.3 30.2 57 29.4C58.7 28.7 59.8 28.3 62 27.9C64.2 27.5 68.7 27.1 70 27L70 26.1C68.7 26.3 64.2 26.6 62 27C59.8 27.4 58.7 27.8 57 28.5C55.3 29.2 53.7 30.9 52 31.3C50.3 31.6 48.8 31.5 47 30.8C45.2 30 43.2 27.8 41 26.7C38.8 25.6 36.3 24.4 34 24.4C31.7 24.4 29.3 25.5 27 26.5C24.7 27.4 22.3 29.2 20 30C17.7 30.7 15.3 30.2 13 30.9C10.7 31.6 8.3 33 6 34.2C3.7 35.4 1 37 -1 38C-3 39.1 -5.2 40 -6 40.4Z" fill="#E4CB98"/>
+      <path d="M-0.3 37.5V35.4h1.8V37.5ZM2.6 35.8V33.8h1.8V35.8ZM5.5 34.2V32.2h1.8V34.2ZM8.4 32.7V30.7h1.8V32.7ZM11.4 31.4V29.4h1.8V31.4ZM14.5 30.8V28.8h1.8V30.8ZM17.7 30.6V28.7h1.7V30.6ZM20.7 29.6V27.7h1.7V29.6ZM23.4 28.2V26.3h1.7V28.2ZM26.2 26.8V24.9h1.7V26.8ZM29 25.6V23.8h1.7V25.6ZM31.9 24.8V22.9h1.6V24.8ZM34.8 24.9V23.1h1.6V24.9ZM37.7 25.8V24h1.6V25.8ZM40.3 27.1V25.3h1.6V27.1ZM42.7 28.7V26.9h1.6V28.7ZM45 30.4V28.7h1.6V30.4ZM47.7 31.6V29.8h1.5V31.6ZM50.5 31.7V30h1.5V31.7ZM53 30.8V29.1h1.5V30.8ZM55.3 29.3V27.6h1.5V29.3ZM57.8 28.2V26.5h1.5V28.2ZM60.4 27.5V25.8h1.5V27.5ZM63 27.1V25.4h1.4V27.1Z" fill="#9C7C54"/>
+      <rect x="9.6" y="27.2" width="5.9" height="8.7" fill="#C6A472"/><rect x="13.7" y="27.2" width="1.9" height="8.7" fill="#9C7C54"/>
+      <rect x="9.3" y="26.6" width="6.6" height="1" fill="#E4CB98"/>
+      <path d="M9.6 26.7v-1.4h1.4v1.4ZM11.9 26.7v-1.4h1.4v1.4ZM14.2 26.7v-1.4h1.4v1.4Z" fill="#9C7C54"/>
+      <path d="M11.2 35.9 v-2.3 a1 1 0 0 1 1.9 0 v2.3z" fill="#5E4A36"/>
+      <rect x="55" y="25.6" width="4.8" height="7.1" fill="#C6A472"/><rect x="58.3" y="25.6" width="1.5" height="7.1" fill="#9C7C54"/>
+      <rect x="54.7" y="25.1" width="5.3" height="0.8" fill="#E4CB98"/>
+      <path d="M55 25.1v-1.1h1.1v1.1ZM56.8 25.1v-1.1h1.1v1.1ZM58.7 25.1v-1.1h1.1v1.1Z" fill="#9C7C54"/>
+      <path d="M56.3 32.6 v-1.9 a0.8 0.8 0 0 1 1.5 0 v1.9z" fill="#5E4A36"/>
+      <rect x="28" y="18" width="12" height="11.6" fill="#C6A472"/><rect x="36.6" y="18" width="3.4" height="11.6" fill="#9C7C54"/>
+      <rect x="27.4" y="17.8" width="13.2" height="1.3" fill="#E4CB98"/>
+      <path d="M25.8 18.3 C27.4 17.7 28.6 16.7 29.4 15.1 H38.6 C39.4 16.7 40.6 17.7 42.2 18.3Z" fill="#5E6F92"/>
+      <path d="M29.4 15.1 L31.2 12.7 H36.8 L38.6 15.1Z" fill="#4D5D80"/>
+      <rect x="30.6" y="12.1" width="6.8" height=".9" rx=".45" fill="#4D5D80"/>
+      <path d="M29.8 15.4 H38.2" stroke="#8495B8" stroke-width=".6"/>
+      <g fill="#5E4A36"><path d="M29.8 23.2 v-2.4 a1.2 1.2 0 0 1 2.4 0 v2.4z"/><path d="M33.8 23.2 v-2.4 a1.2 1.2 0 0 1 2.4 0 v2.4z"/>
+      <path d="M30.9 29.6 v-3.2 a1.6 1.6 0 0 1 3.2 0 v3.2z"/></g>
+      <path d="M5 47.6 l.8 -2.2 M7 48.2 l.6 -2.4 M50 47.4 l.8 -2.2 M52 48 l.6 -2.4" stroke="#4E8A3D" stroke-width=".9" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gShanghai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2CCF1"/><stop offset="1" stop-color="#FFD9C9"/></linearGradient>
+    <!-- 상하이: 강가에 선 분홍 구슬 탑(동방명주)과 높은 빌딩들, 해 질 녘 -->
+    <symbol id="pl-shanghai" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gShanghai)"/>
+      <g fill="#fff"><circle cx="8" cy="7" r=".8"/><circle cx="16" cy="4" r=".6"/><circle cx="40" cy="5" r=".7"/><circle cx="60" cy="10" r=".7"/></g>
+      <path d="M12.6 8.6 a3.6 3.6 0 1 0 3.4 4.8 a2.9 2.9 0 1 1 -3.4 -4.8z" fill="#FFF3C4"/>
+      <path d="M0 41 V31 H3 V27 H7 V32 H10 V24 H14 V29 H17 V25.5 H21 V41Z" fill="#B8C1E2"/>
+      <path d="M54 41 V22 H57.5 V26 H61 V20.5 H64 V41Z" fill="#B8C1E2"/>
+      <g fill="#9CA9D4"><rect x="2" y="33" width="5" height="8"/><rect x="11" y="30" width="5.4" height="11"/><rect x="18" y="33.6" width="4.4" height="7.4"/></g>
+      <path d="M37.4 41 V26.4 H38 V21.4 H38.6 V17.8 L39.6 13.6 L40.6 17.8 V21.4 H41.2 V26.4 H41.8 V41Z" fill="#8F9BC8"/>
+      <path d="M43 41 L43.6 15.4 C44.4 11.2 46.4 9 48.6 9.8 C48.8 13 49 26 49.4 41Z" fill="#93A8D8"/>
+      <path d="M44 14 C45.4 18 47.6 23 49 30" stroke="#B9C8EC" stroke-width=".6" fill="none"/>
+      <path d="M50.4 41 L51 14.4 C52 13.4 54.4 13 55.4 13.6 L55.8 41Z" fill="#A8B7E0"/>
+      <path d="M51.8 15 H54.6 L54.2 17.2 H52.2Z" fill="#E4D9EA"/>
+      <g fill="#FFE08A"><rect x="3" y="34.6" width=".9" height=".9"/><rect x="5" y="37" width=".9" height=".9"/><rect x="12.2" y="32" width=".9" height=".9"/><rect x="14.4" y="35.6" width=".9" height=".9"/><rect x="12.2" y="38" width=".9" height=".9"/><rect x="19.4" y="36" width=".9" height=".9"/><rect x="44.6" y="22" width=".9" height=".9"/><rect x="46.6" y="30" width=".9" height=".9"/><rect x="52.4" y="24" width=".9" height=".9"/><rect x="53.6" y="33" width=".9" height=".9"/><rect x="38.8" y="31" width=".9" height=".9"/><rect x="39.4" y="36" width=".9" height=".9"/><rect x="58" y="29" width=".9" height=".9"/></g>
+      <path d="M28.5 4.6 V12" stroke="#ECE7F4" stroke-width=".9" stroke-linecap="round"/>
+      <rect x="27.8" y="12" width="1.4" height="5" fill="#F4F1FA"/>
+      <circle cx="28.5" cy="11.4" r="1.4" fill="#F07FA1"/>
+      <g fill="#F4F1FA"><rect x="25.9" y="21" width="1.1" height="15"/><rect x="27.95" y="21" width="1.1" height="15"/></g>
+      <rect x="30" y="21" width="1.1" height="15" fill="#DCD6EA"/>
+      <circle cx="26.45" cy="27.6" r=".95" fill="#F07FA1"/><circle cx="30.55" cy="27.6" r=".95" fill="#E0668C"/>
+      <circle cx="28.5" cy="18.8" r="3.8" fill="#F07FA1"/>
+      <path d="M28.5 15 A3.8 3.8 0 0 1 28.5 22.6Z" fill="#E0668C"/>
+      <ellipse cx="27.2" cy="17.4" rx="1.3" ry=".8" transform="rotate(-30 27.2 17.4)" fill="#fff" opacity=".5"/>
+      <path d="M24.8 19.4 Q28.5 20.6 32.2 19.4" stroke="#FFD2E0" stroke-width=".55" fill="none"/>
+      <path d="M25.6 36 L22.4 41 H24.2 L27 37.2Z M31.4 36 L34.6 41 H32.8 L30 37.2Z" fill="#E6E1F0"/>
+      <rect x="27.9" y="36.6" width="1.2" height="4.4" fill="#E6E1F0"/>
+      <circle cx="28.5" cy="33.2" r="4.8" fill="#F07FA1"/>
+      <path d="M28.5 28.4 A4.8 4.8 0 0 1 28.5 38Z" fill="#E0668C"/>
+      <ellipse cx="26.8" cy="31.4" rx="1.6" ry="1" transform="rotate(-30 26.8 31.4)" fill="#fff" opacity=".5"/>
+      <path d="M23.9 33.9 Q28.5 35.4 33.1 33.9" stroke="#FFD2E0" stroke-width=".6" fill="none"/>
+      <rect y="40.4" width="64" height="1.4" fill="#E9E2EC"/>
+      <rect y="41.8" width="64" height="8.2" fill="#5B8FD1"/>
+      <path d="M0 46 C16 45 40 46.6 64 45.4 V50 H0Z" fill="#4C7EC2"/>
+      <g fill="#F59AB7" opacity=".75"><rect x="26.6" y="43" width="3.8" height=".8" rx=".4"/><rect x="27.2" y="45.2" width="2.6" height=".7" rx=".35"/><rect x="27.6" y="47.2" width="1.8" height=".6" rx=".3"/></g>
+      <g fill="#FFE08A" opacity=".7"><rect x="44.6" y="43.4" width="2.4" height=".6" rx=".3"/><rect x="51.6" y="44.6" width="2.2" height=".6" rx=".3"/><rect x="11" y="43.6" width="2.4" height=".6" rx=".3"/><rect x="4" y="45.6" width="2" height=".6" rx=".3"/></g>
+      <path d="M34 47 q3 -1.6 6 0 M16 48 q3 -1.6 6 0" stroke="#fff" stroke-opacity=".6" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gChengdu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CDEBC0"/><stop offset="1" stop-color="#B0DEA0"/></linearGradient>
+    <!-- 청두: 대나무 숲에서 대나무 줄기를 쥔 판다 -->
+    <symbol id="pl-chengdu" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gChengdu)"/>
+      <g fill="#A2D18E"><rect x="1.6" width="1.8" height="44"/><rect x="14.2" width="1.6" height="44"/><rect x="48.4" width="1.6" height="44"/><rect x="60.4" width="1.8" height="44"/></g>
+      <g fill="#A2D18E"><ellipse cx="18.4" cy="9" rx="3.2" ry=".9" transform="rotate(-25 18.4 9)"/><ellipse cx="11.2" cy="19" rx="3" ry=".9" transform="rotate(20 11.2 19)"/><ellipse cx="45.4" cy="12" rx="3" ry=".9" transform="rotate(25 45.4 12)"/><ellipse cx="57" cy="24" rx="3" ry=".9" transform="rotate(-20 57 24)"/></g>
+      <g fill="#5FAD52"><rect x="6.6" width="2.6" height="44"/><rect x="54.8" width="2.6" height="44"/></g>
+      <path d="M6.6 9 h2.6 M6.6 20 h2.6 M6.6 31 h2.6 M54.8 6 h2.6 M54.8 17 h2.6 M54.8 28 h2.6" stroke="#3F8A3C" stroke-width=".8"/>
+      <g fill="#4C9A45">
+      <ellipse cx="12.4" cy="8" rx="3.6" ry="1" transform="rotate(-28 12.4 8)"/><ellipse cx="12" cy="11" rx="3.2" ry=".95" transform="rotate(12 12 11)"/>
+      <ellipse cx="3.4" cy="19.4" rx="3.4" ry="1" transform="rotate(30 3.4 19.4)"/><ellipse cx="12.6" cy="30" rx="3.2" ry=".95" transform="rotate(-22 12.6 30)"/>
+      <ellipse cx="51.4" cy="5" rx="3.4" ry="1" transform="rotate(28 51.4 5)"/><ellipse cx="60.8" cy="16" rx="3.4" ry="1" transform="rotate(-30 60.8 16)"/>
+      <ellipse cx="61" cy="19" rx="3" ry=".9" transform="rotate(10 61 19)"/><ellipse cx="51.6" cy="27" rx="3.2" ry=".95" transform="rotate(24 51.6 27)"/>
+      </g>
+      <path d="M0 41 C12 38.6 22 39.6 32 39.4 C44 39.2 54 38.4 64 40 V50 H0Z" fill="#86C568"/>
+      <path d="M0 45 C16 43 34 45.5 64 44 V50 H0Z" fill="#73B658"/>
+      <g fill="#B9C76E"><path d="M11 42 L12.6 36.4 L14.2 42Z"/><path d="M50 42.4 L51.4 37.6 L52.8 42.4Z"/></g>
+      <path d="M11.6 40 h2 M12 38.2 h1.2 M50.4 40.6 h1.9 M50.9 39 h1" stroke="#8FA352" stroke-width=".6"/>
+      <ellipse cx="32" cy="42.4" rx="11" ry="1.3" fill="#3E7A35" opacity=".2"/>
+      <g fill="#2B2F3D"><circle cx="25.9" cy="13.2" r="2.8"/><circle cx="38.1" cy="13.2" r="2.8"/></g>
+      <g fill="#4A5062"><circle cx="25.9" cy="13.2" r="1.3"/><circle cx="38.1" cy="13.2" r="1.3"/></g>
+      <ellipse cx="32" cy="33.6" rx="9.4" ry="8.6" fill="#fff"/>
+      <g fill="#2B2F3D"><ellipse cx="25.4" cy="40" rx="3.8" ry="2.7"/><ellipse cx="38.6" cy="40" rx="3.8" ry="2.7"/></g>
+      <g fill="#565C6E"><ellipse cx="25.2" cy="40.4" rx="1.7" ry="1.2"/><ellipse cx="38.8" cy="40.4" rx="1.7" ry="1.2"/></g>
+      <path d="M37.8 43 L42.4 8" stroke="#6DB34F" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M37.8 34.1 h2.4 M39 25 h2.4 M40.2 16 h2.4" stroke="#4C8F3A" stroke-width=".7"/>
+      <g fill="#5AA748">
+      <ellipse cx="45.6" cy="8.6" rx="3.4" ry="1" transform="rotate(20 45.6 8.6)"/><ellipse cx="39.4" cy="6.8" rx="3.2" ry=".95" transform="rotate(-25 39.4 6.8)"/>
+      <ellipse cx="44.8" cy="5" rx="3" ry=".9" transform="rotate(-35 44.8 5)"/><ellipse cx="45.4" cy="12" rx="2.8" ry=".85" transform="rotate(35 45.4 12)"/>
+      </g>
+      <path d="M24.4 26.4 C24.2 31.4 30 33.4 37.6 31" stroke="#2B2F3D" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+      <circle cx="38.8" cy="30.6" r="2.2" fill="#2B2F3D"/>
+      <circle cx="32" cy="19.6" r="7.6" fill="#fff"/>
+      <path d="M39.4 27.2 C40.6 26 41 24.6 40.8 23.2" stroke="#2B2F3D" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      <circle cx="40.7" cy="22.6" r="2.1" fill="#2B2F3D"/>
+      <g fill="#2B2F3D"><ellipse cx="28.9" cy="19.8" rx="2.1" ry="2.8" transform="rotate(32 28.9 19.8)"/><ellipse cx="35.1" cy="19.8" rx="2.1" ry="2.8" transform="rotate(-32 35.1 19.8)"/></g>
+      <g fill="#fff"><circle cx="29.2" cy="19.4" r=".95"/><circle cx="34.8" cy="19.4" r=".95"/></g>
+      <g fill="#14223F"><circle cx="29.35" cy="19.55" r=".55"/><circle cx="34.65" cy="19.55" r=".55"/></g>
+      <ellipse cx="32" cy="22.9" rx="1.25" ry=".85" fill="#2B2F3D"/>
+      <path d="M30.6 24.1 q1.4 1.2 2.8 0" stroke="#2B2F3D" stroke-width=".65" fill="none" stroke-linecap="round"/>
+      <g fill="#FF9DB0" opacity=".6"><ellipse cx="27" cy="23.6" rx="1.4" ry=".8"/><ellipse cx="37" cy="23.6" rx="1.4" ry=".8"/></g>
+    </symbol>
+    <linearGradient id="gMountFuji" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4E2F7"/><stop offset="1" stop-color="#F6E4EE"/></linearGradient>
+    <linearGradient id="gMountFuji2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7487CC"/><stop offset="1" stop-color="#5568B0"/></linearGradient>
+    <!-- 후지산: 꼭대기에 눈이 덮인 원뿔 산, 앞 호수에 비친 산과 벚꽃 -->
+    <symbol id="pl-mount-fuji" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gMountFuji)"/>
+      <path d="M46 10 a2.8 2.8 0 0 1 5 -1.2 a3.6 3.6 0 0 1 6.4 1.2 a2.1 2.1 0 0 1 0 4.2 h-10.4 a2.1 2.1 0 0 1 -1 -4.2z" fill="#fff"/>
+      <path d="M0 38 C12 33 20 22 26.4 13.4 Q32 11.6 37.6 13.4 C44 22 52 33 64 38Z" fill="url(#gMountFuji2)"/>
+      <path d="M32 12.3 Q35 12.5 37.6 13.4 C44 22 52 33 64 38 H44 C40 30 35.4 20 32 12.3Z" fill="#4A5C9E" opacity=".45"/>
+      <path d="M21.8 20 C23.6 17.6 25 15.6 26.4 13.4 Q32 11.6 37.6 13.4 C39 15.6 40.4 17.6 42.2 20 Q41.6 22 40.8 20.8 L39.6 19.6 Q39 23.8 38 22 L36.6 20 Q36 25 34.8 22.4 L33.4 20.4 Q32.6 24.6 31.6 21.8 L30.4 20 Q29.6 23.8 28.6 21.6 L27.4 19.8 Q26.6 22.8 25.6 21 L24.4 19.8 Q23.4 22.4 22.6 20.8Z" fill="#fff"/>
+      <path d="M32 12.3 Q35 12.5 37.6 13.4 C39 15.6 40.4 17.6 42.2 20 Q41.6 22 40.8 20.8 L39.6 19.6 Q39 23.8 38 22 L36.6 20 Q36 25 34.8 22.4 L33.6 20.6 C33.4 17.6 32.8 14.6 32 12.3Z" fill="#DCE4F4"/>
+      <rect y="37.5" width="64" height="8" fill="#7EC3EA"/>
+      <path d="M10 37.5 C20 39.4 26 42.4 29.6 44.2 Q32 44.8 34.4 44.2 C38 42.4 44 39.4 54 37.5Z" fill="#5568B0" opacity=".28"/>
+      <path d="M27.8 41.6 Q32 43.2 36.2 41.6 Q34 43.6 32 43.8 Q30 43.6 27.8 41.6Z" fill="#fff" opacity=".45"/>
+      <path d="M6 40 q3 -1.6 6 0 M44 41.4 q3 -1.6 6 0 M18 43.6 q2.4 -1.3 4.8 0" stroke="#fff" stroke-opacity=".7" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M0 50 V45 C14 43.6 28 44.6 40 44.8 C50 45 58 44 64 44.6 V50Z" fill="#8ACB69"/>
+      <path d="M8.4 46 C8.6 41 9 38 11.2 34.6 M8.8 40 C7 38.6 5.6 37.6 4 37.4" stroke="#8A5A3B" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <g fill="#F5A9C2"><circle cx="4.6" cy="31.4" r="4.4"/><circle cx="10.6" cy="29.6" r="4.2"/><circle cx="14" cy="33.6" r="3.4"/><circle cx="8" cy="35.4" r="3.6"/><circle cx="1.6" cy="36" r="3"/></g>
+      <g fill="#FBD3DF"><circle cx="3.4" cy="30" r="2"/><circle cx="9.6" cy="28" r="2"/><circle cx="13.2" cy="32.4" r="1.4"/><circle cx="7" cy="34.4" r="1.5"/></g>
+      <path d="M55.6 46 C55.4 41.6 55 39 53.2 36.2" stroke="#8A5A3B" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <g fill="#F5A9C2"><circle cx="58.4" cy="33.4" r="3.8"/><circle cx="53" cy="32.2" r="3.4"/><circle cx="62.6" cy="37" r="3"/><circle cx="56.4" cy="37.2" r="2.8"/></g>
+      <g fill="#FBD3DF"><circle cx="57.4" cy="32" r="1.7"/><circle cx="52.2" cy="31" r="1.4"/><circle cx="61.8" cy="35.8" r="1.2"/></g>
+      <g fill="#F5A9C2"><ellipse cx="19" cy="27" rx="1" ry=".6" transform="rotate(30 19 27)"/><ellipse cx="46.4" cy="26" rx="1" ry=".6" transform="rotate(-30 46.4 26)"/><ellipse cx="17.4" cy="35" rx=".9" ry=".55" transform="rotate(-20 17.4 35)"/><ellipse cx="48.6" cy="34" rx=".9" ry=".55" transform="rotate(20 48.6 34)"/></g>
+    </symbol>
+    <linearGradient id="gKyoto" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3EAF7"/><stop offset="1" stop-color="#FCEBD6"/></linearGradient>
+    <!-- 교토: 단풍 든 나무 사이의 오층탑 -->
+    <symbol id="pl-kyoto" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gKyoto)"/>
+      <path d="M6 12 a3 3 0 0 1 5.2 -1.4 a3.8 3.8 0 0 1 6.8 1.4 a2.2 2.2 0 0 1 0 4.4 h-11 a2.2 2.2 0 0 1 -1 -4.4z" fill="#fff"/>
+      <path d="M0 33 C8 27 16 26 24 29 C32 25 42 25 50 28 C56 26 60 27 64 29 V42 H0Z" fill="#AECCB6"/>
+      <path d="M7.6 42 V34 M56.4 42 V34.6" stroke="#7A4A2E" stroke-width="1.6" stroke-linecap="round"/>
+      <g fill="#E35B3B"><circle cx="5" cy="29" r="5"/><circle cx="11" cy="26.4" r="5"/><circle cx="14.2" cy="31.4" r="4.2"/><circle cx="8" cy="33.4" r="4.4"/><circle cx="1.2" cy="33" r="3.6"/></g>
+      <g fill="#F08A3C"><circle cx="4" cy="27.8" r="2.6"/><circle cx="10.4" cy="25" r="2.6"/><circle cx="13.6" cy="30.2" r="1.9"/><circle cx="7.4" cy="32.2" r="2"/></g>
+      <g fill="#F29A3A"><circle cx="59" cy="29.4" r="4.8"/><circle cx="53.2" cy="27" r="4.6"/><circle cx="50" cy="31.8" r="3.8"/><circle cx="56" cy="33.6" r="4.2"/><circle cx="63" cy="33.6" r="3.4"/></g>
+      <g fill="#F6C24E"><circle cx="58.2" cy="28" r="2.4"/><circle cx="52.4" cy="25.6" r="2.2"/><circle cx="49.6" cy="30.6" r="1.6"/><circle cx="55.4" cy="32.4" r="1.8"/></g>
+      <path d="M0 50 V41.4 C14 39.8 24 40.6 32 40.6 C42 40.6 52 39.6 64 40.8 V50Z" fill="#8FC66E"/>
+      <path d="M0 50 V45.4 C14 43.6 28 45 40 45 C50 45 58 44 64 44.8 V50Z" fill="#7BB65C"/>
+      <rect x="23" y="40.2" width="18" height="2.2" rx=".6" fill="#DCCDB4"/>
+      <rect x="23" y="41.6" width="18" height=".8" fill="#C4B293"/>
+      <path d="M32 12.4 V5.6" stroke="#D9A93F" stroke-width="1" stroke-linecap="round"/>
+      <path d="M30.8 10.6 h2.4 M30.8 9.4 h2.4 M30.8 8.2 h2.4 M30.8 7 h2.4" stroke="#D9A93F" stroke-width=".55" stroke-linecap="round"/>
+      <circle cx="32" cy="5.2" r=".9" fill="#E9BE55"/>
+      <g fill="#D5573D">
+      <rect x="26.6" y="35.2" width="10.8" height="5.4"/>
+      <rect x="27.1" y="29.8" width="9.8" height="2.8"/>
+      <rect x="27.5" y="24.7" width="9" height="2.6"/>
+      <rect x="27.9" y="19.9" width="8.2" height="2.4"/>
+      <rect x="28.3" y="15.4" width="7.4" height="2.2"/>
+      </g>
+      <g fill="#F4E6CC"><rect x="27.1" y="32" width="9.8" height=".6"/><rect x="27.5" y="26.7" width="9" height=".6"/><rect x="27.9" y="21.7" width="8.2" height=".6"/><rect x="28.3" y="17" width="7.4" height=".6"/></g>
+      <path d="M30.4 40.6 V37.6 a1.6 1.6 0 0 1 3.2 0 V40.6Z" fill="#6E3A2A"/>
+      <g fill="#4D5577">
+      <path d="M19.4 33.8 Q20.8 35.4 22.8 35.4 H41.2 Q43.2 35.4 44.6 33.8 L40.2 32.6 H23.8Z"/>
+      <path d="M20.4 28.4 Q21.8 30 23.8 30 H40.2 Q42.2 30 43.6 28.4 L39.2 27.2 H24.8Z"/>
+      <path d="M21.4 23.3 Q22.8 24.9 24.8 24.9 H39.2 Q41.2 24.9 42.6 23.3 L38.2 22.1 H25.8Z"/>
+      <path d="M22.4 18.5 Q23.8 20.1 25.8 20.1 H38.2 Q40.2 20.1 41.6 18.5 L37.2 17.3 H26.8Z"/>
+      <path d="M23.4 14 Q24.8 15.6 26.8 15.6 H37.2 Q39.2 15.6 40.6 14 L36.2 12.8 H27.8Z"/>
+      </g>
+      <g fill="#6E7799">
+      <path d="M23.8 32.6 H40.2 L41.6 33 H22.4Z"/><path d="M24.8 27.2 H39.2 L40.6 27.6 H23.4Z"/><path d="M25.8 22.1 H38.2 L39.6 22.5 H24.4Z"/><path d="M26.8 17.3 H37.2 L38.6 17.7 H25.4Z"/><path d="M27.8 12.8 H36.2 L37.6 13.2 H26.4Z"/>
+      </g>
+      <rect x="30.8" y="11.4" width="2.4" height="1.6" fill="#4D5577"/>
+      <g fill="#E35B3B"><ellipse cx="19" cy="12" rx="1.4" ry=".7" transform="rotate(35 19 12)"/><ellipse cx="47.4" cy="18.6" rx="1.4" ry=".7" transform="rotate(-30 47.4 18.6)"/><ellipse cx="14.6" cy="44.4" rx="1.3" ry=".65" transform="rotate(-10 14.6 44.4)"/></g>
+      <g fill="#F29A3A"><ellipse cx="45" cy="8.4" rx="1.4" ry=".7" transform="rotate(-40 45 8.4)"/><ellipse cx="17.6" cy="22.4" rx="1.3" ry=".65" transform="rotate(20 17.6 22.4)"/><ellipse cx="49.6" cy="45.2" rx="1.3" ry=".65" transform="rotate(15 49.6 45.2)"/></g>
+    </symbol>
+    <linearGradient id="gHokkaido" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9D9F0"/><stop offset="1" stop-color="#E2EFF8"/></linearGradient>
+    <!-- 홋카이도: 눈 내리는 벌판에서 날개를 펴고 춤추는 두루미 -->
+    <symbol id="pl-hokkaido" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gHokkaido)"/>
+      <path d="M0 31 C6 26 10 24 15 25 C20 26 24 28.4 30 27 C36 25.6 42 24.4 48 26 C54 27.4 58 25.6 64 27 V36 H0Z" fill="#EEF5FB"/>
+      <path d="M30 27 C36 25.6 42 24.4 48 26 C46 28 42 30 36 31 C33 30 31 28.6 30 27Z" fill="#D4E4F1"/>
+      <g fill="#3F7F63"><path d="M7 14 L2.4 24 H4.6 L0.6 32 H13.4 L9.4 24 H11.6Z"/><path d="M57 16 L52.4 26 H54.6 L50.6 34 H63.4 L59.4 26 H61.6Z"/></g>
+      <g fill="#fff"><path d="M7 14 L4.8 18.8 Q7 17.8 9.2 18.8Z"/><path d="M3.6 25.6 Q7 24 10.4 25.6 L11.6 28 Q7 26.4 2.4 28Z"/><path d="M57 16 L54.8 20.8 Q57 19.8 59.2 20.8Z"/><path d="M53.6 27.6 Q57 26 60.4 27.6 L61.6 30 Q57 28.4 52.4 30Z"/></g>
+      <path d="M0 35 C16 32.6 40 33 64 34.6 V50 H0Z" fill="#fff"/>
+      <path d="M0 43 C18 41 40 44 64 42 V50 H0Z" fill="#DCEAF5"/>
+      <ellipse cx="32" cy="41.6" rx="7" ry="1" fill="#9DB8D0" opacity=".55"/>
+      <path d="M30.4 30.6 L29.2 41.2 M33.4 30.6 L34.8 41 M27.6 41.4 H30.4 M33.6 41.2 H36.4" stroke="#3C4152" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M28.6 26.2 C24.6 22.6 20 17 15 10.6 C15.2 15 16.4 18.8 18.4 21.8 C20.8 25 24.4 27.6 27.8 28.8Z" fill="#fff"/>
+      <path d="M18.4 21.8 C20.8 25 24.4 27.6 27.8 28.8 L28 30.4 C24.6 29.8 21.4 28 19.4 25.6 C18.8 24.6 18.4 23.2 18.4 21.8Z" fill="#2B2F3D"/>
+      <path d="M32 25 C37 21 44 17.4 52.6 14 C50.6 17.6 48.8 19.6 46.8 21.2 C42.8 24.4 37.6 26.6 33.6 27.8Z" fill="#fff"/>
+      <path d="M46.8 21.2 C42.8 24.4 37.6 26.6 33.6 27.8 L34.2 29.4 C38.4 28.8 42.4 27 45.4 24.4 C46.4 23.4 46.8 22.4 46.8 21.2Z" fill="#2B2F3D"/>
+      <path d="M21 25.2 L20.2 26.6 M23.6 27.4 L23.2 28.8 M26.2 28.6 L26 30 M43.6 23.6 L44.6 24.8 M40.6 25.6 L41.2 27 M37.4 27 L37.8 28.4" stroke="#fff" stroke-opacity=".55" stroke-width=".35" stroke-linecap="round"/>
+      <ellipse cx="30.8" cy="28.2" rx="6.6" ry="3.6" transform="rotate(-12 30.8 28.2)" fill="#fff"/>
+      <path d="M25 28.4 C22.6 29.8 21.6 32 22.4 33.4 C24.2 32.2 26 31 27.4 30.8Z" fill="#2B2F3D"/>
+      <path d="M35.2 26.4 C37.8 23.2 37.4 18.6 39.2 15" stroke="#2B2F3D" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <path d="M34 25.6 C36.4 22.6 36 18.4 37.6 15.6" stroke="#fff" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <ellipse cx="39.6" cy="14.2" rx="2.1" ry="1.8" fill="#2B2F3D"/>
+      <ellipse cx="38.4" cy="14.8" rx=".9" ry="1" fill="#fff"/>
+      <ellipse cx="39.7" cy="12.8" rx="1.35" ry=".85" fill="#E5483B"/>
+      <path d="M41.4 13.6 L45.8 14.2 L41.4 15Z" fill="#C9B98A"/>
+      <circle cx="40.3" cy="14" r=".35" fill="#fff"/>
+      <g fill="#fff"><circle cx="9" cy="7" r=".9"/><circle cx="21" cy="5" r=".8"/><circle cx="27" cy="12" r=".7"/><circle cx="46" cy="6" r=".9"/><circle cx="57" cy="9" r=".8"/><circle cx="51" cy="24" r=".7"/><circle cx="14" cy="23" r=".7"/><circle cx="34" cy="6" r=".6"/></g>
+    </symbol>
+    <linearGradient id="gLakeBaikal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C6E3F5"/><stop offset="1" stop-color="#E9F5FB"/></linearGradient>
+    <linearGradient id="gLakeBaikal2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FE6EA"/><stop offset=".5" stop-color="#55C3DA"/><stop offset="1" stop-color="#2D96C6"/></linearGradient>
+    <!-- 바이칼호: 맑고 푸른 얼음 위에 누운 바이칼물범(네르파) -->
+    <symbol id="pl-lake-baikal" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gLakeBaikal)"/>
+      <path d="M0 27 L8 19 L13 22 L20 15 L27 21 L33 17 L40 22 L47 16 L54 21 L60 18 L64 21 V29 H0Z" fill="#A4B7DC"/>
+      <g fill="#fff"><path d="M17.6 17.4 L20 15 L22.6 17.6 L21.2 18.4 L20 17.4 L18.8 18.4Z"/><path d="M44.6 18.4 L47 16 L49.6 18.6 L48.2 19.4 L47 18.4 L45.8 19.4Z"/><path d="M31.2 18.8 L33 17 L35 18.6 L33.8 19.2 L33 18.6 L32.2 19.4Z"/><path d="M6.6 20.4 L8 19 L9.6 20 L8.6 20.8 L8 20.2 L7.4 21Z"/></g>
+      <path d="M0 29 C10 26 20 27.4 30 27 C42 26.6 54 26 64 28 V30 H0Z" fill="#7F98C4"/>
+      <rect y="29" width="64" height="21" fill="url(#gLakeBaikal2)"/>
+      <path d="M22 29 H26 L19 50 H15Z M45 29 H47.6 L43 50 H40.4Z M50 29 H51.2 L48.6 50 H47.4Z" fill="#fff" opacity=".16"/>
+      <path d="M0 29.6 C16 28.6 48 28.6 64 29.6" stroke="#E4FBFB" stroke-width=".8" fill="none"/>
+      <path d="M1 35.6 L8 34.4 L13 36.6 L21 35 M8 34.4 L9.6 32 M44 32.6 L50 34.6 L57 33 L63 35.4 M50 34.6 L49 37.2 M4 46 L12 43.6 L18 46.4 L26 44.2 M12 43.6 L13 41.2 M38 46.6 L46 44 L53 46.6 L62 44.4 M53 46.6 L54.4 49" stroke="#fff" stroke-opacity=".75" stroke-width=".6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+      <g fill="#fff" opacity=".7"><circle cx="17" cy="40.6" r=".9"/><circle cx="18.2" cy="42.2" r=".6"/><circle cx="16.4" cy="43.2" r=".45"/><circle cx="49" cy="40.4" r=".8"/><circle cx="50.4" cy="41.6" r=".55"/><circle cx="48.6" cy="42.4" r=".4"/></g>
+      <path d="M-1 36 L2 29.4 L5.4 31.2 L7.8 27.6 L11.8 36Z" fill="#BFF2F2"/>
+      <path d="M7.8 27.6 L11.8 36 H7.4 L6.4 31Z" fill="#8ADBE3"/>
+      <path d="M2 29.4 L3.2 33.4 L5.4 31.2Z" fill="#E4FBFB"/>
+      <path d="M52.6 36 L55.6 28.6 L58.4 30.8 L61 27.4 L65 36Z" fill="#BFF2F2"/>
+      <path d="M61 27.4 L65 36 H60.6 L59.6 31Z" fill="#8ADBE3"/>
+      <path d="M55.6 28.6 L56.6 32.6 L58.4 30.8Z" fill="#E4FBFB"/>
+      <ellipse cx="31" cy="39" rx="11.4" ry="1.4" fill="#1E6E9A" opacity=".25"/>
+      <path d="M19.6 33.6 C17 31.6 14.6 31.4 13.2 32.2 C14.6 33.6 15.6 34.6 16 35.6 C15.2 36.6 14.8 37.6 15 38.4 C16.8 38.2 18.8 37 20.2 35.8Z" fill="#646E84"/>
+      <ellipse cx="29" cy="34.4" rx="10.6" ry="4.8" fill="#77819A"/>
+      <ellipse cx="30" cy="36.6" rx="8" ry="2.3" fill="#B6BFCE"/>
+      <ellipse cx="34.6" cy="37.6" rx="2.6" ry="1.1" transform="rotate(15 34.6 37.6)" fill="#646E84"/>
+      <circle cx="40" cy="27.8" r="6" fill="#7E89A2"/>
+      <ellipse cx="38" cy="24.2" rx="2" ry="1" transform="rotate(-25 38 24.2)" fill="#fff" opacity=".3"/>
+      <ellipse cx="40.4" cy="30.4" rx="2.8" ry="1.9" fill="#B6BFCE"/>
+      <g fill="#14223F"><ellipse cx="37.6" cy="27" rx="1.25" ry="1.45"/><ellipse cx="42.8" cy="27" rx="1.25" ry="1.45"/></g>
+      <g fill="#fff"><circle cx="38" cy="26.5" r=".45"/><circle cx="43.2" cy="26.5" r=".45"/></g>
+      <ellipse cx="40.4" cy="29.4" rx=".9" ry=".6" fill="#2B2F3D"/>
+      <path d="M39.4 30.8 q1 .8 2 0" stroke="#4A5062" stroke-width=".5" fill="none" stroke-linecap="round"/>
+      <path d="M37.6 30.2 L34.6 29.6 M37.6 31 L34.8 31.4 M43.2 30.2 L46.2 29.6 M43.2 31 L46 31.4" stroke="#fff" stroke-opacity=".85" stroke-width=".35" stroke-linecap="round"/>
+      <g fill="#FF9DB0" opacity=".55"><ellipse cx="36.2" cy="29.8" rx=".9" ry=".5"/><ellipse cx="44.6" cy="29.8" rx=".9" ry=".5"/></g>
+    </symbol>
+    <linearGradient id="gGobiDesert" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C6E4F6"/><stop offset="1" stop-color="#F8EBD3"/></linearGradient>
+    <linearGradient id="gGobiDesert2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EED9A8"/><stop offset="1" stop-color="#E2C185"/></linearGradient>
+    <!-- 고비 사막: 붉은 절벽 앞 자갈 벌판의 쌍봉낙타, 발치에 공룡알 -->
+    <symbol id="pl-gobi-desert" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gGobiDesert)"/>
+      <circle cx="12" cy="10" r="4.5" fill="#FFE39A"/>
+      <path d="M0 31 V24 L4 23.4 L6 21.6 L13 21.4 L15 23.6 L19 24.2 V31Z" fill="#E0875A"/>
+      <path d="M44 31 V22.6 L47 22 L49 20 L57 20.2 L59 22.4 L64 23 V31Z" fill="#E0875A"/>
+      <path d="M0 26 H19 M0 28.4 H19 M44 25 H64 M44 27.6 H64" stroke="#C96F47" stroke-width=".8"/>
+      <path d="M0 31 C16 29.6 40 30 64 30.6 V50 H0Z" fill="url(#gGobiDesert2)"/>
+      <g fill="#C9A36A"><circle cx="6" cy="34" r=".6"/><circle cx="18" cy="36" r=".5"/><circle cx="50" cy="35" r=".6"/><circle cx="58" cy="42" r=".7"/><circle cx="24" cy="46" r=".6"/><circle cx="44" cy="46.6" r=".5"/><circle cx="4" cy="44" r=".6"/><circle cx="36" cy="44.4" r=".45"/></g>
+      <path d="M7 37 l.6 -2 M8.2 37 l0 -2.2 M9.4 37 l-.6 -2 M54.6 39 l.6 -2 M55.8 39 l0 -2.2 M57 39 l-.6 -2" stroke="#9DB25E" stroke-width=".8" stroke-linecap="round"/>
+      <ellipse cx="31" cy="41.4" rx="11" ry="1.3" fill="#A57A44" opacity=".3"/>
+      <path d="M23.6 31 L23 36 L23.4 40.6 M35.8 31 L35.4 36 L35.8 40.6" stroke="#A87650" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M26.4 31 L26 36 L26.6 41 M38.4 31 L38.8 36 L38.4 41" stroke="#C08A5C" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21.2 27.4 C19.8 28.6 19.6 31 20.2 32.6" stroke="#8F5F3B" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <ellipse cx="20.2" cy="33" rx=".8" ry="1.2" fill="#8F5F3B"/>
+      <path d="M21.6 26.4 C21.4 20.2 30 18.6 30.2 25.6Z" fill="#C08A5C"/>
+      <path d="M30.2 25.6 C30.4 18.8 39 20 38.8 26.6Z" fill="#C08A5C"/>
+      <ellipse cx="31" cy="28" rx="10" ry="5.2" fill="#C08A5C"/>
+      <ellipse cx="31" cy="30.6" rx="7" ry="2.2" fill="#D5A677"/>
+      <path d="M22.6 22 C23.6 19.6 27.6 19 29 21.4 L28 22 L27 21.2 L26 22.2 L25 21.4 L24 22.4Z" fill="#8F5F3B"/>
+      <path d="M31.4 21.8 C32.6 19.4 36.6 19.6 37.6 22.2 L36.6 22.6 L35.6 21.8 L34.6 22.8 L33.6 22 L32.6 22.8Z" fill="#8F5F3B"/>
+      <path d="M38.6 24.2 C41.4 24.6 43.2 23.4 44.4 20.4 L47.6 20.6 C47.4 25 45.4 28.6 41 30.4Z" fill="#C08A5C"/>
+      <path d="M47.4 23 C47 26 45.4 28.6 41.6 30.4 L43 31.2 L43.4 30 L44.4 30.2 L44.6 28.8 L45.6 28.6 L45.6 27.2 L46.6 26.6 L46.6 25.2 L47.6 24.6Z" fill="#8F5F3B"/>
+      <path d="M37 30.6 C37 32.6 37.4 34 37.8 34.4 L38.4 33.8 L39 34.6 L39.6 33.8 L40.2 34.2 C40.2 32.6 40 31.4 39.8 30.4Z" fill="#8F5F3B"/>
+      <ellipse cx="45.6" cy="16.4" rx=".7" ry="1.2" transform="rotate(-20 45.6 16.4)" fill="#A87650"/>
+      <ellipse cx="47.8" cy="18.8" rx="3.6" ry="2.3" transform="rotate(12 47.8 18.8)" fill="#C69262"/>
+      <ellipse cx="50.6" cy="19.9" rx="1.8" ry="1.5" fill="#D9AC7C"/>
+      <circle cx="47.6" cy="17.9" r=".6" fill="#14223F"/>
+      <path d="M51.6 19.3 l.5 .3 M50.4 20.9 q.8 .3 1.4 -.1" stroke="#6E4A2E" stroke-width=".45" fill="none" stroke-linecap="round"/>
+      <g fill="#8F5F3B"><ellipse cx="23.4" cy="40.8" rx="1.3" ry=".55"/><ellipse cx="26.8" cy="41.2" rx="1.3" ry=".55"/><ellipse cx="35.9" cy="40.8" rx="1.3" ry=".55"/><ellipse cx="38.6" cy="41.2" rx="1.3" ry=".55"/></g>
+      <ellipse cx="13.4" cy="42.6" rx="4.8" ry="1.7" fill="#C9A36A"/>
+      <g fill="#F6EEDC"><ellipse cx="11.2" cy="40.6" rx="1.5" ry="2" transform="rotate(-15 11.2 40.6)"/><ellipse cx="15.6" cy="40.8" rx="1.4" ry="1.9" transform="rotate(15 15.6 40.8)"/><ellipse cx="13.4" cy="40.2" rx="1.5" ry="2.1"/></g>
+      <g fill="#B89A72"><circle cx="13" cy="39.4" r=".3"/><circle cx="13.9" cy="40.6" r=".25"/><circle cx="11" cy="40" r=".25"/><circle cx="15.8" cy="40.2" r=".25"/></g>
+      <path d="M8.8 42.4 C10.6 43.6 16.2 43.6 18 42.4 C17.2 44 9.6 44 8.8 42.4Z" fill="#B38C55"/>
+    </symbol>
+    <linearGradient id="gTajMahal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6B98A"/><stop offset="1" stop-color="#F9DDB8"/></linearGradient>
+    <linearGradient id="gTajMahal2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#FAF5F8"/><stop offset="1" stop-color="#C9B6DC"/></linearGradient>
+    <symbol id="pl-taj-mahal" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gTajMahal)"/>
+      <path d="M2 7 a2.4 2.4 0 0 1 4.2 -1 a3.1 3.1 0 0 1 5.6 1 a1.8 1.8 0 0 1 0 3.6 h-9 a1.8 1.8 0 0 1 -.8 -3.6z" fill="#fff" opacity=".85"/>
+      <path d="M52 6.4 a2 2 0 0 1 3.6 -.8 a2.6 2.6 0 0 1 4.6 .8 a1.5 1.5 0 0 1 0 3 h-7.4 a1.5 1.5 0 0 1 -.8 -3z" fill="#fff" opacity=".75"/>
+      <g fill="#7FB463"><path d="M0 37 C3 33 7 33 9.5 37Z"/><path d="M54.5 37 C57 33 61 33 64 37Z"/></g>
+      <rect x="12.2" y="15.4" width="2.6" height="20.6" fill="#FBF7F9"/><rect x="13.8" y="15.4" width="1" height="20.6" fill="#D2C2DE"/>
+      <rect x="49.2" y="15.4" width="2.6" height="20.6" fill="#FBF7F9"/><rect x="50.8" y="15.4" width="1" height="20.6" fill="#D2C2DE"/>
+      <g fill="#CDBCDA"><rect x="11.8" y="21.4" width="3.4" height=".9" rx=".4"/><rect x="11.8" y="28" width="3.4" height=".9" rx=".4"/><rect x="48.8" y="21.4" width="3.4" height=".9" rx=".4"/><rect x="48.8" y="28" width="3.4" height=".9" rx=".4"/></g>
+      <path d="M11.6 15.6 C11.6 13.4 12.6 12.4 13.5 11.6 C14.4 12.4 15.4 13.4 15.4 15.6Z" fill="#FFFFFF"/>
+      <path d="M13.5 11.6 C14.4 12.4 15.4 13.4 15.4 15.6 H14.2 C14.2 13.8 14 12.6 13.5 11.6Z" fill="#D2C2DE"/>
+      <path d="M48.6 15.6 C48.6 13.4 49.6 12.4 50.5 11.6 C51.4 12.4 52.4 13.4 52.4 15.6Z" fill="#FFFFFF"/>
+      <path d="M50.5 11.6 C51.4 12.4 52.4 13.4 52.4 15.6 H51.2 C51.2 13.8 51 12.6 50.5 11.6Z" fill="#D2C2DE"/>
+      <g fill="#E9B949"><circle cx="13.5" cy="11.2" r=".6"/><circle cx="50.5" cy="11.2" r=".6"/></g>
+      <rect x="21" y="22.6" width="22" height="13.4" fill="#FDFAF8"/>
+      <rect x="37.6" y="22.6" width="5.4" height="13.4" fill="#DDCFE4"/>
+      <rect x="20.4" y="22" width="23.2" height="1.2" rx=".5" fill="#E8DDEA"/>
+      <path d="M28.6 36 V28.4 C28.6 26.4 30.4 25.2 32 24.2 C33.6 25.2 35.4 26.4 35.4 28.4 V36Z" fill="#C6B6DD"/>
+      <path d="M29.8 36 V29 C29.8 27.8 31 26.9 32 26.2 C33 26.9 34.2 27.8 34.2 29 V36Z" fill="#7F86C6"/>
+      <g fill="#D3C6E2">
+      <path d="M22.6 29 V26.4 a1.4 1.4 0 0 1 2.8 0 V29Z"/><path d="M22.6 34.6 V32 a1.4 1.4 0 0 1 2.8 0 V34.6Z"/>
+      </g>
+      <g fill="#C2B2D7">
+      <path d="M38.6 29 V26.4 a1.4 1.4 0 0 1 2.8 0 V29Z"/><path d="M38.6 34.6 V32 a1.4 1.4 0 0 1 2.8 0 V34.6Z"/>
+      </g>
+      <rect x="20.6" y="20" width="3.2" height="2.2" fill="#FBF7F9"/><rect x="40.2" y="20" width="3.2" height="2.2" fill="#DDCFE4"/>
+      <path d="M20.2 20.2 C20.2 18.2 21.2 17.2 22.2 16.6 C23.2 17.2 24.2 18.2 24.2 20.2Z" fill="#FFFFFF"/>
+      <path d="M39.8 20.2 C39.8 18.2 40.8 17.2 41.8 16.6 C42.8 17.2 43.8 18.2 43.8 20.2Z" fill="#DDCFE4"/>
+      <rect x="26" y="19.6" width="12" height="2.8" fill="#F6F0F5"/><rect x="35" y="19.6" width="3" height="2.8" fill="#DDCFE4"/>
+      <path d="M25.8 20 C23.2 16.6 24.6 12.4 28.6 10.4 C30.4 9.5 31.5 8.2 32 6.6 C32.5 8.2 33.6 9.5 35.4 10.4 C39.4 12.4 40.8 16.6 38.2 20Z" fill="url(#gTajMahal2)"/>
+      <ellipse cx="28.6" cy="14" rx="1.4" ry="2.6" transform="rotate(20 28.6 14)" fill="#fff"/>
+      <path d="M32 6.8 V4" stroke="#C99A3B" stroke-width=".8" stroke-linecap="round"/>
+      <g fill="#E9B949"><circle cx="32" cy="3.8" r=".75"/><circle cx="22.2" cy="16.3" r=".5"/><circle cx="41.8" cy="16.3" r=".5"/></g>
+      <rect x="9" y="35.6" width="46" height="2.6" fill="#E9DFEA"/>
+      <rect x="9" y="37.6" width="46" height=".8" fill="#C4B2D4"/>
+      <path d="M0 38.2 H64 V50 H0Z" fill="#8ACB69"/>
+      <path d="M29.6 38.4 H34.4 L36.8 50 H27.2Z" fill="#4FA8DE"/>
+      <path d="M31 39.6 H33 L33.6 47 H30.4Z" fill="#fff" opacity=".4"/>
+      <path d="M29.6 38.4 L27.2 50 M34.4 38.4 L36.8 50" stroke="#E4D9E6" stroke-width="1"/>
+      <g fill="#4E9F5A">
+      <path d="M24.4 39 C25.6 40.4 25.8 42.4 24.4 44 C23 42.4 23.2 40.4 24.4 39Z"/><path d="M39.6 39 C40.8 40.4 41 42.4 39.6 44 C38.2 42.4 38.4 40.4 39.6 39Z"/>
+      <path d="M21.6 42 C23 43.6 23.2 46 21.6 47.8 C20 46 20.2 43.6 21.6 42Z"/><path d="M42.4 42 C44 43.6 44.2 46 42.4 47.8 C40.8 46 41 43.6 42.4 42Z"/>
+      </g>
+      <path d="M0 44 C8 43 14 44.6 19 46 V50 H0Z M64 44 C56 43 50 44.6 45 46 V50 H64Z" fill="#74B85A"/>
+    </symbol>
+    <linearGradient id="gAngkorWat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8CCC2"/><stop offset="1" stop-color="#FFEAB4"/></linearGradient>
+    <linearGradient id="gAngkorWat2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2CDA8"/><stop offset=".35" stop-color="#9CC9CF"/><stop offset="1" stop-color="#5FA6C4"/></linearGradient>
+    <symbol id="pl-angkor-wat" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gAngkorWat)"/>
+      <circle cx="32" cy="21" r="10.5" fill="#FFF3C2" opacity=".75"/>
+      <circle cx="32" cy="21" r="7.6" fill="#FFD66E"/>
+      <path d="M12 8 q1.3 -1.4 2.6 0 q1.3 -1.4 2.6 0 M17.6 11.4 q1 -1.1 2 0 q1 -1.1 2 0" stroke="#8A6A78" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <g fill="#93786A">
+      <path d="M14.9 27.4C14.7 24.52 15.6 21.01 17.4 18.4C19.2 21.01 20.1 24.52 19.9 27.4Z"/>
+      <path d="M44.1 27.4C43.9 24.52 44.8 21.01 46.6 18.4C48.4 21.01 49.3 24.52 49.1 27.4Z"/>
+      <path d="M21.7 25.2C21.5 21.49 22.51 16.96 24.6 13.6C26.69 16.96 27.7 21.49 27.5 25.2Z"/>
+      <path d="M36.5 25.2C36.3 21.49 37.31 16.96 39.4 13.6C41.49 16.96 42.5 21.49 42.3 25.2Z"/>
+      <path d="M28.4 23.6C28.2 18.48 29.41 12.24 32 7.6C34.59 12.24 35.8 18.48 35.6 23.6Z"/>
+      </g>
+      <g fill="#7B6356">
+      <path d="M17.4 18.4C19.2 21.01 20.1 24.52 19.9 27.4H17.4Z"/>
+      <path d="M46.6 18.4C48.4 21.01 49.3 24.52 49.1 27.4H46.6Z"/>
+      <path d="M24.6 13.6C26.69 16.96 27.7 21.49 27.5 25.2H24.6Z"/>
+      <path d="M39.4 13.6C41.49 16.96 42.5 21.49 42.3 25.2H39.4Z"/>
+      <path d="M32 7.6C34.59 12.24 35.8 18.48 35.6 23.6H32Z"/>
+      </g>
+      <path d="M15.16 25.6H19.64M15.41 23.8H19.39M15.83 22.18H18.97M44.36 25.6H48.84M44.61 23.8H48.59M45.03 22.18H48.17M21.98 22.88H27.22M22.27 20.56H26.93M22.75 18.47H26.45M23.41 16.5H25.79M36.78 22.88H42.02M37.07 20.56H41.73M37.55 18.47H41.25M38.21 16.5H40.59M28.7 20.4H35.3M29.07 17.2H34.93M29.66 14.32H34.34M30.47 11.6H33.53" stroke="#B49A8A" stroke-width=".7"/>
+      <rect x="20.5" y="24.8" width="23" height="3.6" fill="#93786A"/>
+      <rect x="13" y="27.2" width="38" height="3.8" fill="#8A7063"/>
+      <rect x="5" y="30.4" width="54" height="4.2" fill="#93786A"/>
+      <path d="M20 24.8 H44 M12.6 27.2 H51.4 M4.6 30.4 H59.4" stroke="#B49A8A" stroke-width=".8"/>
+      <g fill="#634E44">
+      <rect x="23" y="26" width="1.2" height="1.8" rx=".5"/><rect x="26.4" y="26" width="1.2" height="1.8" rx=".5"/><rect x="36.4" y="26" width="1.2" height="1.8" rx=".5"/><rect x="39.8" y="26" width="1.2" height="1.8" rx=".5"/>
+      <rect x="15.4" y="28.4" width="1.2" height="2" rx=".5"/><rect x="19" y="28.4" width="1.2" height="2" rx=".5"/><rect x="43.8" y="28.4" width="1.2" height="2" rx=".5"/><rect x="47.4" y="28.4" width="1.2" height="2" rx=".5"/>
+      <rect x="7.4" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="11" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="14.6" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="18.2" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="21.8" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="25.4" y="31.8" width="1.3" height="2.4" rx=".5"/>
+      <rect x="37.3" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="40.9" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="44.5" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="48.1" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="51.7" y="31.8" width="1.3" height="2.4" rx=".5"/><rect x="55.3" y="31.8" width="1.3" height="2.4" rx=".5"/>
+      <path d="M30 34.6 V32.4 a2 2 0 0 1 4 0 V34.6Z"/>
+      </g>
+      <path d="M5.6 34.6 L6.4 15.6" stroke="#6B4A2A" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M58.4 34.6 L57.6 17.4" stroke="#6B4A2A" stroke-width="1.1" stroke-linecap="round"/>
+      <g fill="#4F9A4E">
+      <path d="M6.4 15.6 C3.6 13.4 1.4 14 0 15.6 C2.6 14.6 4.6 15 6.4 15.6Z M6.4 15.6 C8.6 13 11.2 12.8 12.8 14.6 C10.2 14 8.2 14.6 6.4 15.6Z M6.4 15.6 C5 12.6 5.6 10.2 7.6 9.2 C6.6 11.4 6.4 13.4 6.4 15.6Z M6.4 15.6 C3.4 16 1.6 17.8 1.4 20 C3 18 4.6 16.6 6.4 15.6Z M6.4 15.6 C9.4 15.8 11.4 17.4 11.8 19.6 C10 17.6 8.4 16.4 6.4 15.6Z"/>
+      <path d="M57.6 17.4 C54.8 15.2 52.6 15.8 51.2 17.4 C53.8 16.4 55.8 16.8 57.6 17.4Z M57.6 17.4 C59.8 14.8 62.4 14.6 64 16.4 C61.4 15.8 59.4 16.4 57.6 17.4Z M57.6 17.4 C56.2 14.4 56.8 12 58.8 11 C57.8 13.2 57.6 15.2 57.6 17.4Z M57.6 17.4 C54.6 17.8 52.8 19.6 52.6 21.8 C54.2 19.8 55.8 18.4 57.6 17.4Z M57.6 17.4 C60.6 17.6 62.6 19.2 63 21.4 C61.2 19.4 59.6 18.2 57.6 17.4Z"/>
+      </g>
+      <rect y="34.4" width="64" height="15.6" fill="url(#gAngkorWat2)"/>
+      <g fill="#7B6356" opacity=".28">
+      <rect x="5" y="34.4" width="54" height="3"/>
+      <path d="M28.6 37.4 C28.6 40.6 30 43.4 32 45.4 C34 43.4 35.4 40.6 35.4 37.4Z"/>
+      <path d="M21.9 37.4 C21.9 39.6 23 41.4 24.6 42.6 C26.2 41.4 27.3 39.6 27.3 37.4Z"/>
+      <path d="M36.7 37.4 C36.7 39.6 37.8 41.4 39.4 42.6 C41 41.4 42.1 39.6 42.1 37.4Z"/>
+      </g>
+      <path d="M8 39.4 q3 -1.6 6 0 M48 40 q3 -1.6 6 0 M18 46.6 q3 -1.6 6 0" stroke="#fff" stroke-opacity=".7" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <g fill="#6DB25A"><ellipse cx="10" cy="45" rx="3.4" ry="1.3"/><ellipse cx="46" cy="47" rx="3.8" ry="1.4"/><ellipse cx="55" cy="43.6" rx="2.6" ry="1"/></g>
+      <g fill="#FF9DB4"><path d="M12.4 44.6 C11.6 42.6 12 41.2 13.2 40.6 C14.4 41.2 14.8 42.6 14 44.6Z"/><path d="M12.6 44.6 C11 44.2 10.4 43 10.6 42.2 C11.8 42.4 12.6 43.2 13.2 44.6Z M13.8 44.6 C15.4 44.2 16 43 15.8 42.2 C14.6 42.4 13.8 43.2 13.2 44.6Z"/></g>
+      <g fill="#FF9DB4"><path d="M48.4 46.6 C47.6 44.6 48 43.2 49.2 42.6 C50.4 43.2 50.8 44.6 50 46.6Z"/><path d="M48.6 46.6 C47 46.2 46.4 45 46.6 44.2 C47.8 44.4 48.6 45.2 49.2 46.6Z M49.8 46.6 C51.4 46.2 52 45 51.8 44.2 C50.6 44.4 49.8 45.2 49.2 46.6Z"/></g>
+    </symbol>
+    <linearGradient id="gParis" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CBE4FA"/><stop offset="1" stop-color="#EEF4FC"/></linearGradient>
+    <symbol id="pl-paris" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gParis)"/>
+      <path d="M5 13 a3.5 3.5 0 0 1 6 -1.6 a4.5 4.5 0 0 1 8 1.6 a2.6 2.6 0 0 1 0 5.2 h-13 a2.6 2.6 0 0 1 -1 -5.2z" fill="#fff"/>
+      <path d="M46 9 a2.8 2.8 0 0 1 5 -1.2 a3.6 3.6 0 0 1 6.4 1.2 a2.1 2.1 0 0 1 0 4.2 h-10.4 a2.1 2.1 0 0 1 -1 -4.2z" fill="#fff"/>
+      <path d="M0 38 V32 L2 30 H8 L10 32 V30.6 L12 28.6 H17 L19 30.6 V38Z M45 38 V31 L47 29 H53 L55 31 V29.6 L57 27.6 H62 L64 29.6 V38Z" fill="#C3C8E6"/>
+      <path d="M0 32 L2 30 H8 L10 32Z M10 30.6 L12 28.6 H17 L19 30.6Z M45 31 L47 29 H53 L55 31Z M55 29.6 L57 27.6 H62 L64 29.6Z" fill="#9CA6CF"/>
+      <g fill="#EEF0F8"><rect x="2.4" y="33" width="1.4" height="1.8"/><rect x="6" y="33" width="1.4" height="1.8"/><rect x="12.6" y="32" width="1.4" height="1.8"/><rect x="15.6" y="32" width="1.4" height="1.8"/><rect x="47.4" y="32.4" width="1.4" height="1.8"/><rect x="51" y="32.4" width="1.4" height="1.8"/><rect x="57.6" y="31" width="1.4" height="1.8"/><rect x="60.6" y="31" width="1.4" height="1.8"/></g>
+      <path d="M19 41 C22.4 36 25 31.4 26.6 27.6 H37.4 C39 31.4 41.6 36 45 41 H40.6 C39.8 36.4 36.4 33.2 32 33.2 C27.6 33.2 24.2 36.4 23.4 41Z" fill="#A26A45"/>
+      <path d="M32 27.6 H37.4 C39 31.4 41.6 36 45 41 H40.6 C39.8 36.4 36.4 33.2 32 33.2Z" fill="#8A5636"/>
+      <path d="M27.4 26 C28.2 22.6 29 20.2 29.7 18.6 H34.3 C35 20.2 35.8 22.6 36.6 26Z" fill="#A26A45"/>
+      <path d="M32 18.6 H34.3 C35 20.2 35.8 22.6 36.6 26 H32Z" fill="#8A5636"/>
+      <path d="M30.2 17.6 L31.3 9.4 H32.7 L33.8 17.6Z" fill="#A26A45"/>
+      <path d="M32 9.4 H32.7 L33.8 17.6 H32Z" fill="#8A5636"/>
+      <g stroke="#C9936A" stroke-width=".55" fill="none" opacity=".9">
+      <path d="M22.4 38.4 L26.4 34 M25.2 33.6 L28.2 29.2 M41.6 38.4 L37.6 34 M38.8 33.6 L35.8 29.2"/>
+      <path d="M28.8 24.6 L32 20.4 L35.2 24.6 M31 16.4 L32 12.6 L33 16.4"/>
+      </g>
+      <rect x="24.8" y="25.8" width="14.4" height="2.1" rx=".5" fill="#7A4A2E"/>
+      <rect x="28.6" y="17.4" width="6.8" height="1.5" rx=".5" fill="#7A4A2E"/>
+      <rect x="30.7" y="8.4" width="2.6" height="1.3" rx=".5" fill="#7A4A2E"/>
+      <path d="M32 8.4 V4.6" stroke="#7A4A2E" stroke-width=".8" stroke-linecap="round"/>
+      <circle cx="32" cy="4.3" r=".6" fill="#F4C84E"/>
+      <path d="M0 50 V40.6 C10 39.6 20 40.2 32 40.2 C44 40.2 54 39.6 64 40.6 V50Z" fill="#8ACB69"/>
+      <path d="M27 40.4 H37 L42 50 H22Z" fill="#F1E2C2"/>
+      <g fill="#5FAE5A"><circle cx="9" cy="39" r="3.6"/><circle cx="14.6" cy="40" r="3"/><circle cx="55" cy="39" r="3.6"/><circle cx="49.4" cy="40" r="3"/></g>
+      <g fill="#4E9A4E"><circle cx="10.6" cy="40.4" r="2.2"/><circle cx="53.4" cy="40.4" r="2.2"/></g>
+      <path d="M0 50 V45 C8 44 16 44.6 20 46 L18.6 50Z M64 50 V45 C56 44 48 44.6 44 46 L45.4 50Z" fill="#74B85A"/>
+      <g fill="#FF8FA6"><circle cx="6" cy="47" r=".8"/><circle cx="10" cy="48.4" r=".8"/><circle cx="54" cy="48.4" r=".8"/><circle cx="58" cy="47" r=".8"/></g>
+    </symbol>
+    <linearGradient id="gRome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE1F5"/><stop offset="1" stop-color="#FBEACB"/></linearGradient>
+    <linearGradient id="gRome2" x1="9" y1="0" x2="55" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#DCAE76"/><stop offset=".35" stop-color="#F3D29F"/><stop offset=".7" stop-color="#EBC38B"/><stop offset="1" stop-color="#D19E62"/></linearGradient>
+    <symbol id="pl-rome" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gRome)"/>
+      <circle cx="52" cy="9" r="4.5" fill="#FFE39A"/>
+      <path d="M4 38 C4.6 30 5.4 23 7 16.6 M60 38 C59.4 30 58.6 23 57 16.6" stroke="#7A5230" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <g fill="#4F8F4A"><path d="M-1 17 C-1 13 4 11 8 11.6 C11 10.6 15 12 15 15.4 C15 17.4 12 18 7 18 C2 18 -1 18.4 -1 17Z"/><path d="M65 17 C65 13 60 11 56 11.6 C53 10.6 49 12 49 15.4 C49 17.4 52 18 57 18 C62 18 65 18.4 65 17Z"/></g>
+      <path d="M1 14.4 C3 12.4 6 12 8.4 12.6 C10.4 12 12.6 12.6 13.6 14" stroke="#6CAB5C" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M63 14.4 C61 12.4 58 12 55.6 12.6 C53.6 12 51.4 12.6 50.4 14" stroke="#6CAB5C" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M0 37.4 C14 36.2 50 36.2 64 37.4 V50 H0Z" fill="#9CCB6E"/>
+      <ellipse cx="32" cy="18" rx="23" ry="5" fill="#C99760"/>
+      <path d="M44 20 L55 18 V31 H44Z" fill="#C99760"/>
+      <path d="M45 24.4 C48 23.6 51 22.6 54.6 21.6 M45 27.4 C48 26.6 51 25.6 54.6 24.6 M49 29.6 C51 29 53 28.4 54.6 27.6" stroke="#B4834E" stroke-width=".8" fill="none"/>
+      <path d="M9.37 19.42V18.22a0.42 0.42 0 0 1 0.84 0V19.42ZM11.51 18.6V17.18a0.57 0.57 0 0 1 1.15 0V18.6ZM15.03 17.9V16.27a0.71 0.71 0 0 1 1.42 0V17.9ZM19.69 17.36V15.58a0.81 0.81 0 0 1 1.63 0V17.36ZM25.17 17.02V15.15a0.88 0.88 0 0 1 1.76 0V17.02ZM31.1 16.9V15a0.9 0.9 0 0 1 1.8 0V16.9ZM37.07 17.02V15.15a0.88 0.88 0 0 1 1.76 0V17.02ZM42.69 17.36V15.58a0.81 0.81 0 0 1 1.63 0V17.36ZM47.55 17.9V16.27a0.71 0.71 0 0 1 1.42 0V17.9ZM51.34 18.6V17.18a0.57 0.57 0 0 1 1.15 0V18.6ZM53.8 19.42V18.22a0.42 0.42 0 0 1 0.84 0V19.42Z" fill="#A87843"/>
+      <path d="M9 18 V36 A23 5 0 0 0 55 36 V30 H53 V27.6 H50.5 V25.4 H48 V23.4 H46 L45.98 21.97 A23 5 0 0 1 9 18Z" fill="url(#gRome2)"/>
+      <path d="M9.81 28.17V25.16a0.69 0.69 0 0 1 1.37 0V28.17ZM12.18 29.24V26.43a0.89 0.89 0 0 1 1.78 0V29.24ZM15.69 30.14V27.5a1.06 1.06 0 0 1 2.12 0V30.14ZM20.12 30.83V28.32a1.19 1.19 0 0 1 2.38 0V30.83ZM25.22 31.25V28.83a1.27 1.27 0 0 1 2.54 0V31.25ZM30.7 31.4V29a1.3 1.3 0 0 1 2.6 0V31.4ZM36.23 31.25V28.83a1.27 1.27 0 0 1 2.54 0V31.25ZM41.5 30.83V28.32a1.19 1.19 0 0 1 2.38 0V30.83ZM46.19 30.14V27.5a1.06 1.06 0 0 1 2.12 0V30.14ZM9.81 32.87V29.86a0.69 0.69 0 0 1 1.37 0V32.87ZM12.18 33.94V31.13a0.89 0.89 0 0 1 1.78 0V33.94ZM15.69 34.84V32.2a1.06 1.06 0 0 1 2.12 0V34.84ZM20.12 35.53V33.02a1.19 1.19 0 0 1 2.38 0V35.53ZM25.22 35.95V33.53a1.27 1.27 0 0 1 2.54 0V35.95ZM30.7 36.1V33.7a1.3 1.3 0 0 1 2.6 0V36.1ZM36.23 35.95V33.53a1.27 1.27 0 0 1 2.54 0V35.95ZM41.5 35.53V33.02a1.19 1.19 0 0 1 2.38 0V35.53ZM46.19 34.84V32.2a1.06 1.06 0 0 1 2.12 0V34.84ZM50.04 33.94V31.13a0.89 0.89 0 0 1 1.78 0V33.94ZM9.81 37.57V34.56a0.69 0.69 0 0 1 1.37 0V37.57ZM12.18 38.64V35.83a0.89 0.89 0 0 1 1.78 0V38.64ZM15.69 39.54V36.9a1.06 1.06 0 0 1 2.12 0V39.54ZM20.12 40.23V37.72a1.19 1.19 0 0 1 2.38 0V40.23ZM25.22 40.65V38.23a1.27 1.27 0 0 1 2.54 0V40.65ZM30.7 40.8V38.4a1.3 1.3 0 0 1 2.6 0V40.8ZM36.23 40.65V38.23a1.27 1.27 0 0 1 2.54 0V40.65ZM41.5 40.23V37.72a1.19 1.19 0 0 1 2.38 0V40.23ZM46.19 39.54V36.9a1.06 1.06 0 0 1 2.12 0V39.54ZM50.04 38.64V35.83a0.89 0.89 0 0 1 1.78 0V38.64ZM52.82 37.57V34.56a0.69 0.69 0 0 1 1.37 0V37.57Z" fill="#A9773F"/>
+      <path d="M12.56 22.24h1.02v1.4h-1.02ZM20.62 23.83h1.37v1.4h-1.37ZM31.25 24.4h1.5v1.4h-1.5ZM42 23.83h1.37v1.4h-1.37Z" fill="#B88550"/>
+      <g stroke="#F8E2BC" stroke-width=".8" fill="none">
+      <path d="M9 22 A23 5 0 0 0 48.4 25.51"/>
+      <path d="M9 26.65 A23 5 0 0 0 53 28.69"/>
+      <path d="M9 31.35 A23 5 0 0 0 55 31.35"/>
+      </g>
+      <path d="M0 50 V43.6 C12 41.8 22 42.8 32 42.6 C44 42.4 54 41.6 64 43 V50Z" fill="#8ACB69"/>
+      <path d="M0 50 V47 C14 45.6 30 46.8 44 46.4 C52 46.2 58 45.6 64 46.2 V50Z" fill="#74B85A"/>
+      <g fill="#FFE07A"><circle cx="6" cy="45.4" r=".8"/><circle cx="12" cy="47.6" r=".8"/><circle cx="52" cy="47.4" r=".8"/><circle cx="58" cy="45" r=".8"/></g>
+    </symbol>
+    <linearGradient id="gPyramids" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ECFF1"/><stop offset="1" stop-color="#E4F4FA"/></linearGradient>
+    <symbol id="pl-pyramids" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gPyramids)"/>
+      <circle cx="53" cy="9" r="7" fill="#FFF6CF" opacity=".7"/>
+      <circle cx="53" cy="9" r="4.8" fill="#FFE68A"/>
+      <path d="M0 35 C10 32.6 18 33.4 26 34.4 C36 32.8 50 32.4 64 34.6 V40 H0Z" fill="#F6E1A8"/>
+      <path d="M45 15.5 L31 36 H47.5Z" fill="#F7D48C"/>
+      <path d="M45 15.5 L47.5 36 H59Z" fill="#DDAA5E"/>
+      <path d="M45 15.5 L42.27 19.5 H45.49Z" fill="#FCEBC6"/>
+      <path d="M45 15.5 L45.49 19.5 H47.73Z" fill="#EDCB90"/>
+      <path d="M28 9.5 L9 39 H31.5Z" fill="#F5C871"/>
+      <path d="M28 9.5 L31.5 39 H47Z" fill="#D49A48"/>
+      <g stroke="#E3B260" stroke-width=".7">
+      <path d="M24.8 15 H28.4 M21.6 20 H29 M18.4 25 H29.6 M15.2 30 H30.2 M12 35 H30.8"/>
+      </g>
+      <g stroke="#C3893C" stroke-width=".7">
+      <path d="M28.9 15 H31.2 M29.5 20 H34.4 M30.1 25 H37.6 M30.7 30 H40.8 M31.3 35 H44"/>
+      </g>
+      <path d="M53.5 27.4 L45.4 40 H54.8Z" fill="#F5C871"/>
+      <path d="M53.5 27.4 L54.8 40 H61.6Z" fill="#D49A48"/>
+      <path d="M4.4 41 C4.6 36 5 32 6 28.4" stroke="#8A5A33" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <g fill="#4FA34B">
+      <path d="M6 28.4 C3.6 26.6 1.4 27 0 28.6 C2.4 27.8 4.2 28 6 28.4Z M6 28.4 C8 26.2 10.4 26 12 27.6 C9.6 27.2 7.8 27.6 6 28.4Z M6 28.4 C5 25.8 5.6 23.6 7.4 22.8 C6.6 24.8 6.2 26.6 6 28.4Z M6 28.4 C3.4 28.8 1.8 30.4 1.6 32.4 C3 30.6 4.4 29.4 6 28.4Z M6 28.4 C8.6 28.6 10.4 30 10.8 32 C9.2 30.2 7.8 29.2 6 28.4Z"/>
+      </g>
+      <path d="M0 39 C12 37.6 24 38.6 34 38.8 C46 39 56 38 64 39 V50 H0Z" fill="#F3D48C"/>
+      <path d="M0 44.6 C14 42.6 30 45 64 43.4 V50 H0Z" fill="#E8C176"/>
+      <path d="M8 42 q3 -1 6 0 M40 41.6 q3 -1 6 0 M24 47.6 q3 -1 6 0 M50 47 q3 -1 6 0" stroke="#D9AE5E" stroke-width=".9" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gSerengeti" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BDE2F5"/><stop offset="1" stop-color="#F5EED6"/></linearGradient>
+    <linearGradient id="gSerengeti2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFD37E"/><stop offset="1" stop-color="#DDAE52"/></linearGradient>
+    <symbol id="pl-serengeti" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gSerengeti)"/>
+      <path d="M40 10 a3.2 3.2 0 0 1 5.6 -1.4 a4 4 0 0 1 7.2 1.4 a2.4 2.4 0 0 1 0 4.8 h-11.8 a2.4 2.4 0 0 1 -1 -4.8z" fill="#fff"/>
+      <path d="M4 15 a2.6 2.6 0 0 1 4.6 -1.1 a3.3 3.3 0 0 1 5.8 1.1 a1.9 1.9 0 0 1 0 3.8 h-9.6 a1.9 1.9 0 0 1 -.8 -3.8z" fill="#fff" opacity=".9"/>
+      <path d="M49 30 C49.6 26.4 51.6 24 54.4 24 C56.4 22.4 59.6 22.8 61 25 C63 25 64.6 27 64.6 30Z" fill="#B8A48A"/>
+      <path d="M57.4 23.4 C59.4 23.4 60.8 24.2 61 25 C63 25 64.6 27 64.6 30 H58.6 C59.4 27.6 59 25.4 57.4 23.4Z" fill="#9E8A72"/>
+      <path d="M7.4 30 C7.6 27 7.4 25 6.6 23.2 M7.2 25.6 C8.4 24.4 9.4 23.8 10.4 23.4" stroke="#7A5A3A" stroke-width=".8" fill="none" stroke-linecap="round"/>
+      <path d="M1.6 23.4 C3 21.4 12.6 21 14.4 23 C11.6 24.4 4.4 24.6 1.6 23.4Z" fill="#7FA458"/>
+      <path d="M0 30.6 C12 29 24 29.6 34 29.4 C46 29.2 56 29 64 30 V50 H0Z" fill="url(#gSerengeti2)"/>
+      <g fill="#6E5644" stroke="#6E5644" stroke-width=".38" stroke-linecap="round" opacity=".8">
+      <g transform="translate(4.6 29)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      <g transform="translate(10.8 28.6)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      <g transform="translate(15.6 29.2)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      <g transform="translate(46.4 29)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      <g transform="translate(51.6 28.6)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      <g transform="translate(57 29.4)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      <g transform="translate(62 28.8)"><ellipse rx="1.6" ry=".85"/><ellipse cx="-.9" cy="-.35" rx=".9" ry=".8"/><path d="M-1.6 -.3 L-2.3 .9 M-1.1 .5 V1.9 M-.5 .5 V1.9 M.6 .5 V1.9 M1.2 .5 V1.9" fill="none"/></g>
+      </g>
+      <ellipse cx="34" cy="40" rx="11" ry="1.4" fill="#A97A2E" opacity=".3"/>
+      <g fill="#E3E3E8"><rect x="30.6" y="30" width="2" height="9.6" rx=".9"/><rect x="41.2" y="30" width="2" height="9.6" rx=".9"/></g>
+      <g fill="#FBFBF8"><rect x="27.8" y="30" width="2.1" height="9.8" rx=".9"/><rect x="38.4" y="30" width="2.1" height="9.8" rx=".9"/></g>
+      <g stroke="#2A2C3A" stroke-width=".8"><path d="M27.8 33.4 H29.9 M27.8 35.6 H29.9 M38.4 33.4 H40.5 M38.4 35.6 H40.5 M30.6 33.4 H32.6 M30.6 35.6 H32.6 M41.2 33.4 H43.2 M41.2 35.6 H43.2"/></g>
+      <g fill="#2A2C3A"><rect x="27.8" y="38.6" width="2.1" height="1.3" rx=".4"/><rect x="38.4" y="38.6" width="2.1" height="1.3" rx=".4"/><rect x="30.6" y="38.5" width="2" height="1.2" rx=".4"/><rect x="41.2" y="38.5" width="2" height="1.2" rx=".4"/></g>
+      <path d="M44 25 C45.6 27 46.2 29.4 45.8 32" stroke="#4A4C5A" stroke-width=".7" fill="none" stroke-linecap="round"/>
+      <ellipse cx="45.7" cy="32.6" rx=".7" ry="1.2" fill="#2A2C3A"/>
+      <ellipse cx="35" cy="27.5" rx="9.2" ry="5.4" fill="#FBFBF8"/>
+      <path d="M27.6 24.4 C26 20.8 24.4 17.8 22.6 15.4 L19.4 18.2 C21.4 21 23.4 25.2 25.8 29.4Z" fill="#FBFBF8"/>
+      <ellipse cx="19.6" cy="17.6" rx="2.7" ry="4.6" transform="rotate(38 19.6 17.6)" fill="#FBFBF8"/>
+      <ellipse cx="17.38" cy="20.44" rx="1.9" ry="1.5" transform="rotate(38 17.38 20.44)" fill="#2A2C3A"/>
+      <path d="M21 14.6 C20.4 12.6 20.8 11.2 21.6 10.4 C22.4 11.4 22.4 13 22 14.6Z" fill="#FBFBF8"/>
+      <path d="M22.4 15 C22.4 13 23 11.8 24 11.2 C24.4 12.4 24 14 23.2 15.4Z" fill="#E3E3E8"/>
+      <g stroke="#2A2C3A" stroke-linecap="round" fill="none">
+      <path d="M22.8 14.2 C24.6 16.4 26.4 19.6 28 23.6" stroke-width="1.7" stroke-dasharray="1.1 .7"/>
+      <g stroke-width="1.1">
+      <path d="M23.6 18.2 L21.2 19.8 M25 20.8 L22.6 22.6 M26.4 23.4 L24 25.6"/>
+      <path d="M29.6 23.6 C29.2 26.6 29.4 29 29.8 31.4"/>
+      <path d="M32.6 22.7 C32 26 32.2 29.4 32.8 32.3"/>
+      <path d="M35.6 22.5 C35 26 35.2 29.4 35.8 32.4"/>
+      <path d="M38.6 22.9 C38.2 26 38.4 29 38.8 32.1"/>
+      <path d="M41.2 23.4 C42.8 25.4 43 29 41.4 31.4"/>
+      </g>
+      </g>
+      <circle cx="20.4" cy="16.9" r=".6" fill="#14223F"/><circle cx="20.6" cy="16.7" r=".2" fill="#fff"/>
+      <path d="M0 50 V41 C14 39.6 26 41 40 40.8 C50 40.6 58 40 64 40.6 V50Z" fill="#D9A84C" opacity=".55"/>
+      <g stroke="#C9963E" stroke-width=".9" fill="none" stroke-linecap="round"><path d="M6 44 l-1 -2.6 M7 44 l.2 -3 M8 44 l1.2 -2.6"/><path d="M54 45 l-1 -2.6 M55 45 l.2 -3 M56 45 l1.2 -2.6"/><path d="M20 47.6 l-.8 -2.2 M21 47.6 l.2 -2.6 M22 47.6 l1 -2.2"/><path d="M46 48 l-.8 -2.2 M47 48 l.2 -2.6 M48 48 l1 -2.2"/></g>
+    </symbol>
+    <linearGradient id="gNewYork" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD8BF"/><stop offset="1" stop-color="#58AD92"/></linearGradient>
+    <!-- 뉴욕: 바다 앞 섬에 선 자유의 여신상(초록 동상, 얼굴은 그리지 않음)과 뒤의 높은 빌딩들, 주황 배 -->
+    <symbol id="pl-new-york" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#CDE9F8"/>
+      <circle cx="54" cy="9.5" r="4.5" fill="#FFE39A"/>
+      <path d="M4 13 a3.2 3.2 0 0 1 5.6 -1.4 a4.2 4.2 0 0 1 7.4 1.4 a2.4 2.4 0 0 1 0 4.8 h-12 a2.4 2.4 0 0 1 -1 -4.8z" fill="#fff"/>
+      <path d="M0 31 V23 H3 V19.5 H7 V25 H9.4 V16 H10.4 L11.6 11.6 L12.8 16 H13.8 V22 H17 V26 H20 V28.5 H43.5 V24 H45.6 V18 H46.6 V15 H47.6 V12.5 H48.5 V9.4 H49.1 V12.5 H50 V15 H51 V18 H52 V24 H54.4 V20 H58 V23.6 H61 V19 H64 V31Z" fill="#B7C4DE"/>
+      <g fill="#D3DCEE"><rect x="4" y="21" width="1.2" height="1.2"/><rect x="4" y="24" width="1.2" height="1.2"/><rect x="11" y="18" width="1.2" height="1.2"/><rect x="11" y="21.4" width="1.2" height="1.2"/><rect x="48.2" y="19.6" width="1.2" height="1.2"/><rect x="48.2" y="23" width="1.2" height="1.2"/><rect x="55.6" y="22" width="1.2" height="1.2"/></g>
+      <rect y="30.6" width="64" height="19.4" fill="#4DA3DC"/>
+      <path d="M0 44 C16 42.6 40 45 64 43.4 V50 H0Z" fill="#3E8FCF"/>
+      <path d="M4 37.4 H15.6 L14.4 39.6 H5.2Z" fill="#F2994A"/>
+      <rect x="6.6" y="35.6" width="6.4" height="1.9" rx=".5" fill="#fff"/>
+      <g fill="#2F4C78"><rect x="7.4" y="36.1" width="1.1" height=".9" rx=".2"/><rect x="9.3" y="36.1" width="1.1" height=".9" rx=".2"/><rect x="11.2" y="36.1" width="1.1" height=".9" rx=".2"/></g>
+      <path d="M2.4 40.4 q2 -1.2 4 0 M14.6 40.2 q2 -1.2 4 0" stroke="#fff" stroke-opacity=".75" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <g transform="translate(31 45.6) scale(.84) translate(-31 -45)">
+      <ellipse cx="31" cy="42.4" rx="12.5" ry="2.6" fill="#7DBB5E"/>
+      <ellipse cx="31" cy="41.8" rx="9.5" ry="1.4" fill="#9DD07F"/>
+      <path d="M24.6 42 V36.6 H37.4 V42Z" fill="#ECDFC5"/><rect x="34.4" y="36.6" width="3" height="5.4" fill="#DAC8A7"/>
+      <rect x="23.9" y="35.6" width="14.2" height="1.4" rx=".4" fill="#F6EDDA"/>
+      <path d="M26.1 35.6 V31.6 H35.9 V35.6Z" fill="#ECDFC5"/><rect x="33.5" y="31.6" width="2.4" height="4" fill="#DAC8A7"/>
+      <rect x="25.5" y="30.8" width="11" height="1.2" rx=".4" fill="#F6EDDA"/>
+      <path d="M29.9 42 V39.6 a1.1 1.1 0 0 1 2.2 0 V42Z" fill="#C2AC86"/>
+      <path d="M27.3 31 C27.4 26 27.8 22.2 28.7 19.7 H33.5 C34.4 22.2 34.8 26 34.9 31Z" fill="url(#gNewYork)"/>
+      <path d="M30 21.4 C29.6 24.6 29.4 27.6 29.6 31 M32.6 22.4 C32.9 25.2 33 28 32.8 31" stroke="#4A9A82" stroke-width=".6" fill="none" stroke-linecap="round"/>
+      <path d="M33.6 22.6 L36.8 21.6 L37.6 26.6 L34.4 27.6Z" fill="#9BE0C8" stroke="#4A9A82" stroke-width=".5" stroke-linejoin="round"/>
+      <path d="M33.2 21 C34.4 22.6 35 24 35.2 25.4" stroke="#6CC2A6" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M30.57 14.57L31.1 11.7L31.63 14.57ZM29.75 14.97L29.07 12.13L30.72 14.53ZM29.16 15.67L27.38 13.35L29.87 14.88ZM28.91 16.55L26.34 15.15L29.23 15.53ZM31.48 14.53L33.13 12.13L32.45 14.97ZM32.33 14.88L34.82 13.35L33.04 15.67ZM32.97 15.53L35.86 15.15L33.29 16.55Z" fill="#7FD0B6" stroke="#7FD0B6" stroke-width=".4" stroke-linejoin="round"/>
+      <circle cx="31.1" cy="17" r="2.4" fill="#7FD0B6"/>
+      <path d="M32.64 15.16 A2.4 2.4 0 0 1 31.92 19.26 A3.2 3.2 0 0 0 32.64 15.16Z" fill="#58AD92" opacity=".6"/>
+      <path d="M28.6 15.9 Q31.1 14.4 33.6 15.9" stroke="#58AD92" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M29.4 20.6 L26.7 11.4" stroke="#6CC2A6" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="26.5" cy="6.6" r="3.2" fill="#FFF3C4" opacity=".7"/>
+      <path d="M25.4 10.6 H27.8 L27.3 8.8 H25.9Z" fill="#58AD92"/>
+      <rect x="25.2" y="8.3" width="2.8" height=".9" rx=".4" fill="#E9B949"/>
+      <path d="M26.6 3.8 C28.4 5.6 28.7 7.2 26.6 8.4 C24.5 7.2 24.8 5.6 26.6 3.8Z" fill="#FFAE45"/>
+      <path d="M26.6 5.6 C27.4 6.4 27.5 7.2 26.6 7.8 C25.7 7.2 25.8 6.4 26.6 5.6Z" fill="#FFE08A"/>
+      </g>
+      <path d="M44 36 q3 -2 6 0 M50 40 q3 -2 6 0 M8 46 q3 -2 6 0 M42 47 q3 -2 6 0" stroke="#fff" stroke-opacity=".6" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gGrandCanyon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BDE2F6"/><stop offset="1" stop-color="#E6F3F1"/></linearGradient>
+    <!-- 그랜드캐니언: 줄무늬 진 붉은 바위 절벽이 양쪽에서 깊게 파이고, 멀리 층층이 겹친 바위 등성이, 맨 아래 굽이치는 강 -->
+    <symbol id="pl-grand-canyon" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gGrandCanyon)"/>
+      <circle cx="12" cy="9.5" r="4.5" fill="#FFE39A"/>
+      <path d="M44 10 a3 3 0 0 1 5.2 -1.4 a3.8 3.8 0 0 1 6.8 1.4 a2.2 2.2 0 0 1 0 4.4 h-11 a2.2 2.2 0 0 1 -1 -4.4z" fill="#fff"/>
+      <path d="M0 21 H15 L16.5 19.2 H29 L30 20 H46 L47.6 18.6 H64 V32 H0Z" fill="#F6D4B2"/>
+      <path d="M0 23.2 H64 V24.4 H0Z" fill="#F0C39C"/>
+      <rect x="14" y="31" width="36" height="19" fill="#D9895A"/>
+      <path d="M0 23.6 H21.6 L23 26.8 H25.6 L27 30.2 C28.6 31 30 32.2 31 34 H0Z" fill="#EFB080"/>
+      <path d="M0 23.6 H21.6 L22.1 24.8 H0Z M0 26.8 H25.6 L26 28 H0Z M0 30.2 H27 C27.6 30.5 28.2 30.9 28.7 31.4 H0Z" fill="#F8CFA3"/>
+      <path d="M0 29 H26.5 L26.7 29.6 H0Z" fill="#E0915F"/>
+      <path d="M64 24.6 H45.4 L44 27.8 H41.6 L40.2 31 C38.6 31.8 37.2 33 36.4 34.6 H64Z" fill="#E79B69"/>
+      <path d="M64 24.6 H45.4 L44.9 25.8 H64Z M64 27.8 H41.6 L41.1 29 H64Z M64 31 H40.2 C39.6 31.3 39 31.7 38.5 32.2 H64Z" fill="#F4C292"/>
+      <path d="M64 30 H40.6 L40.4 30.6 H64Z" fill="#D9855A"/>
+      <path d="M30.4 34.4 C34 35.4 35.6 37.2 33 39.2 C30.4 41.2 26.8 42.6 27.2 45.6 C27.4 47.4 27.8 48.8 28.2 50 H36.8 C35.6 48.2 34.8 46.6 35.8 44.8 C37.2 42.6 40 41 37.8 38.4 C36.6 36.8 34.2 35 32.4 34.2Z" fill="#57B3C6"/>
+      <path d="M33.8 36.6 C34.8 37.6 34.2 38.6 32.8 39.6 M31 43.6 C30.2 44.8 30.4 46.4 31 47.8" stroke="#A8E0EA" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M0 22 H10.6 L12 26.6 H0Z" fill="#EAA36B"/>
+      <path d="M0 26.6 H13 L14.6 31.4 H0Z" fill="#DC7F4E"/>
+      <path d="M0 31.4 H15.8 L17.4 37 H0Z" fill="#C8653C"/>
+      <path d="M0 37 H18.6 L21.6 50 H0Z" fill="#AD5132"/>
+      <path d="M64 22 H53.4 L52 26.6 H64Z" fill="#EAA36B"/>
+      <path d="M64 26.6 H51 L49.4 31.4 H64Z" fill="#DC7F4E"/>
+      <path d="M64 31.4 H48.2 L46.6 37 H64Z" fill="#C8653C"/>
+      <path d="M64 37 H45.4 L42.4 50 H64Z" fill="#AD5132"/>
+      <path d="M0 22 H10.6 M0 26.6 H13 M0 31.4 H15.8 M0 37 H18.6 M64 22 H53.4 M64 26.6 H51 M64 31.4 H48.2 M64 37 H45.4" stroke="#F8C493" stroke-width=".8" fill="none"/>
+      <path d="M2 29 H9 M4 34.2 H11 M3 42 H13 M5 46.4 H15 M55 29 H62 M53 34.2 H60 M51 42 H61 M49 46.4 H59" stroke="#9A4529" stroke-opacity=".45" stroke-width=".7" fill="none" stroke-linecap="round"/>
+      <g fill="#8DBA6A"><ellipse cx="4" cy="21.6" rx="1.6" ry=".9"/><ellipse cx="58" cy="21.6" rx="1.8" ry=".9"/><ellipse cx="22" cy="18.8" rx="1.3" ry=".7"/></g>
+      <path d="M28 13 q1.4 -1.8 2.8 0 q1.4 -1.8 2.8 0" stroke="#2F4C78" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gMachuPicchu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FA68A"/><stop offset="1" stop-color="#52795F"/></linearGradient>
+    <!-- 마추픽추: 가운데에 크게, 지붕 없는 회색 돌집 무리(박공벽·사다리꼴 창, 창 셋 신전)와 돌 축대. 산비탈과 앞쪽은 돌 둑을 쌓은 층층 계단밭(밝은·짙은 초록 번갈아). 뒤에는 채도 낮춘 뾰족한 와이나픽추 봉우리, 오른쪽 끝에 작은 라마 -->
+    <symbol id="pl-machu-picchu" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#D4ECF7"/>
+      <path d="M0 27 L7 19 L11 22 L18 13.6 L24 21 L28 18.4 L33 24 H64 V34 H0Z" fill="#B6D2C7"/>
+      <path d="M48 20 L52 16 L55.6 18.4 L60 13.6 L64 16 V30 H48Z" fill="#B6D2C7"/>
+      <path d="M8 12 a2.4 2.4 0 0 1 4.2 -1 a3 3 0 0 1 5.2 .8 a1.8 1.8 0 0 1 0 3.6 h-9 a1.7 1.7 0 0 1 -.4 -3.4z" fill="#fff"/>
+      <path d="M32.6 35 C36 28 38.4 20 41 13.4 C42.2 10.2 43.6 8.2 45.4 8.2 C47.4 8.2 48.6 10.6 49.6 13.8 C51.4 20 54 28 58.4 35Z" fill="url(#gMachuPicchu)"/>
+      <path d="M45.4 8.2 C43.6 8.2 42.2 10.2 41 13.4 C38.4 20 36 28 32.6 35 H39.4 C40.8 27 42.2 19 43.6 13.6 C44.1 11.4 44.7 9.6 45.4 8.2Z" fill="#9CBFA6" opacity=".5"/>
+      <path d="M47.4 14.4 L49.2 16.2 M48.4 18.8 L50.6 20.8 M49.4 23.6 L52 25.6" stroke="#4A7057" stroke-width=".7" stroke-linecap="round"/>
+      <path d="M48.6 17.6 a2 2 0 0 1 3.6 -.8 a2.6 2.6 0 0 1 4.6 .6 a1.6 1.6 0 0 1 .2 3.1 h-8.2 a1.5 1.5 0 0 1 -.2 -2.9z" fill="#fff" opacity=".92"/>
+      <path d="M44 30 C50 29 56 29.4 64 30.6 V36 H44Z" fill="#5E8F68"/>
+      <path d="M0 30.8 C8 29.8 18 29.4 30 29.4 C42 29.4 52 30.2 64 31.4 V36 H0Z" fill="#6AA65E"/>
+      <path d="M0 37 V23.8 C3 22.2 6 21.2 9 21 C12 20.8 14.8 22.4 17 25 L21 31 V37Z" fill="#6D9E77"/>
+      <path d="M0 26.2 C3 25.3 6 24.8 9 24.8 C12 24.8 15.4 25.3 17.4 25.6 L21 31 V37 H0Z" fill="#857A64"/>
+      <path d="M0 27.2 C3 26.3 6 25.8 9 25.8 C12 25.8 16.07 26.3 18.07 26.6 L21 31 V37 H0Z" fill="#94CE6E"/>
+      <path d="M0 29.6 C3 28.7 6 28.2 9 28.2 C12 28.2 17.67 28.7 19.67 29 L21 31 V37 H0Z" fill="#857A64"/>
+      <path d="M0 30.6 C3 29.7 6 29.2 9 29.2 C12 29.2 18.33 29.7 20.33 30 L21 31 V37 H0Z" fill="#65A84F"/>
+      <path d="M0 33 C3 32.1 6 31.6 9 31.6 C12 31.6 19 32.1 21 32.4 V37 H0Z" fill="#857A64"/>
+      <path d="M0 34 C3 33.1 6 32.6 9 32.6 C12 32.6 19 33.1 21 33.4 V37 H0Z" fill="#94CE6E"/>
+      <path d="M0 36.6 C14 35 26 34.6 34 34.6 C44 34.6 54 35.2 64 36.6 V50 H0Z" fill="#94CE6E"/>
+      <path d="M0 39.2 C14 37.6 26 37.2 34 37.2 C44 37.2 54 37.8 64 39.2 V40.4 C54 39 44 38.4 34 38.4 C26 38.4 14 38.8 0 40.4Z" fill="#857A64"/>
+      <path d="M0 40.4 C14 38.8 26 38.4 34 38.4 C44 38.4 54 39 64 40.4 V50 H0Z" fill="#65A84F"/>
+      <path d="M0 43 C14 41.4 26 41 34 41 C44 41 54 41.6 64 43 V44.2 C54 42.8 44 42.2 34 42.2 C26 42.2 14 42.6 0 44.2Z" fill="#857A64"/>
+      <path d="M0 44.2 C14 42.6 26 42.2 34 42.2 C44 42.2 54 42.8 64 44.2 V50 H0Z" fill="#94CE6E"/>
+      <path d="M0 46.8 C14 45.2 26 44.8 34 44.8 C44 44.8 54 45.4 64 46.8 V48 C54 46.6 44 46 34 46 C26 46 14 46.4 0 48Z" fill="#857A64"/>
+      <path d="M0 48 C14 46.4 26 46 34 46 C44 46 54 46.6 64 48 V50 H0Z" fill="#65A84F"/>
+      <g fill="#BDB3A0">
+      <path d="M20.4 30 V24.6 L23.9 21 L27.4 24.6 V30Z"/>
+      <path d="M31 30 V25 L34.5 21.4 L38 25 V30Z"/>
+      </g>
+      <g fill="#978C78"><path d="M23.9 21 L27.4 24.6 V30 H24.7 V21.8Z"/><path d="M34.5 21.4 L38 25 V30 H35.3 V22.2Z"/></g>
+      <path d="M20.4 24.6 L23.9 21 L27.4 24.6 M31 25 L34.5 21.4 L38 25" stroke="#7F7562" stroke-width=".5" fill="none" stroke-linejoin="round"/>
+      <g fill="#6E6452"><path d="M21.8 26.6 L22 25.2 H22.7 L22.9 26.6Z"/><path d="M32.3 26.8 L32.5 25.6 H33.2 L33.4 26.8Z"/></g>
+      <rect x="13.2" y="33.8" width="32.6" height="2.6" fill="#A39985"/>
+      <path d="M16.6 33.8 V36.4 M20.2 33.8 V36.4 M23.8 33.8 V36.4 M27.4 33.8 V36.4 M31 33.8 V36.4 M34.6 33.8 V36.4 M38.2 33.8 V36.4 M41.8 33.8 V36.4 M13.2 35.1 H45.8" stroke="#857A64" stroke-width=".45"/>
+      <g fill="#C9C0AE">
+      <path d="M14.6 33.8 V27.8 L18.8 23.6 L23 27.8 V33.8Z"/>
+      <path d="M24 33.8 V27 H35 V33.8Z"/>
+      <path d="M36 33.8 V28 L40.3 23.8 L44.6 28 V33.8Z"/>
+      </g>
+      <g fill="#A39985"><path d="M18.8 23.6 L23 27.8 V33.8 H19.8 V24.6Z"/><rect x="33" y="27" width="2" height="6.8"/><path d="M40.3 23.8 L44.6 28 V33.8 H41.3 V24.8Z"/></g>
+      <path d="M14.6 31 H19.8 M24 30.2 H33 M36 31.2 H41.3" stroke="#B3A994" stroke-width=".35"/>
+      <path d="M14.6 27.8 L18.8 23.6 L23 27.8 M24 27 H35 M36 28 L40.3 23.8 L44.6 28" stroke="#857A64" stroke-width=".55" fill="none" stroke-linejoin="round"/>
+      <g fill="#6E6452">
+      <path d="M16.2 33.8 L16.5 30.4 H17.5 L17.8 33.8Z"/>
+      <path d="M20.6 31.8 L20.85 29.6 H21.55 L21.8 31.8Z"/>
+      <path d="M25.2 31.8 L25.45 29.2 H26.55 L26.8 31.8Z"/>
+      <path d="M27.9 31.8 L28.15 29.2 H29.25 L29.5 31.8Z"/>
+      <path d="M30.6 31.8 L30.85 29.2 H31.95 L32.2 31.8Z"/>
+      <path d="M37.6 33.8 L37.9 30.6 H38.9 L39.2 33.8Z"/>
+      <path d="M42.2 31.8 L42.45 29.6 H43.15 L43.4 31.8Z"/>
+      </g>
+      <g transform="translate(22.4 6.6) scale(.7)">
+      <g fill="#E3D6C1"><rect x="44.8" y="40.2" width="1" height="4.2" rx=".45"/><rect x="48.4" y="40.2" width="1" height="4.2" rx=".45"/></g>
+      <g fill="#F2E8D8"><rect x="45.9" y="40.2" width="1.1" height="4.4" rx=".45"/><rect x="49.5" y="40.2" width="1.1" height="4.4" rx=".45"/></g>
+      <ellipse cx="47.8" cy="39.8" rx="4" ry="2.3" fill="#F2E8D8"/>
+      <circle cx="44" cy="39.2" r=".9" fill="#F2E8D8"/>
+      <path d="M50.2 39.8 C50.6 37.4 50.8 35.6 51 34.4 L52.6 34.4 C52.6 36 52.2 38 51.8 40.2Z" fill="#F2E8D8"/>
+      <ellipse cx="52.2" cy="34.2" rx="1.8" ry="1.2" fill="#F2E8D8"/>
+      <ellipse cx="53.6" cy="34.6" rx=".8" ry=".7" fill="#E3D6C1"/>
+      <path d="M51.1 33.3 L50.8 31.7 L51.8 33 M52.2 33.1 L52.4 31.5 L53 33.1" fill="#F2E8D8" stroke="#DDD0BA" stroke-width=".4" stroke-linejoin="round"/>
+      <circle cx="52.5" cy="33.9" r=".5" fill="#14223F"/>
+      </g>
+    </symbol>
+    <linearGradient id="gAmazon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F2CF"/><stop offset="1" stop-color="#CDEBE2"/></linearGradient>
+    <!-- 아마존: 빽빽한 열대 숲 사이로 굽이쳐 흐르는 큰 강, 물 위로 뛰어오른 분홍 강돌고래 -->
+    <symbol id="pl-amazon" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gAmazon)"/>
+      <circle cx="51" cy="10" r="5" fill="#FFE39A"/>
+      <g fill="#8ECB7D"><circle cx="10.4" cy="20.6" r="3.8"/><circle cx="54.4" cy="20.2" r="4"/><circle cx="20.6" cy="21.2" r="2.6"/><circle cx="44" cy="21.4" r="2.4"/></g>
+      <path d="M0 24 C2 21 5 21 7 23 C9 20 13 20 15 22.6 C17 20 21 19.6 23 22.4 C25 20 29 20 31 22.6 C33 20.2 37 20 39 22.4 C41 20 45 20 47 22.6 C49 20.4 53 20.4 55 22.6 C57 20.4 61 20.6 64 22.6 V32 H0Z" fill="#8ECB7D"/>
+      <path d="M8 19.4 C8.8 18.2 10.2 17.6 11.6 17.8 M51.8 19 C52.6 17.8 54 17.2 55.4 17.4" stroke="#A6D795" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M0 28 C2 25.4 6 25 8 27 C10 24.6 14 24.6 16 27 C18 25 22 25 24 27.4 C26 25.6 30 25.6 32 27.6 C34 25.6 38 25.6 40 27.4 C42 25 46 25 48 27 C50 24.6 54 24.6 56 27 C58 25 62 25.4 64 28 V50 H0Z" fill="#5DAE5E"/>
+      <path d="M28.4 27.4 C30.2 28.4 31.8 29.6 31.2 31 C30.4 32.8 26.4 34 24.6 36.2 C22.6 38.6 17 40.2 13.6 42.4 C10.8 44.2 8.6 47 7.6 50 H54 C49 47.6 42.6 45.6 41.2 42.4 C40 39.8 42.8 38 41.6 35.8 C40.6 34 42 32.4 41 30.8 C39.8 29 36.4 28 34.4 27.4Z" fill="#5FB3C7"/>
+      <path d="M30 28.6 C31.4 28.6 32.6 28.8 33.6 29.2 M33.4 31.8 C35.4 32 37.4 32.6 38.4 33.4 M15.6 45.6 C17.6 44.4 19.4 44 21 44.2 M44 46.6 C45.6 47.2 47 48 48 48.8" stroke="#A8DDE8" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M0 50 V36 C2 33.4 6 33 8 35.4 C10 33.6 14 34 15 36.8 C17 36.6 18.6 38.4 18 40.6 C20 41.4 20.4 44 18.6 45.6 L16 50Z M64 50 V35 C62 32.6 58 32.6 56.4 35 C54.4 33.6 50.6 34.4 50 37 C47.8 37.2 46.6 39.4 47.6 41.4 C45.6 42.6 45.8 45.4 47.8 46.6 L50 50Z" fill="#45974F"/>
+      <path d="M3 37.4 C4.4 36 6 35.8 7.4 36.6 M53.6 37 C55 35.8 56.8 35.6 58.2 36.4" stroke="#6DB86A" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M22 12.4 q1.3 -1.6 2.6 0 q1.3 -1.6 2.6 0 M29 9.4 q1 -1.3 2 0 q1 -1.3 2 0" stroke="#2F4C78" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <g transform="translate(0 -2.6)">
+      <ellipse cx="33" cy="42.4" rx="9.4" ry="1.6" fill="#fff" opacity=".85"/>
+      <g fill="#fff"><circle cx="23.4" cy="39.4" r=".8"/><circle cx="24.6" cy="37.2" r=".6"/><circle cx="43" cy="38.8" r=".8"/><circle cx="41.6" cy="36.6" r=".6"/></g>
+      <path d="M25.6 41.6 C26.8 35 33.6 31.4 38.8 33.8 C40.4 34.6 41.2 35.8 41.2 36.6 L45.2 37.6 L41 38.6 C38 39.2 33.8 38.4 30.6 39.6 C28.6 40.4 27.4 41.2 26.8 42.2Z" fill="#F4A0B5"/>
+      <path d="M41 38.6 C38 39.2 33.8 38.4 30.6 39.6 C28.6 40.4 27.4 41.2 26.8 42.2 L26.2 41.8 C28.4 38.4 33 37 38.4 37.6 C39.6 37.7 40.6 37.9 41.2 38.2Z" fill="#FFD3DD"/>
+      <path d="M29 36.6 C29.6 35.4 30.4 35 31.4 35" stroke="#E57E9C" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M26.4 41.8 L23 43.4 L24.4 41.4 L23.2 39.4Z" fill="#E88AA3"/>
+      <ellipse cx="34.6" cy="39.4" rx="1.9" ry=".9" transform="rotate(25 34.6 39.4)" fill="#E88AA3"/>
+      <circle cx="38.6" cy="35.6" r=".65" fill="#14223F"/>
+      <ellipse cx="33" cy="34.6" rx="2.2" ry=".9" transform="rotate(-15 33 34.6)" fill="#fff" opacity=".4"/>
+      </g>
+    </symbol>
+    <linearGradient id="gSydney" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E4ECF5"/></linearGradient>
+    <!-- 시드니: 바닷가에 선 하얀 조개껍데기 지붕의 오페라 하우스, 뒤로 아치 다리, 작은 돛단배 -->
+    <symbol id="pl-sydney" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="#C4E7F8"/>
+      <circle cx="54" cy="10" r="4.5" fill="#FFE39A"/>
+      <path d="M26 11 a3 3 0 0 1 5.2 -1.4 a3.8 3.8 0 0 1 6.8 1.4 a2.2 2.2 0 0 1 0 4.4 h-11 a2.2 2.2 0 0 1 -1 -4.4z" fill="#fff"/>
+      <path d="M-4 30.6 Q7 13.4 18 30.6 M-2 30.6 Q7 17.6 16 30.6" stroke="#8E9CB8" stroke-width="1.1" fill="none"/>
+      <path d="M1 24 V26 M3.4 21.6 V26 M5.8 20.6 V26 M8.2 20.6 V26 M10.6 21.6 V26 M13 24 V26" stroke="#8E9CB8" stroke-width=".55"/>
+      <rect x="-2" y="25.6" width="24" height="1.3" fill="#8E9CB8"/>
+      <rect x="15.6" y="23.4" width="3.4" height="7.6" fill="#DCCFB6"/><rect x="15.2" y="22.6" width="4.2" height="1.2" rx=".3" fill="#E9DFCB"/>
+      <rect y="30.6" width="64" height="19.4" fill="#3E98D6"/>
+      <path d="M0 44 C16 42.6 40 45 64 43.4 V50 H0Z" fill="#2E86C8"/>
+      <path d="M17 37.6 C17 35.8 17.6 34.4 19 34.4 H57 C58.4 34.4 59 35.8 59 37.6Z" fill="#EAD7B3"/>
+      <rect x="17" y="34.4" width="42" height="1.1" fill="#F4E6C8"/>
+      <path d="M17 37.6 H59" stroke="#CDB68E" stroke-width=".7"/>
+      <g fill="url(#gSydney)" stroke="#BFCDDE" stroke-width=".5" stroke-linejoin="round">
+      <path d="M27 34.4 C27.6 27 29.4 20.4 31.4 16.6 C36.6 19.6 39.6 26 40.4 34.4Z"/>
+      <path d="M24 34.4 C24.6 29 26 24.6 27.6 21.6 C31.6 24 34 28.6 34.6 34.4Z"/>
+      <path d="M21.4 34.4 C21.8 31 22.8 28.4 24 26.6 C27 28.4 28.6 31.2 29 34.4Z"/>
+      <path d="M54.6 34.4 C54.8 32.4 54.6 30.6 54 28.8 C51.6 29.8 50.2 31.8 49.8 34.4Z"/>
+      <path d="M52 34.4 C52.2 31 51.8 28 50.8 25 C47.4 26.6 45.2 30 44.6 34.4Z"/>
+      <path d="M47.6 34.4 C47.8 29.4 47.2 24.6 46 20.4 C41.6 22.6 38.8 27.6 38 34.4Z"/>
+      </g>
+      <path d="M31.4 16.6 C31.6 22 32.4 28 34 34.4 M27.6 21.6 C27.8 25.6 28.4 30 29.8 34.4 M46 20.4 C44.8 24.6 43.6 29.4 43.4 34.4 M50.8 25 C49.8 28 49.2 31 49.2 34.4" stroke="#D3DEEA" stroke-width=".5" fill="none" stroke-linecap="round"/>
+      <path d="M8.6 41 V34.4 L12.4 40.6Z" fill="#fff"/><path d="M8.2 34.6 V41.2" stroke="#8A5A3B" stroke-width=".5"/>
+      <path d="M5.4 41 H13.2 L12.2 42.6 H6.6Z" fill="#fff"/><path d="M5.8 41.7 H12.8" stroke="#E4573F" stroke-width=".5"/>
+      <path d="M36 40.4 q3 -2 6 0 M48 41 q3 -2 6 0 M20 42 q3 -2 6 0 M8 47 q3 -2 6 0 M40 47 q3 -2 6 0" stroke="#fff" stroke-opacity=".65" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gGreatBarrierReef" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A3ECE4"/><stop offset="1" stop-color="#42B7D4"/></linearGradient>
+    <!-- 그레이트배리어리프: 알록달록 산호 숲(가지 산호·뇌 산호·부채 산호·탁자 산호)과 말미잘 위의 흰 줄무늬 흰동가리 -->
+    <symbol id="pl-great-barrier-reef" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gGreatBarrierReef)"/>
+      <path d="M0 3.4 q4 -2 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" stroke="#fff" stroke-opacity=".6" stroke-width="1.2" fill="none"/>
+      <g fill="none" stroke="#fff" stroke-opacity=".85" stroke-width=".7"><circle cx="44" cy="15" r="1.2"/><circle cx="46" cy="11.2" r=".9"/><circle cx="45" cy="7.8" r=".6"/><circle cx="17" cy="12" r=".8"/><circle cx="18.4" cy="9" r=".55"/></g>
+      <path d="M0 44 C12 42 22 43 32 42.6 C44 42.2 54 41.6 64 43 V50 H0Z" fill="#F3DEA3"/>
+      <path d="M5 42.6 L3 30.4 C6.6 27 12.4 26.6 16 29.4 L9 42.6Z" fill="#FF9E7E"/>
+      <path d="M7 42.4 L5.4 31 M7.4 42.4 L9.2 29.4 M7.8 42.4 L13 30.4 M4.4 34.4 C7.6 32.6 11 32.6 14.2 34 M5 38.4 C7.4 37 9.6 37 11.8 38" stroke="#FFC5A8" stroke-width=".6" fill="none" stroke-linecap="round"/>
+      <rect x="51.4" y="33.4" width="2.2" height="9.4" rx="1" fill="#5AB89E"/>
+      <ellipse cx="52.5" cy="32.8" rx="9" ry="2.4" fill="#76CFB4"/>
+      <ellipse cx="51.4" cy="32.2" rx="5.4" ry="1" fill="#9DE0C9"/>
+      <g stroke="#F38DB6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15.6 44 V36.6 L12.6 32.4 M15.6 38 L19.2 33.4 L19.4 30.6 M12.6 32.4 L12.4 29.4 M12.6 32.4 L10.4 30.4 M19.2 33.4 L21.6 31.8 M15.6 40.4 L11.4 38.4 L9.8 35.6"/>
+      </g>
+      <g fill="#FFB6D2"><circle cx="12.4" cy="29.4" r="1"/><circle cx="10.4" cy="30.4" r="1"/><circle cx="19.4" cy="30.6" r="1"/><circle cx="21.6" cy="31.8" r="1"/><circle cx="9.8" cy="35.6" r="1"/></g>
+      <path d="M41 44.6 C40.6 37.6 44.6 35 48.6 35 C52.6 35 56.6 37.6 56.2 44.6Z" fill="#F7C35E"/>
+      <path d="M43.4 42.6 C43 40.4 44.6 39.6 45.6 40.6 C46.6 41.6 47.6 39 48.6 37.6 M48 43 C48.4 41.4 50 41.6 50.2 40.2 C50.4 38.6 52.2 38.4 53.4 39.4 M51.6 43.4 C52.4 42.4 53.6 42.6 54.2 41.6" stroke="#DA9E3A" stroke-width=".8" fill="none" stroke-linecap="round"/>
+      <g stroke-width="1.7" fill="none" stroke-linecap="round">
+      <path d="M32 44 C31 41 28.4 39.6 26.2 38.2 M32 44 C30.8 40.6 29.4 38.2 28.6 35.8 M32 44 C31.8 40.6 31.2 37.8 31.2 35.2 M32 44 C32.4 40.6 33 37.8 33.6 35.4 M32 44 C33.4 40.6 35 38.2 36 36.2 M32 44 C33.4 41.2 35.8 39.8 38 38.6" stroke="#C69BE8"/>
+      </g>
+      <g fill="#E8A6F2"><circle cx="26.2" cy="38.2" r="1"/><circle cx="28.6" cy="35.8" r="1"/><circle cx="31.2" cy="35.2" r="1"/><circle cx="33.6" cy="35.4" r="1"/><circle cx="36" cy="36.2" r="1"/><circle cx="38" cy="38.6" r="1"/></g>
+      <ellipse cx="32" cy="44.2" rx="4.4" ry="1.4" fill="#A97BD2"/>
+      <path d="M27.2 26 L24 22.6 L24.4 29.6Z" fill="#FF8A33" stroke="#26324A" stroke-width=".5" stroke-linejoin="round"/>
+      <path d="M31.6 22.2 C32.6 19.8 35 19.4 36.4 20.4 L34.6 22.6Z" fill="#FF8A33" stroke="#26324A" stroke-width=".5" stroke-linejoin="round"/>
+      <ellipse cx="33" cy="26" rx="7" ry="4.3" fill="#FF8A33"/>
+      <path d="M29.6 22.3 C30.6 24.6 30.6 27.4 29.6 29.7 L27.6 29 C28.4 27 28.4 25 27.6 23Z" fill="#fff" stroke="#26324A" stroke-width=".5"/>
+      <path d="M34.6 21.9 C35.8 24.4 35.8 27.6 34.6 30.1 L32.8 30.2 C33.8 27.6 33.8 24.4 32.8 21.8Z" fill="#fff" stroke="#26324A" stroke-width=".5"/>
+      <path d="M37.6 22.8 C38.8 24.6 38.8 27.4 37.6 29.2" stroke="#26324A" stroke-width=".5" fill="none"/>
+      <ellipse cx="33.4" cy="30" rx="1.8" ry=".8" transform="rotate(-20 33.4 30)" fill="#FF8A33" stroke="#26324A" stroke-width=".5"/>
+      <circle cx="37.4" cy="24.8" r="1.4" fill="#fff"/><circle cx="37.6" cy="24.9" r=".8" fill="#14223F"/>
+      <ellipse cx="31" cy="23.8" rx="2.2" ry=".9" transform="rotate(-12 31 23.8)" fill="#fff" opacity=".35"/>
+      <ellipse cx="54" cy="19.6" rx="2.6" ry="1.6" fill="#FFD24A"/><path d="M51.6 19.6 L49.6 18.2 V21Z" fill="#FFB52E"/><circle cx="55.3" cy="19.3" r=".45" fill="#14223F"/>
+      <ellipse cx="10" cy="20" rx="2.6" ry="1.6" fill="#4F7FE0"/><path d="M12.4 20 L14.4 18.6 V21.4Z" fill="#FFD24A"/><circle cx="8.8" cy="19.7" r=".45" fill="#14223F"/>
+      <path d="M22.6 46.8 l.9 -1.8 .9 1.8 -1.9 -.9 h2 z" fill="#FF7E6B" stroke="#FF7E6B" stroke-width=".9" stroke-linejoin="round"/>
+    </symbol>
+    <linearGradient id="gEquator" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93D8F3"/><stop offset="1" stop-color="#DDF5FB"/></linearGradient>
+    <linearGradient id="gEquator2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4FCADD"/><stop offset="1" stop-color="#2E9FCF"/></linearGradient>
+    <!-- 적도: 해가 머리 바로 위에 뜬 뜨거운 열대 바다, 야자나무 섬을 가로지르는 빨간 점선(지구본의 적도 선과 같은 색). 해가 위에 있어 나무 그림자가 발밑에 작다 -->
+    <symbol id="pl-equator" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gEquator)"/>
+      <path d="M5 17 a2.8 2.8 0 0 1 5 -1.2 a3.6 3.6 0 0 1 6.4 1.2 a2.1 2.1 0 0 1 0 4.2 h-10.4 a2.1 2.1 0 0 1 -1 -4.2z" fill="#fff" opacity=".9"/>
+      <circle cx="29" cy="8.6" r="8.4" fill="#FFF3C4" opacity=".75"/>
+      <g stroke="#FFBE3B" stroke-width="1.5" stroke-linecap="round"><path d="M29 15.4 V17.6 M23.8 13.4 L22.4 14.8 M34.2 13.4 L35.6 14.8 M21.8 8.6 H19.6 M36.2 8.6 H38.4 M23.8 3.8 L22.4 2.4 M34.2 3.8 L35.6 2.4 M29 1.8 V-.4"/></g>
+      <circle cx="29" cy="8.6" r="5.2" fill="#FFD54F"/>
+      <circle cx="27.4" cy="7" r="1.8" fill="#FFE68A"/>
+      <rect y="27" width="64" height="23" fill="url(#gEquator2)"/>
+      <path d="M0 27.5 H64" stroke="#fff" stroke-opacity=".55" stroke-width=".8"/>
+      <path d="M4 31 q2.4 -1.4 4.8 0 M52 30.4 q2.4 -1.4 4.8 0" stroke="#fff" stroke-opacity=".7" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M11 41 C15 34 23 31.2 33 31.2 C43 31.2 50 34 54 41Z" fill="#F5DFA6"/>
+      <path d="M16 35.6 C21 33 27 32.2 33 32.2" stroke="#FFF2CC" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="37.2" cy="33.6" rx="3" ry=".7" fill="#D8B978"/>
+      <path d="M37 33.6 C37.2 28 38.6 22.6 42 18.4" stroke="#A06A3A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M37.4 30 h1.6 M37.8 27 h1.6 M38.5 24.2 h1.5 M39.6 21.6 h1.4" stroke="#7E5029" stroke-width=".6" stroke-linecap="round"/>
+      <g fill="#3E9A48">
+      <path d="M42 18.4 C38 15.6 33.4 16.2 31 19.8 C34.4 18.8 38.2 18.8 42 18.4Z"/>
+      <path d="M42 18.4 C46 15.6 50.6 16.2 53 19.8 C49.6 18.8 45.8 18.8 42 18.4Z"/>
+      <path d="M42 18.4 C44.6 20 46.4 23 46.6 26.4 C44.8 23.6 43.4 21.4 42 18.4Z"/>
+      <path d="M42 18.4 C39.4 20 37.6 23 37.4 26.2 C39.2 23.4 40.6 21.2 42 18.4Z"/>
+      </g>
+      <g fill="#5DB654">
+      <path d="M42 18.4 C40.4 14.4 36.8 12.6 33.4 13 C36.6 14.6 39.4 16.4 42 18.4Z"/>
+      <path d="M42 18.4 C43.8 14.4 47.4 12.6 50.8 13.2 C47.6 14.6 44.6 16.4 42 18.4Z"/>
+      </g>
+      <g fill="#8A5A2B"><circle cx="41" cy="19.6" r="1.1"/><circle cx="43.2" cy="19.8" r="1.1"/><circle cx="42.1" cy="20.9" r="1"/></g>
+      <path d="M0 40.4 Q8 38.4 16 40.4 T32 40.4 T48 40.4 T64 40.4 V50 H0Z" fill="#2E9FCF"/>
+      <path d="M10 40.6 q3 -1.6 6 0 M44 40.6 q3 -1.6 6 0" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M6 46 q3 -2 6 0 M36 47 q3 -2 6 0" stroke="#fff" stroke-opacity=".6" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <path d="M0 36.6 H64" stroke="#fff" stroke-width="2.8" stroke-opacity=".4"/>
+      <path d="M0 36.6 H64" stroke="#D93C3C" stroke-width="1.7" stroke-dasharray="2.4 2.4" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gTropicOfCancer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A6DBF5"/><stop offset="1" stop-color="#FFF0C9"/></linearGradient>
+    <!-- 북회귀선: 여름날 머리 위 가장 높이 올라온 해(점선 화살표: 올라왔다가 되돌아간다), 해를 올려다보는 해바라기 들판을 가로지르는 주황 점선(지구본의 회귀선과 같은 색) -->
+    <symbol id="pl-tropic-of-cancer" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gTropicOfCancer)"/>
+      <circle cx="32" cy="9.4" r="8.6" fill="#FFF4C6" opacity=".8"/>
+      <g stroke="#FFB938" stroke-width="1.5" stroke-linecap="round"><path d="M32 16.4 V18.6 M26.6 14.2 L25.1 15.7 M37.4 14.2 L38.9 15.7 M24.6 9.4 H22.4 M39.4 9.4 H41.6 M26.6 4.6 L25.1 3.1 M37.4 4.6 L38.9 3.1 M32 2.4 V.2"/></g>
+      <circle cx="32" cy="9.4" r="5.4" fill="#FFD54F"/>
+      <circle cx="30.4" cy="7.8" r="1.9" fill="#FFE68A"/>
+      <g stroke="#F0923A" stroke-width="1.3" stroke-linecap="round" fill="none" stroke-dasharray=".1 2"><path d="M16.4 21 Q17.8 13 23.8 10.2"/><path d="M40.2 10.2 Q46.2 13 47.6 20"/></g>
+      <path d="M47.9 21.6 L49 19.1 L45.9 19.7Z" fill="#F0923A"/>
+      <path d="M0 31.4 C8 26.6 16 26.6 22 29.4 C30 25.6 40 25.6 46 29 C52 26.4 58 26.4 64 28.8 V36 H0Z" fill="#B7DD95"/>
+      <path d="M0 33.4 C14 30.6 26 31.2 36 31.6 C48 32 56 30.8 64 31.6 V50 H0Z" fill="#9BD077"/>
+      <path d="M0 39 C16 37.6 48 37.6 64 39 V50 H0Z" fill="#86C766"/>
+      <path d="M0 45.4 C18 44 40 45.4 64 44.4 V50 H0Z" fill="#74B85A"/>
+      <g fill="#C6E6A6"><ellipse cx="8" cy="35.4" rx="1.6" ry=".6"/><ellipse cx="56" cy="35" rx="1.8" ry=".6"/><ellipse cx="12" cy="47.6" rx="2" ry=".6"/><ellipse cx="52" cy="47.8" rx="2" ry=".6"/></g>
+      <g transform="translate(19.5 28) scale(.78)">
+      <path d="M0 2 V17" stroke="#4E9F4A" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M0 10 C-2.6 7.6 -5.4 8 -6.4 9.6 C-4.4 10.8 -2 10.8 0 10Z M0 12.6 C2.6 10.2 5.4 10.6 6.4 12.2 C4.4 13.4 2 13.4 0 12.6Z" fill="#5DB654"/>
+      <g fill="#F7BC36"><circle cx="3.14" cy="1.3" r="1.6"/><circle cx="1.3" cy="3.14" r="1.6"/><circle cx="-1.3" cy="3.14" r="1.6"/><circle cx="-3.14" cy="1.3" r="1.6"/><circle cx="-3.14" cy="-1.3" r="1.6"/><circle cx="-1.3" cy="-3.14" r="1.6"/><circle cx="1.3" cy="-3.14" r="1.6"/><circle cx="3.14" cy="-1.3" r="1.6"/></g>
+      <g fill="#FFD447"><circle cx="3.4" cy="0" r="1.9"/><circle cx="2.4" cy="2.4" r="1.9"/><circle cx="0" cy="3.4" r="1.9"/><circle cx="-2.4" cy="2.4" r="1.9"/><circle cx="-3.4" cy="0" r="1.9"/><circle cx="-2.4" cy="-2.4" r="1.9"/><circle cx="0" cy="-3.4" r="1.9"/><circle cx="2.4" cy="-2.4" r="1.9"/></g>
+      <circle r="2.5" fill="#8A5A2B"/><circle cx="-.7" cy="-.7" r=".9" fill="#A9733F"/>
+      </g>
+      <g transform="translate(44.5 28.4) scale(.74)">
+      <path d="M0 2 V17" stroke="#4E9F4A" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M0 9.4 C2.6 7 5.4 7.4 6.4 9 C4.4 10.2 2 10.2 0 9.4Z M0 12.6 C-2.6 10.2 -5.4 10.6 -6.4 12.2 C-4.4 13.4 -2 13.4 0 12.6Z" fill="#5DB654"/>
+      <g fill="#F7BC36"><circle cx="3.14" cy="1.3" r="1.6"/><circle cx="1.3" cy="3.14" r="1.6"/><circle cx="-1.3" cy="3.14" r="1.6"/><circle cx="-3.14" cy="1.3" r="1.6"/><circle cx="-3.14" cy="-1.3" r="1.6"/><circle cx="-1.3" cy="-3.14" r="1.6"/><circle cx="1.3" cy="-3.14" r="1.6"/><circle cx="3.14" cy="-1.3" r="1.6"/></g>
+      <g fill="#FFD447"><circle cx="3.4" cy="0" r="1.9"/><circle cx="2.4" cy="2.4" r="1.9"/><circle cx="0" cy="3.4" r="1.9"/><circle cx="-2.4" cy="2.4" r="1.9"/><circle cx="-3.4" cy="0" r="1.9"/><circle cx="-2.4" cy="-2.4" r="1.9"/><circle cx="0" cy="-3.4" r="1.9"/><circle cx="2.4" cy="-2.4" r="1.9"/></g>
+      <circle r="2.5" fill="#8A5A2B"/><circle cx="-.7" cy="-.7" r=".9" fill="#A9733F"/>
+      </g>
+      <g transform="translate(32 24.4)">
+      <path d="M0 2 V16" stroke="#4E9F4A" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M0 9.4 C-2.6 7 -5.4 7.4 -6.4 9 C-4.4 10.2 -2 10.2 0 9.4Z M0 12 C2.6 9.6 5.4 10 6.4 11.6 C4.4 12.8 2 12.8 0 12Z" fill="#5DB654"/>
+      <g fill="#F7BC36"><circle cx="3.14" cy="1.3" r="1.6"/><circle cx="1.3" cy="3.14" r="1.6"/><circle cx="-1.3" cy="3.14" r="1.6"/><circle cx="-3.14" cy="1.3" r="1.6"/><circle cx="-3.14" cy="-1.3" r="1.6"/><circle cx="-1.3" cy="-3.14" r="1.6"/><circle cx="1.3" cy="-3.14" r="1.6"/><circle cx="3.14" cy="-1.3" r="1.6"/></g>
+      <g fill="#FFD447"><circle cx="3.4" cy="0" r="1.9"/><circle cx="2.4" cy="2.4" r="1.9"/><circle cx="0" cy="3.4" r="1.9"/><circle cx="-2.4" cy="2.4" r="1.9"/><circle cx="-3.4" cy="0" r="1.9"/><circle cx="-2.4" cy="-2.4" r="1.9"/><circle cx="0" cy="-3.4" r="1.9"/><circle cx="2.4" cy="-2.4" r="1.9"/></g>
+      <circle r="2.5" fill="#8A5A2B"/><circle cx="-.7" cy="-.7" r=".9" fill="#A9733F"/>
+      </g>
+      <path d="M0 38.6 H64" stroke="#fff" stroke-width="2.8" stroke-opacity=".4"/>
+      <path d="M0 38.6 H64" stroke="#D9701E" stroke-width="1.7" stroke-dasharray="2.4 2.4" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gPrimeMeridian" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4E1F7"/><stop offset="1" stop-color="#EEF6FC"/></linearGradient>
+    <linearGradient id="gPrimeMeridian2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7DA78"/><stop offset="1" stop-color="#F2C24E"/></linearGradient>
+    <!-- 본초 자오선: 언덕 위 붉은 벽돌 천문대(그리니치) — 탑 위 빨간 시간 공 기둥, 벽 가운데 둥근 시계, 옆의 망원경 돔. 경도 0° 선이 하늘(점선)에서 천문대를 지나 문 앞 땅(금빛 줄)으로 곧게 이어진다 -->
+    <symbol id="pl-prime-meridian" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gPrimeMeridian)"/>
+      <path d="M3 15 a3.5 3.5 0 0 1 6 -1.6 a4.5 4.5 0 0 1 8 1.6 a2.6 2.6 0 0 1 0 5.2 h-13 a2.6 2.6 0 0 1 -1 -5.2z" fill="#fff"/>
+      <path d="M48 8 a2.8 2.8 0 0 1 5 -1.2 a3.6 3.6 0 0 1 6.4 1.2 a2.1 2.1 0 0 1 0 4.2 h-10.4 a2.1 2.1 0 0 1 -1 -4.2z" fill="#fff"/>
+      <path d="M32 0 V18" stroke="#fff" stroke-width="2.4" stroke-opacity=".45"/>
+      <path d="M32 1 V18" stroke="#D99A25" stroke-width="1.3" stroke-dasharray="2 2.2" stroke-linecap="round"/>
+      <path d="M0 34 C10 30 20 30.8 32 30.8 C44 30.8 54 30 64 34 V50 H0Z" fill="#8ACB69"/>
+      <path d="M0 42 C16 40 48 40 64 42 V50 H0Z" fill="#7DBB5E"/>
+      <rect x="7.4" y="29" width="1.4" height="4" fill="#8A5A3B"/><rect x="55.6" y="29.4" width="1.4" height="4" fill="#8A5A3B"/>
+      <g fill="#4E9F4A"><circle cx="8.1" cy="27" r="3.4"/><circle cx="56.3" cy="27.4" r="3.4"/></g>
+      <g fill="#62B55A"><circle cx="7.2" cy="26" r="1.6"/><circle cx="55.4" cy="26.4" r="1.6"/></g>
+      <rect x="15" y="24.6" width="7.4" height="6.8" fill="#C06A53"/>
+      <rect x="14.6" y="23.6" width="8.2" height="1.2" fill="#F3EAD9"/>
+      <path d="M17.7 29.6 V27 a1 1 0 0 1 2 0 V29.6Z" fill="#4A5F94"/>
+      <rect x="41.6" y="24.6" width="9.4" height="6.8" fill="#EDE4D3"/>
+      <rect x="48.8" y="24.6" width="2.2" height="6.8" fill="#DCD0BA"/>
+      <rect x="41.2" y="23.8" width="10.2" height="1" fill="#F7F1E5"/>
+      <path d="M46.6 21 L42.4 15.8" stroke="#5B6B85" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M41.2 23.8 a5.1 5.1 0 0 1 10.2 0Z" fill="#D2DCE7"/>
+      <path d="M46.3 18.7 a5.1 5.1 0 0 1 5.1 5.1 H46.3Z" fill="#B7C5D4"/>
+      <path d="M45.5 18.8 h1.6 V23.8 h-1.6z" fill="#3B4E70"/>
+      <path d="M43 19.6 C43.8 19 44.6 18.8 45.2 18.8" stroke="#fff" stroke-width=".7" fill="none" stroke-linecap="round" opacity=".7"/>
+      <rect x="22" y="19.6" width="20" height="11.8" fill="#C9735B"/>
+      <rect x="40" y="19.6" width="2" height="11.8" fill="#B5634C"/>
+      <g fill="#F3EAD9"><rect x="22" y="21.6" width="1.2" height="1.6"/><rect x="22" y="25.2" width="1.2" height="1.6"/><rect x="22" y="28.8" width="1.2" height="1.6"/><rect x="40.8" y="21.6" width="1.2" height="1.6"/><rect x="40.8" y="25.2" width="1.2" height="1.6"/><rect x="40.8" y="28.8" width="1.2" height="1.6"/></g>
+      <rect x="21.4" y="18.6" width="21.2" height="1.4" fill="#F3EAD9"/>
+      <rect x="23.4" y="13.8" width="5.6" height="5" fill="#C9735B"/>
+      <rect x="27.6" y="13.8" width="1.4" height="5" fill="#B5634C"/>
+      <rect x="22.9" y="13" width="6.6" height="1.1" fill="#F3EAD9"/>
+      <path d="M24.2 13.1 a2 1.9 0 0 1 4 0Z" fill="#5E7891"/>
+      <circle cx="26.2" cy="16.2" r=".9" fill="#4A5F94"/>
+      <path d="M26.2 11.4 V3" stroke="#2F4C78" stroke-width=".8" stroke-linecap="round"/>
+      <path d="M24.9 3.5 H27.5" stroke="#2F4C78" stroke-width=".7" stroke-linecap="round"/>
+      <circle cx="26.2" cy="6.8" r="2.1" fill="#E4573F"/>
+      <circle cx="25.5" cy="6.1" r=".7" fill="#fff" opacity=".55"/>
+      <g fill="#4A5F94"><path d="M25 27.4 V23.6 a1 1 0 0 1 2 0 V27.4Z"/><path d="M37 27.4 V23.6 a1 1 0 0 1 2 0 V27.4Z"/></g>
+      <circle cx="32" cy="23.2" r="2.8" fill="#fff" stroke="#2F4C78" stroke-width=".7"/>
+      <path d="M32 23.2 V21.3 M32 23.2 H33.6" stroke="#2F4C78" stroke-width=".7" stroke-linecap="round"/>
+      <path d="M30.4 31.4 V28.6 a1.6 1.6 0 0 1 3.2 0 V31.4Z" fill="#7A4A30"/>
+      <path d="M31.3 31.4 H32.7 L34.2 50 H29.8Z" fill="url(#gPrimeMeridian2)"/>
+      <path d="M31.3 31.4 L29.8 50 M32.7 31.4 L34.2 50" stroke="#C9952F" stroke-width=".5"/>
+      <path d="M32 32 V50" stroke="#FFF6D6" stroke-width=".6"/>
+    </symbol>
+    <linearGradient id="gDateLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9E2F7"/><stop offset="1" stop-color="#E4F4FB"/></linearGradient>
+    <linearGradient id="gDateLine2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AAEE0"/><stop offset="1" stop-color="#2C80C2"/></linearGradient>
+    <!-- 날짜 변경선: 넓은 바다 한가운데를 지그재그로 지나는 보라 점선(지구본의 날짜 변경선과 같은 색), 선 양쪽의 달력 — 선 서쪽(왼쪽) 달력이 하루 뒤 칸에 표시. 양쪽 시각은 같고 날짜만 달라서 밤낮으로 나누지 않는다 -->
+    <symbol id="pl-date-line" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gDateLine)"/>
+      <path d="M2 8 a2.6 2.6 0 0 1 4.6 -1.1 a3.3 3.3 0 0 1 5.9 1.1 a1.9 1.9 0 0 1 0 3.8 h-9.6 a1.9 1.9 0 0 1 -.9 -3.8z" fill="#fff"/>
+      <path d="M53 7 a2.6 2.6 0 0 1 4.6 -1.1 a3.3 3.3 0 0 1 5.9 1.1 a1.9 1.9 0 0 1 0 3.8 h-9.6 a1.9 1.9 0 0 1 -.9 -3.8z" fill="#fff"/>
+      <rect y="28" width="64" height="22" fill="url(#gDateLine2)"/>
+      <path d="M0 28.5 H64" stroke="#fff" stroke-opacity=".5" stroke-width=".8"/>
+      <path d="M8 29 C9.4 26.6 13 26.4 15 29Z" fill="#F5DFA6"/>
+      <path d="M11.6 27.4 C11.6 25.2 12.2 23.8 13.2 22.8" stroke="#A06A3A" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M13.2 22.8 C11.6 21.6 9.8 22 9 23.4 C10.6 23 11.8 23 13.2 22.8Z M13.2 22.8 C14.8 21.6 16.6 22 17.4 23.4 C15.8 23 14.6 23 13.2 22.8Z M13.2 22.8 C12.6 21 11.2 20.2 9.8 20.4 C11 21 12.2 21.8 13.2 22.8Z M13.2 22.8 C13.8 21 15.2 20.2 16.6 20.6 C15.4 21.2 14.2 21.8 13.2 22.8Z" fill="#4FA34B"/>
+      <path d="M48 29 C49.6 26.8 53.4 26.6 55.6 29Z" fill="#7DBB5E"/>
+      <path d="M48 29 H55.6 L55.2 29.6 H48.4Z" fill="#E2C78A"/>
+      <path d="M4 34 q3 -1.8 6 0 M50 34.6 q3 -1.8 6 0 M14 41 q3 -1.8 6 0 M42 42 q3 -1.8 6 0 M6 46.6 q3 -1.8 6 0 M50 47 q3 -1.8 6 0" stroke="#fff" stroke-opacity=".65" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <g transform="translate(13.6 10.4)">
+      <rect x=".6" y=".8" width="12" height="11.4" rx="1.2" fill="#2F4C78" opacity=".18"/>
+      <rect width="12" height="11.4" rx="1.2" fill="#fff"/>
+      <path d="M0 3.2 V1.2 A1.2 1.2 0 0 1 1.2 0 H10.8 A1.2 1.2 0 0 1 12 1.2 V3.2Z" fill="#E4573F"/>
+      <g fill="#2F4C78"><rect x="2.8" y="-1" width=".9" height="2.4" rx=".45"/><rect x="8.3" y="-1" width=".9" height="2.4" rx=".45"/></g>
+      <g fill="#C9D5E6"><rect x="1.4" y="4.6" width="1.8" height="1.5"/><rect x="4" y="4.6" width="1.8" height="1.5"/><rect x="6.6" y="4.6" width="1.8" height="1.5"/><rect x="9.2" y="4.6" width="1.8" height="1.5"/><rect x="1.4" y="7" width="1.8" height="1.5"/><rect x="4" y="7" width="1.8" height="1.5"/><rect x="9.2" y="7" width="1.8" height="1.5"/><rect x="1.4" y="9.4" width="1.8" height="1.5"/><rect x="4" y="9.4" width="1.8" height="1.5"/><rect x="6.6" y="9.4" width="1.8" height="1.5"/></g>
+      <rect x="6.3" y="6.7" width="2.4" height="2.1" rx=".5" fill="#E4573F"/>
+      </g>
+      <g transform="translate(38.4 10.4)">
+      <rect x=".6" y=".8" width="12" height="11.4" rx="1.2" fill="#2F4C78" opacity=".18"/>
+      <rect width="12" height="11.4" rx="1.2" fill="#fff"/>
+      <path d="M0 3.2 V1.2 A1.2 1.2 0 0 1 1.2 0 H10.8 A1.2 1.2 0 0 1 12 1.2 V3.2Z" fill="#E4573F"/>
+      <g fill="#2F4C78"><rect x="2.8" y="-1" width=".9" height="2.4" rx=".45"/><rect x="8.3" y="-1" width=".9" height="2.4" rx=".45"/></g>
+      <g fill="#C9D5E6"><rect x="1.4" y="4.6" width="1.8" height="1.5"/><rect x="4" y="4.6" width="1.8" height="1.5"/><rect x="6.6" y="4.6" width="1.8" height="1.5"/><rect x="9.2" y="4.6" width="1.8" height="1.5"/><rect x="1.4" y="7" width="1.8" height="1.5"/><rect x="6.6" y="7" width="1.8" height="1.5"/><rect x="9.2" y="7" width="1.8" height="1.5"/><rect x="1.4" y="9.4" width="1.8" height="1.5"/><rect x="4" y="9.4" width="1.8" height="1.5"/><rect x="6.6" y="9.4" width="1.8" height="1.5"/></g>
+      <rect x="3.7" y="6.7" width="2.4" height="2.1" rx=".5" fill="#E4573F"/>
+      </g>
+      <path d="M31 0 V10 L35.4 15.4 V25 L29.4 31.4 V50" stroke="#fff" stroke-width="2.9" stroke-opacity=".45" fill="none" stroke-linejoin="round"/>
+      <path d="M31 0 V10 L35.4 15.4 V25 L29.4 31.4 V50" stroke="#6A4BC4" stroke-width="1.8" stroke-dasharray="2.4 2.4" stroke-linecap="round" fill="none" stroke-linejoin="round"/>
+    </symbol>
+    <linearGradient id="gHimalayas" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7EBBEA"/><stop offset="1" stop-color="#DCEEFA"/></linearGradient>
+    <linearGradient id="gHimalayas2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AAAD0"/><stop offset="1" stop-color="#7C8CB8"/></linearGradient>
+    <!-- 히말라야산맥: 구름보다 높이 솟은 뾰족한 눈 봉우리(꼭대기에서 바람에 날리는 눈), 양옆의 높은 봉우리들, 앞 고원의 털 긴 야크 -->
+    <symbol id="pl-himalayas" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gHimalayas)"/>
+      <path d="M-2 38 L12.6 16.6 L18.4 23 L21.6 20.6 L28 30 H36 L42 22.4 L45 24.6 L51.4 15 L66 36 V42 H-2Z" fill="#B3C3E0"/>
+      <path d="M9 21.8 L12.6 16.6 L16.2 20.6 L14.8 20.2 L13.6 22.2 L12.2 20.6 L10.6 22.4Z M47.8 20.4 L51.4 15 L55 20.2 L53.4 19.6 L52.2 21.6 L50.8 20 L49.4 21.4Z" fill="#fff"/>
+      <path d="M8 44 L26.6 14.2 L32 6.6 L37.6 12.8 L56 44Z" fill="url(#gHimalayas2)"/>
+      <path d="M32 6.6 L37.6 12.8 L56 44 H38.6 L34.4 26Z" fill="#6A7BA8"/>
+      <path d="M23.6 19 L26.6 14.2 L32 6.6 L37.6 12.8 L40.8 18.2 L38.6 17.2 L36.6 20.8 L34.4 18.2 L32.6 22 L30.6 18.4 L28.6 21 L26.8 18.2 L25.2 20Z" fill="#fff"/>
+      <path d="M32 6.6 L37.6 12.8 L40.8 18.2 L38.6 17.2 L36.6 20.8 L34.4 18.2 L33.2 20.6 C33.2 15.4 32.8 10.6 32 6.6Z" fill="#D6E0F0"/>
+      <path d="M32.8 7.2 C38 5.8 44 6.4 49.4 8.4 C44.6 8.6 39.6 8.8 35 9.6Z" fill="#fff" opacity=".85"/>
+      <path d="M27.8 17 C29.4 14.4 30.8 12 32 9.4" stroke="#fff" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M5 31.4 a2.6 2.6 0 0 1 4.6 -1.4 a3.6 3.6 0 0 1 6.6 .2 a3 3 0 0 1 5.4 .8 a2.2 2.2 0 0 1 .2 4.2 h-16.4 a2 2 0 0 1 -.4 -3.8z" fill="#fff"/>
+      <path d="M38 30.6 a2.6 2.6 0 0 1 4.6 -1.4 a3.6 3.6 0 0 1 6.6 .2 a3 3 0 0 1 5.4 .8 a2.2 2.2 0 0 1 .2 4.2 h-16.4 a2 2 0 0 1 -.4 -3.8z" fill="#fff"/>
+      <path d="M0 41.4 C14 39 26 39.8 36 40 C48 40.2 56 39 64 40.4 V50 H0Z" fill="#A7C584"/>
+      <path d="M0 46 C16 44.4 40 46 64 44.8 V50 H0Z" fill="#8DB46C"/>
+      <g fill="#C3B9A8"><ellipse cx="9" cy="43.6" rx="2.4" ry="1.2"/><ellipse cx="20" cy="46.6" rx="1.6" ry=".8"/><ellipse cx="57" cy="45.6" rx="2" ry="1"/></g>
+      <g fill="#3A2C24"><rect x="40.6" y="39.4" width="1.3" height="3.4" rx=".5"/><rect x="42.6" y="39.4" width="1.3" height="3.2" rx=".5"/><rect x="47" y="39.4" width="1.3" height="3.4" rx=".5"/><rect x="49" y="39.4" width="1.3" height="3.2" rx=".5"/></g>
+      <path d="M51.4 35.6 C53 36.4 53.4 38.4 52.8 40.2" stroke="#4E3B30" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M39.4 36.6 C39.4 33.8 42 32 45.2 32.2 C48.8 32.4 51.8 33.6 51.8 36.6 V39.8 L50.8 39 L49.8 40.4 L48.8 39.2 L47.8 40.6 L46.8 39.2 L45.8 40.6 L44.8 39.2 L43.8 40.6 L42.8 39.2 L41.8 40.4 L40.8 39.2 L39.4 40Z" fill="#4E3B30"/>
+      <path d="M42 33.4 C44.6 32.4 48 32.6 50.4 33.8" stroke="#6E5646" stroke-width=".8" fill="none" stroke-linecap="round"/>
+      <path d="M38.2 34 C37.4 32.2 35.6 31.6 34.6 32.6" stroke="#F3EAD9" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M40 33.8 C40.6 32 42.2 31.4 43.2 32.2" stroke="#F3EAD9" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="39" cy="35.6" rx="2.4" ry="2.3" fill="#4E3B30"/>
+      <ellipse cx="38" cy="36.9" rx="1.5" ry="1.1" fill="#E9E1D6"/>
+      <circle cx="38.4" cy="34.9" r=".45" fill="#fff"/>
+    </symbol>
+    <linearGradient id="gAndes" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ADDAF4"/><stop offset="1" stop-color="#EAF6FC"/></linearGradient>
+    <linearGradient id="gAndes2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8CD84"/><stop offset="1" stop-color="#D9B765"/></linearGradient>
+    <!-- 안데스산맥: 가까운 큰 봉우리부터 멀리까지 줄지어 이어지는 눈 덮인 봉우리들(아주 긴 산맥), 하늘에 날개를 활짝 편 콘도르, 앞은 누런 풀의 높은 고원 -->
+    <symbol id="pl-andes" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gAndes)"/>
+      <path d="M50 18 a2.4 2.4 0 0 1 4.2 -1 a3 3 0 0 1 5.4 1 a1.8 1.8 0 0 1 0 3.6 h-8.8 a1.8 1.8 0 0 1 -.8 -3.6z" fill="#fff"/>
+      <path d="M56.6 40 L62 28.8 L67.4 40Z" fill="#D3D4EA"/>
+      <path d="M62 28.8 L67.4 40 H63Z" fill="#C3C5E1"/>
+      <path d="M62 28.8 L63.8 32.6 L62.9 33.5 L62 32.6 L61.1 33.5 L60.2 32.6Z" fill="#fff"/>
+      <path d="M62 28.8 L63.8 32.6 L62.9 33.5 L62.3 33Z" fill="#DCE3F2"/>
+      <path d="M50.2 40 L56.4 27.4 L62.6 40Z" fill="#C9C4E0"/>
+      <path d="M56.4 27.4 L62.6 40 H57.5Z" fill="#B6B0D3"/>
+      <path d="M56.4 27.4 L58.5 31.7 L57.5 32.6 L56.4 31.7 L55.3 32.6 L54.3 31.7Z" fill="#fff"/>
+      <path d="M56.4 27.4 L58.5 31.7 L57.5 32.6 L56.8 32Z" fill="#DCE3F2"/>
+      <path d="M42.8 40 L50 25.4 L57.2 40Z" fill="#C0B2CF"/>
+      <path d="M50 25.4 L57.2 40 H51.3Z" fill="#AA9CBE"/>
+      <path d="M50 25.4 L52.4 30.4 L51.2 31.3 L50 30.4 L48.8 31.3 L47.6 30.4Z" fill="#fff"/>
+      <path d="M50 25.4 L52.4 30.4 L51.2 31.3 L50.4 30.7Z" fill="#DCE3F2"/>
+      <path d="M34.4 40 L42.8 22.8 L51.2 40Z" fill="#B9A3BC"/>
+      <path d="M42.8 22.8 L51.2 40 H44.3Z" fill="#A38CAB"/>
+      <path d="M42.8 22.8 L45.7 28.6 L44.2 29.7 L42.8 28.6 L41.4 29.7 L39.9 28.6Z" fill="#fff"/>
+      <path d="M42.8 22.8 L45.7 28.6 L44.2 29.7 L43.3 29.1Z" fill="#DCE3F2"/>
+      <path d="M24.6 40 L34.6 19.6 L44.6 40Z" fill="#B4969F"/>
+      <path d="M34.6 19.6 L44.6 40 H36.4Z" fill="#9C7F8B"/>
+      <path d="M34.6 19.6 L38 26.5 L36.3 27.8 L34.6 26.5 L32.9 27.8 L31.2 26.5Z" fill="#fff"/>
+      <path d="M34.6 19.6 L38 26.5 L36.3 27.8 L35.2 27Z" fill="#DCE3F2"/>
+      <path d="M13 40 L25 15.6 L37 40Z" fill="#AE8D8E"/>
+      <path d="M25 15.6 L37 40 H27.2Z" fill="#967579"/>
+      <path d="M25 15.6 L29.1 23.9 L27 25.4 L25 23.9 L23 25.4 L20.9 23.9Z" fill="#fff"/>
+      <path d="M25 15.6 L29.1 23.9 L27 25.4 L25.7 24.5Z" fill="#DCE3F2"/>
+      <path d="M-2 40 L13.4 11 L28.8 40Z" fill="#A6827F"/>
+      <path d="M13.4 11 L28.8 40 H16.2Z" fill="#8C6A68"/>
+      <path d="M13.4 11 L18.6 20.9 L16 22.6 L13.4 20.9 L10.8 22.6 L8.2 20.9Z" fill="#fff"/>
+      <path d="M13.4 11 L18.6 20.9 L16 22.6 L14.3 21.6Z" fill="#DCE3F2"/>
+      <path d="M0 38.6 C14 36.8 28 37.8 40 38 C50 38.2 58 37.2 64 37.8 V50 H0Z" fill="url(#gAndes2)"/>
+      <path d="M0 44.6 C18 43 40 45 64 43.6 V50 H0Z" fill="#CFA857"/>
+      <path d="M6 42 l.7 -2.2 M7.6 42.2 l.2 -2.4 M9.2 42 l-.4 -2.2 M52 41.6 l.7 -2.2 M53.6 41.8 l.2 -2.4 M55.2 41.6 l-.4 -2.2 M26 47.4 l.7 -2.2 M27.6 47.6 l.2 -2.4 M29.2 47.4 l-.4 -2.2" stroke="#B48A3A" stroke-width=".8" stroke-linecap="round"/>
+      <g transform="translate(37 12.6)">
+      <path d="M-1.8 .4 C-6 -1.4 -10 -2.2 -14.4 -1.8 L-15.6 -1 L-14.2 -.7 L-15.4 .1 L-13.8 .2 L-14.8 1.1 L-13 .9 C-9 1.2 -5.2 2 -1.8 2.6Z" fill="#2B2F3A"/>
+      <path d="M1.8 .4 C6 -1.4 10 -2.2 14.4 -1.8 L15.6 -1 L14.2 -.7 L15.4 .1 L13.8 .2 L14.8 1.1 L13 .9 C9 1.2 5.2 2 1.8 2.6Z" fill="#2B2F3A"/>
+      <path d="M-2.6 1 C-5.8 .1 -8.8 -.3 -11.6 -.1 C-8.6 .6 -5.6 1.4 -2.6 2.1Z M2.6 1 C5.8 .1 8.8 -.3 11.6 -.1 C8.6 .6 5.6 1.4 2.6 2.1Z" fill="#F2F2F2"/>
+      <path d="M-1.2 2.6 L0 5 L1.2 2.6Z" fill="#2B2F3A"/>
+      <ellipse cx="0" cy="1.6" rx="2.4" ry="1.8" fill="#2B2F3A"/>
+      <ellipse cx="0" cy="-.2" rx="1.7" ry="1" fill="#fff"/>
+      <circle cx="0" cy="-1.4" r="1.15" fill="#C9857F"/>
+      <path d="M-.4 -.8 L0 .1 L.4 -.8Z" fill="#EADBB8"/>
+      </g>
+    </symbol>
+    <linearGradient id="gRockies" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9E0F6"/><stop offset="1" stop-color="#E9F6FA"/></linearGradient>
+    <linearGradient id="gRockies2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD6DA"/><stop offset="1" stop-color="#3AA9C4"/></linearGradient>
+    <!-- 로키산맥: 눈 덮인 뾰족한 바위 봉우리가 줄지어 선 산맥, 앞에는 옥빛 호수와 바위 위의 큰뿔양 -->
+    <symbol id="pl-rockies" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gRockies)"/>
+      <path d="M4 12 a3 3 0 0 1 5.2 -1.4 a3.8 3.8 0 0 1 6.8 1.4 a2.2 2.2 0 0 1 0 4.4 h-11 a2.2 2.2 0 0 1 -1 -4.4z" fill="#fff"/>
+      <path d="M0 27 L5 21 L9 24 L13 19 L19 25 L26 20 L33 25 L40 18 L45 22 L52 17 L58 22 L64 19 V36 H0Z" fill="#C9D6EE"/>
+      <path d="M-2 35 L5 26 L8 28 L16 14 L20 20.5 L23 18 L32 9 L37 16.5 L39.5 14.5 L41.5 17 L48 10.5 L53 18.5 L56 16.5 L66 29 V37 H-2Z" fill="#8494B8"/>
+      <g fill="#6B7BA2">
+      <path d="M16 14 L20 20.5 L21 35 H15 L17.6 22Z"/>
+      <path d="M32 9 L37 16.5 L37.6 35 H32 L33.6 21Z"/>
+      <path d="M48 10.5 L53 18.5 L56 16.5 L66 29 V35 H48 L49.6 21Z"/>
+      </g>
+      <g fill="#fff">
+      <path d="M13.4 18.6 L16 14 L18.5 18 L17.4 17.4 L16.4 19.2 L15.4 17.8 L14.4 19Z"/>
+      <path d="M26.6 14.4 L32 9 L36.4 15.6 L35 14.8 L33.6 17.2 L32.2 15.2 L30.4 17.4 L29 15.2 L27.8 16.2Z"/>
+      <path d="M43.2 15.3 L48 10.5 L51.2 15.5 L49.8 14.8 L48.6 17 L47.2 15.2 L45.6 16.8 L44.6 15.4Z"/>
+      </g>
+      <g fill="#D5E1F2">
+      <path d="M16 14 L18.5 18 L17.4 17.4 L16.8 18.4Z"/>
+      <path d="M32 9 L36.4 15.6 L35 14.8 L33.6 17.2 L33 14.6Z"/>
+      <path d="M48 10.5 L51.2 15.5 L49.8 14.8 L48.6 17 L48.8 14Z"/>
+      </g>
+      <path d="M-2.4 35.5 L-0.5 29.5 L1.4 35.5Z M1.2 35.5 L3.1 28 L5 35.5Z M4.8 35.5 L6.7 30 L8.6 35.5Z M8.4 35.5 L10.3 28.5 L12.2 35.5Z M12 35.5 L13.9 29.3 L15.8 35.5Z M15.6 35.5 L17.5 27.5 L19.4 35.5Z M19.2 35.5 L21.1 29.9 L23 35.5Z M22.8 35.5 L24.7 28.7 L26.6 35.5Z M26.4 35.5 L28.3 28.1 L30.2 35.5Z M30 35.5 L31.9 29.7 L33.8 35.5Z M33.6 35.5 L35.5 28.3 L37.4 35.5Z M37.2 35.5 L39.1 29.1 L41 35.5Z M40.8 35.5 L42.7 27.7 L44.6 35.5Z M44.4 35.5 L46.3 29.9 L48.2 35.5Z M48 35.5 L49.9 28.9 L51.8 35.5Z M51.6 35.5 L53.5 27.9 L55.4 35.5Z M55.2 35.5 L57.1 29.5 L59 35.5Z M58.8 35.5 L60.7 28.5 L62.6 35.5Z" fill="#4E9A6A"/>
+      <path d="M-0.4 36 L1.3 31.4 L3 36Z M3.2 36 L4.9 30.6 L6.6 36Z M6.8 36 L8.5 31.8 L10.2 36Z M10.4 36 L12.1 30.2 L13.8 36Z M14 36 L15.7 31.2 L17.4 36Z M17.6 36 L19.3 30.8 L21 36Z M21.2 36 L22.9 31.6 L24.6 36Z M24.8 36 L26.5 30.4 L28.2 36Z M28.4 36 L30.1 31.4 L31.8 36Z M32 36 L33.7 31 L35.4 36Z M35.6 36 L37.3 31.6 L39 36Z M39.2 36 L40.9 30.2 L42.6 36Z M42.8 36 L44.5 31.4 L46.2 36Z M46.4 36 L48.1 30.8 L49.8 36Z M50 36 L51.7 31.2 L53.4 36Z M53.6 36 L55.3 30.6 L57 36Z M57.2 36 L58.9 31.6 L60.6 36Z M60.8 36 L62.5 31 L64.2 36Z" fill="#3B8257"/>
+      <path d="M0 35.4 C16 34.6 48 34.6 64 35.4 V44 H0Z" fill="url(#gRockies2)"/>
+      <path d="M15 35.6 L17 38.6 L20 35.6Z M27 35.6 L32 40.6 L36 35.6Z M44 35.6 L48 39.6 L53 35.6Z" fill="#fff" opacity=".18"/>
+      <path d="M4 39 q3 -1.6 6 0 M20 41.6 q3 -1.6 6 0 M54 40.4 q3 -1.6 6 0" stroke="#fff" stroke-opacity=".75" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M0 50 V43 C12 41.6 22 42 32 42.6 C44 43.2 54 42.2 64 42.8 V50Z" fill="#8ACB69"/>
+      <path d="M0 50 V46 C14 44.4 28 45.6 40 46 C50 46.3 58 45.2 64 45.8 V50Z" fill="#74B85A"/>
+      <path d="M35.6 44 C36.4 40.6 39.6 39.2 44 39.2 C48.4 39.2 51.4 40.6 52.6 44Z" fill="#B3ACA6"/>
+      <path d="M44 39.2 C48.4 39.2 51.4 40.6 52.6 44 H46.4 C46.6 42 45.8 40.4 44 39.2Z" fill="#968E88"/>
+      <g fill="#8C6440"><rect x="46.3" y="35.6" width="1.2" height="4.3" rx=".5"/><rect x="48.1" y="35.6" width="1.2" height="4.1" rx=".5"/></g>
+      <g fill="#A87A4C"><rect x="40.6" y="35.6" width="1.3" height="4.4" rx=".5"/><rect x="42.5" y="35.6" width="1.3" height="4.2" rx=".5"/></g>
+      <ellipse cx="44.8" cy="35" rx="5.2" ry="3" fill="#B98A5A"/>
+      <ellipse cx="49.3" cy="35.2" rx="1.4" ry="1.9" fill="#F3E8D6"/>
+      <ellipse cx="44.6" cy="37.1" rx="3.4" ry=".8" fill="#E7D3B2"/>
+      <path d="M39.6 35.4 L37.6 31 L40.8 30.2 L42.6 34.2Z" fill="#B98A5A"/>
+      <ellipse cx="38" cy="30.4" rx="2.6" ry="1.8" transform="rotate(-12 38 30.4)" fill="#B98A5A"/>
+      <ellipse cx="35.8" cy="31.2" rx="1.2" ry="1" fill="#EADBC2"/>
+      <circle cx="37.5" cy="29.7" r=".5" fill="#14223F"/>
+      <path d="M38.9 28.8 C40.6 27 43 28.2 42.6 30.5 C42.3 32.3 40 32.4 39.7 30.9" stroke="#E8D5A8" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M41.2 28.2 C42.3 28.8 42.8 29.8 42.6 30.6" stroke="#C9B07E" stroke-width=".6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gNile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B7E1F6"/><stop offset="1" stop-color="#FBF0D4"/></linearGradient>
+    <linearGradient id="gNile2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5DB5E4"/><stop offset="1" stop-color="#2F80C4"/></linearGradient>
+    <!-- 나일강: 사막 사이로 흐르는 파란 강 위의 큰 세모 돛배(펠루카), 강가의 파피루스와 눈만 내민 악어 -->
+    <symbol id="pl-nile" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gNile)"/>
+      <circle cx="12" cy="10" r="6.6" fill="#FFF6CF" opacity=".7"/>
+      <circle cx="12" cy="10" r="4.6" fill="#FFE68A"/>
+      <path d="M0 26 C8 23 16 22.6 24 24.6 C34 22 46 21.6 56 23.6 C59 23 62 23 64 23.4 V31 H0Z" fill="#F4D99E"/>
+      <path d="M0 28.4 C14 27 30 27.6 44 27.4 C52 27.3 58 27 64 27.4 V31 H0Z" fill="#8FC96C"/>
+      <path d="M53 28 C53.2 25.4 53.6 23.6 54.4 22" stroke="#8A5A33" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M58.6 28 C58.6 26 58.9 24.4 59.6 23.2" stroke="#8A5A33" stroke-width=".8" fill="none" stroke-linecap="round"/>
+      <g fill="#4FA34B">
+      <path d="M54.4 22 C52.6 20.8 50.8 21 49.8 22.2 C51.6 21.6 53 21.8 54.4 22Z M54.4 22 C55.8 20.4 57.6 20.4 58.8 21.6 C57 21.2 55.6 21.4 54.4 22Z M54.4 22 C53.6 20.2 54 18.6 55.2 18 C54.8 19.4 54.6 20.6 54.4 22Z M54.4 22 C52.6 22.4 51.6 23.6 51.6 25 C52.4 23.6 53.4 22.8 54.4 22Z M54.4 22 C56.2 22.2 57.4 23.2 57.6 24.6 C56.6 23.4 55.6 22.6 54.4 22Z"/>
+      <path d="M59.6 23.2 C58.2 22.2 56.8 22.4 56 23.4 C57.4 22.9 58.5 23 59.6 23.2Z M59.6 23.2 C60.8 22 62.2 22 63.2 23 C61.8 22.6 60.6 22.8 59.6 23.2Z M59.6 23.2 C59 21.8 59.4 20.6 60.4 20.2 C60 21.2 59.8 22.2 59.6 23.2Z"/>
+      </g>
+      <path d="M0 30.4 C16 29.6 48 29.6 64 30.4 V50 H0Z" fill="url(#gNile2)"/>
+      <path d="M6 33.6 q3 -1.4 6 0 M46 33 q3 -1.4 6 0 M52 38.4 q3 -1.6 6 0 M14 44 q3 -1.6 6 0 M36 46.6 q3 -1.6 6 0" stroke="#fff" stroke-opacity=".7" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="32" cy="40.8" rx="12" ry="1.5" fill="#fff" opacity=".35"/>
+      <path d="M33.4 37.4 V19.8" stroke="#7A5230" stroke-width="1" stroke-linecap="round"/>
+      <path d="M43.4 9 C45 18 44.4 27 41.6 34.4 L21.8 33.6Z" fill="#fff"/>
+      <path d="M43.4 9 C45 18 44.4 27 41.6 34.4 L37.8 34.2 C40.4 26.6 41.2 17.6 43.4 9Z" fill="#DCE6F0"/>
+      <path d="M38.4 15 L36.2 34 M33.4 20.4 L30.6 33.8 M28.4 26 L26.4 33.7" stroke="#D3DEEA" stroke-width=".6" fill="none" stroke-linecap="round"/>
+      <path d="M20.6 35 L44.6 7.4" stroke="#7A5230" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M17.6 34.2 L20.6 36.4 H44.8 C44 39.2 41.2 40.6 37.2 40.6 H26 C22.8 40.6 20.6 39.4 19.2 37.4 Z" fill="#A86F42"/>
+      <path d="M18.6 35 L20.6 36.4 H44.8 L44.4 37.6 H20.2 Z" fill="#F2C14E"/>
+      <path d="M24 39 H41" stroke="#8A5A33" stroke-width=".6" stroke-linecap="round"/>
+      <g stroke="#4FA34B" stroke-width="1" fill="none" stroke-linecap="round">
+      <path d="M3 50 C3.4 44 3.6 38 3.2 33.4"/><path d="M6.6 50 C6.6 43 7 36.8 7.8 31.4"/><path d="M10.2 50 C10 45 10.6 40.6 11.8 36.2"/>
+      <path d="M58 50 C58.2 46 58.6 42.6 59.4 39.6"/><path d="M61.4 50 C61.4 46.4 61.8 43.4 62.6 40.8"/>
+      </g>
+      <g stroke="#7DBB5E" stroke-width=".9" fill="none" stroke-linecap="round">
+      <path d="M3.2 33.4 l-2.6 -1.6 M3.2 33.4 l-1.6 -2.6 M3.2 33.4 l0 -3 M3.2 33.4 l1.6 -2.6 M3.2 33.4 l2.6 -1.6"/>
+      <path d="M7.8 31.4 l-2.6 -1.6 M7.8 31.4 l-1.6 -2.6 M7.8 31.4 l0 -3 M7.8 31.4 l1.6 -2.6 M7.8 31.4 l2.6 -1.6"/>
+      <path d="M11.8 36.2 l-2.4 -1.4 M11.8 36.2 l-1.4 -2.4 M11.8 36.2 l0 -2.8 M11.8 36.2 l1.4 -2.4 M11.8 36.2 l2.4 -1.4"/>
+      <path d="M59.4 39.6 l-2.4 -1.4 M59.4 39.6 l-1.4 -2.4 M59.4 39.6 l0 -2.8 M59.4 39.6 l1.4 -2.4 M59.4 39.6 l2.4 -1.4"/>
+      <path d="M62.6 40.8 l-2.2 -1.3 M62.6 40.8 l-1.3 -2.2 M62.6 40.8 l0 -2.6 M62.6 40.8 l1.3 -2.2"/>
+      </g>
+      <path d="M41.6 45.8 C41.8 44.8 43.4 44.4 45.6 44.6 L48.4 44.2 C49.6 43.2 53 43.2 54.4 44.2 C56.2 44.2 57.8 44.8 58.4 45.8Z" fill="#5E934A"/>
+      <ellipse cx="42.8" cy="44.7" rx="1" ry=".6" fill="#6FA656"/>
+      <g fill="#6FA656"><circle cx="49.6" cy="43.8" r="1.3"/><circle cx="53" cy="43.8" r="1.3"/></g>
+      <g fill="#14223F"><circle cx="49.4" cy="43.6" r=".5"/><circle cx="52.8" cy="43.6" r=".5"/><circle cx="42.6" cy="44.5" r=".22"/></g>
+      <path d="M55.6 44.6 l.7 -.8 l.7 .9 M57.2 45 l.6 -.6 l.6 .7" stroke="#5E934A" stroke-width=".6" fill="#5E934A" stroke-linejoin="round"/>
+      <path d="M40.6 46.6 q2.6 -1 5.2 0 M53 46.8 q2.6 -1 5.2 0" stroke="#fff" stroke-opacity=".8" stroke-width=".9" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gYangtze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9E6F4"/><stop offset="1" stop-color="#EEF7F2"/></linearGradient>
+    <linearGradient id="gYangtze2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC3D8"/><stop offset="1" stop-color="#3F95C6"/></linearGradient>
+    <!-- 양쯔강: 깎아지른 초록 절벽 사이(싼샤 협곡)로 흐르는 큰 강과 부채 모양 주황 돛을 단 중국 돛배(정크) -->
+    <symbol id="pl-yangtze" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gYangtze)"/>
+      <path d="M17 30 L19 19 L23 15.6 L27 17.4 L30 14.4 L34 16.6 L38 14 L42 17 L46 15 L48 30Z" fill="#B7D2C6"/>
+      <path d="M19 19 L23 15.6 L27 17.4 L30 14.4 L34 16.6 L38 14 L42 17 L46 15 L46.4 18 C40 17.6 26 18.4 19 19Z" fill="#9CCB8C"/>
+      <path d="M14 22 C26 20 40 20.4 52 22 V24.6 C40 23.4 26 23.4 14 24.6Z" fill="#fff" opacity=".6"/>
+      <path d="M-2 50 V8 L3 5 L8 7.4 L13 4.6 L18 8 L20 13 L22 22 L24.6 30 L25.6 34 L22 42 L18 50Z" fill="#A79C8D"/>
+      <path d="M13 4.6 L18 8 L20 13 L22 22 L24.6 30 L25.6 34 L22 42 L18 50 H12 L16 40 L17.6 28 L16.4 16Z" fill="#8E8373"/>
+      <path d="M-2 11 L3 5 L8 7.4 L13 4.6 L18 8 L19.6 12 C16 11 14 12.6 12 11.4 C9 13 6 11.4 3.6 12.8 C1.6 12 0 13 -2 13Z" fill="#6DB65A"/>
+      <path d="M2 20 V34 M7 16 V27 M10.6 30 V40" stroke="#958A7B" stroke-width=".8" stroke-linecap="round"/>
+      <path d="M66 50 V7 L61 4 L56 6.6 L51 4.4 L46.6 8 L44.6 13 L42.4 22 L39.8 30 L38.8 34 L42 42 L46 50Z" fill="#A79C8D"/>
+      <path d="M66 50 V7 L61 4 L57 5.4 L54 12 L52.6 24 L50.4 36 L52 50Z" fill="#8E8373"/>
+      <path d="M66 10.4 L61 4 L56 6.6 L51 4.4 L46.6 8 L45 12 C48.4 11 50.6 12.6 52.6 11.2 C55.6 12.8 58.6 11.2 61 12.6 C63 11.8 64.6 12.6 66 12.6Z" fill="#6DB65A"/>
+      <path d="M48.6 20 V30 M57 18 V32 M61.4 34 V44" stroke="#7E7465" stroke-width=".8" stroke-linecap="round"/>
+      <g fill="#7FC36A"><ellipse cx="21.4" cy="18.6" rx="1.8" ry="1"/><ellipse cx="23.6" cy="27.6" rx="1.6" ry=".9"/><ellipse cx="43.2" cy="18.4" rx="1.8" ry="1"/><ellipse cx="40.8" cy="27.2" rx="1.6" ry=".9"/></g>
+      <path d="M22 30 C28 29.2 36 29.2 42.4 30 L50 50 H14Z" fill="url(#gYangtze2)"/>
+      <path d="M26 31.6 q2.4 -1 4.8 0 M35 32.4 q2.4 -1 4.8 0 M20 44 q3 -1.6 6 0 M40 45 q3 -1.6 6 0" stroke="#fff" stroke-opacity=".7" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <ellipse cx="32" cy="40" rx="11" ry="1.4" fill="#fff" opacity=".35"/>
+      <path d="M30.4 35.6 V12.6 M24.6 35.6 V19.4" stroke="#6E4A2E" stroke-width=".9" stroke-linecap="round"/>
+      <path d="M30 14.2 L38.4 12.6 C40.2 19.4 40.6 26.6 40.2 34 H29.2 C28.8 27 29 20.6 30 14.2Z" fill="#F07B4A"/>
+      <path d="M38.4 12.6 C40.2 19.4 40.6 26.6 40.2 34 H37.4 C37.8 26.8 37.4 19.6 36 13.1Z" fill="#DD6439"/>
+      <path d="M29.6 18 L39.2 16.6 M29.3 22 L39.8 20.8 M29.2 26 L40.1 25 M29.1 30 L40.2 29.2" stroke="#B94A2B" stroke-width=".7" fill="none" stroke-linecap="round"/>
+      <path d="M24.4 20.6 L28 19.8 C28.8 24.6 28.9 29.4 28.6 34 H23.6 C23.4 29.6 23.6 25 24.4 20.6Z" fill="#F59A5E"/>
+      <path d="M24 24.4 L28.6 23.6 M23.7 28.2 L28.8 27.6 M23.6 31.6 L28.7 31.2" stroke="#C9603A" stroke-width=".6" fill="none" stroke-linecap="round"/>
+      <path d="M18.6 35 H40.6 C42 35 43.4 33.6 44 31.6 H46.4 L45.6 35.6 C44 38.4 41 39.6 36.6 39.6 H24.6 C21.6 39.6 19.6 37.6 18.6 35Z" fill="#9A6440"/>
+      <path d="M18.6 35 H40.6 C42 35 43.4 33.6 44 31.6 H46.4 L46.2 32.8 H44.8 C44.2 34.8 42.6 36.4 40.6 36.4 H19.3Z" fill="#F2C14E"/>
+      <path d="M22 38 H41" stroke="#6E4A2E" stroke-width=".6" stroke-linecap="round"/>
+      <path d="M8 22 q1.1 -1.4 2.2 0 q1.1 -1.4 2.2 0 M50 24 q1 -1.2 2 0 q1 -1.2 2 0" stroke="#2F4C78" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <linearGradient id="gSahara" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9DCF3"/><stop offset="1" stop-color="#FFF1CC"/></linearGradient>
+    <!-- 사하라 사막: 끝없이 이어진 주황 모래 언덕 꼭대기를 걷는 단봉낙타(혹 하나), 앞에는 귀 큰 사막여우 -->
+    <symbol id="pl-sahara" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gSahara)"/>
+      <circle cx="51" cy="10" r="7.4" fill="#FFF6CF" opacity=".7"/>
+      <circle cx="51" cy="10" r="5" fill="#FFE68A"/>
+      <path d="M0 29 C8 24.6 16 24 24 26.6 C32 22.6 44 21.8 52 25.4 C56 23.8 60 23.6 64 24.6 V36 H0Z" fill="#F9D594"/>
+      <path d="M24 26.6 C32 22.6 44 21.8 52 25.4 C46 25.6 40 28 37 33 H30 C30 30 27.6 27.8 24 26.6Z" fill="#F0C27A"/>
+      <path d="M-2 45 C10 38 22 27.2 34 25.6 C44 24.4 54 29 66 36 V47 H-2Z" fill="#F6B75C"/>
+      <path d="M34 25.6 C44 24.4 54 29 66 36 V47 H44 C46.4 38.4 42 30.4 34 25.6Z" fill="#E39C49"/>
+      <path d="M8 40.4 q4 -2 8.4 -2.4 M14 36 q4 -2.4 8 -3 M42 33.4 q4 -.4 8 1.2 M48 38.6 q4 -.2 8 1.6" stroke="#E6A24E" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M44 33.6 q4 -.2 8 1.4" stroke="#CF8538" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <ellipse cx="30.4" cy="26.6" rx="7.4" ry=".9" fill="#C98039" opacity=".3"/>
+      <g fill="#B97F47"><rect x="26.4" y="19" width="1.4" height="7.6" rx=".6"/><rect x="34.8" y="19" width="1.4" height="7.6" rx=".6"/></g>
+      <g fill="#D49A5E"><rect x="24.6" y="19" width="1.5" height="7.8" rx=".6"/><rect x="33" y="19" width="1.5" height="7.8" rx=".6"/></g>
+      <path d="M36.6 18.2 C37.6 19.4 37.8 20.6 37.6 22" stroke="#B97F47" stroke-width=".8" fill="none" stroke-linecap="round"/>
+      <ellipse cx="30.6" cy="18.8" rx="6.4" ry="3.4" fill="#D9A065"/>
+      <path d="M26.6 17.2 C27.4 11.6 33.8 11 35.2 16.8Z" fill="#D9A065"/>
+      <path d="M27.4 15.6 C29 13.8 32.6 13.6 34.4 15.4 L34.9 19.4 H27Z" fill="#E4573F"/>
+      <path d="M27.2 17.4 H34.8 M27.1 18.6 H34.9" stroke="#F4C84E" stroke-width=".7"/>
+      <path d="M25.8 17.4 C23.8 16.2 22.8 14.2 22.6 11.4 L24.8 10.8 C25 13.2 25.8 14.8 27.8 16Z" fill="#D9A065"/>
+      <ellipse cx="21.8" cy="11" rx="2.9" ry="1.6" transform="rotate(8 21.8 11)" fill="#D9A065"/>
+      <ellipse cx="19.6" cy="11.4" rx="1.2" ry="1" fill="#E6B888"/>
+      <ellipse cx="23.6" cy="9.6" rx=".6" ry=".9" transform="rotate(-20 23.6 9.6)" fill="#B97F47"/>
+      <circle cx="22" cy="10.4" r=".5" fill="#14223F"/>
+      <path d="M-2 50 V43 C12 39 24 40.4 36 43.4 C46 45.6 56 44.4 66 41.4 V50Z" fill="#F9CB79"/>
+      <path d="M4 46 q4 -1.4 8 -.8 M40 47 q4 -1.2 8 -1 M24 45 q3 -1 6 -.2" stroke="#E8AE5C" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M15.6 43.6 C18 43.6 19.4 42.4 19 40.8 C18.6 41.8 17.4 42.4 16 42.2Z" fill="#E2AC6C"/>
+      <ellipse cx="14.4" cy="42" rx="2.2" ry="1.9" fill="#EDBE82"/>
+      <path d="M12.8 38.6 L11 33.6 L14 37.4Z M15.6 38.6 L17.6 33.6 L14.6 37.4Z" fill="#EDBE82"/>
+      <path d="M12.9 37.6 L11.8 34.8 L13.6 37Z M15.5 37.6 L16.8 34.8 L15 37Z" fill="#FF9E8E"/>
+      <circle cx="14.2" cy="39" r="2" fill="#EDBE82"/>
+      <ellipse cx="14.2" cy="40" rx="1.2" ry=".8" fill="#FFF4E2"/>
+      <g fill="#14223F"><circle cx="13.4" cy="38.6" r=".42"/><circle cx="15" cy="38.6" r=".42"/><circle cx="14.2" cy="39.7" r=".32"/></g>
+    </symbol>
+    <linearGradient id="gAtacama" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F2C63"/><stop offset=".6" stop-color="#3F4C8E"/><stop offset="1" stop-color="#7A6FAE"/></linearGradient>
+    <!-- 아타카마 사막: 가장 메마른 붉은 사막 위로 별이 쏟아지는 밤하늘, 하얀 둥근 지붕 천문대와 접시 안테나, 뒤에는 원뿔 화산 -->
+    <symbol id="pl-atacama" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gAtacama)"/>
+      <path d="M-4 30 C10 22 22 12 40 4 L52 -2 L60 4 C46 10 30 20 8 36Z" fill="#fff" opacity=".1"/>
+      <path d="M2 28 C14 20 26 12 42 5 L50 2 L54 5 C42 11 28 19 8 32Z" fill="#fff" opacity=".08"/>
+      <g fill="#fff">
+      <circle cx="6" cy="6" r=".6"/><circle cx="14" cy="12" r=".5"/><circle cx="21" cy="5" r=".7"/><circle cx="29" cy="10" r=".5"/><circle cx="34" cy="3.6" r=".6"/>
+      <circle cx="44" cy="9" r=".5"/><circle cx="58" cy="6" r=".6"/><circle cx="61" cy="14" r=".5"/><circle cx="4" cy="17" r=".5"/><circle cx="10" cy="22" r=".4"/>
+      <circle cx="24" cy="16" r=".45"/><circle cx="38" cy="14" r=".4"/><circle cx="47" cy="17" r=".45"/><circle cx="54" cy="12" r=".4"/><circle cx="18" cy="19" r=".4"/>
+      <circle cx="31" cy="18.6" r=".35"/><circle cx="26" cy="8" r=".35"/><circle cx="40" cy="7" r=".35"/><circle cx="50" cy="4" r=".35"/><circle cx="9" cy="10" r=".35"/>
+      </g>
+      <g fill="#FFF0B0">
+      <use href="#sparkle-shape" transform="translate(17 8.6) scale(.2)"/><use href="#sparkle-shape" transform="translate(50 9.6) scale(.24)"/>
+      <use href="#sparkle-shape" transform="translate(37 10) scale(.16)"/><use href="#sparkle-shape" transform="translate(7 14) scale(.15)"/>
+      </g>
+      <path d="M56 3 L46 8.6" stroke="#fff" stroke-width=".9" stroke-linecap="round" opacity=".85"/>
+      <circle cx="46" cy="8.6" r=".7" fill="#fff"/>
+      <path d="M-2 33 L6 25.6 L11 28.4 L17 24 L26 33Z" fill="#5C4B7A"/>
+      <path d="M34 33 L48.4 17.6 Q50 16.2 51.6 17.6 L66 31 V34 H34Z" fill="#6E5788"/>
+      <path d="M50 16.8 Q51 16.2 51.6 17.6 L66 31 V34 H54 Z" fill="#5E4A78"/>
+      <path d="M46.4 19.8 L48.4 17.6 Q50 16.2 51.6 17.6 L53.8 19.8 L52.2 19.2 L51 20.4 L49.6 19.2 L48 20.4Z" fill="#E6E1F2"/>
+      <path d="M0 33.4 C16 31.6 40 32 64 33 V50 H0Z" fill="#A5634F"/>
+      <path d="M0 40 C16 38.4 36 40.4 64 38.8 V50 H0Z" fill="#B87158"/>
+      <g stroke="#8C4E3D" stroke-width=".7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 43 L9 42 L12 45 L10 49 M9 42 L11 39.6 M12 45 L17 44.6 L19 47.6 M17 44.6 L18.6 41.6"/>
+      <path d="M44 44 L49 42.6 L52 45.4 L50 49.6 M49 42.6 L48.4 40 M52 45.4 L57 45 L59.6 48 M57 45 L58 42"/>
+      <path d="M27 46 L31 45 L33.4 47.6 M31 45 L31.6 42.6"/>
+      </g>
+      <rect x="19" y="25.6" width="12.4" height="8.6" fill="#E3E7F2"/>
+      <rect x="27.4" y="25.6" width="4" height="8.6" fill="#C5CBE0"/>
+      <path d="M18.4 26.2 A6.8 6.8 0 0 1 32 26.2Z" fill="#F4F6FB"/>
+      <path d="M27.2 20.4 A6.8 6.8 0 0 1 32 26.2 H29.6 A6.8 6.8 0 0 0 26.6 20.4Z" fill="#D6DCEB"/>
+      <path d="M24 19.6 Q25.2 19.3 26.4 19.6 L26.6 26.2 H23.8Z" fill="#2A3463"/>
+      <path d="M24.4 24.6 L27.6 18.4" stroke="#9AA6C8" stroke-width="1.4" stroke-linecap="round"/>
+      <rect x="17.8" y="25.8" width="14.8" height="1" rx=".4" fill="#B9C1D8"/>
+      <rect x="23.4" y="30" width="3.2" height="4.2" rx=".4" fill="#FFD978"/>
+      <path d="M41.6 34 L42.8 29.2 L44 34Z" fill="#C5CBE0"/>
+      <path d="M38 25.8 A5.6 5.6 0 0 0 47.4 29.4 Z" fill="#F4F6FB" transform="rotate(-8 42.8 27.6)"/>
+      <path d="M38.4 24.6 C38.6 28.6 42.4 31.2 46.8 29.6" stroke="#D6DCEB" stroke-width=".7" fill="none" stroke-linecap="round"/>
+      <path d="M42.6 28 L44.6 24.2" stroke="#E3E7F2" stroke-width=".7" stroke-linecap="round"/>
+      <circle cx="44.7" cy="24" r=".7" fill="#E3E7F2"/>
+      <rect x="40.4" y="33.6" width="4.8" height="1" rx=".4" fill="#9AA6C8"/>
+    </symbol>
+    <linearGradient id="gSiberia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C5D9EE"/><stop offset="1" stop-color="#EEF4FB"/></linearGradient>
+    <!-- 시베리아: 눈 덮인 끝없는 침엽수 숲(타이가)과 하얀 자작나무 사이를 걷는 시베리아호랑이, 눈 위 발자국 -->
+    <symbol id="pl-siberia" viewBox="0 0 64 50" preserveAspectRatio="xMidYMid slice">
+      <rect width="64" height="50" fill="url(#gSiberia)"/>
+      <path d="M-1.5 32.5 L0 28.5 L1.5 32.5Z M1.2 32.5 L2.7 27.1 L4.2 32.5Z M3.9 32.5 L5.4 28.9 L6.9 32.5Z M6.6 32.5 L8.1 27.7 L9.6 32.5Z M9.3 32.5 L10.8 26.5 L12.3 32.5Z M12 32.5 L13.5 28.3 L15 32.5Z M14.7 32.5 L16.2 27.5 L17.7 32.5Z M17.4 32.5 L18.9 28.7 L20.4 32.5Z M20.1 32.5 L21.6 26.9 L23.1 32.5Z M22.8 32.5 L24.3 28.1 L25.8 32.5Z M25.5 32.5 L27 27.3 L28.5 32.5Z M28.2 32.5 L29.7 28.9 L31.2 32.5Z M30.9 32.5 L32.4 27.7 L33.9 32.5Z M33.6 32.5 L35.1 26.3 L36.6 32.5Z M36.3 32.5 L37.8 28.5 L39.3 32.5Z M39 32.5 L40.5 27.5 L42 32.5Z M41.7 32.5 L43.2 27.9 L44.7 32.5Z M44.4 32.5 L45.9 26.7 L47.4 32.5Z M47.1 32.5 L48.6 28.7 L50.1 32.5Z M49.8 32.5 L51.3 27.3 L52.8 32.5Z M52.5 32.5 L54 28.1 L55.5 32.5Z M55.2 32.5 L56.7 26.9 L58.2 32.5Z M57.9 32.5 L59.4 28.5 L60.9 32.5Z M60.6 32.5 L62.1 27.1 L63.6 32.5Z" fill="#9DB7CB"/>
+      <path d="M0 32 C14 30.6 30 31 44 31.6 C52 32 58 31.4 64 31 V50 H0Z" fill="#fff"/>
+      <path d="M0 42 C16 40.4 36 42.4 64 40.6 V50 H0Z" fill="#E2ECF7"/>
+      <path d="M8.6 34 L9.2 2 M13.2 35 L13.4 6" stroke="#F6F5EF" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M8.4 34 L9 2" stroke="#DCD9CE" stroke-width=".7" stroke-linecap="round" transform="translate(1.1 0)"/>
+      <g stroke="#3A3A46" stroke-width=".8" stroke-linecap="round">
+      <path d="M8.2 8 h1.4 M9.4 13 h1 M8 18.6 h1.6 M9.2 24 h1.2 M8 29 h1.4 M12.6 11 h1.4 M13.6 16.4 h1 M12.4 22 h1.6 M13.4 27.4 h1.2 M12.6 31.6 h1.2"/>
+      </g>
+      <path d="M9 12 L5.6 8.4 M9.1 16 L12 13 M13.3 14 L16.4 10.6 M13.2 20 L10.8 17.6 M9.2 6 L7 3.6" stroke="#B9B4A8" stroke-width=".6" fill="none" stroke-linecap="round"/>
+      <path d="M56 9 L51.8 16.4 H54.2 L50.2 23.4 H53 L48.6 31.4 H63.4 L59 23.4 H61.8 L57.8 16.4 H60.2Z" fill="#2F6E57"/>
+      <path d="M56 9 L57.8 16.4 H60.2Z M56 9 L59 23.4 H61.8 L57.8 16.4Z M56 9 L63.4 31.4 L59 23.4Z" fill="#285F4B"/>
+      <g fill="#fff">
+      <path d="M56 9 L54.7 11.4 Q56 10.8 57.3 11.4Z"/>
+      <path d="M51.8 16.4 Q53 15.4 54.4 16.2 Q56 15 57.8 16.2 Q59.2 15.4 60.2 16.4 L59.6 17.2 H52.4Z"/>
+      <path d="M50.2 23.4 Q51.8 22.4 53.4 23.2 Q56 21.8 58.6 23.2 Q60.4 22.4 61.8 23.4 L61.2 24.2 H50.8Z"/>
+      <path d="M48.6 31.4 Q50.6 30.2 52.6 31 Q56 29.6 59.4 31 Q61.6 30.2 63.4 31.4 L62.8 32.2 H49.2Z"/>
+      </g>
+      <rect x="55.2" y="31.8" width="1.6" height="2.6" fill="#7A5230"/>
+      <g fill="#fff"><circle cx="18" cy="6" r=".7"/><circle cx="26" cy="10" r=".55"/><circle cx="34" cy="5" r=".7"/><circle cx="42" cy="9" r=".6"/><circle cx="48" cy="4" r=".55"/><circle cx="22" cy="17" r=".5"/><circle cx="38" cy="16" r=".55"/><circle cx="4" cy="22" r=".6"/><circle cx="46" cy="20" r=".5"/><circle cx="30" cy="13" r=".45"/></g>
+      <g fill="#C7D7EA"><ellipse cx="48" cy="37.6" rx=".9" ry=".5"/><ellipse cx="51" cy="38.8" rx=".9" ry=".5"/><ellipse cx="54.4" cy="37.8" rx=".9" ry=".5"/><ellipse cx="57.6" cy="39" rx=".9" ry=".5"/><ellipse cx="61" cy="38" rx=".9" ry=".5"/></g>
+      <ellipse cx="32.6" cy="36.8" rx="10.4" ry="1.1" fill="#B9CCE1" opacity=".7"/>
+      <g fill="#DE7630"><rect x="36.6" y="30" width="2.2" height="6.4" rx="1"/><rect x="24.6" y="30" width="2.2" height="6.2" rx="1"/></g>
+      <g fill="#F28C3C"><rect x="39.4" y="30" width="2.3" height="6.6" rx="1"/><rect x="27.4" y="30" width="2.3" height="6.6" rx="1"/></g>
+      <g fill="#FFF4E6"><ellipse cx="40.55" cy="36.3" rx="1.4" ry=".7"/><ellipse cx="28.55" cy="36.3" rx="1.4" ry=".7"/><ellipse cx="37.7" cy="36.1" rx="1.3" ry=".6"/><ellipse cx="25.7" cy="35.9" rx="1.3" ry=".6"/></g>
+      <path d="M41.4 28.4 C45 28 46.6 25 45.8 21.6" stroke="#F28C3C" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+      <path d="M43.6 27.6 l.9 1.2 M45.4 25.2 l1.3 .5 M45.8 22.8 l-1.3 .4" stroke="#2B2B3A" stroke-width=".8" stroke-linecap="round"/>
+      <circle cx="45.8" cy="21.4" r="1" fill="#2B2B3A"/>
+      <ellipse cx="33.4" cy="29.2" rx="8.8" ry="4.4" fill="#F28C3C"/>
+      <ellipse cx="33.4" cy="32.2" rx="6.4" ry="1.5" fill="#FFF4E6"/>
+      <g stroke="#2B2B3A" stroke-width=".9" fill="none" stroke-linecap="round">
+      <path d="M31 25 q-.9 2 -.2 4.2 M34.4 24.8 q-.9 2.2 -.2 4.4 M37.8 25.4 q-.8 2 -.1 4 M40.6 26.8 q-.6 1.6 0 3"/>
+      <path d="M37.6 31 l.2 2 M28.4 31 l.2 2 M40.6 31.2 l.2 1.8"/>
+      </g>
+      <circle cx="21.6" cy="22" r="1.5" fill="#F28C3C"/><circle cx="21.6" cy="22" r=".7" fill="#2B2B3A"/>
+      <circle cx="27.6" cy="22" r="1.5" fill="#F28C3C"/><circle cx="27.6" cy="22" r=".7" fill="#2B2B3A"/>
+      <circle cx="24.6" cy="26" r="4.5" fill="#F28C3C"/>
+      <ellipse cx="24.6" cy="28.2" rx="3.2" ry="1.9" fill="#FFF4E6"/>
+      <g fill="#FFF4E6"><ellipse cx="22.8" cy="24.8" rx="1.1" ry=".7"/><ellipse cx="26.4" cy="24.8" rx="1.1" ry=".7"/></g>
+      <path d="M24.6 22 v1.6 M23.2 22.3 l.3 1.2 M26 22.3 l-.3 1.2 M20.4 26.6 h1.2 M20.6 28 l1 -.3 M28.8 26.6 h-1.2 M28.6 28 l-1 -.3" stroke="#2B2B3A" stroke-width=".7" stroke-linecap="round"/>
+      <g fill="#14223F"><circle cx="23" cy="25.4" r=".65"/><circle cx="26.2" cy="25.4" r=".65"/></g>
+      <path d="M23.9 27.1 H25.3 L24.6 27.9Z" fill="#E0685A"/>
+      <path d="M24.6 27.9 v.6 M23.6 28.8 q1 .7 2 0" stroke="#5B3A2A" stroke-width=".45" fill="none" stroke-linecap="round"/>
+    </symbol>
   </defs>
 </svg>

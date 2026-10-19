@@ -4,6 +4,9 @@ const SCENES = new Set([
   'pacific', 'atlantic', 'indian', 'arctic', 'southern',
   'seoul', 'busan', 'jeju', 'ulleungdo', 'dokdo', 'baekdu', 'hallasan', 'hangang', 'nakdonggang',
   'east-sea', 'west-sea', 'south-sea',
+  'china', 'japan', 'russia', 'mongolia', 'great-wall', 'shanghai', 'chengdu', 'mount-fuji', 'kyoto', 'hokkaido', 'lake-baikal', 'gobi-desert',
+  'taj-mahal', 'angkor-wat', 'paris', 'rome', 'pyramids', 'serengeti', 'new-york', 'grand-canyon', 'machu-picchu', 'amazon', 'sydney', 'great-barrier-reef',
+  'equator', 'tropic-of-cancer', 'prime-meridian', 'date-line', 'himalayas', 'andes', 'rockies', 'nile', 'yangtze', 'sahara', 'atacama', 'siberia',
 ]);
 
 interface PlaceArtProps {
