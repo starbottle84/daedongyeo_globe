@@ -1,6 +1,7 @@
 import * as maplibregl from 'maplibre-gl';
 import type { Direction, LngLat } from '../content/types';
 import type { TapInfo } from '../trip/judge';
+import { SPLIT_COUNTRIES } from './buildStyle';
 import { createCompass, type Compass, type CompassOptions } from './compass';
 import './markers.css';
 
@@ -31,6 +32,10 @@ export interface GlobeHandle {
   setInteractive(on: boolean): void;
   /** 지명을 모두 숨기거나 다시 보여 준다 (위치 찍기 미션용) */
   setLabelsVisible(on: boolean): void;
+  /** 나라 퀴즈: 지도의 수도 이름표(별)만 숨기거나 다시 보여 준다 — 문제를 푸는 동안 답이 지도에 보이지 않게 */
+  setCapitalLabelsVisible(on: boolean): void;
+  /** 나라 퀴즈: 그 나라(countries 층의 id, ISO3 — 여럿이면 함께) 땅을 칠한다. null이면 지운다 */
+  focusCountry(ids: string | readonly string[] | null): void;
   /** 지구본을 누를 때마다 알려 준다. 지구본 바깥(우주)을 누른 것은 무시한다. 돌려준 함수를 부르면 그만 듣는다 */
   onTap(listener: (tap: TapInfo) => void): () => void;
   /** 같은 종류의 표시는 하나만 남긴다. 이름표 글자는 textContent로만 넣는다 */
@@ -222,13 +227,16 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
   };
 
   let labelsHidden = false;
+  // 수도 이름표만 숨김 (나라 퀴즈). 모든 지명 숨김과 따로 기억해서, 위치 찍기가 지명을 다시 보여 줘도 수도는 숨긴 채로 둔다
+  let capitalsHidden = false;
+  const CAPITAL_LAYERS = new Set(['capital-label-far', 'capital-label']);
   // 바뀌어야 할 층만 건드린다 (같은 값을 다시 넣으면 styledata가 또 와서 계속 돌 수 있다)
   const applyLabels = () => {
     const style = map.getStyle();
     if (!style) return;
-    const want = labelsHidden ? 'none' : 'visible';
     for (const layer of style.layers) {
       if (layer.type !== 'symbol') continue;
+      const want = labelsHidden || (capitalsHidden && CAPITAL_LAYERS.has(layer.id)) ? 'none' : 'visible';
       if ((map.getLayoutProperty(layer.id, 'visibility') ?? 'visible') !== want) {
         map.setLayoutProperty(layer.id, 'visibility', want);
       }
@@ -238,9 +246,41 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
     labelsHidden = !on;
     applyLabels();
   };
-  // 그림/위성 지도를 바꾸면 스타일이 다시 적용되면서 숨긴 지명이 되살아나므로, 숨김 상태면 다시 숨긴다.
+  const setCapitalLabelsVisible = (on: boolean) => {
+    capitalsHidden = !on;
+    applyLabels();
+  };
+  // 칠한 나라 (나라 퀴즈). 스타일을 다시 적용하면 층의 filter가 처음 값으로 돌아가므로 기억해 두었다가 다시 건다
+  let focused: string[] = [];
+  const applyFocus = () => {
+    // 면 칠하기는 모두, 테두리는 날짜변경선에서 잘린 나라만 잘린 자리를 뺀 선(split)으로
+    const all: maplibregl.FilterSpecification = ['in', ['get', 'id'], ['literal', focused]];
+    const whole: maplibregl.FilterSpecification = ['in', ['get', 'id'], ['literal', focused.filter((id) => !SPLIT_COUNTRIES.includes(id))]];
+    const split: maplibregl.FilterSpecification = ['in', ['get', 'id'], ['literal', focused.filter((id) => SPLIT_COUNTRIES.includes(id))]];
+    for (const [id, filter] of [['country-focus', all], ['country-focus-line', whole], ['country-focus-line-split', split]] as const) {
+      if (map.getLayer(id)) map.setFilter(id, filter);
+    }
+  };
+  // 칠한 나라는 천천히 반짝인다 (유아 국기 퀴즈의 '반짝이는 나라'). 진하기를 0.7초마다 바꾸면 층의 전환(transition)이 부드럽게 잇는다.
+  // 움직임 줄이기를 켠 기기에서는 반짝이지 않는다
+  let pulse = 0;
+  const focusCountry = (ids: string | readonly string[] | null) => {
+    focused = ids === null ? [] : typeof ids === 'string' ? [ids] : [...ids];
+    applyFocus();
+    window.clearInterval(pulse);
+    pulse = 0;
+    if (map.getLayer('country-focus')) map.setPaintProperty('country-focus', 'fill-opacity', 0.5);
+    if (!focused.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    let bright = false;
+    pulse = window.setInterval(() => {
+      bright = !bright;
+      if (map.getLayer('country-focus')) map.setPaintProperty('country-focus', 'fill-opacity', bright ? 0.72 : 0.32);
+    }, 700);
+  };
+  // 그림/위성 지도를 바꾸면 스타일이 다시 적용되면서 숨긴 지명·칠한 나라가 되살아나거나 사라지므로 다시 건다.
   map.on('styledata', () => {
-    if (labelsHidden) applyLabels();
+    if (labelsHidden || capitalsHidden) applyLabels();
+    if (focused.length) applyFocus();
   });
 
   let compass: Compass | null = null;
@@ -320,6 +360,8 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
 
     setInteractive,
     setLabelsVisible,
+    setCapitalLabelsVisible,
+    focusCountry,
 
     onTap(listener) {
       // 마지막으로 받아 준 누르기 (시각·화면 위치)
@@ -398,7 +440,9 @@ export function createGlobeHandle(map: maplibregl.Map): GlobeHandle {
       // Map.remove()는 캔버스 묶음을 문서에서 떼어 낸다. getStyle()은 새 스타일을 불러오는 동안에도 비어 있어서 기준으로 쓰지 않는다.
       if (!map.getCanvasContainer().isConnected) return;
       setInteractive(true);
+      capitalsHidden = false;
       setLabelsVisible(true);
+      focusCountry(null);
       clearMarkers();
       map.easeTo({ padding: NO_PADDING, duration: 600 });
       // 여행 전에 평면 지도를 골라 두었으면 그대로 돌려놓는다.

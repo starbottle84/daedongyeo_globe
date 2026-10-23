@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { MissionOf } from '../../content/types';
 import { Dongle } from '../../ui/Dongle';
 import { Flag } from '../../ui/Flag';
@@ -9,8 +10,17 @@ import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps } from './types';
 import { useTries } from './useTries';
 
-export function ChoiceMission({ mission, tier, voice, onDone }: MissionProps<MissionOf<'choice'>>) {
+export function ChoiceMission({ mission, tier, voice, onDone, onAnswered, firstTryOnly = false }: MissionProps<MissionOf<'choice'>>) {
   const { attempts, wrong, outcome, hint, showAnswer, message, pick } = useTries(mission.answer, tier);
+  // 답이 정해진 순간 한 번만 알린다 (부모가 그릴 때마다 새 함수를 주어도 다시 부르지 않게)
+  const answered = useRef(false);
+  useEffect(() => {
+    if (outcome === null || answered.current) return;
+    answered.current = true;
+    onAnswered?.({ type: 'choice', correct: outcome === 'correct', attempts });
+  }, [outcome, onAnswered, attempts]);
+  // 칭찬('잘했어요!'·꽃가루)은 맞힌 것으로 세는 기준과 같게: 나라 퀴즈는 처음 고른 답으로 맞혔을 때만
+  const praised = outcome === 'correct' && (!firstTryOnly || attempts === 1);
   // 유아 음성: 미션을 시작하면 질문, 정답이 반짝이면 힌트 (결과는 MissionFeedback)
   useAutoVoice(voice && [voice.prompt]);
   useAutoVoice(voice && hint && !outcome ? [COMMON_VOICE.hint] : null);
@@ -68,10 +78,10 @@ export function ChoiceMission({ mission, tier, voice, onDone }: MissionProps<Mis
       </p>
       {outcome && (
         <MissionFeedback
-          correct={outcome === 'correct'}
+          correct={praised}
           answer={mission.options[mission.answer]}
           explain={mission.explain}
-          voice={voice && [outcome === 'correct' ? COMMON_VOICE.correct : COMMON_VOICE.soft, voice.explain]}
+          voice={voice && [praised ? COMMON_VOICE.correct : COMMON_VOICE.soft, voice.explain]}
           onNext={() => onDone({ type: 'choice', correct: outcome === 'correct', attempts })}
         />
       )}

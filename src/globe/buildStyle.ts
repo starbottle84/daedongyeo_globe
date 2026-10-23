@@ -22,7 +22,7 @@ const source = (file: string) => ({ type: 'geojson', data: `${ASSET_ROOT}data/${
 const visibleFrom = (offset = LABEL_BOOST) => ['>=', ['zoom'], ['-', ['get', 'minz'], offset]];
 const koName = ['get', 'ko'];
 // split-country-lines.geojson에 든 나라 (build-data.mjs가 극점 줄·날짜변경선 변이 있는 나라를 골라 쓴다)
-const SPLIT_COUNTRIES = ['ATA', 'FJI', 'RUS'];
+export const SPLIT_COUNTRIES = ['ATA', 'FJI', 'RUS'];
 
 export function buildStyle(view: MapView): StyleSpecification {
   const t = THEMES[view];
@@ -103,6 +103,12 @@ export function buildStyle(view: MapView): StyleSpecification {
       { id: 'area-hit', type: 'fill', source: 'areas', paint: { 'fill-color': '#000000', 'fill-opacity': 0 } },
       // 보이지 않는 나라 영역. '찾아 누르기'의 나라 판정에만 쓴다 — country-fill은 위성 지도에서 숨겨져 판정에서 빠지므로 따로 둔다
       { id: 'country-hit', type: 'fill', source: 'countries', paint: { 'fill-color': '#000000', 'fill-opacity': 0 } },
+      // 나라 퀴즈에서 묻는 나라의 땅을 금빛으로 칠한다 (globe.focusCountry가 filter로 고른다 — 처음엔 아무 나라도 아님). 위성 지도에서도 보인다
+      { id: 'country-focus', type: 'fill', source: 'countries', filter: ['==', ['get', 'id'], ''],
+        paint: { 'fill-color': '#F4C84E', 'fill-opacity': 0.5, 'fill-opacity-transition': { duration: 700, delay: 0 } } },
+      { id: 'country-focus-line', type: 'line', source: 'countries', filter: ['==', ['get', 'id'], ''], paint: { 'line-color': '#B87A0E', 'line-width': 2.5 } },
+      // 날짜변경선에서 잘린 나라(러시아·피지)는 면의 테두리가 날짜변경선을 따라 세로로 그어지므로, 나라 경계선처럼 잘린 자리를 뺀 선으로 테두리를 그린다
+      { id: 'country-focus-line-split', type: 'line', source: 'splitCountryLines', filter: ['==', ['get', 'id'], ''], paint: { 'line-color': '#B87A0E', 'line-width': 2.5 } },
       {
         id: 'river-line', type: 'line', source: 'rivers', filter: visibleFrom(),
         layout: { 'line-cap': 'round', 'line-join': 'round' },

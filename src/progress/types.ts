@@ -1,7 +1,7 @@
 import type { Tier } from '../content/types';
 
 /** 저장 형식 버전. 형식을 바꾸면 올리고 storage.ts의 normalize에 옛 형식 처리를 더한다 */
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export type AvatarColor = 'sky' | 'leaf' | 'sun' | 'rose';
 export const AVATAR_COLORS: AvatarColor[] = ['sky', 'leaf', 'sun', 'rose'];
@@ -34,7 +34,24 @@ export interface ProfileProgress {
   /** 장소 id → 푼 문제 id (오래전에 푼 것이 앞). 다음 여행에서 안 푼 문제를 먼저 고른다 (trip/pickMissions.ts).
    *  장소마다 가장 큰 문제 묶음 크기만큼만 남긴다 (rules.ts addSeen). 계획 5에서 더했다 — 버전은 그대로 두고, 없으면 빈 기록 */
   seen: Record<string, string[]>;
+  /** 나라 퀴즈 기록. 계획 8에서 더하며 저장 형식을 버전 2로 올렸다 — 버전 1 저장에는 없어서 빈 기록으로 읽고,
+   *  옛 코드(버전 1)가 도는 탭은 버전 2 저장을 보면 덮어쓰지 않는다(퀴즈 스티커가 지워지지 않게). 수도 퀴즈(저·고학년)와 국기 퀴즈(유아)를 따로 센다 */
+  quiz: QuizProgress;
 }
+
+/** 퀴즈 종류: 수도 맞히기(저학년·고학년), 국기 맞히기(유아) */
+export type QuizMode = 'capital' | 'flag';
+
+/** 나라 하나의 퀴즈 기록. 두 번 맞히면 도감에 스티커가 붙는다 (quiz/pickQuiz.ts MASTERED) */
+export interface QuizRecord {
+  right: number;
+  wrong: number;
+  /** 마지막으로 푼 날 (지역 날짜) */
+  last: string;
+}
+
+/** 퀴즈 종류 → 나라 code(ISO 두 글자) → 기록 */
+export type QuizProgress = Record<QuizMode, Record<string, QuizRecord>>;
 
 /** 기기 설정 (아이마다가 아니라 기기에 하나) */
 export interface Settings {

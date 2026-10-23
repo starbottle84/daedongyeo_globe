@@ -4,7 +4,7 @@ import type { Place, Tier } from '../content/types';
 import { localDate } from './date';
 import { addSeen, applyStamp, emptyProgress, seenLimit } from './rules';
 import { canStore, clearSave, emptySave, loadSave, MAX_PROFILES, readStored, SAVE_KEY, storedIsNewer, writeSave } from './storage';
-import type { AvatarColor, Profile, ProfileProgress, SaveData, StampOutcome } from './types';
+import type { AvatarColor, Profile, ProfileProgress, QuizMode, SaveData, StampOutcome } from './types';
 
 // 앱 전체가 같이 보는 진행 상태. 바꿀 때마다 기기에 저장하고, 구독한 화면을 다시 그린다.
 let state: SaveData = emptySave();
@@ -135,6 +135,22 @@ export function recordExtraRound(profileId: string, place: Place, stars: number,
   commit({ ...base, progress: { ...base.progress, [profileId]: next } });
 }
 
+/** 퀴즈 한 판을 마친 순간 부른다. 나라마다 맞힌·틀린 횟수를 더한다. 다른 탭이 그사이 저장한 기록도 합친다 */
+export function recordQuiz(profileId: string, mode: QuizMode, answers: { code: string; correct: boolean }[]): void {
+  const fresh = persistEnabled ? readStored() : null;
+  const base = fresh ? mergeStamps(state, fresh) : state;
+  const progress = base.progress[profileId];
+  if (!progress || answers.length === 0) return;
+  const today = localDate();
+  const records = { ...progress.quiz[mode] };
+  for (const { code, correct } of answers) {
+    const r = records[code] ?? { right: 0, wrong: 0, last: '' };
+    records[code] = { right: r.right + (correct ? 1 : 0), wrong: r.wrong + (correct ? 0 : 1), last: today };
+  }
+  const next = { ...progress, quiz: { ...progress.quiz, [mode]: records } };
+  commit({ ...base, progress: { ...base.progress, [profileId]: next } });
+}
+
 /** 유아 음성 켜기·끄기 (부모님 공간) */
 export function setVoiceOn(voiceOn: boolean): void {
   commit({ ...state, settings: { ...state.settings, voiceOn } });
@@ -165,8 +181,19 @@ function mergeStamps(mine: SaveData, other: SaveData): SaveData {
       };
     }
     const unlockedStages = [...new Set([...progress[id].unlockedStages, ...o.unlockedStages])].sort((a, b) => a - b);
+    // 퀴즈 기록은 나라마다 큰 쪽을 남긴다 (맞힌·틀린 횟수는 늘어나기만 한다)
+    const quiz: ProfileProgress['quiz'] = { capital: {}, flag: {} };
+    for (const mode of ['capital', 'flag'] as const) {
+      const mineQ = progress[id].quiz[mode];
+      const otherQ = o.quiz[mode];
+      for (const code of new Set([...Object.keys(mineQ), ...Object.keys(otherQ)])) {
+        const a = mineQ[code];
+        const b = otherQ[code];
+        quiz[mode][code] = !a || !b ? (a ?? b) : { right: Math.max(a.right, b.right), wrong: Math.max(a.wrong, b.wrong), last: a.last > b.last ? a.last : b.last };
+      }
+    }
     // 푼 문제는 다른 탭 기록 뒤에 이 탭 기록을 이어 붙인다 (겹치면 이 탭 쪽 순서)
-    let merged: ProfileProgress = { stamps, unlockedStages, seen: o.seen };
+    let merged: ProfileProgress = { stamps, unlockedStages, seen: o.seen, quiz };
     for (const [pid, ids] of Object.entries(progress[id].seen)) merged = addSeen(merged, pid, ids, limit);
     progress[id] = merged;
   }

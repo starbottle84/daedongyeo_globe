@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { QUIZ_COUNTRIES } from '../content/capitals';
 import { STAGE_NAMES, type Place } from '../content/types';
 import { ProfileChips } from '../family/ProfileChips';
 import { ProfileForm } from '../family/ProfileForm';
@@ -10,7 +11,10 @@ import { createProfile } from '../progress/store';
 import type { Profile, ProfileProgress } from '../progress/types';
 import { Dongle } from '../ui/Dongle';
 import { Icon } from '../ui/Icon';
+import { Flag } from '../ui/Flag';
 import { PlaceArt } from '../ui/PlaceArt';
+import { isMastered } from '../quiz/pickQuiz';
+import '../quiz/quiz.css';
 import { useMoreBelow } from '../ui/useMoreBelow';
 import './trip.css';
 
@@ -22,11 +26,13 @@ interface TripLauncherProps {
   /** 고른 아이의 진행 (표의 도장 자국·잠긴 단계). 아이가 없으면 null */
   progress: ProfileProgress | null;
   onStart: (place: Place) => void;
+  /** 나라 퀴즈를 연다 (계획 8) */
+  onStartQuiz: () => void;
 }
 
 // 시작 화면: 여권을 펼쳐 아이와 장소를 고른다. 아이가 아직 없으면(첫 실행) 같은 여권 안에 '여권 만들기' 양식을 그린다
 // — 부모가 옆에 있는 장면이라 어른 확인 없이 만든다. 가죽·종이·펼침 상자는 두 모습이 같이 써서, 넘침 알림(useMoreBelow)이 그대로 따라온다
-export function TripLauncher({ places, profiles, activeProfile, progress, onStart }: TripLauncherProps) {
+export function TripLauncher({ places, profiles, activeProfile, progress, onStart, onStartQuiz }: TripLauncherProps) {
   const stages = [...new Set(places.map((p) => p.stage))].sort((a, b) => a - b);
   const unlocked = progress ? computeUnlocked(places, progress) : [];
   // 잠긴 표를 누르면 동글이 말풍선이 여는 방법을 알려 주고 2초 뒤 되돌아온다. 누른 표의 자물쇠만 흔들린다.
@@ -43,6 +49,14 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
   // 잠긴 단계를 열려면 바로 앞의 열린 단계 도장을 몇 개 더 모아야 하는지. 앞 단계도 잠겨 있으면(계획 4에서 단계가 늘면) 그 단계부터 열라고 알린다
   const lockInfo = (kid: ProfileProgress, stage: number) => stageLockMessage(places, kid, stage);
   const hintText = hint && progress ? `${lockInfo(progress, hint.stage).text}!` : null;
+  // 나라 퀴즈 (계획 8): 저·고학년은 수도 퀴즈, 유아는 국기 퀴즈. 모은 스티커 수를 함께 보인다
+  const quiz = activeProfile && progress ? (() => {
+    const flagMode = activeProfile.tier === 'preschool';
+    const records = progress.quiz[flagMode ? 'flag' : 'capital'];
+    const got = QUIZ_COUNTRIES.filter((c) => isMastered(records[c.code])).length;
+    const title = flagMode ? '국기 퀴즈' : '수도 퀴즈';
+    return { title, sub: flagMode ? '반짝이는 나라의 국기 찾기' : '나라마다 수도 맞히기', got, label: `${title}, 도감 스티커 ${QUIZ_COUNTRIES.length}개 중 ${got}개` };
+  })() : null;
   // 여권 책 (아이 칩 줄 오른쪽 끝의 '여권' 버튼으로 연다). 연 아이의 id에 묶어 둔다 — 책이 열린 채 다른 탭에서
   // 그 아이를 지우거나 바꾸면 책이 닫히고, 기록을 지운 뒤 새로 만든 아이(새 id)에서 책이 저절로 열리지 않는다
   const [bookFor, setBookFor] = useState<string | null>(null);
@@ -92,6 +106,15 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
             {activeProfile && (
               <div className="kids-row">
                 <ProfileChips profiles={profiles} activeId={activeProfile.id} onAdded={justMade} />
+                {/* 가로 휴대폰처럼 낮은 화면에서는 큰 퀴즈 카드 대신 여권 옆 작은 단추 (카드가 장소 표를 아래로 밀어내지 않게 — quiz.css) */}
+                {quiz && (
+                  <button type="button" className="book-btn quiz-mini" aria-label={quiz.label} onClick={onStartQuiz}>
+                    <span className="book-btn__cover quiz-mini__cover" aria-hidden="true">
+                      <Icon name="globe" />
+                      <span>퀴즈</span>
+                    </span>
+                  </button>
+                )}
                 <button type="button" className="book-btn" aria-label={`${activeProfile.name}의 여권 보기`} onClick={() => setBookFor(activeProfile.id)}>
                   <span className="book-btn__cover" aria-hidden="true">
                     <svg><use href="#emblem" /></svg>
@@ -107,6 +130,17 @@ export function TripLauncher({ places, profiles, activeProfile, progress, onStar
           <div className="spread__spine" aria-hidden="true" />
           <div className="spread__right">
             {!activeProfile && <ProfileForm submitLabel="여권 만들기" onSubmit={(values) => { if (createProfile(values)) { justMade(); focusKid.current = true; } }} />}
+            {quiz && (
+              <button type="button" className="quiz-entry" aria-label={quiz.label} onClick={onStartQuiz}>
+                <span className="quiz-entry__flags" aria-hidden="true">
+                  {['kr', 'fr', 'br'].map((code) => <Flag key={code} code={code} />)}
+                </span>
+                <span className="quiz-entry__words" aria-hidden="true">
+                  <span className="quiz-entry__title">{quiz.title}</span>
+                  <span className="quiz-entry__sub">{quiz.sub} · 도감 {quiz.got}/{QUIZ_COUNTRIES.length}</span>
+                </span>
+              </button>
+            )}
             {activeProfile && progress && stages.map((stage) => {
               const inStage = places.filter((p) => p.stage === stage);
               const { got, total } = stageCounts(places, progress, stage);

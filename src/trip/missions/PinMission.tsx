@@ -5,7 +5,7 @@ import { judgePin } from '../judge';
 import { MissionFeedback } from './MissionFeedback';
 import type { MissionProps } from './types';
 
-export function PinMission({ mission, globe, placeView, onDone }: MissionProps<MissionOf<'pin'>>) {
+export function PinMission({ mission, globe, placeView, onDone, onAnswered }: MissionProps<MissionOf<'pin'>>) {
   const [pinned, setPinned] = useState<LngLat | null>(null);
   const [result, setResult] = useState<{ km: number; stars: number } | null>(null);
   const moveHintId = useId();
@@ -43,9 +43,12 @@ export function PinMission({ mission, globe, placeView, onDone }: MissionProps<M
 
   const confirm = () => {
     if (!pinned) return;
-    setResult(judgePin(mission, pinned));
+    const judged = judgePin(mission, pinned);
+    setResult(judged);
     globe.setLabelsVisible(true);
     globe.showMarker('answer', mission.target, '정답');
+    // 나라 퀴즈는 별 2개 이상이면 맞힌 것으로 센다
+    onAnswered?.({ type: 'pin', correct: judged.stars >= 2, attempts: 1, stars: judged.stars });
   };
 
   return (

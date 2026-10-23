@@ -16,6 +16,7 @@ import { emptyProgress, nextPlaceFor } from './progress/rules';
 import { getSave, useSave } from './progress/store';
 import { TripLauncher } from './trip/TripLauncher';
 import { TripPanel } from './trip/TripPanel';
+import { QuizPanel } from './quiz/QuizPanel';
 import type { TripStep } from './trip/tripReducer';
 import { Icon } from './ui/Icon';
 import { LogoBadge } from './ui/LogoBadge';
@@ -46,6 +47,9 @@ export function App() {
   const [satelliteFailed, setSatelliteFailed] = useState(false);
   const [globe, setGlobe] = useState<GlobeHandle | null>(null);
   const [trip, setTrip] = useState<Trip | null>(initialTrip);
+  // 나라 퀴즈 (계획 8). 여행처럼 아래 카드 자리를 쓰고, 그동안 지구본은 퀴즈가 맞춘다
+  const [quiz, setQuiz] = useState<{ tier: Tier; profileId: string } | null>(null);
+  const playing = trip !== null || quiz !== null;
   // 나이 구간은 고른 아이(프로필)의 것을 쓴다
   const save = useSave();
   const active = save.profiles.find((p) => p.id === save.activeProfileId) ?? null;
@@ -70,8 +74,8 @@ export function App() {
   // 창 크기가 바뀌거나, 아래 카드 묶음 높이가 바뀌면(안내 카드가 붙을 때 등) 다시 맞춘다. 여행 중에는 여행 카드가 카메라를 맞춘다.
   useEffect(() => {
     const stack = stackRef.current;
-    if (trip) wasTrip.current = true;
-    if (!globe || trip || !stack) return;
+    if (playing) wasTrip.current = true;
+    if (!globe || playing || !stack) return;
     // 여행을 마치고 돌아온 때는 사라진 여행 카드 대신 시작 카드에 초점을 준다 (그대로 두면 body로 떨어진다). 앱을 처음 열 때는 옮기지 않는다
     if (wasTrip.current) stack.querySelector<HTMLElement>('.launcher')?.focus({ preventScroll: true });
     globe.frameHome(wasTrip.current);
@@ -91,7 +95,7 @@ export function App() {
       observer.disconnect();
       window.removeEventListener('resize', reframe);
     };
-  }, [globe, trip]);
+  }, [globe, playing]);
 
   // 다음에 가 볼 곳: 열린 단계에서 아직 도장이 없는 곳. 도장을 저장하면 진행이 바뀌어 다시 그려지므로 '저장 → 단계 열림 → 다음 장소' 순서가 맞는다.
   // 아이 없이 연 개발용 여행(?shot=)은 예전처럼 목록의 다음 장소
@@ -104,7 +108,7 @@ export function App() {
   const showSatelliteNotice = view === 'satellite' && satelliteFailed;
 
   return (
-    <div className={!trip ? 'app' : trip.tier === 'preschool' ? 'app app--trip app--locked' : 'app app--trip'}>
+    <div className={!playing ? 'app' : (trip?.tier ?? quiz?.tier) === 'preschool' ? 'app app--trip app--locked' : 'app app--trip'}>
       <Sprite />
       <Sky />
       <GlobeView view={view} onSatelliteError={handleSatelliteError} onReady={setGlobe} />
@@ -114,11 +118,11 @@ export function App() {
           <Icon name="lock" />
         </AdultGate>
       </LogoBadge>
-      {globe && !trip && <MapButtons globe={globe} view={view} onViewChange={changeView} />}
+      {globe && !playing && <MapButtons globe={globe} view={view} onViewChange={changeView} />}
       <div className="bottom-stack" ref={stackRef}>
         {showSatelliteNotice && <SatelliteNotice onUseMap={() => changeView('map')} />}
         {/* 위성 안내가 떠 있는 동안 새 버전 안내는 미룬다 — 두 장이 같이 뜨면 가로 휴대폰에서 시작 카드 종이가 50px 남짓으로 눌려 쓸 수 없다 */}
-        {applyUpdate && !trip && !showSatelliteNotice && <UpdateBanner onReload={applyUpdate} />}
+        {applyUpdate && !playing && !showSatelliteNotice && <UpdateBanner onReload={applyUpdate} />}
         {globe &&
           (trip ? (
             <TripPanel
@@ -131,6 +135,8 @@ export function App() {
               initialStep={trip.initialStep}
               onExit={() => setTrip(null)}
             />
+          ) : quiz ? (
+            <QuizPanel key={`quiz-${quiz.profileId}`} tier={quiz.tier} profileId={quiz.profileId} globe={globe} onExit={() => setQuiz(null)} />
           ) : (
             <TripLauncher
               places={PLACES}
@@ -138,6 +144,7 @@ export function App() {
               activeProfile={active}
               progress={activeProgress}
               onStart={(place) => active && setTrip({ place, tier: active.tier, profileId: active.id })}
+              onStartQuiz={() => active && setQuiz({ tier: active.tier, profileId: active.id })}
             />
           ))}
       </div>

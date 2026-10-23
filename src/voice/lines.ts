@@ -37,9 +37,11 @@ const COMMON_TEXT = {
   hint: '반짝이는 걸 눌러 봐!',
   hintTap: '반짝이는 곳을 눌러 봐!',
   revisit: '또 왔어요! 도장은 그대로예요',
+  // 유아 국기 퀴즈 질문 (quiz/pickQuiz.ts flagQuestion과 같은 글)
+  quizFlag: '반짝이는 나라의 국기를 찾아 봐!',
 };
 const COMMON_SITUATION: Record<keyof typeof COMMON_TEXT, VoiceSituation> = {
-  correct: '결과', soft: '결과', hint: '힌트', hintTap: '힌트', revisit: '도장',
+  correct: '결과', soft: '결과', hint: '힌트', hintTap: '힌트', revisit: '도장', quizFlag: '미션 질문',
 };
 // 파일 이름은 모두 소문자로 쓴다 (대소문자를 가리지 않는 Windows·macOS에서도 헷갈리지 않게): hintTap → common.hint-tap
 const kebab = (key: string) => key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);

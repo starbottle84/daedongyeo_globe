@@ -106,5 +106,5 @@ export function addSeen(progress: ProfileProgress, placeId: string, ids: string[
 }
 
 export function emptyProgress(): ProfileProgress {
-  return { stamps: {}, unlockedStages: [1], seen: {} };
+  return { stamps: {}, unlockedStages: [1], seen: {}, quiz: { capital: {}, flag: {} } };
 }

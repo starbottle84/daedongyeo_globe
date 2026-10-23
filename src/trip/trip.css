@@ -187,7 +187,8 @@
 /* 그림 없는 4개 보기(고학년): 시안 4개 규칙은 왼쪽 정렬(메달 옆 글자)이라, 메달이 없을 때만 글자를 가운데에 둔다 */
 .choices[data-count="4"] .choice__label:first-child { margin: 0 auto; }
 /* 그림 없는 보기(저학년·고학년): 낱말 가운데서 끊지 않고, 두 줄이 되면 길이를 고르게 */
-.choice__label { word-break: keep-all; text-wrap: balance; }
+/* 띄어쓰기 없는 긴 이름(세인트빈센트그레나딘·부에노스아이레스)은 칸보다 길면 낱말 안에서 꺾는다 (정답 칩 .chip__label과 같다) */
+.choice__label { word-break: keep-all; overflow-wrap: anywhere; text-wrap: balance; }
 .chip--plain { padding-left: 12px; }
 /* 정답 칩: 이름이 길면 낱말 경계에서 줄을 바꾼다. '정답:'·그림·체크는 줄어들지 않고 이름 칸만 줄어든다.
    제목·칩은 카드의 색종이·반짝이보다 위에 그린다 — 긴 칩('괭이갈매기 ✓')의 글자·체크 배지를 장식이 덮지 않게 */

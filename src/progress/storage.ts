@@ -1,7 +1,7 @@
 import { PLACES } from '../content';
 import { TIERS } from '../content/types';
 import { seenLimit } from './rules';
-import { AVATAR_COLORS, SAVE_VERSION, type Profile, type ProfileProgress, type SaveData, type Settings, type StampRecord } from './types';
+import { AVATAR_COLORS, SAVE_VERSION, type Profile, type ProfileProgress, type QuizProgress, type SaveData, type Settings, type StampRecord } from './types';
 
 // 같은 GitHub 계정의 다른 앱과 키가 겹치지 않게 앱 이름을 앞에 붙인다
 export const SAVE_KEY = 'daedongyeo-globe:save';
@@ -49,7 +49,28 @@ function normProgress(v: unknown): ProfileProgress {
   const stages = isObj(v) && Array.isArray(v.unlockedStages)
     ? v.unlockedStages.filter((s): s is number => Number.isInteger(s) && s >= 1 && s <= 5)
     : [];
-  return { stamps, unlockedStages: [...new Set([1, ...stages])].sort((a, b) => a - b), seen: normSeen(isObj(v) ? v.seen : undefined) };
+  return {
+    stamps,
+    unlockedStages: [...new Set([1, ...stages])].sort((a, b) => a - b),
+    seen: normSeen(isObj(v) ? v.seen : undefined),
+    quiz: normQuiz(isObj(v) ? v.quiz : undefined),
+  };
+}
+
+// 나라 퀴즈 기록은 계획 8에서 더해서 옛 저장에는 없다. 숫자가 아닌 칸은 버리고, 0보다 작으면 0으로
+function normQuiz(v: unknown): QuizProgress {
+  const quiz: QuizProgress = { capital: {}, flag: {} };
+  if (!isObj(v)) return quiz;
+  const count = (n: unknown) => (typeof n === 'number' && Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0);
+  for (const mode of ['capital', 'flag'] as const) {
+    const records = v[mode];
+    if (!isObj(records)) continue;
+    for (const [code, r] of Object.entries(records)) {
+      if (!isObj(r) || !/^[a-z]{2}$/.test(code)) continue;
+      quiz[mode][code] = { right: count(r.right), wrong: count(r.wrong), last: typeof r.last === 'string' ? r.last : '' };
+    }
+  }
+  return quiz;
 }
 
 // 푼 문제 기록은 계획 5에서 더해서 옛 저장에는 없다. 글자 id만 남기고, 겹치면 최근 것(뒤)만, 장소마다 한도만큼 최근 것만 남긴다

@@ -7950,6 +7950,12 @@
     "situation": "도장"
   },
   {
+    "id": "common.quiz-flag-4e6bc8",
+    "text": "반짝이는 나라의 국기를 찾아 봐!",
+    "place": null,
+    "situation": "미션 질문"
+  },
+  {
     "id": "common.unlock.2-8f1209",
     "text": "2단계, 우리나라가 열렸어요!",
     "place": null,

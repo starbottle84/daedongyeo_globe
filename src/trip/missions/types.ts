@@ -11,6 +11,11 @@ export interface MissionProps<M extends Mission> {
   /** 유아 음성: 이 미션의 질문·설명 문장 id (src/voice/lines.ts). 유아가 아니면 null */
   voice: { prompt: string; explain: string | null } | null;
   onDone: (result: MissionResult) => void;
+  /** 답한 순간(결과 카드가 나올 때) 한 번 알려 준다 — 나라 퀴즈가 그때 지도에 정답 수도를 보여 주고, '다음' 전에 나가도 기록한다.
+   *  고르기·위치 찍기만 부른다 */
+  onAnswered?: (result: MissionResult) => void;
+  /** 처음 고른 답으로 맞혀야만 칭찬한다 (나라 퀴즈 — 두 번째에 맞히면 '같이 알아봐요'). 여행 미션은 그대로 */
+  firstTryOnly?: boolean;
 }
 
 export type Outcome = 'correct' | 'revealed' | null;

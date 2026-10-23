@@ -9,6 +9,11 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 
 export default defineConfig({
   base,
+  build: {
+    // 국기 그림(나라 퀴즈 191개국)은 JS 안에 넣지 않고 파일로 내보낸다 — 다 넣으면 앱 파일이 커진다.
+    // 파일은 오프라인 저장(workbox globPatterns의 svg)에 들어간다. 다른 작은 파일은 Vite 기본값대로
+    assetsInlineLimit: (file) => (/[\\/]assets[\\/]flags[\\/]/.test(file) ? false : undefined),
+  },
   server: { port: 5180, strictPort: true },
   plugins: [
     react(),

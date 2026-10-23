@@ -73,7 +73,7 @@ export function readSeed(): SaveData | null {
       return {
         ...base,
         progress: {
-          'kid-a': { stamps: { pacific: stamp(), asia: stamp() }, unlockedStages: [1, 2], seen: {} },
+          'kid-a': { stamps: { pacific: stamp(), asia: stamp() }, unlockedStages: [1, 2], seen: {}, quiz: { capital: {}, flag: {} } },
           'kid-b': emptyProgress(),
         },
       };
@@ -81,9 +81,9 @@ export function readSeed(): SaveData | null {
       return {
         ...base,
         progress: {
-          'kid-a': { stamps: Object.fromEntries(PLACES.map((p) => [p.id, stamp()])), unlockedStages: stagesOf(PLACES), seen: {} },
+          'kid-a': { stamps: Object.fromEntries(PLACES.map((p) => [p.id, stamp()])), unlockedStages: stagesOf(PLACES), seen: {}, quiz: { capital: {}, flag: {} } },
           // 고학년은 별 1~3개를 섞어 둔다
-          'kid-b': { stamps: Object.fromEntries(PLACES.map((p, i) => [p.id, stamp((i % 3) + 1)])), unlockedStages: stagesOf(PLACES), seen: {} },
+          'kid-b': { stamps: Object.fromEntries(PLACES.map((p, i) => [p.id, stamp((i % 3) + 1)])), unlockedStages: stagesOf(PLACES), seen: {}, quiz: { capital: {}, flag: {} } },
         },
       };
     default:
