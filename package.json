@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "data:download": "node scripts/download-raw.mjs",
     "data:build": "node scripts/build-data.mjs",
+    "data:capitals": "node scripts/build-capitals.mjs",
     "glyphs": "node scripts/download-glyphs.mjs",
     "icons": "node scripts/generate-icons.mjs"
   },

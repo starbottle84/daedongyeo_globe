@@ -430,6 +430,112 @@ const distRows = TIERS.map((tier) => {
   return `| ${TIER_LABELS[tier]} | ${total} | ${counts.map((c, i) => (i < CHOICE_OPTIONS[tier] ? `${c}${total ? ` (${pct(c, total)})` : ''}` : '-')).join(' | ')} |`;
 });
 
+// 13. 나라 수도 퀴즈 (계획 8): src/content/capitals.json (scripts/build-capitals.mjs가 만든다)
+// 장소 검사와 따로 본다. --only는 장소 파일을 고르는 것이라 그때는 건너뛴다
+const CAPITALS_COUNT = 191;
+const CAPITAL_REGIONS = ['asia', 'europe', 'africa', 'north-america', 'south-america', 'oceania'];
+/** 수도 점이 나라 면 밖이어도 경계에서 CAPITAL_QUIET_KM 안이면 1:50m 지도 해안선을 단순화한 오차(바닷가 수도·작은 나라)로 보고 넘어가고,
+ *  CAPITAL_EDGE_KM 안이면 알림, 그보다 멀면 오류 */
+const CAPITAL_QUIET_KM = 5;
+const CAPITAL_EDGE_KM = 15;
+interface CapitalRow { code: string; iso3: string; country: string; capital: string; capitalAt: LngLat; region: string; level: number; focus: [LngLat, LngLat] }
+const isPoint = (p: unknown): p is LngLat => Array.isArray(p) && p.length === 2 && p.every((n) => typeof n === 'number' && Number.isFinite(n));
+// 점에서 나라 경계선까지 가장 가까운 거리(km 어림, 점 둘레를 평면으로 본다)
+function distanceToEdgeKm([lng, lat]: LngLat, polygons: number[][][][]): number {
+  const kx = 111.32 * Math.cos(rad(lat));
+  const ky = 110.57;
+  let best = Infinity;
+  for (const ring of polygons.flat()) {
+    for (let i = 1; i < ring.length; i++) {
+      const [ax, ay] = [(ring[i - 1][0] - lng) * kx, (ring[i - 1][1] - lat) * ky];
+      const [dx, dy] = [(ring[i][0] - ring[i - 1][0]) * kx, (ring[i][1] - ring[i - 1][1]) * ky];
+      const len2 = dx * dx + dy * dy;
+      const t = len2 ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2)) : 0;
+      best = Math.min(best, Math.hypot(ax + t * dx, ay + t * dy));
+    }
+  }
+  return best;
+}
+let capitalSummary = '';
+async function checkCapitals() {
+  const file = 'capitals.json';
+  let rows: CapitalRow[];
+  try {
+    rows = (JSON.parse(readFileSync(join(ROOT, 'src/content/capitals.json'), 'utf8')) as { countries: CapitalRow[] }).countries;
+    if (!Array.isArray(rows)) throw new Error('countries 목록이 없어요');
+  } catch (e) {
+    report('오류', file, '(파일)', `읽지 못했어요: ${errorText(e)}`);
+    return;
+  }
+  // 앱이 켜질 때 하는 형식 검사(src/content/capitals.ts)도 같이 돌린다
+  try {
+    await import('../src/content/capitals.ts');
+  } catch (e) {
+    report('오류', file, '(형식)', errorText(e));
+  }
+  if (rows.length !== CAPITALS_COUNT) report('오류', file, 'countries', `나라가 ${CAPITALS_COUNT}개여야 해요 (지금 ${rows.length}개)`);
+
+  // 겹침: 국기 code·지도 iso3·나라 이름·수도 이름
+  for (const key of ['code', 'iso3', 'country', 'capital'] as const) {
+    const seen = new Map<string, string>();
+    for (const r of rows) {
+      const other = seen.get(r[key]);
+      if (other) report('오류', file, `${r.code} ${r.country}`, `${key} "${r[key]}"가 ${other}와 겹쳐요`);
+      else seen.set(r[key], `${r.code} ${r.country}`);
+    }
+  }
+  const countryById = new Map(countryFeatures.map((f) => [(f.properties as { id?: string }).id, f]));
+  const countryNameSet = new Set(rows.map((r) => r.country));
+
+  for (const r of rows) {
+    const where = `${r.code} ${r.country}`;
+    const add = (level: Level, message: string) => report(level, file, where, message);
+    if (!/^[a-z]{2}$/.test(r.code)) add('오류', `code "${r.code}"는 두 글자 소문자여야 해요`);
+    if (!/^[A-Z]{3}$/.test(r.iso3)) add('오류', `iso3 "${r.iso3}"는 세 글자 대문자여야 해요`);
+    if (!CAPITAL_REGIONS.includes(r.region)) add('오류', `region "${r.region}"은 ${CAPITAL_REGIONS.join('·')} 중 하나여야 해요`);
+    if (![1, 2, 3].includes(r.level)) add('오류', `level ${r.level}은 1·2·3 중 하나여야 해요`);
+    if (!flagCodes.has(r.code)) add('오류', `국기 그림 src/assets/flags/${r.code}.svg가 없어요`);
+    // 수도 이름이 다른 나라 이름과 같으면 거꾸로 문제("수도 ○○는 어느 나라?")에서 헷갈린다
+    if (r.capital !== r.country && countryNameSet.has(r.capital)) add('알림', `수도 이름 "${r.capital}"이 다른 나라 이름과 같아요`);
+
+    // 수도 자리: 그 나라 면 안이어야 한다 (면이 없는 나라는 focus로 자리만 알린다)
+    if (!isPoint(r.capitalAt) || Math.abs(r.capitalAt[0]) > 180 || Math.abs(r.capitalAt[1]) > 90) {
+      add('오류', `capitalAt ${JSON.stringify(r.capitalAt)}이 [경도, 위도] 범위 밖이에요`);
+      continue;
+    }
+    const feature = countryById.get(r.iso3);
+    if (!feature) add('알림', `countries.geojson에 ${r.iso3} 면이 없어요 — 땅을 칠하지 못하고 focus로 자리만 알려요`);
+    else {
+      const polygons = countryPolygons(feature);
+      if (!polygons.some((polygon) => inPolygon(r.capitalAt, polygon))) {
+        const km = distanceToEdgeKm(r.capitalAt, polygons);
+        const text = `수도 ${r.capital} ${JSON.stringify(r.capitalAt)}이 ${r.iso3} 면 밖이에요 (경계에서 ${km.toFixed(1)}km)`;
+        if (km > CAPITAL_EDGE_KM) add('오류', text);
+        else if (km > CAPITAL_QUIET_KM) add('알림', `${text} — 지도 해상도 오차로 봐요`);
+      }
+    }
+
+    // 카메라 상자: [남서, 북동] 순서, 날짜변경선을 넘으면 북동 경도가 180을 넘는다. 수도가 상자 안이어야 한다
+    const [sw, ne] = Array.isArray(r.focus) ? r.focus : [];
+    if (!isPoint(sw) || !isPoint(ne)) {
+      add('오류', `focus ${JSON.stringify(r.focus)}는 [[경도, 위도], [경도, 위도]]여야 해요`);
+      continue;
+    }
+    if (!(sw[0] < ne[0] && sw[1] < ne[1])) add('오류', `focus 두 점 순서가 [남서, 북동]이 아니에요: ${JSON.stringify(r.focus)}`);
+    if (sw[0] < -180 || sw[0] > 180 || ne[0] > 360 || ne[0] - sw[0] > 360 || sw[1] < -90 || ne[1] > 90) {
+      add('오류', `focus 범위가 이상해요 (남서 경도 -180~180, 북동 경도 360 이하, 위도 -90~90): ${JSON.stringify(r.focus)}`);
+    }
+    const [lng, lat] = r.capitalAt;
+    const lngIn = [lng, lng + 360].some((x) => x >= sw[0] && x <= ne[0]);
+    if (!lngIn || lat < sw[1] || lat > ne[1]) add('오류', `수도 자리가 focus 상자 밖이에요: ${JSON.stringify(r.focus)}`);
+  }
+
+  const tally = (key: 'region' | 'level') => Object.entries(rows.reduce<Record<string, number>>((m, r) => ({ ...m, [r[key]]: (m[r[key]] ?? 0) + 1 }), {}))
+    .map(([k, v]) => `${k} ${v}`).join(' · ');
+  capitalSummary = `${rows.length}개국 — 대륙 ${tally('region')} / 단계 ${tally('level')}`;
+}
+if (!only) await checkCapitals();
+
 // ── 출력 ────────────────────────────────────────────────
 const cell = (s: string) => s.replace(/\|/g, '\\|').replace(/\n/g, ' ');
 console.log(`\n콘텐츠 검사 — ${only ? `--only ${only.join(',')}` : '모든 장소'} (${places.length}곳 형식 통과 / ${targets.length}곳)`);
@@ -441,6 +547,7 @@ for (const stage of stages) {
   const ids = ordered.filter((p) => p.stage === stage).map((p) => p.id);
   console.log(`  ${stage}단계 ${STAGE_NAMES[stage] ?? ''}: ${ids.length}곳 — ${ids.join(', ')}`);
 }
+if (capitalSummary) console.log(`\n나라 수도 퀴즈 (capitals.json): ${capitalSummary}`);
 
 console.log(`\n고르기 정답 번호 분포${only ? ' (--only로 고른 장소만)' : ''}`);
 console.log(`| 구간 | 고르기 | ${Array.from({ length: maxOptions }, (_, i) => `${i + 1}번`).join(' | ')} |`);
