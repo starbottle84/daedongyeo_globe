@@ -1,0 +1,17 @@
+# Cloudflare Pages 캐시 설정 (빌드하면 dist/_headers로 복사된다. GitHub Pages는 이 파일을 쓰지 않는다)
+
+# 이름에 해시가 붙은 빌드 파일은 내용이 바뀌면 이름도 바뀌므로 1년 동안 그대로 써도 된다
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 앱 껍데기·서비스 워커·목록 파일은 열 때마다 새로 확인한다 — 새 버전이 바로 퍼지게 (내용이 같으면 다시 받지 않는다)
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/sw.js
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache
+/voice/manifest.json
+  Cache-Control: no-cache
